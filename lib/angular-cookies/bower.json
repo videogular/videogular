@@ -1,0 +1,17 @@
+{
+  "name": "angular-cookies",
+  "version": "1.0.7",
+  "main": "./angular-cookies.js",
+  "dependencies": {
+    "angular": "1.0.7"
+  },
+  "gitHead": "15d0581491c5720f3c2aa961ae03292eaa120523",
+  "readme": "bower-angular-cookies\n=====================\n\nangular-cookies bower repo",
+  "readmeFilename": "README.md",
+  "_id": "angular-cookies@1.0.7",
+  "description": "bower-angular-cookies =====================",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/angular/bower-angular-cookies.git"
+  }
+}
