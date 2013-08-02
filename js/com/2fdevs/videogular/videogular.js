@@ -43,7 +43,7 @@ vgDirectives.constant("VG_EVENTS",
 	}
 );
 
-vgDirectives.directive("videogular", function($rootScope, VG_STATES, VG_THEMES, VG_EVENTS) {
+vgDirectives.directive("videogular", function(VG_STATES, VG_EVENTS) {
 		return {
 			restrict: "AE",
 			link: {
