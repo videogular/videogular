@@ -39,6 +39,7 @@ vgDirectives.constant("VG_EVENTS",
 		ON_EXIT_FULLSCREEN: "onExitFullscreen",
 		ON_BUFFERING: "onBuffering",
 		ON_UPDATE_TIME: "onUpdateTime",
+		ON_SEEK_TIME: "onSeekTime",
 		ON_UPDATE_SIZE: "onUpdateSize"
 	}
 );
@@ -105,6 +106,11 @@ vgDirectives.directive("videogular", function(VG_STATES, VG_EVENTS) {
 						scope.$emit(VG_EVENTS.ON_UPDATE_SIZE, [w, h]);
 					};
 
+					scope.onSeekTime = function(target, params)
+					{
+						videoElement[0].currentTime = params[0];
+					};
+
 					scope.onUpdateTime = function(event)
 					{
 						scope.$emit(VG_EVENTS.ON_UPDATE_TIME, [event.target.currentTime, event.target.duration]);
@@ -113,6 +119,11 @@ vgDirectives.directive("videogular", function(VG_STATES, VG_EVENTS) {
 
 					scope.onToggleFullscreen = function ($event) {
 						screenfull.toggle(elementScope[0]);
+					};
+
+					scope.onSetVolume = function (target, params) {
+						videoElement[0].volume = params[0];
+						localStorage["vgVolume"] = params[0];
 					};
 
 					scope.onPlay = function() {
@@ -154,6 +165,8 @@ vgDirectives.directive("videogular", function(VG_STATES, VG_EVENTS) {
 
 					scope.$on(VG_EVENTS.ON_PLAY, scope.onPlay);
 					scope.$on(VG_EVENTS.ON_TOGGLE_FULLSCREEN, scope.onToggleFullscreen);
+					scope.$on(VG_EVENTS.ON_SET_VOLUME, scope.onSetVolume);
+					scope.$on(VG_EVENTS.ON_SEEK_TIME, scope.onSeekTime);
 				}
 			}
 		}

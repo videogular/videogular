@@ -2,12 +2,10 @@
 // ControlBar plugin
 var controlBarPluginDirectives = angular.module("com.2fdevs.videogular.plugins.controlbar", []);
 
-controlBarPluginDirectives.directive("vgControls", function($rootScope, VG_EVENTS){
+controlBarPluginDirectives.directive("vgControls", function(VG_EVENTS){
 		return {
 			restrict: "AE",
 			link: function(scope, elem, attrs) {
-				console.log("controlbar created");
-
 				function onUpdateSize(target, params) {
 					var w = params[0];
 					var h = params[1];
@@ -16,22 +14,53 @@ controlBarPluginDirectives.directive("vgControls", function($rootScope, VG_EVENT
 					elem.css("top", (parseInt(h, 10) - parseInt(controlBarHeight, 10)) + "px");
 				}
 
-				$rootScope.$on(VG_EVENTS.ON_UPDATE_SIZE, onUpdateSize);
+				scope.$on(VG_EVENTS.ON_UPDATE_SIZE, onUpdateSize);
 			}
 		}
 	}
 );
 
-controlBarPluginDirectives.directive("vgTimedisplay", function($rootScope, VG_EVENTS){
+controlBarPluginDirectives.directive("vgPlaypausebutton", function(VG_EVENTS, VG_STATES, VG_THEMES){
+		return {
+			restrict: "E",
+			template: "<div class='iconButton' ng-bind-html='playPauseIcon'></div>",
+			link: function(scope, elem, attrs) {
+				function onClickPlayPause($event) {
+					scope.$emit(VG_EVENTS.ON_PLAY);
+				}
+
+				function onChangeState(target, params) {
+					switch (params[0]) {
+						case VG_STATES.PLAY:
+							scope.playPauseIcon = VG_THEMES.PAUSE;
+							break;
+
+						case VG_STATES.PAUSE:
+							scope.playPauseIcon = VG_THEMES.PLAY;
+							break;
+
+						case VG_STATES.STOP:
+							scope.playPauseIcon = VG_THEMES.PLAY;
+							break;
+					}
+
+					scope.$apply();
+				}
+
+				scope.playPauseIcon = VG_THEMES.PLAY;
+
+				elem.bind("click", onClickPlayPause);
+
+				scope.$on(VG_EVENTS.ON_SET_STATE, onChangeState);
+			}
+		}
+	}
+);
+
+controlBarPluginDirectives.directive("vgTimedisplay", function(VG_EVENTS){
 		return {
 			restrict: "AE",
 			link: function(scope, elem, attrs) {
-				console.log("timedisplay created");
-
-				scope.currentTime = "00:00";
-				scope.totalTime = "00:00";
-				scope.percentTime = 0;
-
 				function onUpdateTime(target, params) {
 					var mm = Math.floor(params[0] / 60);
 					var ss = Math.floor(params[0] - (mm * 60));
@@ -51,39 +80,44 @@ controlBarPluginDirectives.directive("vgTimedisplay", function($rootScope, VG_EV
 					scope.totalTime = mins + ":" + secs;
 				}
 
-				$rootScope.$on(VG_EVENTS.ON_START_PLAYING, onStartPlaying);
-				$rootScope.$on(VG_EVENTS.ON_UPDATE_TIME, onUpdateTime);
+				scope.currentTime = "00:00";
+				scope.totalTime = "00:00";
+				scope.percentTime = 0;
+
+				scope.$on(VG_EVENTS.ON_START_PLAYING, onStartPlaying);
+				scope.$on(VG_EVENTS.ON_UPDATE_TIME, onUpdateTime);
 			}
 		}
 	}
 );
 
-controlBarPluginDirectives.directive("vgScrubbar", function(){
+controlBarPluginDirectives.directive("vgScrubbar", function(VG_EVENTS){
 		return {
 			restrict: "E",
 			replace: true,
 			link: function(scope, elem, attrs) {
-				console.log("scrubbar created");
-
 				function onScrubBarClick($event) {
 					scope.isSeeking = false;
-					scope.videoElement[0].currentTime = $event.offsetX * scope.videoElement[0].duration / elem[0].scrollWidth;
+					seekTime($event.offsetX * scope.videoElement[0].duration / elem[0].scrollWidth);
 				}
 				function onScrubBarMouseDown($event) {
 					scope.isSeeking = true;
-					scope.videoElement[0].currentTime = $event.offsetX * scope.videoElement[0].duration / elem[0].scrollWidth;
+					seekTime($event.offsetX * scope.videoElement[0].duration / elem[0].scrollWidth);
 				}
 				function onScrubBarMouseUp($event) {
 					scope.isSeeking = false;
-					scope.videoElement[0].currentTime = $event.offsetX * scope.videoElement[0].duration / elem[0].scrollWidth;
+					seekTime($event.offsetX * scope.videoElement[0].duration / elem[0].scrollWidth);
 				}
 				function onScrubBarMouseMove($event) {
 					if (scope.isSeeking) {
-						scope.videoElement[0].currentTime = $event.offsetX * scope.videoElement[0].duration / elem[0].scrollWidth;
+						seekTime($event.offsetX * scope.videoElement[0].duration / elem[0].scrollWidth);
 					}
 				}
 				function onScrubBarMouseLeave($event) {
 					scope.isSeeking = false;
+				}
+				function seekTime(time) {
+					scope.$emit(VG_EVENTS.ON_SEEK_TIME, [time]);
 				}
 
 				scope.isSeeking = false;
@@ -102,21 +136,176 @@ controlBarPluginDirectives.directive("vgScrubbarcurrenttime", function(){
 		return {
 			restrict: "AE",
 			link: function(scope, elem, attrs) {
-				console.log("scrubbarcurrenttime created");
-				scope.$watch("percentTime", onUpdateTime, true);
-
 				function onUpdateTime(newModel){
 					elem.css("width", newModel + "%");
+				}
+
+				scope.$watch("percentTime", onUpdateTime, true);
+			}
+		}
+	}
+);
+
+controlBarPluginDirectives.directive("vgVolume", function() {
+		return {
+			restrict: "E",
+			link: function(scope, elem, attrs) {
+				function onMouseOverVolume() {
+					volumeBar.show();
+				}
+
+				function onMouseLeaveVolume() {
+					volumeBar.hide();
+				}
+
+				var volumeBar = $(elem).find("vg-volumebar");
+				if (volumeBar[0]) {
+					elem.bind("mouseover", onMouseOverVolume);
+					elem.bind("mouseleave", onMouseLeaveVolume);
+					volumeBar.hide();
 				}
 			}
 		}
 	}
 );
 
-controlBarPluginDirectives.directive("vgFullscreenbutton", function($rootScope, VG_EVENTS, VG_THEMES){
+controlBarPluginDirectives.directive("vgVolumebar", function(VG_EVENTS) {
 		return {
 			restrict: "E",
-			template: "<div ng-click='onClickFullScreen($event)' class='iconButton' ng-bind-html='fullscreenIcon'></div>",
+			template:
+				"<div class='verticalVolumeBar'>" +
+					"<div class='volumeBackground'>" +
+						"<div class='volumeValue'></div>" +
+						"<div class='volumeClickArea'></div>" +
+					"</div>" +
+				"</div>",
+			link: function(scope, elem, attrs) {
+				function onClickVolume($event) {
+					var value = $event.offsetY * 100 / volumeHeight;
+					var volValue = 1 - (value / 100);
+					updateVolumeView(value);
+
+					scope.$emit(VG_EVENTS.ON_SET_VOLUME, [volValue]);
+					scope.$apply();
+				}
+
+				function onMouseDownVolume($event) {
+					isChangingVolume = true;
+				}
+
+				function onMouseUpVolume($event) {
+					isChangingVolume = false;
+				}
+
+				function onMouseLeaveVolume($event) {
+					isChangingVolume = false;
+				}
+
+				function onMouseMoveVolume($event) {
+					if (isChangingVolume) {
+						var value = $event.offsetY * 100 / volumeHeight;
+						var volValue = 1 - (value / 100);
+						updateVolumeView(value);
+
+						scope.$emit(VG_EVENTS.ON_SET_VOLUME, [volValue]);
+						scope.$apply();
+					}
+				}
+
+				function updateVolumeView(value) {
+					volumeValueElem.css("height", value + "%");
+					volumeValueElem.css("top", (100 - value) + "%");
+				}
+
+				function onSetVolume(target, params) {
+					updateVolumeView(params[0] * 100);
+				}
+
+				var isChangingVolume = false;
+				var volumeBackElem = $(elem).find(".volumeBackground");
+				var volumeValueElem = $(elem).find(".volumeValue");
+				var volumeHeight = parseInt(volumeBackElem.css("height"));
+
+				volumeBackElem.bind("click", onClickVolume);
+				volumeBackElem.bind("mousedown", onMouseDownVolume);
+				volumeBackElem.bind("mouseup", onMouseUpVolume);
+				volumeBackElem.bind("mousemove", onMouseMoveVolume);
+				volumeBackElem.bind("mouseleave", onMouseLeaveVolume);
+
+				scope.$on(VG_EVENTS.ON_SET_VOLUME, onSetVolume);
+			}
+		}
+	}
+);
+
+controlBarPluginDirectives.directive("vgMutebutton", function(VG_EVENTS, VG_THEMES) {
+		return {
+			restrict: "E",
+			template: "<div class='iconButton' ng-bind-html='muteIcon'></div>",
+			link: function(scope, elem, attrs) {
+				function onClickMute($event) {
+					if (scope.muteIcon == VG_THEMES.VOLUME_MUTE) {
+						scope.currentVolume = scope.defaultVolume;
+					}
+					else {
+						scope.currentVolume = 0;
+						scope.muteIcon = VG_THEMES.VOLUME_MUTE;
+					}
+
+					scope.$emit(VG_EVENTS.ON_SET_VOLUME, [scope.currentVolume]);
+					scope.$apply();
+				}
+
+				function onSetVolume(target, params) {
+					scope.currentVolume = params[0];
+
+					// if it's not muted we save the default volume
+					if (scope.muteIcon != VG_THEMES.VOLUME_MUTE) {
+						scope.defaultVolume = params[0];
+					}
+					else {
+						// if was muted but the user changed the volume
+						if (params[0] > 0) {
+							scope.defaultVolume = params[0];
+						}
+					}
+
+					var percentValue = Math.round(params[0] * 100);
+					if (percentValue == 0) {
+						scope.muteIcon = VG_THEMES.VOLUME_MUTE;
+					}
+					else if (percentValue > 0 && percentValue < 25) {
+						scope.muteIcon = VG_THEMES.VOLUME_LEVEL_0;
+					}
+					else if (percentValue >= 25 && percentValue < 50) {
+						scope.muteIcon = VG_THEMES.VOLUME_LEVEL_1;
+					}
+					else if (percentValue >= 50 && percentValue < 75) {
+						scope.muteIcon = VG_THEMES.VOLUME_LEVEL_2;
+					}
+					else if (percentValue >= 75) {
+						scope.muteIcon = VG_THEMES.VOLUME_LEVEL_3;
+					}
+				}
+
+				scope.defaultVolume = 1;
+				scope.currentVolume = scope.defaultVolume;
+				scope.muteIcon = VG_THEMES.VOLUME_LEVEL_3;
+
+				//TODO: get volume from localStorage
+
+				elem.bind("click", onClickMute);
+
+				scope.$on(VG_EVENTS.ON_SET_VOLUME, onSetVolume);
+			}
+		}
+	}
+);
+
+controlBarPluginDirectives.directive("vgFullscreenbutton", function(VG_EVENTS, VG_THEMES){
+		return {
+			restrict: "E",
+			template: "<div class='iconButton' ng-bind-html='fullscreenIcon'></div>",
 			link: function(scope, elem, attrs) {
 				function onEnterFullScreen() {
 					scope.fullscreenIcon = VG_THEMES.EXIT_FULLSCREEN;
@@ -124,50 +313,22 @@ controlBarPluginDirectives.directive("vgFullscreenbutton", function($rootScope, 
 				function onExitFullScreen() {
 					scope.fullscreenIcon = VG_THEMES.ENTER_FULLSCREEN;
 				}
-
-				scope.onClickFullScreen = function ($event) {
+				function onClickFullScreen($event) {
 					scope.$emit(VG_EVENTS.ON_TOGGLE_FULLSCREEN);
-				};
-
-				scope.fullscreenIcon = VG_THEMES.ENTER_FULLSCREEN;
-
-				$rootScope.$on(VG_EVENTS.ON_ENTER_FULLSCREEN, onEnterFullScreen);
-				$rootScope.$on(VG_EVENTS.ON_EXIT_FULLSCREEN, onExitFullScreen);
-
-				if (!screenfull.enabled) scope.css("display", "none");
-			}
-		}
-	}
-);
-
-controlBarPluginDirectives.directive("vgPlaypausebutton", function($rootScope, VG_EVENTS, VG_STATES, VG_THEMES){
-		return {
-			restrict: "E",
-			template: "<div ng-click='onClickPlayPause($event)' class='iconButton' ng-bind-html='playpauseIcon'></div>",
-			link: function(scope, elem, attrs) {
-				scope.playpauseIcon = VG_THEMES.PLAY;
-
-				scope.onClickPlayPause = function ($event) {
-					scope.$emit(VG_EVENTS.ON_PLAY);
-				};
-
-				function onChangeState(target, params) {
-					switch (params[0]) {
-						case VG_STATES.PLAY:
-							scope.playpauseIcon = VG_THEMES.PAUSE;
-							break;
-
-						case VG_STATES.PAUSE:
-							scope.playpauseIcon = VG_THEMES.PLAY;
-							break;
-
-						case VG_STATES.STOP:
-							scope.playpauseIcon = VG_THEMES.PLAY;
-							break;
-					}
 				}
 
-				$rootScope.$on(VG_EVENTS.ON_SET_STATE, onChangeState);
+
+				if (!screenfull.enabled) {
+					scope.css("display", "none");
+				}
+				else {
+					scope.fullscreenIcon = VG_THEMES.ENTER_FULLSCREEN;
+
+					elem.bind("click", onClickFullScreen);
+
+					scope.$on(VG_EVENTS.ON_ENTER_FULLSCREEN, onEnterFullScreen);
+					scope.$on(VG_EVENTS.ON_EXIT_FULLSCREEN, onExitFullScreen);
+				}
 			}
 		}
 	}
