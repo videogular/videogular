@@ -31,7 +31,7 @@ Because `videogular` is an HTML5 video player for AngularJS it works (obviously)
 
 With Videogular you can write your own plugins through a simple API based in events. The plugins should be directives and they should communicate with the main `videogular` directive through an API based in events.
 
-### API Events
+## API Events
 
 - **VG_EVENTS.ON_PLAY**: Triggered when video plays.
 - **VG_EVENTS.ON_START_PLAYING**: Triggered when video starts playing after buffer.
@@ -46,7 +46,7 @@ With Videogular you can write your own plugins through a simple API based in eve
 - **VG_EVENTS.ON_UPDATE_TIME**: Triggered when video progress updates.
 - **VG_EVENTS.ON_UPDATE_SIZE**: Triggered when video size updates.
 
-### Plugin example
+## Plugin example
 
 Currently you will find a plugins folder with some source code to inspire you, however, you could see how easy is to write your own plugin with this example:
 
@@ -67,6 +67,63 @@ myVGPlugin.directive("vgOverlayplay", function($rootScope, VG_EVENTS, VG_STATES,
 	}
 );
 ```
+
+## Adding a plugin
+
+To add a plugin just add your directives to your HTML. This is an example of a Videogular player:
+
+```html
+<div videogular width="640" height="264">
+    <vg-buffering></vg-buffering>
+    <vg-overlayPlay></vg-overlayPlay>
+
+    <vg-controls vg-autohide="false">
+        <vg-playpauseButton></vg-playpauseButton>
+        <vg-timeDisplay>{{ currentTime }}</vg-timeDisplay>
+        <vg-scrubBar>
+            <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
+        </vg-scrubBar>
+        <vg-timeDisplay>{{ totalTime }}</vg-timeDisplay>
+        <vg-volume>
+            <vg-mutebutton></vg-mutebutton>
+            <vg-volumebar></vg-volumebar>
+        </vg-volume>
+        <vg-fullscreenButton></vg-fullscreenButton>
+    </vg-controls>
+
+    <video class='videoPlayer' preload='none' width='{{ data.width }}' height='{{ data.height }}' vg-poster='{{ data.poster }}'>
+        <source ng-repeat='media in data.media' ng-src='{{ media.url }}' type='{{ media.type }}'>
+    </video>
+</div>
+```
+
+Because AngularJS is so cool, you could just remove or add any directive and the player should work as expected. For example, you could remove `<vg-timeDisplay>{{ currentTime }}</vg-timeDisplay>` and change `<vg-timeDisplay>{{ totalTime }}</vg-timeDisplay>` for `<vg-timeDisplay>{{ currentTime }} / {{ totalTime }}</vg-timeDisplay>` to change your time display component.
+
+```html
+<div videogular width="640" height="264">
+    <vg-buffering></vg-buffering>
+    <vg-overlayPlay></vg-overlayPlay>
+
+    <vg-controls vg-autohide="false">
+        <vg-playpauseButton></vg-playpauseButton>
+        <vg-scrubBar>
+            <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
+        </vg-scrubBar>
+        <vg-timeDisplay>{{ currentTime }} / {{ totalTime }}</vg-timeDisplay>
+        <vg-volume>
+            <vg-mutebutton></vg-mutebutton>
+            <vg-volumebar></vg-volumebar>
+        </vg-volume>
+        <vg-fullscreenButton></vg-fullscreenButton>
+    </vg-controls>
+
+    <video class='videoPlayer' preload='none' width='{{ data.width }}' height='{{ data.height }}' vg-poster='{{ data.poster }}'>
+        <source ng-repeat='media in data.media' ng-src='{{ media.url }}' type='{{ media.type }}'>
+    </video>
+</div>
+```
+
+In the same way you could remove `<vg-volumebar></vg-volumebar>` and leave only `<vg-mutebutton></vg-mutebutton>` and so on. That's an easy way to build your own Videogular layout.
 
 ## Themes
 
