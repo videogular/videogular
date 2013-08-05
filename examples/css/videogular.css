@@ -17,6 +17,7 @@ body {
 [videogular] {
 	position: relative;
 	background-color: #000000;
+	overflow: hidden;
 
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -26,6 +27,21 @@ body {
 	user-select: none;
 }
 
+.iconButton {
+	color: #FFFFFF;
+	font-family: 'icomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+}
+
+/**********************/
+/* OverlayPlay plugin */
+/**********************/
 [vg-overlayplay], vg-overlayplay {
 	width: 100%;
 	height: 100%;
@@ -50,9 +66,72 @@ body {
 	display: table-cell;
 }
 
+/********************/
+/* Buffering plugin */
+/********************/
+[vg-buffering], vg-buffering {
+	width: 100%;
+	height: 100%;
+}
+
+.bufferingContainer {
+	width: 100%;
+	position: absolute;
+	cursor: pointer;
+	top: 50%;
+	margin-top: -50px;
+
+	zoom: 1;
+	filter: alpha(opacity=60);
+	opacity: 0.6;
+}
+
+/* Loading Spinner
+ * http://www.alessioatzeni.com/blog/css3-loading-animation-loop/
+ */
+.loadingSpinner {
+	background-color: rgba(0,0,0,0);
+	border:5px solid rgba(255,255,255,1);
+	opacity:.9;
+	border-top:5px solid rgba(0,0,0,0);
+	border-left:5px solid rgba(0,0,0,0);
+	border-radius:50px;
+	box-shadow: 0 0 35px #FFFFFF;
+	width:50px;
+	height:50px;
+	margin: 0 auto;
+	-moz-animation:spin .5s infinite linear;
+	-webkit-animation:spin .5s infinite linear;
+}
+
+.stop {
+	-webkit-animation-play-state:paused;
+	-moz-animation-play-state:paused;
+}
+
+@-moz-keyframes spin {
+	0% { -moz-transform:rotate(0deg); }
+	100% { -moz-transform:rotate(360deg); }
+}
+@-moz-keyframes spinoff {
+	0% { -moz-transform:rotate(0deg); }
+	100% { -moz-transform:rotate(-360deg); }
+}
+@-webkit-keyframes spin {
+	0% { -webkit-transform:rotate(0deg); }
+	100% { -webkit-transform:rotate(360deg); }
+}
+@-webkit-keyframes spinoff {
+	0% { -webkit-transform:rotate(0deg); }
+	100% { -webkit-transform:rotate(-360deg); }
+}
+
+/*********************/
+/* Controlbar plugin */
+/*********************/
 [vg-controls], vg-controls {
 	width: 100%;
-	margin-top: 0;
+	height: 50px;
 	background-color: #000000;
 	position: absolute;
 	display: table;
@@ -79,6 +158,13 @@ body {
 	vertical-align: middle;
 	text-align: center;
 	cursor: default;
+}
+
+.vgTimeDisplay {
+	display: table-cell;
+	font-family: Arial;
+	font-size: 18px;
+	width: auto;
 }
 
 [vg-scrubbar], vg-scrubbar {
@@ -149,16 +235,4 @@ body {
 	width: 20px;
 	height: 100%;
 	position: absolute;
-}
-
-.iconButton {
-	color: #FFFFFF;
-	font-family: 'icomoon';
-	speak: none;
-	font-style: normal;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	line-height: 1;
-	-webkit-font-smoothing: antialiased;
 }

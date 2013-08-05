@@ -1,9 +1,60 @@
 "use strict";
 // Here starts all the videogular stuff
-var vgDirectives = angular.module("com.2fdevs.videogular", []);
+var videogular = angular.module("com.2fdevs.videogular", []);
+
+
+videogular.service("VG_UTILS", function() {
+		/**
+		 * Calculate word dimensions for given text using HTML elements.
+		 * Optionally classes can be added to calculate with
+		 * a specific style / layout.
+		 *
+		 * Solution provided by:
+		 * http://blog.bripkens.de/2011/06/html-javascript-calculate-text-dimensions/
+		 *
+		 * @param {String} text The word for which you would like to know the
+		 *   dimensions.
+		 * @param {String[]} [classes] An array of strings which represent
+		 *   css classes which should be applied to the DIV which is used for
+		 *   the calculation of word dimensions.
+		 * @param {Boolean} [escape] Whether or not the word should be escaped.
+		 *   Defaults to true.
+		 * @return {Object} An object with width and height properties.
+		 */
+		this.calculateWordDimensions = function(text, classes, escape) {
+			classes = classes || [];
+
+			if (escape === undefined) {
+				escape = true;
+			}
+
+			classes.push('textDimensionCalculation');
+
+			var div = document.createElement('div');
+			div.setAttribute('class', classes.join(' '));
+
+			if (escape) {
+				$(div).text(text);
+			} else {
+				div.innerHTML = text;
+			}
+
+			document.body.appendChild(div);
+
+			var dimensions = {
+				width : jQuery(div).outerWidth(),
+				height : jQuery(div).outerHeight()
+			};
+
+			div.parentNode.removeChild(div);
+
+			return dimensions;
+		}
+	}
+);
 
 // Constants
-vgDirectives.constant("VG_STATES",
+videogular.constant("VG_STATES",
 	{
 		PLAY: "play",
 		PAUSE: "pause",
@@ -11,7 +62,7 @@ vgDirectives.constant("VG_STATES",
 	}
 );
 
-vgDirectives.constant("VG_THEMES",
+videogular.constant("VG_THEMES",
 	{
 		PLAY: "&#xe000;",
 		PAUSE: "&#xe001;",
@@ -21,12 +72,11 @@ vgDirectives.constant("VG_THEMES",
 		VOLUME_LEVEL_0: "&#xe005;",
 		VOLUME_MUTE: "&#xe006;",
 		ENTER_FULLSCREEN: "&#xe007;",
-		EXIT_FULLSCREEN: "&#xe008;",
-		LOADING: "&#xe009;"
+		EXIT_FULLSCREEN: "&#xe008;"
 	}
 );
 
-vgDirectives.constant("VG_EVENTS",
+videogular.constant("VG_EVENTS",
 	{
 		ON_PLAY: "onPlay",
 		ON_START_PLAYING: "onStartPlaying",
@@ -44,7 +94,7 @@ vgDirectives.constant("VG_EVENTS",
 	}
 );
 
-vgDirectives.directive("videogular", function(VG_STATES, VG_EVENTS) {
+videogular.directive("videogular", function(VG_STATES, VG_EVENTS) {
 		return {
 			restrict: "AE",
 			link: {
@@ -58,6 +108,7 @@ vgDirectives.directive("videogular", function(VG_STATES, VG_EVENTS) {
 
 					scope.state = VG_STATES.STOP;
 					scope.videoElement = videoElement;
+					scope.videogularElement = elementScope;
 
 					elementScope[0].style.width = currentWidth;
 					elementScope[0].style.height = currentHeight;
@@ -132,13 +183,6 @@ vgDirectives.directive("videogular", function(VG_STATES, VG_EVENTS) {
 
 					scope.playVideo = function(videoElement) {
 						if (videoElement.paused) {
-							videoElement.removeEventListener("playing", scope.onStartPlaying);
-							videoElement.addEventListener("playing", scope.onStartPlaying, false);
-
-							//Add and remove listeners
-							videoElement.removeEventListener("timeupdate", scope.onUpdateTime);
-							videoElement.addEventListener("timeupdate", scope.onUpdateTime, false);
-
 							videoElement.play();
 							scope.setState(VG_STATES.PLAY);
 						}
@@ -148,12 +192,18 @@ vgDirectives.directive("videogular", function(VG_STATES, VG_EVENTS) {
 						}
 					};
 
+					scope.onStartBuffering = function(event){
+						scope.$emit(VG_EVENTS.ON_BUFFERING);
+						scope.$apply();
+					};
+
 					scope.onStartPlaying = function(event){
 						//Chrome fix: Chrome needs to update the video tag size or it will show a white screen
 						event.target.width++;
 						event.target.width--;
 
 						scope.$emit(VG_EVENTS.ON_START_PLAYING, [event.target.duration]);
+						scope.$apply();
 					};
 
 					scope.setState = function(state) {
@@ -162,6 +212,10 @@ vgDirectives.directive("videogular", function(VG_STATES, VG_EVENTS) {
 					};
 
 					setTimeout(scope.updateSize, 100);
+
+					videoElement[0].addEventListener("waiting", scope.onStartBuffering, false);
+					videoElement[0].addEventListener("playing", scope.onStartPlaying, false);
+					videoElement[0].addEventListener("timeupdate", scope.onUpdateTime, false);
 
 					scope.$on(VG_EVENTS.ON_PLAY, scope.onPlay);
 					scope.$on(VG_EVENTS.ON_TOGGLE_FULLSCREEN, scope.onToggleFullscreen);
@@ -174,7 +228,7 @@ vgDirectives.directive("videogular", function(VG_STATES, VG_EVENTS) {
 );
 
 //Image poster in HTML5 video element
-vgDirectives.directive("vgPoster", function () {
+videogular.directive("vgPoster", function () {
 		return {
 			restrict: "A",
 			link: function (scope, elem, attrs) {

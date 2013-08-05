@@ -2,7 +2,7 @@
 // ControlBar plugin
 var overLayPlayDirectives = angular.module("com.2fdevs.videogular.plugins.overlayplay", []);
 
-overLayPlayDirectives.directive("vgOverlayplay", function($rootScope, VG_EVENTS, VG_STATES, VG_THEMES){
+overLayPlayDirectives.directive("vgOverlayplay", function(VG_EVENTS, VG_STATES, VG_THEMES){
 		return {
 			restrict: "E",
 			template:
@@ -36,7 +36,7 @@ overLayPlayDirectives.directive("vgOverlayplay", function($rootScope, VG_EVENTS,
 
 				elem.bind("click", onClickOverlayPlay);
 
-				$rootScope.$on(VG_EVENTS.ON_SET_STATE, onChangeState);
+				scope.$on(VG_EVENTS.ON_SET_STATE, onChangeState);
 			}
 		}
 	}

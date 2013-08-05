@@ -7,14 +7,16 @@
 <body>
     <div ng-controller="MainController">
         <div videogular width="640" height="264">
+            <vg-buffering></vg-buffering>
             <vg-overlayPlay></vg-overlayPlay>
 
-            <vg-controls>
+            <vg-controls vg-autohide="false">
                 <vg-playpauseButton></vg-playpauseButton>
-                <vg-timeDisplay>{{ currentTime }} / {{ totalTime }}</vg-timeDisplay>
+                <vg-timeDisplay>{{ currentTime }}</vg-timeDisplay>
                 <vg-scrubBar>
                     <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
                 </vg-scrubBar>
+                <vg-timeDisplay>{{ totalTime }}</vg-timeDisplay>
                 <vg-volume>
                     <vg-mutebutton></vg-mutebutton>
                     <vg-volumebar></vg-volumebar>
@@ -32,10 +34,12 @@
     <script src="lib/angular-sanitize/angular-sanitize.min.js" type="text/javascript"></script>
     <script src="lib/jquery/jquery.min.js" type="text/javascript"></script>
     <script src="lib/screenfull/screenfull.min.js" type="text/javascript"></script>
+    <script src="lib/gsap/TweenMax.min.js"></script>
 
     <script src="../js/com/2fdevs/videogular/videogular.js" type="text/javascript"></script>
     <script src="../js/com/2fdevs/videogular/plugins/controlbar.js" type="text/javascript"></script>
     <script src="../js/com/2fdevs/videogular/plugins/overlayplay.js" type="text/javascript"></script>
+    <script src="../js/com/2fdevs/videogular/plugins/buffering.js" type="text/javascript"></script>
 
     <script src="js/app.js" type="text/javascript"></script>
 </body>

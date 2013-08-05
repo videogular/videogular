@@ -2,19 +2,68 @@
 // ControlBar plugin
 var controlBarPluginDirectives = angular.module("com.2fdevs.videogular.plugins.controlbar", []);
 
-controlBarPluginDirectives.directive("vgControls", function(VG_EVENTS){
+controlBarPluginDirectives.directive("vgControls", function($timeout, VG_EVENTS, VG_STATES){
 		return {
 			restrict: "AE",
 			link: function(scope, elem, attrs) {
 				function onUpdateSize(target, params) {
-					var w = params[0];
-					var h = params[1];
-					var controlBarHeight = elem[0].clientHeight;
+					w = params[0];
+					h = params[1];
+					controlBarHeight = elem[0].clientHeight;
+
+					TweenLite.killTweensOf(elem);
+					isShowing = false;
 
 					elem.css("top", (parseInt(h, 10) - parseInt(controlBarHeight, 10)) + "px");
 				}
 
+				function onSetState(target, params) {
+					switch (params[0]) {
+						case VG_STATES.PLAY:
+							break;
+
+						case VG_STATES.PAUSE:
+							break;
+
+						case VG_STATES.STOP:
+							break;
+					}
+				}
+
+				function onMouseMove() {
+					showControls();
+				}
+
+				function hideControls() {
+					TweenLite.to(elem, 0.5, {top: parseInt(h, 10)});
+				}
+
+				function showControls() {
+					if (!isShowing)
+					{
+						isShowing = true;
+						TweenLite.to(elem, 0.5, {top: (parseInt(h, 10) - parseInt(controlBarHeight, 10)), onComplete: onShowControls});
+						$timeout.cancel(hideInterval);
+						hideInterval = $timeout(hideControls, 3000);
+					}
+				}
+
+				function onShowControls() {
+					isShowing = false;
+				}
+
+				var w = 0;
+				var h = 0;
+				var isShowing = false;
+				var controlBarHeight = elem[0].clientHeight;
+				var autoHide = (attrs.vgAutohide == "true");
+				if (autoHide) {
+					scope.videogularElement.bind("mousemove", onMouseMove);
+					var hideInterval = $timeout(hideControls, 3000);
+				}
+
 				scope.$on(VG_EVENTS.ON_UPDATE_SIZE, onUpdateSize);
+				scope.$on(VG_EVENTS.ON_SET_STATE, onSetState);
 			}
 		}
 	}
@@ -57,7 +106,7 @@ controlBarPluginDirectives.directive("vgPlaypausebutton", function(VG_EVENTS, VG
 	}
 );
 
-controlBarPluginDirectives.directive("vgTimedisplay", function(VG_EVENTS){
+controlBarPluginDirectives.directive("vgTimedisplay", function(VG_EVENTS, VG_UTILS){
 		return {
 			restrict: "AE",
 			link: function(scope, elem, attrs) {
@@ -80,12 +129,19 @@ controlBarPluginDirectives.directive("vgTimedisplay", function(VG_EVENTS){
 					scope.totalTime = mins + ":" + secs;
 				}
 
+				function onUpdateSize(target, params) {
+					//TODO: This is ugly... maybe there's a better way to change width through CSS
+					var dimensions = VG_UTILS.calculateWordDimensions(elem[0].textContent, ["vgTimeDisplay"]);
+					$(elem).width(dimensions.width + 20);
+				}
+
 				scope.currentTime = "00:00";
 				scope.totalTime = "00:00";
 				scope.percentTime = 0;
 
 				scope.$on(VG_EVENTS.ON_START_PLAYING, onStartPlaying);
 				scope.$on(VG_EVENTS.ON_UPDATE_TIME, onUpdateTime);
+				scope.$on(VG_EVENTS.ON_UPDATE_SIZE, onUpdateSize);
 			}
 		}
 	}

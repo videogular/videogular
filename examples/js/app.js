@@ -7,7 +7,8 @@ var videogularApp = angular.module("videogularApp",
 
 		"com.2fdevs.videogular",
 		"com.2fdevs.videogular.plugins.controlbar",
-		"com.2fdevs.videogular.plugins.overlayplay"
+		"com.2fdevs.videogular.plugins.overlayplay",
+		"com.2fdevs.videogular.plugins.buffering"
 	]
 );
 
@@ -32,7 +33,6 @@ controllerModule.controller("MainController", ["$scope", function (scope) {
 		"height": 264,
 		"poster": "assets/images/oceans-clip.png",
 		"media": [
-			//{"type": "video/mp4", "url": "http://content.bitsontherun.com/videos/lWMJeVvV-364767.mp4"},
 			{"type": "video/mp4", "url": "assets/videos/oceans-clip.mp4"},
 			{"type": "video/webm", "url": "assets/videos/oceans-clip.webm"},
 			{"type": "video/ogg", "url": "assets/videos/oceans-clip.ogv"}
