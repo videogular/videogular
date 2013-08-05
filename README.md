@@ -2,6 +2,8 @@
 
 Videogular is an HTML5 video player for AngularJS. Videogular is a wrapper over the HTML5 video tag, so you just could add whatever you want. This provides a very powerful but simple to use solution for everybody.
 
+You could see a demo here: http://twofuckingdevelopers.com/examples/videogular/examples/
+
 ## How to use Videogular
 
 To start using Videogular, just create a `DIV` with the `videogular` attribute and the `video` tag inside. In AngularJS the HTML5 `poster` video attribute is not supported, so you could use `vg-poster` to add your image to your video tag.
