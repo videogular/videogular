@@ -2,7 +2,6 @@
 // Declare app level module which depends on filters, and services
 var videogularApp = angular.module("videogularApp",
 	[
-		"ngSanitize",
 		"controllers",
 
 		"com.2fdevs.videogular",
@@ -38,4 +37,6 @@ controllerModule.controller("MainController", ["$scope", function (scope) {
 			{"type": "video/ogg", "url": "assets/videos/oceans-clip.ogv"}
 		]
 	};
+
+	scope.theme = "themes/default/videogular.css";
 }]);

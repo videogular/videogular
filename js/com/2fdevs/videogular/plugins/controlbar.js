@@ -132,7 +132,7 @@ controlBarPluginDirectives.directive("vgTimedisplay", function(VG_EVENTS, VG_UTI
 				function onUpdateSize(target, params) {
 					//TODO: This is ugly... maybe there's a better way to change width through CSS
 					var dimensions = VG_UTILS.calculateWordDimensions(elem[0].textContent, ["vgTimeDisplay"]);
-					$(elem).width(dimensions.width + 20);
+					elem.css("width", dimensions.width + 20 + "px");
 				}
 
 				scope.currentTime = "00:00";
@@ -207,18 +207,18 @@ controlBarPluginDirectives.directive("vgVolume", function() {
 			restrict: "E",
 			link: function(scope, elem, attrs) {
 				function onMouseOverVolume() {
-					volumeBar.show();
+					volumeBar.css("display", "block");
 				}
 
 				function onMouseLeaveVolume() {
-					volumeBar.hide();
+					volumeBar.css("display", "none");
 				}
 
-				var volumeBar = $(elem).find("vg-volumebar");
+				var volumeBar = angular.element(elem).find("vg-volumebar");
 				if (volumeBar[0]) {
 					elem.bind("mouseover", onMouseOverVolume);
 					elem.bind("mouseleave", onMouseLeaveVolume);
-					volumeBar.hide();
+					volumeBar.css("display", "none");
 				}
 			}
 		}
@@ -237,6 +237,7 @@ controlBarPluginDirectives.directive("vgVolumebar", function(VG_EVENTS) {
 				"</div>",
 			link: function(scope, elem, attrs) {
 				function onClickVolume($event) {
+					var volumeHeight = parseInt(volumeBackElem.prop("offsetHeight"));
 					var value = $event.offsetY * 100 / volumeHeight;
 					var volValue = 1 - (value / 100);
 					updateVolumeView(value);
@@ -259,6 +260,7 @@ controlBarPluginDirectives.directive("vgVolumebar", function(VG_EVENTS) {
 
 				function onMouseMoveVolume($event) {
 					if (isChangingVolume) {
+						var volumeHeight = parseInt(volumeBackElem.prop("offsetHeight"));
 						var value = $event.offsetY * 100 / volumeHeight;
 						var volValue = 1 - (value / 100);
 						updateVolumeView(value);
@@ -278,9 +280,8 @@ controlBarPluginDirectives.directive("vgVolumebar", function(VG_EVENTS) {
 				}
 
 				var isChangingVolume = false;
-				var volumeBackElem = $(elem).find(".volumeBackground");
-				var volumeValueElem = $(elem).find(".volumeValue");
-				var volumeHeight = parseInt(volumeBackElem.css("height"));
+				var volumeBackElem = angular.element(elem[0].getElementsByClassName("volumeBackground"));
+				var volumeValueElem = angular.element(elem[0].getElementsByClassName("volumeValue"));
 
 				volumeBackElem.bind("click", onClickVolume);
 				volumeBackElem.bind("mousedown", onMouseDownVolume);

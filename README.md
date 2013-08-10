@@ -4,6 +4,8 @@ Videogular is an HTML5 video player for AngularJS. Videogular is a wrapper over 
 
 You could see a demo here: http://twofuckingdevelopers.com/examples/videogular/examples/
 
+**Videogular is currently under development** and now it's not working on iOS but we plan to provide support to all major platforms.
+
 ## How to use Videogular
 
 To start using Videogular, just create a `DIV` with the `videogular` attribute and the `video` tag inside. In AngularJS the HTML5 `poster` video attribute is not supported, so you could use `vg-poster` to add your image to your video tag.
@@ -127,6 +129,48 @@ Because AngularJS is so cool, you could just remove or add any directive and the
 
 In the same way you could remove `<vg-volumebar></vg-volumebar>` and leave only `<vg-mutebutton></vg-mutebutton>` and so on. That's an easy way to build your own Videogular layout.
 
+Additionally, you will need to add your module plugins and videogular to your application:
+
+```js
+"use strict";
+var videogularApp = angular.module("videogularApp",
+	[
+		"controllers",
+
+		"com.2fdevs.videogular",
+		"com.2fdevs.videogular.plugins.controlbar",
+		"com.2fdevs.videogular.plugins.overlayplay",
+		"com.2fdevs.videogular.plugins.buffering"
+	]
+);
+```
+
+And that's all :)
+
 ## Themes
 
-Themes will be available in a future release (very soon probably), but it should be very easy to change the current theme just by modifying `examples/css/videogular.css` file.
+Videogular supports a very simple theme system through vg-theme directive and CSS styles.
+
+To set your theme just set vg-theme attribute with a CSS url or a scope variable. If you pass a scope variable Videogular creates a binding and you just could change your theme on the fly.
+
+Setting a binding through a scope variable:
+```html
+<!-- 
+"theme" is a scope variable with a value like "themes/default/videogular.css"
+-->
+<div videogular width="640" height="264" vg-theme="theme">
+    <!-- Videogular plugins and video tag... -->
+</div>
+```
+
+Setting a CSS theme:
+```html
+<!-- 
+If you pass a String with ".css" inside it loads and injects the CSS on the HTML
+-->
+<div videogular width="640" height="264" vg-theme="themes/default/videogular.css">
+    <!-- Videogular plugins and video tag... -->
+</div>
+```
+
+To change and create your own themes should be very easy just modifying `examples/css/videogular.css` file.

@@ -1,24 +1,18 @@
 "use strict";
-// Here starts all the videogular stuff
-var videogular = angular.module("com.2fdevs.videogular", []);
-
+var videogular = angular.module("com.2fdevs.videogular", ["ngSanitize"]);
 
 videogular.service("VG_UTILS", function() {
 		/**
 		 * Calculate word dimensions for given text using HTML elements.
-		 * Optionally classes can be added to calculate with
-		 * a specific style / layout.
+		 * Optionally classes can be added to calculate with a specific style / layout.
 		 *
 		 * Solution provided by:
 		 * http://blog.bripkens.de/2011/06/html-javascript-calculate-text-dimensions/
 		 *
-		 * @param {String} text The word for which you would like to know the
-		 *   dimensions.
-		 * @param {String[]} [classes] An array of strings which represent
-		 *   css classes which should be applied to the DIV which is used for
-		 *   the calculation of word dimensions.
-		 * @param {Boolean} [escape] Whether or not the word should be escaped.
-		 *   Defaults to true.
+		 * @method calculateWordDimensions
+		 * @param {String} text The word for which you would like to know the dimensions.
+		 * @param {String[]} [classes] An array of strings which represent css classes which should be applied to the DIV which is used for the calculation of word dimensions.
+		 * @param {Boolean} [escape] Whether or not the word should be escaped. Defaults to true.
 		 * @return {Object} An object with width and height properties.
 		 */
 		this.calculateWordDimensions = function(text, classes, escape) {
@@ -34,7 +28,7 @@ videogular.service("VG_UTILS", function() {
 			div.setAttribute('class', classes.join(' '));
 
 			if (escape) {
-				$(div).text(text);
+				angular.element(div).text(text);
 			} else {
 				div.innerHTML = text;
 			}
@@ -42,8 +36,8 @@ videogular.service("VG_UTILS", function() {
 			document.body.appendChild(div);
 
 			var dimensions = {
-				width : jQuery(div).outerWidth(),
-				height : jQuery(div).outerHeight()
+				width : angular.element(div).prop("offsetWidth"),
+				height : angular.element(div).prop("offsetHeight")
 			};
 
 			div.parentNode.removeChild(div);
@@ -53,7 +47,6 @@ videogular.service("VG_UTILS", function() {
 	}
 );
 
-// Constants
 videogular.constant("VG_STATES",
 	{
 		PLAY: "play",
@@ -90,7 +83,8 @@ videogular.constant("VG_EVENTS",
 		ON_BUFFERING: "onBuffering",
 		ON_UPDATE_TIME: "onUpdateTime",
 		ON_SEEK_TIME: "onSeekTime",
-		ON_UPDATE_SIZE: "onUpdateSize"
+		ON_UPDATE_SIZE: "onUpdateSize",
+		ON_UPDATE_THEME: "onUpdateTheme"
 	}
 );
 
@@ -99,7 +93,7 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS) {
 			restrict: "AE",
 			link: {
 				pre: function (scope, elem, attrs) {
-					var elementScope = $(elem);
+					var elementScope = angular.element(elem);
 					var videoElement = elementScope.find("video");
 					var controlBar = elementScope.find("vg-controls");
 
@@ -135,24 +129,18 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS) {
 					{
 						var w = currentWidth;
 						var h = currentHeight;
-						var videoTop = 0;
-						var videoHeight = h;
-						var controlBarHeight = controlBar.css("height");
 
 						//TODO: We should change video position on controlbar, not here
 						if (screenfull.isFullscreen)
 						{
-							w = screen.width;
-							h = screen.height;
-							videoTop = ((screen.height - videoElement.height()) / 2);
-							videoHeight = parseInt(h, 10) - parseInt(controlBarHeight, 10);
+							w = window.screen.width;
+							h = window.screen.height;
 						}
 
 						elementScope.css("width", parseInt(w, 10) + "px");
 						elementScope.css("height", parseInt(h, 10) + "px");
-						videoElement.attr("width", parseInt(w, 10) + "px");
-						videoElement.attr("height", parseInt(videoHeight, 10) + "px");
-						videoElement.css("top", parseInt(videoTop, 10) + "px");
+						videoElement.attr("width", parseInt(w, 10));
+						videoElement.attr("height", parseInt(h, 10));
 
 						scope.$emit(VG_EVENTS.ON_UPDATE_SIZE, [w, h]);
 					};
@@ -222,6 +210,49 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS) {
 					scope.$on(VG_EVENTS.ON_SET_VOLUME, scope.onSetVolume);
 					scope.$on(VG_EVENTS.ON_SEEK_TIME, scope.onSeekTime);
 				}
+			}
+		}
+	}
+);
+
+videogular.directive("vgTheme", function(VG_EVENTS) {
+		return {
+			restrict: "A",
+			link: function (scope, elem, attrs) {
+				function updateTheme(value) {
+					if (currentTheme) {
+						// Remove previous theme
+						var links = document.getElementsByTagName("link");
+						for (var i=0, l=links.length; i<l; i++) {
+							if (links[i].outerHTML.indexOf(currentTheme) >= 0) {
+								links[i].parentNode.removeChild(links[i]);
+							}
+						}
+					}
+
+					var headElem = angular.element(document).find("head");
+					headElem.append("<link rel='stylesheet' href='" + value + "'>");
+
+					currentTheme = value;
+
+					scope.$emit(VG_EVENTS.ON_UPDATE_THEME);
+				}
+
+				var currentTheme;
+
+				if (attrs.vgTheme) {
+					// Watch for a model
+					if (attrs.vgTheme.indexOf(".css") < 0) {
+						scope.$watch(attrs.vgTheme, function(value) {
+							updateTheme(value);
+						});
+					}
+					// Inject theme
+					else {
+						updateTheme(attrs.vgTheme);
+					}
+				}
+
 			}
 		}
 	}
