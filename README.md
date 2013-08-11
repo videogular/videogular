@@ -1,18 +1,18 @@
 ## Videogular
 
-Videogular is an HTML5 video player for AngularJS. Videogular is a wrapper over the HTML5 video tag, so you just could add whatever you want. This provides a very powerful but simple to use solution for everybody.
+Videogular is an HTML5 video player for AngularJS. Videogular is a wrapper over the HTML5 video tag, so you just could add whatever you want. This provides a very powerful, but simple to use solution, for everybody.
 
 You could see a demo here: http://twofuckingdevelopers.com/examples/videogular/examples/
 
-**Videogular is currently under development** and now it's not working on iOS but we plan to provide support to all major platforms.
+**Videogular is currently under development** and now it's not working on iOS but we plan to provide support for all major platforms.
 
 ## How to use Videogular
 
-To start using Videogular, just create a `DIV` with the `videogular` attribute and the `video` tag inside. In AngularJS the HTML5 `poster` video attribute is not supported, so you could use `vg-poster` to add your image to your video tag.
+To start using Videogular, just create a `DIV` with the `videogular` attribute and the `video` tag inside. In AngularJS the HTML5 `poster` video attribute is not supported, so you could use `vg-poster` to add your image to your video tag. With `vg-width` and `vg-height` directives you could set an Integer value or a binding to a scope variable. You don't need to set a width and height to video tag, Videogular will do that for you.
 
 ```html
-<div videogular width="640" height="264">
-	<video class='videoPlayer' controls preload='none' width='640' height='264' vg-poster='assets/images/oceans-clip.png'>
+<div videogular vg-width="width" vg-height="height">
+	<video class='videoPlayer' controls preload='none' vg-poster='assets/images/oceans-clip.png'>
 		<source src='assets/videos/oceans-clip.mp4' type='video/mp4'>
 		<source src='assets/videos/oceans-clip.webm' type='video/webm'>
 		<source src='assets/videos/oceans-clip.ogv' type='video/ogg'>
@@ -20,11 +20,11 @@ To start using Videogular, just create a `DIV` with the `videogular` attribute a
 </div>
 ```
 
-Because `videogular` is an HTML5 video player for AngularJS it works (obviously) with all the AngularJS directives.
+Because `videogular` is an HTML5 video player for AngularJS it works (obviously) with all AngularJS directives.
 
 ```html
-<div videogular width="640" height="264">
-	<video class='videoPlayer' preload='none' width='{{ data.width }}' height='{{ data.height }}' vg-poster='{{ data.poster }}'>
+<div videogular vg-width="width" vg-height="height">
+	<video class='videoPlayer' preload='none' vg-poster='{{ data.poster }}'>
 		<source ng-repeat='media in data.media' ng-src='{{ media.url }}' type='{{ media.type }}'>
 	</video>
 </div>
@@ -33,7 +33,7 @@ Because `videogular` is an HTML5 video player for AngularJS it works (obviously)
 
 ## Plugins
 
-With Videogular you can write your own plugins through a simple API based in events. The plugins should be directives and they should communicate with the main `videogular` directive through an API based in events.
+With Videogular you can write your own plugins through a simple API based in events. Plugins should be directives and they should communicate with `videogular` directive through an API based in events.
 
 ## API Events
 
@@ -49,14 +49,15 @@ With Videogular you can write your own plugins through a simple API based in eve
 - **VG_EVENTS.ON_BUFFERING**: Triggered when video is buffering.
 - **VG_EVENTS.ON_UPDATE_TIME**: Triggered when video progress updates.
 - **VG_EVENTS.ON_UPDATE_SIZE**: Triggered when video size updates.
+- **VG_EVENTS.ON_PLAYER_READY**: Triggered when DOM elements are ready. Very useful to initialize plugins.
 
 ## Plugin example
 
-Currently you will find a plugins folder with some source code to inspire you, however, you could see how easy is to write your own plugin with this example:
+Currently you will find a `plugins` folder with some source code to inspire you, however, you could see how easy is to write your own plugin with this example:
 
 ```js
 var myVGPlugin = angular.module("com.2fdevs.videogular.plugins.myPlugin", []);
-myVGPlugin.directive("vgOverlayplay", function($rootScope, VG_EVENTS, VG_STATES, VG_THEMES){
+myVGPlugin.directive("vgMyPlugin", function(VG_EVENTS){
 		return {
 			restrict: "E",
 			template: "<div>my videogular plugin</div>",
@@ -65,7 +66,7 @@ myVGPlugin.directive("vgOverlayplay", function($rootScope, VG_EVENTS, VG_STATES,
 					console.log("state changed to " + params[0]);
 				}
 
-				$rootScope.$on(VG_EVENTS.ON_SET_STATE, onChangeState);
+				scope.$on(VG_EVENTS.ON_SET_STATE, onChangeState);
 			}
 		}
 	}
@@ -77,9 +78,10 @@ myVGPlugin.directive("vgOverlayplay", function($rootScope, VG_EVENTS, VG_STATES,
 To add a plugin just add your directives to your HTML. This is an example of a Videogular player:
 
 ```html
-<div videogular width="640" height="264">
+<div videogular vg-width="400" vg-height="300">
     <vg-buffering></vg-buffering>
     <vg-overlayPlay></vg-overlayPlay>
+    <vg-myplugin></vg-myplugin>
 
     <vg-controls vg-autohide="false">
         <vg-playpauseButton></vg-playpauseButton>
@@ -95,7 +97,7 @@ To add a plugin just add your directives to your HTML. This is an example of a V
         <vg-fullscreenButton></vg-fullscreenButton>
     </vg-controls>
 
-    <video class='videoPlayer' preload='none' width='{{ data.width }}' height='{{ data.height }}' vg-poster='{{ data.poster }}'>
+    <video class='videoPlayer' preload='none' vg-poster='{{ data.poster }}'>
         <source ng-repeat='media in data.media' ng-src='{{ media.url }}' type='{{ media.type }}'>
     </video>
 </div>
@@ -104,7 +106,7 @@ To add a plugin just add your directives to your HTML. This is an example of a V
 Because AngularJS is so cool, you could just remove or add any directive and the player should work as expected. For example, you could remove `<vg-timeDisplay>{{ currentTime }}</vg-timeDisplay>` and change `<vg-timeDisplay>{{ totalTime }}</vg-timeDisplay>` for `<vg-timeDisplay>{{ currentTime }} / {{ totalTime }}</vg-timeDisplay>` to change your time display component.
 
 ```html
-<div videogular width="640" height="264">
+<div videogular vg-width="400" vg-height="300">
     <vg-buffering></vg-buffering>
     <vg-overlayPlay></vg-overlayPlay>
 
@@ -121,7 +123,7 @@ Because AngularJS is so cool, you could just remove or add any directive and the
         <vg-fullscreenButton></vg-fullscreenButton>
     </vg-controls>
 
-    <video class='videoPlayer' preload='none' width='{{ data.width }}' height='{{ data.height }}' vg-poster='{{ data.poster }}'>
+    <video class='videoPlayer' preload='none' vg-poster='{{ data.poster }}'>
         <source ng-repeat='media in data.media' ng-src='{{ media.url }}' type='{{ media.type }}'>
     </video>
 </div>
@@ -140,7 +142,8 @@ var videogularApp = angular.module("videogularApp",
 		"com.2fdevs.videogular",
 		"com.2fdevs.videogular.plugins.controlbar",
 		"com.2fdevs.videogular.plugins.overlayplay",
-		"com.2fdevs.videogular.plugins.buffering"
+		"com.2fdevs.videogular.plugins.buffering",
+		"com.2fdevs.videogular.plugins.myPlugin"
 	]
 );
 ```
@@ -158,7 +161,7 @@ Setting a binding through a scope variable:
 <!-- 
 "theme" is a scope variable with a value like "themes/default/videogular.css"
 -->
-<div videogular width="640" height="264" vg-theme="theme">
+<div videogular vg-width="400" vg-height="300" vg-theme="theme">
     <!-- Videogular plugins and video tag... -->
 </div>
 ```
@@ -168,7 +171,7 @@ Setting a CSS theme:
 <!-- 
 If you pass a String with ".css" inside it loads and injects the CSS on the HTML
 -->
-<div videogular width="640" height="264" vg-theme="themes/default/videogular.css">
+<div videogular vg-width="400" vg-height="300" vg-theme="themes/default/videogular.css">
     <!-- Videogular plugins and video tag... -->
 </div>
 ```
