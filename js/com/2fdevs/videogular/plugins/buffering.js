@@ -10,6 +10,11 @@ bufferingDirectives.directive("vgBuffering", function(VG_EVENTS, VG_THEMES){
 					"<div class='loadingSpinner stop'></div>" +
 				"</div>",
 			link: function(scope, elem, attrs) {
+				function onPlayerReady(target, params) {
+					spinner.addClass("stop");
+					elem.css("display", "none");
+				}
+
 				function onBuffering(target, params) {
 					spinner.removeClass("stop");
 					elem.css("display", "block");
@@ -21,9 +26,10 @@ bufferingDirectives.directive("vgBuffering", function(VG_EVENTS, VG_THEMES){
 				}
 
 				var spinner = angular.element(elem[0].getElementsByClassName("loadingSpinner"));
-				elem.css("display", "none");
+				spinner.removeClass("stop");
 				scope.$on(VG_EVENTS.ON_BUFFERING, onBuffering);
 				scope.$on(VG_EVENTS.ON_START_PLAYING, onStartPlaying);
+				scope.$on(VG_EVENTS.ON_PLAYER_READY, onPlayerReady);
 			}
 		}
 	}

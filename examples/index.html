@@ -8,7 +8,7 @@
     <div class="container" ng-controller="MainController">
         <div>
             <h1>Videogular player configurator</h1>
-            <div videogular width="640" height="264" vg-theme="theme">
+            <div videogular vg-width="data.width" vg-height="data.height" vg-theme="theme">
                 <vg-buffering></vg-buffering>
                 <vg-overlayPlay></vg-overlayPlay>
 
@@ -26,19 +26,31 @@
                     <vg-fullscreenButton></vg-fullscreenButton>
                 </vg-controls>
 
-                <video class='videoPlayer' preload='none' width='{{ data.width }}' height='{{ data.height }}' vg-poster='{{ data.poster }}'>
+                <video class='videoPlayer' preload='metadata' vg-poster='{{ data.poster }}'>
                     <source ng-repeat='media in data.media' ng-src='{{ media.url }}' type='{{ media.type }}'>
                 </video>
             </div>
         </div>
-        <div>
-            <h2>Properties</h2>
-            <div>
-                Theme:
-                <select ng-model="theme">
-                    <option value="themes/default/videogular.css">Default</option>
-                    <option value="themes/solid/solid.css">Solid</option>
-                </select>
+        <div class="row">
+            <div class="col-12"><h2>Properties</h2></div>
+        </div>
+        <div class="row">
+            <div class="col-6 col-sm-4 col-lg-4">
+                <div>
+                    <label for="themeSelect">Theme:</label>
+                    <select id="themeSelect" class="form-control" ng-model="theme">
+                        <option value="themes/default/videogular.css">Default</option>
+                        <option value="themes/solid/solid.css">Solid</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="widthInput">Width:</label>
+                    <input id="widthInput" type="text" class="form-control" ng-model="data.width">
+                </div>
+                <div>
+                    <label for="heightInput">Height:</label>
+                    <input id="heightInput" type="text" class="form-control" ng-model="data.height">
+                </div>
             </div>
         </div>
     </div>

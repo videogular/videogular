@@ -6,9 +6,15 @@ controlBarPluginDirectives.directive("vgControls", function($timeout, VG_EVENTS,
 		return {
 			restrict: "AE",
 			link: function(scope, elem, attrs) {
+				function onEnterFullscreen(target, params) {
+					TweenLite.killTweensOf(elem);
+					isShowing = false;
+				}
+
 				function onUpdateSize(target, params) {
 					w = params[0];
 					h = params[1];
+
 					controlBarHeight = elem[0].clientHeight;
 
 					TweenLite.killTweensOf(elem);
@@ -52,18 +58,26 @@ controlBarPluginDirectives.directive("vgControls", function($timeout, VG_EVENTS,
 					isShowing = false;
 				}
 
+				function onPlayerReady() {
+					elem.css("display", "table");
+				}
+
 				var w = 0;
 				var h = 0;
 				var isShowing = false;
 				var controlBarHeight = elem[0].clientHeight;
+				var displayStyle = elem.css("display");
 				var autoHide = (attrs.vgAutohide == "true");
 				if (autoHide) {
 					scope.videogularElement.bind("mousemove", onMouseMove);
 					var hideInterval = $timeout(hideControls, 3000);
 				}
 
+				elem.css("display", "none");
+				scope.$on(VG_EVENTS.ON_ENTER_FULLSCREEN, onEnterFullscreen);
 				scope.$on(VG_EVENTS.ON_UPDATE_SIZE, onUpdateSize);
 				scope.$on(VG_EVENTS.ON_SET_STATE, onSetState);
+				scope.$on(VG_EVENTS.ON_PLAYER_READY, onPlayerReady);
 			}
 		}
 	}
@@ -129,7 +143,7 @@ controlBarPluginDirectives.directive("vgTimedisplay", function(VG_EVENTS, VG_UTI
 					scope.totalTime = mins + ":" + secs;
 				}
 
-				function onUpdateSize(target, params) {
+				function onPlayerReady() {
 					//TODO: This is ugly... maybe there's a better way to change width through CSS
 					var dimensions = VG_UTILS.calculateWordDimensions(elem[0].textContent, ["vgTimeDisplay"]);
 					elem.css("width", dimensions.width + 20 + "px");
@@ -141,7 +155,7 @@ controlBarPluginDirectives.directive("vgTimedisplay", function(VG_EVENTS, VG_UTI
 
 				scope.$on(VG_EVENTS.ON_START_PLAYING, onStartPlaying);
 				scope.$on(VG_EVENTS.ON_UPDATE_TIME, onUpdateTime);
-				scope.$on(VG_EVENTS.ON_UPDATE_SIZE, onUpdateSize);
+				scope.$on(VG_EVENTS.ON_PLAYER_READY, onPlayerReady);
 			}
 		}
 	}

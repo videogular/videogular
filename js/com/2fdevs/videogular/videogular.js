@@ -84,7 +84,8 @@ videogular.constant("VG_EVENTS",
 		ON_UPDATE_TIME: "onUpdateTime",
 		ON_SEEK_TIME: "onSeekTime",
 		ON_UPDATE_SIZE: "onUpdateSize",
-		ON_UPDATE_THEME: "onUpdateTheme"
+		ON_UPDATE_THEME: "onUpdateTheme",
+		ON_PLAYER_READY: "onPlayerReady"
 	}
 );
 
@@ -93,20 +94,6 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS) {
 			restrict: "AE",
 			link: {
 				pre: function (scope, elem, attrs) {
-					var elementScope = angular.element(elem);
-					var videoElement = elementScope.find("video");
-					var controlBar = elementScope.find("vg-controls");
-
-					var currentWidth = attrs.width + "px";
-					var currentHeight = attrs.height + "px";
-
-					scope.state = VG_STATES.STOP;
-					scope.videoElement = videoElement;
-					scope.videogularElement = elementScope;
-
-					elementScope[0].style.width = currentWidth;
-					elementScope[0].style.height = currentHeight;
-
 					screenfull.onchange = function()
 					{
 						var w = currentWidth;
@@ -121,11 +108,11 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS) {
 							scope.$emit(VG_EVENTS.ON_EXIT_FULLSCREEN);
 						}
 
-						scope.updateSize();
+						updateSize();
 						scope.$apply();
 					};
 
-					scope.updateSize = function()
+					function updateSize()
 					{
 						var w = currentWidth;
 						var h = currentHeight;
@@ -143,73 +130,153 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS) {
 						videoElement.attr("height", parseInt(h, 10));
 
 						scope.$emit(VG_EVENTS.ON_UPDATE_SIZE, [w, h]);
-					};
+					}
 
-					scope.onSeekTime = function(target, params)
+					function onSeekTime(target, params)
 					{
 						videoElement[0].currentTime = params[0];
-					};
+					}
 
-					scope.onUpdateTime = function(event)
+					function onUpdateTime(event)
 					{
 						scope.$emit(VG_EVENTS.ON_UPDATE_TIME, [event.target.currentTime, event.target.duration]);
 						scope.$apply();
-					};
+					}
 
-					scope.onToggleFullscreen = function ($event) {
+					function onToggleFullscreen($event) {
 						screenfull.toggle(elementScope[0]);
-					};
+					}
 
-					scope.onSetVolume = function (target, params) {
+					function onSetVolume(target, params) {
 						videoElement[0].volume = params[0];
 						localStorage["vgVolume"] = params[0];
-					};
+					}
 
-					scope.onPlay = function() {
-						scope.playVideo(videoElement[0]);
-					};
+					function onPlay() {
+						playVideo(videoElement[0]);
+					}
 
-					scope.playVideo = function(videoElement) {
+					function playVideo(videoElement) {
 						if (videoElement.paused) {
 							videoElement.play();
-							scope.setState(VG_STATES.PLAY);
+							setState(VG_STATES.PLAY);
 						}
 						else {
 							videoElement.pause();
-							scope.setState(VG_STATES.PAUSE);
+							setState(VG_STATES.PAUSE);
 						}
-					};
+					}
 
-					scope.onStartBuffering = function(event){
+					function onStartBuffering(event){
 						scope.$emit(VG_EVENTS.ON_BUFFERING);
 						scope.$apply();
-					};
+					}
 
-					scope.onStartPlaying = function(event){
+					function onStartPlaying(event){
 						//Chrome fix: Chrome needs to update the video tag size or it will show a white screen
 						event.target.width++;
 						event.target.width--;
 
 						scope.$emit(VG_EVENTS.ON_START_PLAYING, [event.target.duration]);
 						scope.$apply();
+					}
+
+					function setState(newState) {
+						state = newState;
+						scope.$emit(VG_EVENTS.ON_SET_STATE, [state]);
+					}
+
+					function onUpdateSize(w, h) {
+						currentWidth = w;
+						currentHeight = h;
+						updateSize();
+					}
+
+					function onElementReady() {
+						scope.$emit(VG_EVENTS.ON_PLAYER_READY);
+						updateSize();
+					}
+
+					scope.onChangeWidth = function (value) {
+						onUpdateSize(value, currentHeight);
 					};
 
-					scope.setState = function(state) {
-						scope.state = state;
-						scope.$emit(VG_EVENTS.ON_SET_STATE, [scope.state]);
+					scope.onChangeHeight = function (value) {
+						onUpdateSize(currentWidth, value);
 					};
 
-					setTimeout(scope.updateSize, 100);
+					var elementScope = angular.element(elem);
+					var videoElement = elementScope.find("video");
+					var currentWidth = attrs.width + "px";
+					var currentHeight = attrs.height + "px";
+					var state = VG_STATES.STOP;
 
-					videoElement[0].addEventListener("waiting", scope.onStartBuffering, false);
-					videoElement[0].addEventListener("playing", scope.onStartPlaying, false);
-					videoElement[0].addEventListener("timeupdate", scope.onUpdateTime, false);
+					scope.videoElement = videoElement;
+					scope.videogularElement = elementScope;
 
-					scope.$on(VG_EVENTS.ON_PLAY, scope.onPlay);
-					scope.$on(VG_EVENTS.ON_TOGGLE_FULLSCREEN, scope.onToggleFullscreen);
-					scope.$on(VG_EVENTS.ON_SET_VOLUME, scope.onSetVolume);
-					scope.$on(VG_EVENTS.ON_SEEK_TIME, scope.onSeekTime);
+					elementScope[0].style.width = currentWidth;
+					elementScope[0].style.height = currentHeight;
+
+					videoElement[0].addEventListener("waiting", onStartBuffering, false);
+					videoElement[0].addEventListener("playing", onStartPlaying, false);
+					videoElement[0].addEventListener("timeupdate", onUpdateTime, false);
+
+					elementScope.ready(onElementReady);
+					scope.$on(VG_EVENTS.ON_PLAY, onPlay);
+					scope.$on(VG_EVENTS.ON_TOGGLE_FULLSCREEN, onToggleFullscreen);
+					scope.$on(VG_EVENTS.ON_SET_VOLUME, onSetVolume);
+					scope.$on(VG_EVENTS.ON_SEEK_TIME, onSeekTime);
 				}
+			}
+		}
+	}
+);
+
+videogular.directive("vgWidth", function() {
+		return {
+			restrict: "A",
+			link: function (scope, elem, attrs) {
+				function updateSize(value) {
+					scope.onChangeWidth(value);
+				}
+
+				if (attrs.vgWidth) {
+					// Watch for a model
+					if (isNaN(parseInt(attrs.vgWidth))) {
+						scope.$watch(attrs.vgWidth, function(value) {
+							updateSize(value);
+						});
+					}
+					else {
+						updateSize(attrs.vgWidth);
+					}
+				}
+
+			}
+		}
+	}
+);
+
+videogular.directive("vgHeight", function() {
+		return {
+			restrict: "A",
+			link: function (scope, elem, attrs) {
+				function updateSize(value) {
+					scope.onChangeHeight(value);
+				}
+
+				if (attrs.vgWidth) {
+					// Watch for a model
+					if (isNaN(parseInt(attrs.vgHeight))) {
+						scope.$watch(attrs.vgHeight, function(value) {
+							updateSize(value);
+						});
+					}
+					else {
+						updateSize(attrs.vgHeight);
+					}
+				}
+
 			}
 		}
 	}

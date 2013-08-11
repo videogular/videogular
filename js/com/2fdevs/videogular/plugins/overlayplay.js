@@ -10,6 +10,15 @@ overLayPlayDirectives.directive("vgOverlayplay", function(VG_EVENTS, VG_STATES, 
 					"<div class='iconButton' ng-bind-html='overlayPlayIcon'></div>" +
 				"</div>",
 			link: function(scope, elem, attrs) {
+				function onPlayerReady(target, params) {
+					scope.overlayPlayIcon = VG_THEMES.PLAY;
+					scope.$apply();
+				}
+
+				function onUpdateSize(target, params) {
+					scope.overlayPlayIcon = VG_THEMES.PLAY;
+				}
+
 				function onClickOverlayPlay($event) {
 					scope.$emit(VG_EVENTS.ON_PLAY);
 				}
@@ -32,11 +41,12 @@ overLayPlayDirectives.directive("vgOverlayplay", function(VG_EVENTS, VG_STATES, 
 					scope.$apply();
 				}
 
-				scope.overlayPlayIcon = VG_THEMES.PLAY;
+				scope.overlayPlayIcon = "";
 
 				elem.bind("click", onClickOverlayPlay);
 
 				scope.$on(VG_EVENTS.ON_SET_STATE, onChangeState);
+				scope.$on(VG_EVENTS.ON_PLAYER_READY, onPlayerReady);
 			}
 		}
 	}
