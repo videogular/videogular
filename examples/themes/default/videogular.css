@@ -189,6 +189,7 @@
 	width: 50px;
 	height: 100px;
 	top: -100px;
+	margin-left: -25px;
 	vertical-align: middle;
 	text-align: center;
 	position: absolute;

@@ -9,6 +9,26 @@ controlBarPluginDirectives.directive("vgControls", function($timeout, VG_EVENTS,
 				function onEnterFullscreen(target, params) {
 					TweenLite.killTweensOf(elem);
 					isShowing = false;
+					hideInterval = $timeout(hideControls, autoHideTime);
+
+					if (!isBinding) {
+						isBinding = true;
+						scope.videogularElement.bind("mousemove", onMouseMove);
+					}
+				}
+
+				function onExitFullscreen(target, params) {
+					TweenLite.killTweensOf(elem);
+					isShowing = false;
+
+					if (autoHide) {
+						hideInterval = $timeout(hideControls, autoHideTime);
+					}
+					else {
+						$timeout.cancel(hideInterval);
+						isBinding = false;
+						scope.videogularElement.unbind("mousemove", onMouseMove);
+					}
 				}
 
 				function onUpdateSize(target, params) {
@@ -21,19 +41,6 @@ controlBarPluginDirectives.directive("vgControls", function($timeout, VG_EVENTS,
 					isShowing = false;
 
 					elem.css("top", (parseInt(h, 10) - parseInt(controlBarHeight, 10)) + "px");
-				}
-
-				function onSetState(target, params) {
-					switch (params[0]) {
-						case VG_STATES.PLAY:
-							break;
-
-						case VG_STATES.PAUSE:
-							break;
-
-						case VG_STATES.STOP:
-							break;
-					}
 				}
 
 				function onMouseMove() {
@@ -50,7 +57,7 @@ controlBarPluginDirectives.directive("vgControls", function($timeout, VG_EVENTS,
 						isShowing = true;
 						TweenLite.to(elem, 0.5, {top: (parseInt(h, 10) - parseInt(controlBarHeight, 10)), onComplete: onShowControls});
 						$timeout.cancel(hideInterval);
-						hideInterval = $timeout(hideControls, 3000);
+						if (isBinding) hideInterval = $timeout(hideControls, autoHideTime);
 					}
 				}
 
@@ -62,21 +69,46 @@ controlBarPluginDirectives.directive("vgControls", function($timeout, VG_EVENTS,
 					elem.css("display", "table");
 				}
 
+				function updateAutohide(value) {
+					autoHide = value;
+
+					if (autoHide) {
+						isBinding = true;
+						scope.videogularElement.bind("mousemove", onMouseMove);
+						hideInterval = $timeout(hideControls, autoHideTime);
+					}
+					else {
+						if (isBinding) {
+							isBinding = false;
+							scope.videogularElement.unbind("mousemove", onMouseMove);
+						}
+						$timeout.cancel(hideInterval);
+						showControls();
+					}
+				}
+
 				var w = 0;
 				var h = 0;
+				var autoHideTime = 5000;
 				var isShowing = false;
+				var isBinding = false;
 				var controlBarHeight = elem[0].clientHeight;
-				var displayStyle = elem.css("display");
-				var autoHide = (attrs.vgAutohide == "true");
-				if (autoHide) {
-					scope.videogularElement.bind("mousemove", onMouseMove);
-					var hideInterval = $timeout(hideControls, 3000);
+				var autoHide;
+				var hideInterval;
+
+				if (attrs.vgAutohide == "true" || attrs.vgAutohide == "false") {
+					updateAutohide((attrs.vgAutohide == "true"));
+				}
+				else {
+					scope.$watch(attrs.vgAutohide, function(value) {
+						updateAutohide(value);
+					});
 				}
 
 				elem.css("display", "none");
 				scope.$on(VG_EVENTS.ON_ENTER_FULLSCREEN, onEnterFullscreen);
+				scope.$on(VG_EVENTS.ON_EXIT_FULLSCREEN, onExitFullscreen);
 				scope.$on(VG_EVENTS.ON_UPDATE_SIZE, onUpdateSize);
-				scope.$on(VG_EVENTS.ON_SET_STATE, onSetState);
 				scope.$on(VG_EVENTS.ON_PLAYER_READY, onPlayerReady);
 			}
 		}
@@ -89,7 +121,7 @@ controlBarPluginDirectives.directive("vgPlaypausebutton", function(VG_EVENTS, VG
 			template: "<div class='iconButton' ng-bind-html='playPauseIcon'></div>",
 			link: function(scope, elem, attrs) {
 				function onClickPlayPause($event) {
-					scope.$emit(VG_EVENTS.ON_PLAY);
+					scope.$emit(VG_EVENTS.ON_PLAY_PAUSE);
 				}
 
 				function onChangeState(target, params) {
@@ -106,8 +138,6 @@ controlBarPluginDirectives.directive("vgPlaypausebutton", function(VG_EVENTS, VG
 							scope.playPauseIcon = VG_THEMES.PLAY;
 							break;
 					}
-
-					scope.$apply();
 				}
 
 				scope.playPauseIcon = VG_THEMES.PLAY;
@@ -131,7 +161,10 @@ controlBarPluginDirectives.directive("vgTimedisplay", function(VG_EVENTS, VG_UTI
 					var secs = ss < 10 ? "0" + ss : ss;
 
 					scope.currentTime = mins + ":" + secs;
-					scope.percentTime = Math.round((params[0] / params[1]) * 100);
+				}
+
+				function onComplete(target, params) {
+					scope.currentTime = "00:00";
 				}
 
 				function onStartPlaying(target, params) {
@@ -151,48 +184,76 @@ controlBarPluginDirectives.directive("vgTimedisplay", function(VG_EVENTS, VG_UTI
 
 				scope.currentTime = "00:00";
 				scope.totalTime = "00:00";
-				scope.percentTime = 0;
 
 				scope.$on(VG_EVENTS.ON_START_PLAYING, onStartPlaying);
 				scope.$on(VG_EVENTS.ON_UPDATE_TIME, onUpdateTime);
 				scope.$on(VG_EVENTS.ON_PLAYER_READY, onPlayerReady);
+				scope.$on(VG_EVENTS.ON_COMPLETE, onComplete);
 			}
 		}
 	}
 );
 
-controlBarPluginDirectives.directive("vgScrubbar", function(VG_EVENTS){
+controlBarPluginDirectives.directive("vgScrubbar", function(VG_EVENTS, VG_STATES, VG_UTILS){
 		return {
 			restrict: "E",
 			replace: true,
 			link: function(scope, elem, attrs) {
-				function onScrubBarClick($event) {
-					scope.isSeeking = false;
-					seekTime($event.offsetX * scope.videoElement[0].duration / elem[0].scrollWidth);
-				}
 				function onScrubBarMouseDown($event) {
-					scope.isSeeking = true;
+					$event = VG_UTILS.fixEventOffset($event);
+
+					isSeeking = true;
+					if (isPlaying) isPlayingWhenSeeking = true;
 					seekTime($event.offsetX * scope.videoElement[0].duration / elem[0].scrollWidth);
+					scope.$emit(VG_EVENTS.ON_PAUSE);
 				}
 				function onScrubBarMouseUp($event) {
-					scope.isSeeking = false;
+					$event = VG_UTILS.fixEventOffset($event);
+
+					if (isPlayingWhenSeeking) {
+						isPlayingWhenSeeking = false;
+						scope.$emit(VG_EVENTS.ON_PLAY);
+					}
+					isSeeking = false;
 					seekTime($event.offsetX * scope.videoElement[0].duration / elem[0].scrollWidth);
 				}
 				function onScrubBarMouseMove($event) {
-					if (scope.isSeeking) {
+					if (isSeeking) {
+						$event = VG_UTILS.fixEventOffset($event);
 						seekTime($event.offsetX * scope.videoElement[0].duration / elem[0].scrollWidth);
 					}
 				}
 				function onScrubBarMouseLeave($event) {
-					scope.isSeeking = false;
+					isSeeking = false;
 				}
 				function seekTime(time) {
 					scope.$emit(VG_EVENTS.ON_SEEK_TIME, [time]);
 				}
 
-				scope.isSeeking = false;
+				function onChangeState(target, params) {
+					if (!isSeeking) {
+						switch (params[0]) {
+							case VG_STATES.PLAY:
+								isPlaying = true;
+								break;
 
-				elem.bind("click", onScrubBarClick);
+							case VG_STATES.PAUSE:
+								isPlaying = false;
+								break;
+
+							case VG_STATES.STOP:
+								isPlaying = false;
+								break;
+						}
+					}
+				}
+
+				var isSeeking = false;
+				var isPlaying = false;
+				var isPlayingWhenSeeking = false;
+
+				scope.$on(VG_EVENTS.ON_SET_STATE, onChangeState);
+
 				elem.bind("mousedown", onScrubBarMouseDown);
 				elem.bind("mouseup", onScrubBarMouseUp);
 				elem.bind("mousemove", onScrubBarMouseMove);
@@ -202,15 +263,22 @@ controlBarPluginDirectives.directive("vgScrubbar", function(VG_EVENTS){
 	}
 );
 
-controlBarPluginDirectives.directive("vgScrubbarcurrenttime", function(){
+controlBarPluginDirectives.directive("vgScrubbarcurrenttime", function(VG_EVENTS){
 		return {
 			restrict: "AE",
 			link: function(scope, elem, attrs) {
-				function onUpdateTime(newModel){
-					elem.css("width", newModel + "%");
+				function onUpdateTime(target, params){
+					scope.percentTime = Math.round((params[0] / params[1]) * 100);
+					elem.css("width", scope.percentTime + "%");
 				}
 
-				scope.$watch("percentTime", onUpdateTime, true);
+				function onComplete(target, params){
+					scope.percentTime = 0;
+					elem.css("width", scope.percentTime + "%");
+				}
+
+				scope.$on(VG_EVENTS.ON_UPDATE_TIME, onUpdateTime);
+				scope.$on(VG_EVENTS.ON_COMPLETE, onComplete);
 			}
 		}
 	}
@@ -221,25 +289,26 @@ controlBarPluginDirectives.directive("vgVolume", function() {
 			restrict: "E",
 			link: function(scope, elem, attrs) {
 				function onMouseOverVolume() {
-					volumeBar.css("display", "block");
+					volumeBar.css("visibility", "visible");
 				}
 
 				function onMouseLeaveVolume() {
-					volumeBar.css("display", "none");
+					volumeBar.css("visibility", "hidden");
 				}
 
+				// Must be visibility hidden or Firefox and IE will return offsetHeight 0
 				var volumeBar = angular.element(elem).find("vg-volumebar");
 				if (volumeBar[0]) {
 					elem.bind("mouseover", onMouseOverVolume);
 					elem.bind("mouseleave", onMouseLeaveVolume);
-					volumeBar.css("display", "none");
+					volumeBar.css("visibility", "hidden");
 				}
 			}
 		}
 	}
 );
 
-controlBarPluginDirectives.directive("vgVolumebar", function(VG_EVENTS) {
+controlBarPluginDirectives.directive("vgVolumebar", function(VG_EVENTS, VG_UTILS) {
 		return {
 			restrict: "E",
 			template:
@@ -251,13 +320,13 @@ controlBarPluginDirectives.directive("vgVolumebar", function(VG_EVENTS) {
 				"</div>",
 			link: function(scope, elem, attrs) {
 				function onClickVolume($event) {
+					$event = VG_UTILS.fixEventOffset($event);
 					var volumeHeight = parseInt(volumeBackElem.prop("offsetHeight"));
 					var value = $event.offsetY * 100 / volumeHeight;
 					var volValue = 1 - (value / 100);
 					updateVolumeView(value);
 
 					scope.$emit(VG_EVENTS.ON_SET_VOLUME, [volValue]);
-					scope.$apply();
 				}
 
 				function onMouseDownVolume($event) {
@@ -274,13 +343,13 @@ controlBarPluginDirectives.directive("vgVolumebar", function(VG_EVENTS) {
 
 				function onMouseMoveVolume($event) {
 					if (isChangingVolume) {
+						$event = VG_UTILS.fixEventOffset($event);
 						var volumeHeight = parseInt(volumeBackElem.prop("offsetHeight"));
 						var value = $event.offsetY * 100 / volumeHeight;
 						var volValue = 1 - (value / 100);
 						updateVolumeView(value);
 
 						scope.$emit(VG_EVENTS.ON_SET_VOLUME, [volValue]);
-						scope.$apply();
 					}
 				}
 
@@ -324,12 +393,12 @@ controlBarPluginDirectives.directive("vgMutebutton", function(VG_EVENTS, VG_THEM
 					}
 
 					scope.$emit(VG_EVENTS.ON_SET_VOLUME, [scope.currentVolume]);
-					scope.$apply();
 				}
 
 				function onSetVolume(target, params) {
 					scope.currentVolume = params[0];
 
+					// TODO: Save volume with LocalStorage
 					// if it's not muted we save the default volume
 					if (scope.muteIcon != VG_THEMES.VOLUME_MUTE) {
 						scope.defaultVolume = params[0];
@@ -357,6 +426,9 @@ controlBarPluginDirectives.directive("vgMutebutton", function(VG_EVENTS, VG_THEM
 					else if (percentValue >= 75) {
 						scope.muteIcon = VG_THEMES.VOLUME_LEVEL_3;
 					}
+
+					//TODO: remove this $apply(), plugins shouldn't have them
+					scope.$apply();
 				}
 
 				scope.defaultVolume = 1;

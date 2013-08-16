@@ -43,7 +43,23 @@ videogular.service("VG_UTILS", function() {
 			div.parentNode.removeChild(div);
 
 			return dimensions;
-		}
+		};
+
+		this.fixEventOffset = function($event) {
+			/**
+			 * There's no offsetX in Firefox, so we fix that.
+			 * Solution provided by Iaz Brannigan's answer in this thread:
+			 * http://stackoverflow.com/questions/11334452/event-offsetx-in-firefox
+			 * @param $event
+			 * @returns {*}
+			 */
+			if (!$event.hasOwnProperty('offsetX') || !$event.hasOwnProperty('offsetY')) {
+				$event.offsetX = $event.layerX - $event.currentTarget.offsetLeft;
+				$event.offsetY = $event.layerY;
+			}
+
+			return $event;
+		};
 	}
 );
 
@@ -71,21 +87,22 @@ videogular.constant("VG_THEMES",
 
 videogular.constant("VG_EVENTS",
 	{
-		ON_PLAY: "onPlay",
-		ON_START_PLAYING: "onStartPlaying",
-		ON_PAUSE: "onPause",
-		ON_COMPLETE: "onComplete",
-		ON_SET_STATE: "onSetState",
-		ON_SET_VOLUME: "onSetVolume",
-		ON_TOGGLE_FULLSCREEN: "onToggleFullscreen",
-		ON_ENTER_FULLSCREEN: "onEnterFullscreen",
-		ON_EXIT_FULLSCREEN: "onExitFullscreen",
-		ON_BUFFERING: "onBuffering",
-		ON_UPDATE_TIME: "onUpdateTime",
-		ON_SEEK_TIME: "onSeekTime",
-		ON_UPDATE_SIZE: "onUpdateSize",
-		ON_UPDATE_THEME: "onUpdateTheme",
-		ON_PLAYER_READY: "onPlayerReady"
+		ON_PLAY: "onVgPlay",
+		ON_PAUSE: "onVgPause",
+		ON_PLAY_PAUSE: "onVgPlayPause",
+		ON_START_PLAYING: "onVgStartPlaying",
+		ON_COMPLETE: "onVgComplete",
+		ON_SET_STATE: "onVgSetState",
+		ON_SET_VOLUME: "onVgSetVolume",
+		ON_TOGGLE_FULLSCREEN: "onVgToggleFullscreen",
+		ON_ENTER_FULLSCREEN: "onVgEnterFullscreen",
+		ON_EXIT_FULLSCREEN: "onVgExitFullscreen",
+		ON_BUFFERING: "onVgBuffering",
+		ON_UPDATE_TIME: "onVgUpdateTime",
+		ON_SEEK_TIME: "onVgSeekTime",
+		ON_UPDATE_SIZE: "onVgUpdateSize",
+		ON_UPDATE_THEME: "onVgUpdateTheme",
+		ON_PLAYER_READY: "onVgPlayerReady"
 	}
 );
 
@@ -150,25 +167,38 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS) {
 					function onSetVolume(target, params) {
 						videoElement[0].volume = params[0];
 						localStorage["vgVolume"] = params[0];
+						scope.$apply();
 					}
 
-					function onPlay() {
-						playVideo(videoElement[0]);
-					}
-
-					function playVideo(videoElement) {
-						if (videoElement.paused) {
-							videoElement.play();
+					function onPlayPause(event) {
+						if (videoElement[0].paused) {
+							videoElement[0].play();
 							setState(VG_STATES.PLAY);
 						}
 						else {
-							videoElement.pause();
+							videoElement[0].pause();
 							setState(VG_STATES.PAUSE);
 						}
 					}
 
+					function onPlay(event) {
+						videoElement[0].play();
+						setState(VG_STATES.PLAY);
+					}
+
+					function onPause(event) {
+						videoElement[0].pause();
+						setState(VG_STATES.PAUSE);
+					}
+
 					function onStartBuffering(event){
 						scope.$emit(VG_EVENTS.ON_BUFFERING);
+						scope.$apply();
+					}
+
+					function onComplete(event){
+						setState(VG_STATES.STOP);
+						scope.$emit(VG_EVENTS.ON_COMPLETE);
 						scope.$apply();
 					}
 
@@ -184,6 +214,7 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS) {
 					function setState(newState) {
 						state = newState;
 						scope.$emit(VG_EVENTS.ON_SET_STATE, [state]);
+						scope.$apply();
 					}
 
 					function onUpdateSize(w, h) {
@@ -193,6 +224,7 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS) {
 					}
 
 					function onElementReady() {
+						scope.isPlayerReady = true;
 						scope.$emit(VG_EVENTS.ON_PLAYER_READY);
 						updateSize();
 					}
@@ -213,16 +245,20 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS) {
 
 					scope.videoElement = videoElement;
 					scope.videogularElement = elementScope;
+					scope.isPlayerReady = false;
 
 					elementScope[0].style.width = currentWidth;
 					elementScope[0].style.height = currentHeight;
 
 					videoElement[0].addEventListener("waiting", onStartBuffering, false);
+					videoElement[0].addEventListener("ended", onComplete, false);
 					videoElement[0].addEventListener("playing", onStartPlaying, false);
 					videoElement[0].addEventListener("timeupdate", onUpdateTime, false);
 
 					elementScope.ready(onElementReady);
 					scope.$on(VG_EVENTS.ON_PLAY, onPlay);
+					scope.$on(VG_EVENTS.ON_PAUSE, onPause);
+					scope.$on(VG_EVENTS.ON_PLAY_PAUSE, onPlayPause);
 					scope.$on(VG_EVENTS.ON_TOGGLE_FULLSCREEN, onToggleFullscreen);
 					scope.$on(VG_EVENTS.ON_SET_VOLUME, onSetVolume);
 					scope.$on(VG_EVENTS.ON_SEEK_TIME, onSeekTime);
@@ -325,14 +361,89 @@ videogular.directive("vgTheme", function(VG_EVENTS) {
 	}
 );
 
+videogular.directive("vgAutoplay", function(VG_EVENTS) {
+		return {
+			restrict: "A",
+			link: function (scope, elem, attrs) {
+				function onPlayerReady() {
+					if (autoplay) {
+						scope.$emit(VG_EVENTS.ON_PLAY);
+					}
+				}
+
+				function onPlay() {
+					if (onPlayerReadyListener) onPlayerReadyListener();
+					if (onPlayListener) onPlayListener();
+				}
+
+				var autoplay = (attrs.vgAutoplay === "true" || attrs.vgAutoplay === true);
+				var onPlayerReadyListener;
+				var onPlayListener;
+
+				// It doesn't make any sense to add a watcher here
+				if (autoplay) {
+					if (!scope.isPlayerReady) {
+						if (onPlayerReadyListener) onPlayerReadyListener();
+						onPlayerReadyListener = scope.$on(VG_EVENTS.ON_PLAYER_READY, onPlayerReady);
+						onPlayListener = scope.$on(VG_EVENTS.ON_PLAY, onPlay);
+					}
+					else {
+						onPlayerReady();
+					}
+				}
+			}
+		}
+	}
+);
+
 //Image poster in HTML5 video element
 videogular.directive("vgPoster", function () {
 		return {
 			restrict: "A",
 			link: function (scope, elem, attrs) {
-				scope.$watch(attrs.foejsPoster, function(value) {
-					scope.videoElement.attr("poster", attrs.vgPoster);
-				});
+				function updatePoster(value) {
+					scope.videoElement.attr("poster", value);
+				}
+
+				if (attrs.vgPoster.indexOf(".jpg") > 0 ||
+						attrs.vgPoster.indexOf(".jpeg") > 0 ||
+						attrs.vgPoster.indexOf(".png") > 0 ||
+						attrs.vgPoster.indexOf(".gif") > 0 ||
+						attrs.vgPoster.indexOf("/") > 0) {
+					updatePoster(attrs.vgPoster);
+				}
+				else {
+					scope.$watch(attrs.vgPoster, function(value) {
+						updatePoster(value);
+					});
+				}
+			}
+		}
+	}
+);
+
+
+//Image poster in HTML5 video element
+videogular.directive("vgSrc", function () {
+		return {
+			restrict: "A",
+			link: function (scope, elem, attrs) {
+				function updateSource(value) {
+					scope.videoElement.attr("src", value);
+				}
+
+				if (attrs.vgSrc.indexOf(".mp4") > 0 ||
+					attrs.vgSrc.indexOf(".ogg") > 0 ||
+					attrs.vgSrc.indexOf(".ogv") > 0 ||
+					attrs.vgSrc.indexOf(".webm") > 0 ||
+					attrs.vgSrc.indexOf("/") > 0) {
+					updateSource(attrs.vgSrc);
+				}
+				else {
+					scope.$watch(attrs.vgSrc, function(value) {
+						updateSource(value);
+					});
+				}
 			}
 		}
 	}

@@ -12,7 +12,10 @@ overLayPlayDirectives.directive("vgOverlayplay", function(VG_EVENTS, VG_STATES, 
 			link: function(scope, elem, attrs) {
 				function onPlayerReady(target, params) {
 					scope.overlayPlayIcon = VG_THEMES.PLAY;
-					scope.$apply();
+				}
+
+				function onComplete(target, params) {
+					scope.overlayPlayIcon = VG_THEMES.PLAY;
 				}
 
 				function onUpdateSize(target, params) {
@@ -20,7 +23,7 @@ overLayPlayDirectives.directive("vgOverlayplay", function(VG_EVENTS, VG_STATES, 
 				}
 
 				function onClickOverlayPlay($event) {
-					scope.$emit(VG_EVENTS.ON_PLAY);
+					scope.$emit(VG_EVENTS.ON_PLAY_PAUSE);
 				}
 
 				function onChangeState(target, params) {
@@ -37,8 +40,6 @@ overLayPlayDirectives.directive("vgOverlayplay", function(VG_EVENTS, VG_STATES, 
 							scope.overlayPlayIcon = VG_THEMES.PLAY;
 							break;
 					}
-
-					scope.$apply();
 				}
 
 				scope.overlayPlayIcon = "";
@@ -47,6 +48,7 @@ overLayPlayDirectives.directive("vgOverlayplay", function(VG_EVENTS, VG_STATES, 
 
 				scope.$on(VG_EVENTS.ON_SET_STATE, onChangeState);
 				scope.$on(VG_EVENTS.ON_PLAYER_READY, onPlayerReady);
+				scope.$on(VG_EVENTS.ON_COMPLETE, onComplete);
 			}
 		}
 	}

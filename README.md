@@ -38,8 +38,9 @@ With Videogular you can write your own plugins through a simple API based in eve
 ## API Events
 
 - **VG_EVENTS.ON_PLAY**: Triggered when video plays.
-- **VG_EVENTS.ON_START_PLAYING**: Triggered when video starts playing after buffer.
 - **VG_EVENTS.ON_PAUSE**: Triggered when video is paused.
+- **VG_EVENTS.ON_PLAY_PAUSE**: Triggered when play/pause video state toggles.
+- **VG_EVENTS.ON_START_PLAYING**: Triggered when video starts playing after buffer.
 - **VG_EVENTS.ON_COMPLETE**: Triggered when video is completed
 - **VG_EVENTS.ON_SET_STATE**: Triggered when state changes. Possible values could be "play", "pause" or "stop".
 - **VG_EVENTS.ON_SET_VOLUME**: Triggered when volume changes.
