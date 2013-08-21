@@ -33,11 +33,6 @@ controllerModule.controller("MainController", ["$scope", function (scope) {
 		"poster": "assets/images/oceans-clip.png",
 		"autoHide": false,
 		"autoPlay": false,
-		"theme": "themes/default/videogular.css",
-		"media": [
-			{"type": "video/mp4", "url": "assets/videos/oceans-clip.mp4"},
-			{"type": "video/webm", "url": "assets/videos/oceans-clip.webm"},
-			{"type": "video/ogg", "url": "assets/videos/oceans-clip.ogv"}
-		]
+		"theme": "themes/default/videogular.css"
 	};
 }]);

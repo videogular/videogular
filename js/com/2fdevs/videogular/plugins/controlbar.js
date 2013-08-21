@@ -117,7 +117,7 @@ controlBarPluginDirectives.directive("vgControls", function($timeout, VG_EVENTS,
 
 controlBarPluginDirectives.directive("vgPlaypausebutton", function(VG_EVENTS, VG_STATES, VG_THEMES){
 		return {
-			restrict: "E",
+			restrict: "AE",
 			template: "<div class='iconButton' ng-bind-html='playPauseIcon'></div>",
 			link: function(scope, elem, attrs) {
 				function onClickPlayPause($event) {
@@ -196,7 +196,7 @@ controlBarPluginDirectives.directive("vgTimedisplay", function(VG_EVENTS, VG_UTI
 
 controlBarPluginDirectives.directive("vgScrubbar", function(VG_EVENTS, VG_STATES, VG_UTILS){
 		return {
-			restrict: "E",
+			restrict: "AE",
 			replace: true,
 			link: function(scope, elem, attrs) {
 				function onScrubBarMouseDown($event) {
@@ -284,24 +284,29 @@ controlBarPluginDirectives.directive("vgScrubbarcurrenttime", function(VG_EVENTS
 	}
 );
 
-controlBarPluginDirectives.directive("vgVolume", function() {
+controlBarPluginDirectives.directive("vgVolume", function(VG_UTILS) {
 		return {
-			restrict: "E",
+			restrict: "AE",
 			link: function(scope, elem, attrs) {
 				function onMouseOverVolume() {
-					volumeBar.css("visibility", "visible");
+					scope.volumeVisibility = "visible";
+					scope.$apply();
 				}
 
 				function onMouseLeaveVolume() {
-					volumeBar.css("visibility", "hidden");
+					scope.volumeVisibility = "hidden";
+					scope.$apply();
 				}
 
-				// Must be visibility hidden or Firefox and IE will return offsetHeight 0
-				var volumeBar = angular.element(elem).find("vg-volumebar");
-				if (volumeBar[0]) {
+				// We hide volume controls on mobile devices
+				if (VG_UTILS.isMobileDevice()) {
+					elem.css("display", "none");
+				}
+				else {
+					scope.volumeVisibility = "hidden";
+
 					elem.bind("mouseover", onMouseOverVolume);
 					elem.bind("mouseleave", onMouseLeaveVolume);
-					volumeBar.css("visibility", "hidden");
 				}
 			}
 		}
@@ -310,7 +315,7 @@ controlBarPluginDirectives.directive("vgVolume", function() {
 
 controlBarPluginDirectives.directive("vgVolumebar", function(VG_EVENTS, VG_UTILS) {
 		return {
-			restrict: "E",
+			restrict: "AE",
 			template:
 				"<div class='verticalVolumeBar'>" +
 					"<div class='volumeBackground'>" +
@@ -362,9 +367,17 @@ controlBarPluginDirectives.directive("vgVolumebar", function(VG_EVENTS, VG_UTILS
 					updateVolumeView(params[0] * 100);
 				}
 
+				function onChangeVisibility(value) {
+					elem.css("visibility", scope.volumeVisibility);
+				}
+
 				var isChangingVolume = false;
 				var volumeBackElem = angular.element(elem[0].getElementsByClassName("volumeBackground"));
 				var volumeValueElem = angular.element(elem[0].getElementsByClassName("volumeValue"));
+
+				elem.css("visibility", scope.volumeVisibility);
+
+				scope.$watch("volumeVisibility", onChangeVisibility);
 
 				volumeBackElem.bind("click", onClickVolume);
 				volumeBackElem.bind("mousedown", onMouseDownVolume);
@@ -380,7 +393,7 @@ controlBarPluginDirectives.directive("vgVolumebar", function(VG_EVENTS, VG_UTILS
 
 controlBarPluginDirectives.directive("vgMutebutton", function(VG_EVENTS, VG_THEMES) {
 		return {
-			restrict: "E",
+			restrict: "AE",
 			template: "<div class='iconButton' ng-bind-html='muteIcon'></div>",
 			link: function(scope, elem, attrs) {
 				function onClickMute($event) {
@@ -447,7 +460,7 @@ controlBarPluginDirectives.directive("vgMutebutton", function(VG_EVENTS, VG_THEM
 
 controlBarPluginDirectives.directive("vgFullscreenbutton", function(VG_EVENTS, VG_THEMES){
 		return {
-			restrict: "E",
+			restrict: "AE",
 			template: "<div class='iconButton' ng-bind-html='fullscreenIcon'></div>",
 			link: function(scope, elem, attrs) {
 				function onEnterFullScreen() {
@@ -461,8 +474,9 @@ controlBarPluginDirectives.directive("vgFullscreenbutton", function(VG_EVENTS, V
 				}
 
 
-				if (!screenfull.enabled) {
-					scope.css("display", "none");
+				if (!window.fullScreenAPI) {
+					var fullScreenButton = angular.element(elem[0]);
+					fullScreenButton.css("display", "none");
 				}
 				else {
 					scope.fullscreenIcon = VG_THEMES.ENTER_FULLSCREEN;

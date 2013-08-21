@@ -4,7 +4,7 @@ var overLayPlayDirectives = angular.module("com.2fdevs.videogular.plugins.overla
 
 overLayPlayDirectives.directive("vgOverlayplay", function(VG_EVENTS, VG_STATES, VG_THEMES){
 		return {
-			restrict: "E",
+			restrict: "AE",
 			template:
 				"<div class='overlayPlayContainer'>" +
 					"<div class='iconButton' ng-bind-html='overlayPlayIcon'></div>" +

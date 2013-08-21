@@ -1,6 +1,77 @@
 "use strict";
 var videogular = angular.module("com.2fdevs.videogular", ["ngSanitize"]);
 
+videogular.run(function(VG_UTILS) {
+		// Native fullscreen polyfill
+		var fullScreenAPI;
+		var APIs = {
+			w3: {
+				enabled: "fullscreenEnabled",
+				element: "fullscreenElement",
+				request: "requestFullscreen",
+				exit:    "exitFullscreen",
+				onchange: "fullscreenchange",
+				onerror:  "fullscreenerror"
+			},
+			newWebkit: {
+				enabled: "webkitFullscreenEnabled",
+				element: "webkitFullscreenElement",
+				request: "webkitRequestFullscreen",
+				exit:    "webkitExitFullscreen",
+				onchange: "webkitfullscreenchange",
+				onerror:  "webkitfullscreenerror"
+			},
+			oldWebkit: {
+				enabled: "webkitIsFullScreen",
+				element: "webkitCurrentFullScreenElement",
+				request: "webkitRequestFullScreen",
+				exit:    "webkitCancelFullScreen",
+				onchange: "webkitfullscreenchange",
+				onerror:  "webkitfullscreenerror"
+			},
+			moz: {
+				enabled: "mozFullScreen",
+				element: "mozFullScreenElement",
+				request: "mozRequestFullScreen",
+				exit:    "mozCancelFullScreen",
+				onchange: "mozfullscreenchange",
+				onerror:  "mozfullscreenerror"
+			},
+			ios: {
+				enabled: "webkitFullscreenEnabled",
+				element: "webkitFullscreenElement",
+				request: "webkitEnterFullscreen",
+				exit: undefined,
+				onexit: "webkitendfullscreen",
+				onloadedmetadata: "loadedmetadata",
+				onchange: "webkitfullscreenchange",
+				onerror:  "webkitfullscreenerror"
+			}
+		};
+
+		for (var browser in APIs) {
+			if (APIs[browser].enabled in document) {
+				fullScreenAPI = APIs[browser];
+				fullScreenAPI.isFullScreen = function () {
+					return (document[this.element] != null);
+				};
+
+				break;
+			}
+		}
+
+		// Override APIs on iOS
+		if (VG_UTILS.isiOSDevice()) {
+			fullScreenAPI = APIs.ios;
+			fullScreenAPI.isFullScreen = function () {
+				return (document[this.element] != null);
+			};
+		}
+
+		window.fullScreenAPI = fullScreenAPI;
+	}
+);
+
 videogular.service("VG_UTILS", function() {
 		/**
 		 * Calculate word dimensions for given text using HTML elements.
@@ -60,6 +131,14 @@ videogular.service("VG_UTILS", function() {
 
 			return $event;
 		};
+
+		this.isMobileDevice = function() {
+			return (typeof window.orientation !== "undefined");
+		};
+
+		this.isiOSDevice = function() {
+			return (navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/iPad/i));
+		};
 	}
 );
 
@@ -106,36 +185,17 @@ videogular.constant("VG_EVENTS",
 	}
 );
 
-videogular.directive("videogular", function(VG_STATES, VG_EVENTS) {
+videogular.directive("videogular", function(VG_STATES, VG_EVENTS, VG_UTILS) {
 		return {
 			restrict: "AE",
 			link: {
 				pre: function (scope, elem, attrs) {
-					screenfull.onchange = function()
-					{
-						var w = currentWidth;
-						var h = currentHeight;
-
-						if (screenfull.isFullscreen) {
-							w = screen.width;
-							h = screen.height;
-							scope.$emit(VG_EVENTS.ON_ENTER_FULLSCREEN);
-						}
-						else {
-							scope.$emit(VG_EVENTS.ON_EXIT_FULLSCREEN);
-						}
-
-						updateSize();
-						scope.$apply();
-					};
-
 					function updateSize()
 					{
 						var w = currentWidth;
 						var h = currentHeight;
 
-						//TODO: We should change video position on controlbar, not here
-						if (screenfull.isFullscreen)
+						if (window.fullScreenAPI && window.fullScreenAPI.isFullScreen())
 						{
 							w = window.screen.width;
 							h = window.screen.height;
@@ -161,7 +221,37 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS) {
 					}
 
 					function onToggleFullscreen($event) {
-						screenfull.toggle(elementScope[0]);
+						if (window.fullScreenAPI.isFullScreen()) {
+							if (!VG_UTILS.isMobileDevice()) {
+								document[window.fullScreenAPI.exit]();
+							}
+						}
+						else {
+							// On mobile devices we should make fullscreen only the video object
+							if (VG_UTILS.isMobileDevice()) {
+								// On iOS we should check if user pressed before fullscreen button
+								// and also if metadata is loaded
+								if (VG_UTILS.isiOSDevice()) {
+									if (isMetaDataLoaded) {
+										enterElementInFullScreen(videoElement[0]);
+									}
+									else {
+										isFullScreenPressed = true;
+										onPlay(null);
+									}
+								}
+								else {
+									enterElementInFullScreen(videoElement[0]);
+								}
+							}
+							else {
+								enterElementInFullScreen(elementScope[0]);
+							}
+						}
+					}
+
+					function enterElementInFullScreen(element) {
+						element[window.fullScreenAPI.request]();
 					}
 
 					function onSetVolume(target, params) {
@@ -203,7 +293,7 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS) {
 					}
 
 					function onStartPlaying(event){
-						//Chrome fix: Chrome needs to update the video tag size or it will show a white screen
+						// Chrome fix: Chrome needs to update the video tag size or it will show a white screen
 						event.target.width++;
 						event.target.width--;
 
@@ -229,6 +319,32 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS) {
 						updateSize();
 					}
 
+					function onFullScreenChange(event) {
+						var w = currentWidth;
+						var h = currentHeight;
+
+						if (window.fullScreenAPI.isFullScreen()) {
+							w = screen.width;
+							h = screen.height;
+							scope.$emit(VG_EVENTS.ON_ENTER_FULLSCREEN);
+						}
+						else {
+							scope.$emit(VG_EVENTS.ON_EXIT_FULLSCREEN);
+						}
+
+						updateSize();
+						scope.$apply();
+					}
+
+					function onLoadedMetaData() {
+						isMetaDataLoaded = true;
+
+						if (isFullScreenPressed) {
+							enterElementInFullScreen(videoElement[0]);
+							isFullScreenPressed = false;
+						}
+					}
+
 					scope.onChangeWidth = function (value) {
 						onUpdateSize(value, currentHeight);
 					};
@@ -242,6 +358,8 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS) {
 					var currentWidth = attrs.width + "px";
 					var currentHeight = attrs.height + "px";
 					var state = VG_STATES.STOP;
+					var isFullScreenPressed = false;
+					var isMetaDataLoaded = false;
 
 					scope.videoElement = videoElement;
 					scope.videogularElement = elementScope;
@@ -255,7 +373,17 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS) {
 					videoElement[0].addEventListener("playing", onStartPlaying, false);
 					videoElement[0].addEventListener("timeupdate", onUpdateTime, false);
 
+					// If we are on iOS we add a listener to check when the metadata is loaded
+					if (VG_UTILS.isiOSDevice()) {
+						videoElement[0].addEventListener(window.fullScreenAPI.onloadedmetadata, onLoadedMetaData);
+					}
+
+					if (window.fullScreenAPI) {
+						document.addEventListener(window.fullScreenAPI.onchange, onFullScreenChange);
+					}
+
 					elementScope.ready(onElementReady);
+
 					scope.$on(VG_EVENTS.ON_PLAY, onPlay);
 					scope.$on(VG_EVENTS.ON_PAUSE, onPause);
 					scope.$on(VG_EVENTS.ON_PLAY_PAUSE, onPlayPause);
@@ -396,7 +524,7 @@ videogular.directive("vgAutoplay", function(VG_EVENTS) {
 	}
 );
 
-//Image poster in HTML5 video element
+// Image poster in HTML5 video element
 videogular.directive("vgPoster", function () {
 		return {
 			restrict: "A",
@@ -415,33 +543,6 @@ videogular.directive("vgPoster", function () {
 				else {
 					scope.$watch(attrs.vgPoster, function(value) {
 						updatePoster(value);
-					});
-				}
-			}
-		}
-	}
-);
-
-
-//Image poster in HTML5 video element
-videogular.directive("vgSrc", function () {
-		return {
-			restrict: "A",
-			link: function (scope, elem, attrs) {
-				function updateSource(value) {
-					scope.videoElement.attr("src", value);
-				}
-
-				if (attrs.vgSrc.indexOf(".mp4") > 0 ||
-					attrs.vgSrc.indexOf(".ogg") > 0 ||
-					attrs.vgSrc.indexOf(".ogv") > 0 ||
-					attrs.vgSrc.indexOf(".webm") > 0 ||
-					attrs.vgSrc.indexOf("/") > 0) {
-					updateSource(attrs.vgSrc);
-				}
-				else {
-					scope.$watch(attrs.vgSrc, function(value) {
-						updateSource(value);
 					});
 				}
 			}
