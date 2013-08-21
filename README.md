@@ -4,7 +4,17 @@ Videogular is an HTML5 video player for AngularJS. Videogular is a wrapper over 
 
 You could see a demo here: http://twofuckingdevelopers.com/examples/videogular/examples/
 
-**Videogular is currently under development** and now it's not working on iOS but we plan to provide support for all major platforms.
+**Videogular is currently under development** and now we have a few CSS problems on IE10.
+
+## Why Videogular?
+
+We're developing Videogular focusing on mobile devices and HTML5 video special capabilities. With Videogular you will have features like:
+
+* **Bindable properties**: Videogular's directives are bindable, just [try the demo] (http://twofuckingdevelopers.com/examples/videogular/examples/) and play with bindings.
+* **Extendable through plugins**: Thanks to our API you can develop your own plugins.
+* **Theme based**: Customize it with your own themes and change between them on the fly.
+* **Native fullscreen support**: Enjoy with native fullscreen support for Chrome, Firefox, Safari, iOS and Chrome for Android.
+* **Mobile first**: Videogular can detect mobile devices to show/hide components in case that aren't supported.
 
 ## How to use Videogular
 
@@ -37,20 +47,20 @@ With Videogular you can write your own plugins through a simple API based in eve
 
 ## API Events
 
-- **VG_EVENTS.ON_PLAY**: Triggered when video plays.
-- **VG_EVENTS.ON_PAUSE**: Triggered when video is paused.
-- **VG_EVENTS.ON_PLAY_PAUSE**: Triggered when play/pause video state toggles.
-- **VG_EVENTS.ON_START_PLAYING**: Triggered when video starts playing after buffer.
-- **VG_EVENTS.ON_COMPLETE**: Triggered when video is completed
-- **VG_EVENTS.ON_SET_STATE**: Triggered when state changes. Possible values could be "play", "pause" or "stop".
-- **VG_EVENTS.ON_SET_VOLUME**: Triggered when volume changes.
-- **VG_EVENTS.ON_TOGGLE_FULLSCREEN**: Triggered when fullscreen changes.
-- **VG_EVENTS.ON_ENTER_FULLSCREEN**: Triggered when video enters in fullscreen.
-- **VG_EVENTS.ON_EXIT_FULLSCREEN**: Triggered when video exits from fullscreen.
-- **VG_EVENTS.ON_BUFFERING**: Triggered when video is buffering.
-- **VG_EVENTS.ON_UPDATE_TIME**: Triggered when video progress updates.
-- **VG_EVENTS.ON_UPDATE_SIZE**: Triggered when video size updates.
-- **VG_EVENTS.ON_PLAYER_READY**: Triggered when DOM elements are ready. Very useful to initialize plugins.
+* **VG_EVENTS.ON_PLAY**: Triggered when video plays.
+* **VG_EVENTS.ON_PAUSE**: Triggered when video is paused.
+* **VG_EVENTS.ON_PLAY_PAUSE**: Triggered when play/pause video state toggles.
+* **VG_EVENTS.ON_START_PLAYING**: Triggered when video starts playing after buffer.
+* **VG_EVENTS.ON_COMPLETE**: Triggered when video is completed
+* **VG_EVENTS.ON_SET_STATE**: Triggered when state changes. Possible values could be "play", "pause" or "stop".
+* **VG_EVENTS.ON_SET_VOLUME**: Triggered when volume changes.
+* **VG_EVENTS.ON_TOGGLE_FULLSCREEN**: Triggered when fullscreen changes.
+* **VG_EVENTS.ON_ENTER_FULLSCREEN**: Triggered when video enters in fullscreen.
+* **VG_EVENTS.ON_EXIT_FULLSCREEN**: Triggered when video exits from fullscreen.
+* **VG_EVENTS.ON_BUFFERING**: Triggered when video is buffering.
+* **VG_EVENTS.ON_UPDATE_TIME**: Triggered when video progress updates.
+* **VG_EVENTS.ON_UPDATE_SIZE**: Triggered when video size updates.
+* **VG_EVENTS.ON_PLAYER_READY**: Triggered when DOM elements are ready. Very useful to initialize plugins.
 
 ## Plugin example
 
