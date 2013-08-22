@@ -8,7 +8,7 @@ You could see a demo here: http://twofuckingdevelopers.com/examples/videogular/e
 
 ## Why Videogular?
 
-We're developing Videogular focusing on mobile devices and HTML5 video special capabilities. With Videogular you will have features like:
+We're developing Videogular focusing on mobile devices and HTML5 video special capabilities. Videogular brings to you this key features:
 
 * **Bindable properties**: Videogular's directives are bindable, just [try the demo] (http://twofuckingdevelopers.com/examples/videogular/examples/) and play with bindings.
 * **Extendable through plugins**: Thanks to our API you can develop your own plugins.
