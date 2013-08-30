@@ -429,7 +429,7 @@ videogular.directive("vgHeight", function() {
 					scope.onChangeHeight(value);
 				}
 
-				if (attrs.vgWidth) {
+				if (attrs.vgHeight) {
 					// Watch for a model
 					if (isNaN(parseInt(attrs.vgHeight))) {
 						scope.$watch(attrs.vgHeight, function(value) {
