@@ -8,11 +8,11 @@
     <div class="container" ng-controller="MainController">
         <div>
             <h1>Videogular player configurator</h1>
-            <div videogular vg-width="data.width" vg-height="data.height" vg-theme="data.theme" vg-autoplay="data.autoPlay" ng-cloack>
+            <div videogular vg-width="data.width" vg-height="data.height" vg-theme="data.theme" vg-autoplay="data.autoPlay" ng-cloak>
                 <div vg-buffering></div>
                 <div vg-overlayPlay></div>
 
-                <div vg-controls vg-autohide="data.autoHide">
+                <div vg-controls vg-autohide="data.autoHide" style="height: 50px;">
                     <div vg-playpauseButton></div>
                     <div vg-timeDisplay>{{ currentTime }}</div>
                     <div vg-scrubBar>

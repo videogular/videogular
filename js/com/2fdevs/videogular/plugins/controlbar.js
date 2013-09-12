@@ -35,7 +35,7 @@ controlBarPluginDirectives.directive("vgControls", function($timeout, VG_EVENTS,
 					w = params[0];
 					h = params[1];
 
-					controlBarHeight = elem[0].clientHeight;
+					controlBarHeight = elem.css("height");
 
 					TweenLite.killTweensOf(elem);
 					isShowing = false;
@@ -176,18 +176,11 @@ controlBarPluginDirectives.directive("vgTimedisplay", function(VG_EVENTS, VG_UTI
 					scope.totalTime = mins + ":" + secs;
 				}
 
-				function onPlayerReady() {
-					//TODO: This is ugly... maybe there's a better way to change width through CSS
-					var dimensions = VG_UTILS.calculateWordDimensions(elem[0].textContent, ["vgTimeDisplay"]);
-					elem.css("width", dimensions.width + 20 + "px");
-				}
-
 				scope.currentTime = "00:00";
 				scope.totalTime = "00:00";
 
 				scope.$on(VG_EVENTS.ON_START_PLAYING, onStartPlaying);
 				scope.$on(VG_EVENTS.ON_UPDATE_TIME, onUpdateTime);
-				scope.$on(VG_EVENTS.ON_PLAYER_READY, onPlayerReady);
 				scope.$on(VG_EVENTS.ON_COMPLETE, onComplete);
 			}
 		}

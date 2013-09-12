@@ -73,49 +73,6 @@ videogular.run(function(VG_UTILS) {
 );
 
 videogular.service("VG_UTILS", function() {
-		/**
-		 * Calculate word dimensions for given text using HTML elements.
-		 * Optionally classes can be added to calculate with a specific style / layout.
-		 *
-		 * Solution provided by:
-		 * http://blog.bripkens.de/2011/06/html-javascript-calculate-text-dimensions/
-		 *
-		 * @method calculateWordDimensions
-		 * @param {String} text The word for which you would like to know the dimensions.
-		 * @param {String[]} [classes] An array of strings which represent css classes which should be applied to the DIV which is used for the calculation of word dimensions.
-		 * @param {Boolean} [escape] Whether or not the word should be escaped. Defaults to true.
-		 * @return {Object} An object with width and height properties.
-		 */
-		this.calculateWordDimensions = function(text, classes, escape) {
-			classes = classes || [];
-
-			if (escape === undefined) {
-				escape = true;
-			}
-
-			classes.push('textDimensionCalculation');
-
-			var div = document.createElement('div');
-			div.setAttribute('class', classes.join(' '));
-
-			if (escape) {
-				angular.element(div).text(text);
-			} else {
-				div.innerHTML = text;
-			}
-
-			document.body.appendChild(div);
-
-			var dimensions = {
-				width : angular.element(div).prop("offsetWidth"),
-				height : angular.element(div).prop("offsetHeight")
-			};
-
-			div.parentNode.removeChild(div);
-
-			return dimensions;
-		};
-
 		this.fixEventOffset = function($event) {
 			/**
 			 * There's no offsetX in Firefox, so we fix that.
@@ -124,7 +81,7 @@ videogular.service("VG_UTILS", function() {
 			 * @param $event
 			 * @returns {*}
 			 */
-			if (!$event.hasOwnProperty('offsetX') || !$event.hasOwnProperty('offsetY')) {
+			if (navigator.userAgent.match(/Firefox/i)) {
 				$event.offsetX = $event.layerX - $event.currentTarget.offsetLeft;
 				$event.offsetY = $event.layerY;
 			}

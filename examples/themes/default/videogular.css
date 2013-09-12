@@ -151,7 +151,7 @@
 	display: table-cell;
 	font-family: Arial;
 	font-size: 18px;
-	width: 125px;
+	width: 75px;
 	vertical-align: middle;
 	text-align: center;
 	cursor: default;
@@ -195,6 +195,15 @@
 	text-align: center;
 	position: absolute;
 	cursor: pointer;
+}
+
+/* IE10 hack */
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+	[vg-volumebar], vg-volumebar {
+		zoom: 1;
+		filter: alpha(opacity=50);
+		opacity: 0.5;
+	}
 }
 
 [vg-fullscreenButton], vg-fullscreenButton {
