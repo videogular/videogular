@@ -4,8 +4,6 @@ Videogular is an HTML5 video player for AngularJS. Videogular is a wrapper over 
 
 You could see a demo here: http://twofuckingdevelopers.com/examples/videogular/examples/
 
-**Videogular is currently under development** and now we have a few CSS problems on IE10.
-
 ## Why Videogular?
 
 We're developing Videogular focusing on mobile devices and HTML5 video special capabilities. Videogular brings to you this key features:
@@ -94,7 +92,7 @@ To add a plugin just add your directives to your HTML. This is an example of a V
     <vg-overlayPlay></vg-overlayPlay>
     <vg-myplugin></vg-myplugin>
 
-    <vg-controls vg-autohide="false">
+    <vg-controls vg-autohide="false" style="height: 50px;">
         <vg-playpauseButton></vg-playpauseButton>
         <vg-timeDisplay>{{ currentTime }}</vg-timeDisplay>
         <vg-scrubBar>
@@ -121,7 +119,7 @@ Because AngularJS is so cool, you could just remove or add any directive and the
     <vg-buffering></vg-buffering>
     <vg-overlayPlay></vg-overlayPlay>
 
-    <vg-controls vg-autohide="false">
+    <vg-controls vg-autohide="false" style="height: 50px;">
         <vg-playpauseButton></vg-playpauseButton>
         <vg-scrubBar>
             <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
@@ -188,3 +186,9 @@ If you pass a String with ".css" inside it loads and injects the CSS on the HTML
 ```
 
 To change and create your own themes should be very easy just modifying `examples/css/videogular.css` file.
+
+## Credits
+
+Videogular is an open source project maintained by (literally) [two fucking developers] (http://twofuckingdevelopers.com/).
+
+We want to thank all our contributors: [Raúl Jiménez] (https://github.com/Elecash), [Robert Zhang] (https://github.com/rogerz) and [our bug submitters] (https://github.com/2fdevs/videogular/issues?state=open).
