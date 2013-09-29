@@ -40,6 +40,8 @@ overLayPlayDirectives.directive("vgOverlayplay", function(VG_EVENTS, VG_STATES, 
 							scope.overlayPlayIcon = VG_THEMES.PLAY;
 							break;
 					}
+
+					scope.$apply();
 				}
 
 				scope.overlayPlayIcon = "";

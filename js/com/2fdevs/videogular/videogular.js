@@ -138,7 +138,8 @@ videogular.constant("VG_EVENTS",
 		ON_SEEK_TIME: "onVgSeekTime",
 		ON_UPDATE_SIZE: "onVgUpdateSize",
 		ON_UPDATE_THEME: "onVgUpdateTheme",
-		ON_PLAYER_READY: "onVgPlayerReady"
+		ON_PLAYER_READY: "onVgPlayerReady",
+		ON_LOAD_POSTER: "onVgLoadPoster"
 	}
 );
 
@@ -220,11 +221,11 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS, VG_UTILS) {
 					function onPlayPause(event) {
 						if (videoElement[0].paused) {
 							videoElement[0].play();
-							setState(VG_STATES.PLAY);
+							scope.$emit(VG_EVENTS.ON_PLAY);
 						}
 						else {
 							videoElement[0].pause();
-							setState(VG_STATES.PAUSE);
+							scope.$emit(VG_EVENTS.ON_PAUSE);
 						}
 					}
 

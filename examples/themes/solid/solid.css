@@ -221,3 +221,31 @@
 	height: 100%;
 	position: absolute;
 }
+
+
+/*****************/
+/* Poster plugin */
+/*****************/
+[vg-poster-image], vg-poster-image {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+
+[vg-poster-image] img, vg-poster-image img, [vg-poster-image] img.none, vg-poster-image img.none {
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	margin: auto;
+	position: absolute;
+}
+
+[vg-poster-image] img.fit, vg-poster-image img.fit {
+	width: 100%;
+}
+
+[vg-poster-image] img.fill, vg-poster-image img.fill {
+	width: 100%;
+	height: 100%;
+}

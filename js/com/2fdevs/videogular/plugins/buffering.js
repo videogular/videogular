@@ -2,9 +2,9 @@
 // ControlBar plugin
 var bufferingDirectives = angular.module("com.2fdevs.videogular.plugins.buffering", []);
 
-bufferingDirectives.directive("vgBuffering", function(VG_EVENTS, VG_THEMES){
+bufferingDirectives.directive("vgBuffering", function(VG_EVENTS){
 		return {
-			restrict: "E",
+			restrict: "AE",
 			template:
 				"<div class='bufferingContainer'>" +
 					"<div class='loadingSpinner stop'></div>" +

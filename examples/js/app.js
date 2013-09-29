@@ -7,7 +7,8 @@ var videogularApp = angular.module("videogularApp",
 		"com.2fdevs.videogular",
 		"com.2fdevs.videogular.plugins.controlbar",
 		"com.2fdevs.videogular.plugins.overlayplay",
-		"com.2fdevs.videogular.plugins.buffering"
+		"com.2fdevs.videogular.plugins.buffering",
+		"com.2fdevs.videogular.plugins.poster"
 	]
 );
 
@@ -30,9 +31,24 @@ controllerModule.controller("MainController", ["$scope", function (scope) {
 	scope.data = {
 		"width": 640,
 		"height": 264,
-		"poster": "assets/images/oceans-clip.png",
 		"autoHide": false,
 		"autoPlay": false,
-		"theme": "themes/default/videogular.css"
+		"themes": [
+			{label: "Default", url: "themes/default/videogular.css"},
+			{label: "Solid", url: "themes/solid/solid.css"}
+		],
+		"plugins": {
+			"poster": {
+				"url": "assets/images/oceans-clip.png",
+				"stretchModes": [
+					{label: "None", value: "none"},
+					{label: "Fit", value: "fit"},
+					{label: "Fill", value: "fill"}
+				]
+			}
+		}
 	};
+
+	scope.theme = scope.data.themes[0];
+	scope.stretchMode = scope.data.plugins.poster.stretchModes[0];
 }]);
