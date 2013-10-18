@@ -89,6 +89,7 @@ videogular.service("VG_UTILS", function() {
 			return $event;
 		};
 
+		// Very simple mobile detection, not 100% reliable
 		this.isMobileDevice = function() {
 			return (typeof window.orientation !== "undefined");
 		};
@@ -148,23 +149,69 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS, VG_UTILS) {
 			restrict: "AE",
 			link: {
 				pre: function (scope, elem, attrs) {
-					function updateSize()
-					{
-						var w = currentWidth;
-						var h = currentHeight;
+					function getVideoSize(w, h) {
+						var percentageWidth;
+						var percentageHeight;
+						var result = {};
+						result.width = w;
+						result.height = h;
 
-						if (window.fullScreenAPI && window.fullScreenAPI.isFullScreen())
-						{
-							w = window.screen.width;
-							h = window.screen.height;
+						switch (currentStretch) {
+							case "fit":
+								percentageWidth = w * 100 / videoElement[0].videoWidth;
+								result.height = videoElement[0].videoHeight * percentageWidth / 100;
+								break;
+
+							case "fill":
+								percentageHeight = h * 100 / videoElement[0].videoHeight;
+								result.width = videoElement[0].videoWidth * percentageHeight / 100;
+								break;
+
+							case "none":
+								result.width = videoElement[0].videoWidth;
+								result.height = videoElement[0].videoHeight;
+								break;
 						}
 
-						elementScope.css("width", parseInt(w, 10) + "px");
-						elementScope.css("height", parseInt(h, 10) + "px");
-						videoElement.attr("width", parseInt(w, 10));
-						videoElement.attr("height", parseInt(h, 10));
+						return result;
+					}
 
-						scope.$emit(VG_EVENTS.ON_UPDATE_SIZE, [w, h]);
+					function updateSize()
+					{
+						var videoSize;
+						var playerWidth = currentWidth;
+						var playerHeight = currentHeight;
+						var videoTop;
+						var videoLeft;
+
+						if (window.fullScreenAPI && window.fullScreenAPI.isFullScreen()) {
+							elementScope.css("width", parseInt(window.screen.width, 10) + "px");
+							elementScope.css("height", parseInt(window.screen.height, 10) + "px");
+
+							videoSize = getVideoSize(window.screen.width, window.screen.height);
+
+							playerWidth = window.screen.width;
+							playerHeight = window.screen.height;
+						}
+						else {
+							elementScope.css("width", parseInt(currentWidth, 10) + "px");
+							elementScope.css("height", parseInt(currentHeight, 10) + "px");
+
+							videoSize = getVideoSize(currentWidth, currentHeight);
+						}
+
+						if (videoSize.width == 0) videoSize.width = currentWidth;
+						if (videoSize.height == 0) videoSize.height = currentHeight;
+
+						videoTop = (playerHeight - videoSize.height) / 2;
+						videoLeft = (playerWidth - videoSize.width) / 2;
+
+						videoElement.attr("width", parseInt(videoSize.width, 10));
+						videoElement.attr("height", parseInt(videoSize.height, 10));
+						videoElement.css("top", videoTop + "px");
+						videoElement.css("left", videoLeft + "px");
+
+						scope.$emit(VG_EVENTS.ON_UPDATE_SIZE, [playerWidth, playerHeight]);
 					}
 
 					function onSeekTime(target, params)
@@ -271,6 +318,11 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS, VG_UTILS) {
 						updateSize();
 					}
 
+					function onUpdateStretchMode(value) {
+						currentStretch = value;
+						updateSize();
+					}
+
 					function onElementReady() {
 						scope.isPlayerReady = true;
 						scope.$emit(VG_EVENTS.ON_PLAYER_READY);
@@ -278,12 +330,7 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS, VG_UTILS) {
 					}
 
 					function onFullScreenChange(event) {
-						var w = currentWidth;
-						var h = currentHeight;
-
 						if (window.fullScreenAPI.isFullScreen()) {
-							w = screen.width;
-							h = screen.height;
 							scope.$emit(VG_EVENTS.ON_ENTER_FULLSCREEN);
 						}
 						else {
@@ -311,10 +358,15 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS, VG_UTILS) {
 						onUpdateSize(currentWidth, value);
 					};
 
+					scope.onChangeStretchMode = function (value) {
+						onUpdateStretchMode(value);
+					};
+
 					var elementScope = angular.element(elem);
 					var videoElement = elementScope.find("video");
 					var currentWidth = attrs.width + "px";
 					var currentHeight = attrs.height + "px";
+					var currentStretch = "fit";
 					var state = VG_STATES.STOP;
 					var isFullScreenPressed = false;
 					var isMetaDataLoaded = false;
@@ -501,6 +553,29 @@ videogular.directive("vgPoster", function () {
 				else {
 					scope.$watch(attrs.vgPoster, function(value) {
 						updatePoster(value);
+					});
+				}
+			}
+		}
+	}
+);
+
+videogular.directive("vgVideoStretch", function() {
+		return {
+			restrict: "A",
+			link: function(scope, elem, attrs) {
+				function updateStretch(value) {
+					scope.onChangeStretchMode(value);
+				}
+
+				if (attrs.vgVideoStretch === "none" ||
+					attrs.vgVideoStretch === "fit" ||
+					attrs.vgVideoStretch === "fill") {
+					updateStretch(attrs.vgVideoStretch);
+				}
+				else {
+					scope.$watch(attrs.vgVideoStretch, function(value) {
+						updateStretch(value);
 					});
 				}
 			}

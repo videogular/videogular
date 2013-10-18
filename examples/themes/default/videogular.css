@@ -22,6 +22,10 @@
 	user-select: none;
 }
 
+[videogular] video {
+	position: absolute;
+}
+
 .iconButton {
 	color: #FFFFFF;
 	font-family: 'icomoon';
@@ -265,6 +269,6 @@
 }
 
 [vg-poster-image] img.fill, vg-poster-image img.fill {
-	width: 100%;
-	height: 100%;
+    /* left: is changed dynamically through javascript at poster.js */
+    height: 100%;
 }

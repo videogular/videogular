@@ -47,10 +47,18 @@ posterImageDirectives.directive("vgPosterImage", function(VG_EVENTS) {
 	}
 );
 
-posterImageDirectives.directive("vgStretch", function(VG_EVENTS) {
+posterImageDirectives.directive("vgPosterStretch", function(VG_EVENTS) {
 		return {
 			restrict: "A",
 			link: function(scope, elem, attrs) {
+				function onUpdateSize() {
+					if (currentStretch == "fill" && img.length > 0)
+					{
+						var leftPos = elem.width - img.width;
+						img.css("left", leftPos + "px");
+					}
+				}
+
 				function onPlayVideo() {
 					elem.css("display", "none");
 				}
@@ -64,29 +72,42 @@ posterImageDirectives.directive("vgStretch", function(VG_EVENTS) {
 				}
 
 				function updateStretch(value) {
-					var img;
-					img = angular.element(elem).find("img");
-
-					if (img.length > 0) {
+					if (img && img.length > 0) {
 						if (currentStretch) {
 							img.removeClass(currentStretch);
 						}
 
-						img.addClass(value);
-					}
+						currentStretch = value;
 
-					currentStretch = value;
+						img.addClass(value);
+
+						switch (currentStretch) {
+							case "fill":
+								//Center image horizontally. Ugly.
+								var leftPos = (elem[0].clientWidth - img[0].clientWidth) / 2;
+								img.css("left", leftPos + "px");
+								break;
+
+							default:
+								img.css("left", "0px");
+								break;
+						}
+					}
+					else {
+						img = angular.element(elem).find("img");
+					}
 				}
 
 				var currentStretch;
+				var img;
 
-				if (attrs.vgStretch === "none" ||
-					attrs.vgStretch === "fit" ||
-					attrs.vgStretch === "fill") {
-					updateStretch(attrs.vgStretch);
+				if (attrs.vgPosterStretch === "none" ||
+					attrs.vgPosterStretch === "fit" ||
+					attrs.vgPosterStretch === "fill") {
+					updateStretch(attrs.vgPosterStretch);
 				}
 				else {
-					scope.$watch(attrs.vgStretch, function(value) {
+					scope.$watch(attrs.vgPosterStretch, function(value) {
 						updateStretch(value);
 					});
 				}
@@ -94,6 +115,7 @@ posterImageDirectives.directive("vgStretch", function(VG_EVENTS) {
 				scope.$on(VG_EVENTS.ON_PLAY, onPlayVideo);
 				scope.$on(VG_EVENTS.ON_COMPLETE, onCompleteVideo);
 				scope.$on(VG_EVENTS.ON_LOAD_POSTER, onLoadPoster);
+				scope.$on(VG_EVENTS.ON_UPDATE_SIZE, onUpdateSize);
 			}
 		}
 	}

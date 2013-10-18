@@ -192,6 +192,38 @@ controlBarPluginDirectives.directive("vgScrubbar", function(VG_EVENTS, VG_STATES
 			restrict: "AE",
 			replace: true,
 			link: function(scope, elem, attrs) {
+				function onScrubBarTouchStart($event) {
+					if (VG_UTILS.isiOSDevice()) {
+						iOSTouchStartX = ($event.touches[0].clientX - $event.layerX) * -1;
+					}
+					else {
+						iOSTouchStartX = $event.layerX;
+					}
+
+					var touchX = $event.touches[0].clientX + iOSTouchStartX - $event.touches[0].target.offsetLeft;
+
+					isSeeking = true;
+					if (isPlaying) isPlayingWhenSeeking = true;
+					seekTime(touchX * scope.videoElement[0].duration / elem[0].scrollWidth);
+					scope.$emit(VG_EVENTS.ON_PAUSE);
+				}
+				function onScrubBarTouchEnd($event) {
+					if (isPlayingWhenSeeking) {
+						isPlayingWhenSeeking = false;
+						scope.$emit(VG_EVENTS.ON_PLAY);
+					}
+					isSeeking = false;
+				}
+				function onScrubBarTouchMove($event) {
+					if (isSeeking) {
+						var touchX = $event.touches[0].clientX + iOSTouchStartX - $event.touches[0].target.offsetLeft;
+						seekTime(touchX * scope.videoElement[0].duration / elem[0].scrollWidth);
+					}
+				}
+				function onScrubBarTouchLeave($event) {
+					isSeeking = false;
+				}
+
 				function onScrubBarMouseDown($event) {
 					$event = VG_UTILS.fixEventOffset($event);
 
@@ -244,13 +276,23 @@ controlBarPluginDirectives.directive("vgScrubbar", function(VG_EVENTS, VG_STATES
 				var isSeeking = false;
 				var isPlaying = false;
 				var isPlayingWhenSeeking = false;
+				var iOSTouchStartX = 0;
 
 				scope.$on(VG_EVENTS.ON_SET_STATE, onChangeState);
 
-				elem.bind("mousedown", onScrubBarMouseDown);
-				elem.bind("mouseup", onScrubBarMouseUp);
-				elem.bind("mousemove", onScrubBarMouseMove);
-				elem.bind("mouseleave", onScrubBarMouseLeave);
+				// Touch move is really buggy in Chrome for Android, maybe we could use mouse move that works ok
+				if (VG_UTILS.isMobileDevice()) {
+					elem.bind("touchstart", onScrubBarTouchStart);
+					elem.bind("touchend", onScrubBarTouchEnd);
+					elem.bind("touchmove", onScrubBarTouchMove);
+					elem.bind("touchleave", onScrubBarTouchLeave);
+				}
+				else {
+					elem.bind("mousedown", onScrubBarMouseDown);
+					elem.bind("mouseup", onScrubBarMouseUp);
+					elem.bind("mousemove", onScrubBarMouseMove);
+					elem.bind("mouseleave", onScrubBarMouseLeave);
+				}
 			}
 		}
 	}

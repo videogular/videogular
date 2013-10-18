@@ -50,5 +50,5 @@ controllerModule.controller("MainController", ["$scope", function (scope) {
 	};
 
 	scope.theme = scope.data.themes[0];
-	scope.stretchMode = scope.data.plugins.poster.stretchModes[0];
+	scope.stretchMode = scope.data.plugins.poster.stretchModes[1];
 }]);

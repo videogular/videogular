@@ -8,8 +8,14 @@
     <div class="container" ng-controller="MainController">
         <div>
             <h1>Videogular player configurator</h1>
-            <div videogular vg-width="data.width" vg-height="data.height" vg-theme="theme.url" vg-autoplay="data.autoPlay" ng-cloak>
-                <div vg-poster-image vg-url='data.plugins.poster.url' vg-stretch="stretchMode.value"></div>
+            <div videogular vg-width="data.width" vg-height="data.height" vg-theme="theme.url" vg-autoplay="data.autoPlay" vg-video-stretch="stretchMode.value">
+                <video class='videoPlayer' preload='metadata'>
+                    <source src="assets/videos/oceans-clip.mp4" type="video/mp4">
+                    <source src="assets/videos/oceans-clip.webm" type="video/webm">
+                    <source src="assets/videos/oceans-clip.ogv" type="video/ogg">
+                </video>
+
+                <div vg-poster-image vg-url='data.plugins.poster.url' vg-poster-stretch="stretchMode.value"></div>
                 <div vg-buffering></div>
                 <div vg-overlayPlay></div>
 
@@ -26,12 +32,6 @@
                     </div>
                     <div vg-fullscreenButton></div>
                 </div>
-
-                <video class='videoPlayer' preload='metadata'>
-                    <source src="assets/videos/oceans-clip.mp4" type="video/mp4">
-                    <source src="assets/videos/oceans-clip.webm" type="video/webm">
-                    <source src="assets/videos/oceans-clip.ogv" type="video/ogg">
-                </video>
             </div>
         </div>
 
