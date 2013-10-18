@@ -12,14 +12,14 @@ We're developing Videogular focusing on mobile devices and HTML5 video special c
 * **Extendable through plugins**: Thanks to our API you can develop your own plugins.
 * **Theme based**: Customize it with your own themes and change between them on the fly.
 * **Native fullscreen support**: Enjoy with native fullscreen support for Chrome, Firefox, Safari, iOS and Chrome for Android.
-* **Mobile first**: Videogular can detect mobile devices to show/hide components in case that aren't supported.
+* **Mobile support**: Videogular can detect mobile devices to show/hide components in case that aren't supported.
 
 ## How to use Videogular
 
 To start using Videogular, just create a `DIV` with the `videogular` attribute and the `video` tag inside. In AngularJS the HTML5 `poster` video attribute is not supported, so you could use `vg-poster` to add your image to your video tag. With `vg-width` and `vg-height` directives you could set an Integer value or a binding to a scope variable. You don't need to set a width and height to video tag, Videogular will do that for you.
 
 ```html
-<div videogular vg-width="width" vg-height="height">
+<div videogular vg-width="400" vg-height="300" vg-theme="themes/default/default.css">
 	<video class='videoPlayer' controls preload='none' vg-poster='assets/images/oceans-clip.png'>
 		<source src='assets/videos/oceans-clip.mp4' type='video/mp4'>
 		<source src='assets/videos/oceans-clip.webm' type='video/webm'>
@@ -31,7 +31,7 @@ To start using Videogular, just create a `DIV` with the `videogular` attribute a
 Because `videogular` is an HTML5 video player for AngularJS it works (obviously) with all AngularJS directives.
 
 ```html
-<div videogular vg-width="width" vg-height="height">
+<div videogular vg-width="400" vg-height="300" vg-theme="themes/default/default.css">
 	<video class='videoPlayer' preload='none' vg-poster='{{ data.poster }}'>
 		<source ng-repeat='media in data.media' ng-src='{{ media.url }}' type='{{ media.type }}'>
 	</video>
@@ -88,6 +88,10 @@ To add a plugin just add your directives to your HTML. This is an example of a V
 
 ```html
 <div videogular vg-width="400" vg-height="300">
+    <video class='videoPlayer' preload='none' vg-poster='{{ data.poster }}'>
+        <source ng-repeat='media in data.media' ng-src='{{ media.url }}' type='{{ media.type }}'>
+    </video>
+    
     <vg-buffering></vg-buffering>
     <vg-overlayPlay></vg-overlayPlay>
     <vg-myplugin></vg-myplugin>
@@ -105,10 +109,6 @@ To add a plugin just add your directives to your HTML. This is an example of a V
         </vg-volume>
         <vg-fullscreenButton></vg-fullscreenButton>
     </vg-controls>
-
-    <video class='videoPlayer' preload='none' vg-poster='{{ data.poster }}'>
-        <source ng-repeat='media in data.media' ng-src='{{ media.url }}' type='{{ media.type }}'>
-    </video>
 </div>
 ```
 
@@ -116,6 +116,10 @@ Because AngularJS is so cool, you could just remove or add any directive and the
 
 ```html
 <div videogular vg-width="400" vg-height="300">
+    <video class='videoPlayer' preload='none' vg-poster='{{ data.poster }}'>
+        <source ng-repeat='media in data.media' ng-src='{{ media.url }}' type='{{ media.type }}'>
+    </video>
+    
     <vg-buffering></vg-buffering>
     <vg-overlayPlay></vg-overlayPlay>
 
@@ -131,10 +135,6 @@ Because AngularJS is so cool, you could just remove or add any directive and the
         </vg-volume>
         <vg-fullscreenButton></vg-fullscreenButton>
     </vg-controls>
-
-    <video class='videoPlayer' preload='none' vg-poster='{{ data.poster }}'>
-        <source ng-repeat='media in data.media' ng-src='{{ media.url }}' type='{{ media.type }}'>
-    </video>
 </div>
 ```
 
