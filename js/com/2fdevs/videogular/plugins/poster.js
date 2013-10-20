@@ -9,6 +9,14 @@ posterImageDirectives.directive("vgPosterImage", function(VG_EVENTS) {
 				function updatePoster(value) {
 					posterImage.src = value;
 				}
+				
+				function onPlayVideo() {
+					elem.css("display", "none");
+				}
+
+				function onCompleteVideo() {
+					elem.css("display", "block");
+				}
 
 				function onLoadPosterImage() {
 					var img;
@@ -42,6 +50,9 @@ posterImageDirectives.directive("vgPosterImage", function(VG_EVENTS) {
 						updatePoster(value);
 					});
 				}
+				
+				scope.$on(VG_EVENTS.ON_PLAY, onPlayVideo);
+				scope.$on(VG_EVENTS.ON_COMPLETE, onCompleteVideo);
 			}
 		}
 	}
@@ -58,15 +69,7 @@ posterImageDirectives.directive("vgPosterStretch", function(VG_EVENTS) {
 						img.css("left", leftPos + "px");
 					}
 				}
-
-				function onPlayVideo() {
-					elem.css("display", "none");
-				}
-
-				function onCompleteVideo() {
-					elem.css("display", "block");
-				}
-
+				
 				function onLoadPoster() {
 					updateStretch(currentStretch);
 				}
@@ -112,8 +115,6 @@ posterImageDirectives.directive("vgPosterStretch", function(VG_EVENTS) {
 					});
 				}
 
-				scope.$on(VG_EVENTS.ON_PLAY, onPlayVideo);
-				scope.$on(VG_EVENTS.ON_COMPLETE, onCompleteVideo);
 				scope.$on(VG_EVENTS.ON_LOAD_POSTER, onLoadPoster);
 				scope.$on(VG_EVENTS.ON_UPDATE_SIZE, onUpdateSize);
 			}

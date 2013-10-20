@@ -37,18 +37,18 @@ controllerModule.controller("MainController", ["$scope", function (scope) {
 			{label: "Default", url: "themes/default/videogular.css"},
 			{label: "Solid", url: "themes/solid/solid.css"}
 		],
+		"stretchModes": [
+			{label: "None", value: "none"},
+			{label: "Fit", value: "fit"},
+			{label: "Fill", value: "fill"}
+		],
 		"plugins": {
 			"poster": {
-				"url": "assets/images/oceans-clip.png",
-				"stretchModes": [
-					{label: "None", value: "none"},
-					{label: "Fit", value: "fit"},
-					{label: "Fill", value: "fill"}
-				]
+				"url": "assets/images/oceans-clip.png"
 			}
 		}
 	};
 
 	scope.theme = scope.data.themes[0];
-	scope.stretchMode = scope.data.plugins.poster.stretchModes[1];
+	scope.stretchMode = scope.data.stretchModes[1];
 }]);
