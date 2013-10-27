@@ -1,5 +1,0 @@
-<img class="overlayPlay" ng-src="img/play_button.png" ng-style="styles.overlayPlay" />
-
-<video class="videoPlayer" ng-click="onClickPlayer($event)" preload="none" width="{{ data.width }}" height="{{ data.height }}" foejs-poster="{{ data.poster }}">
-    <source ng-repeat="media in data.media" ng-src="{{ media.url }}" type="{{ media.type }}">
-</video>

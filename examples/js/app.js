@@ -12,19 +12,6 @@ var videogularApp = angular.module("videogularApp",
 	]
 );
 
-videogularApp.config(["$routeProvider",
-		function ($routeProvider) {
-			$routeProvider.when(
-				"/", {
-					templateUrl: "partials/video.html",
-					controller: "VideoController"
-				}
-			);
-			$routeProvider.otherwise({redirectTo: "/404"});
-		}
-	]
-);
-
 // Controllers
 var controllerModule = angular.module('controllers', []);
 controllerModule.controller("MainController", ["$scope", function (scope) {
