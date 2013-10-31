@@ -10,6 +10,7 @@ videogular.run(function(VG_UTILS) {
 				element: "fullscreenElement",
 				request: "requestFullscreen",
 				exit:    "exitFullscreen",
+				onloadedmetadata: "loadedmetadata",
 				onchange: "fullscreenchange",
 				onerror:  "fullscreenerror"
 			},
@@ -18,6 +19,7 @@ videogular.run(function(VG_UTILS) {
 				element: "webkitFullscreenElement",
 				request: "webkitRequestFullscreen",
 				exit:    "webkitExitFullscreen",
+				onloadedmetadata: "loadedmetadata",
 				onchange: "webkitfullscreenchange",
 				onerror:  "webkitfullscreenerror"
 			},
@@ -26,6 +28,7 @@ videogular.run(function(VG_UTILS) {
 				element: "webkitCurrentFullScreenElement",
 				request: "webkitRequestFullScreen",
 				exit:    "webkitCancelFullScreen",
+				onloadedmetadata: "loadedmetadata",
 				onchange: "webkitfullscreenchange",
 				onerror:  "webkitfullscreenerror"
 			},
@@ -34,6 +37,7 @@ videogular.run(function(VG_UTILS) {
 				element: "mozFullScreenElement",
 				request: "mozRequestFullScreen",
 				exit:    "mozCancelFullScreen",
+				onloadedmetadata: "loadedmetadata",
 				onchange: "mozfullscreenchange",
 				onerror:  "mozfullscreenerror"
 			},
@@ -91,7 +95,7 @@ videogular.service("VG_UTILS", function() {
 
 		// Very simple mobile detection, not 100% reliable
 		this.isMobileDevice = function() {
-			return (typeof window.orientation !== "undefined");
+			return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf("IEMobile") !== -1);
 		};
 
 		this.isiOSDevice = function() {
@@ -203,11 +207,12 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS, VG_UTILS) {
 						if (videoSize.width == 0) videoSize.width = currentWidth;
 						if (videoSize.height == 0) videoSize.height = currentHeight;
 
-						videoTop = (playerHeight - videoSize.height) / 2;
 						videoLeft = (playerWidth - videoSize.width) / 2;
+						videoTop = (playerHeight - videoSize.height) / 2;
 
 						videoElement.attr("width", parseInt(videoSize.width, 10));
 						videoElement.attr("height", parseInt(videoSize.height, 10));
+						videoElement.css("width", parseInt(videoSize.width, 10) + "px");
 						videoElement.css("top", videoTop + "px");
 						videoElement.css("left", videoLeft + "px");
 
@@ -324,9 +329,13 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS, VG_UTILS) {
 					}
 
 					function onElementReady() {
-						scope.isPlayerReady = true;
-						scope.$emit(VG_EVENTS.ON_PLAYER_READY);
-						updateSize();
+						videoElement[0].addEventListener(window.fullScreenAPI.onloadedmetadata, onLoadedMetaData);
+
+						if (isMetaDataLoaded) {
+							scope.isPlayerReady = true;
+							scope.$emit(VG_EVENTS.ON_PLAYER_READY);
+							updateSize();
+						}
 					}
 
 					function onFullScreenChange(event) {
@@ -342,12 +351,30 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS, VG_UTILS) {
 					}
 
 					function onLoadedMetaData() {
+						if (isResponsive) {
+							var percentWidth = elementScope[0].parentNode.clientWidth * 100 / videoElement[0].videoWidth;
+							var videoHeight = videoElement[0].videoHeight * percentWidth / 100;
+							currentWidth = elementScope[0].parentNode.clientWidth;
+							currentHeight = videoHeight;
+						}
+
 						isMetaDataLoaded = true;
 
 						if (isFullScreenPressed) {
 							enterElementInFullScreen(videoElement[0]);
 							isFullScreenPressed = false;
 						}
+
+						onElementReady();
+					}
+
+					function onResizeBrowser() {
+						var percentWidth = elementScope[0].parentNode.clientWidth * 100 / videoElement[0].videoWidth;
+						var videoHeight = videoElement[0].videoHeight * percentWidth / 100;
+						currentWidth = elementScope[0].parentNode.clientWidth;
+						currentHeight = videoHeight;
+
+						updateSize();
 					}
 
 					scope.onChangeWidth = function (value) {
@@ -364,12 +391,22 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS, VG_UTILS) {
 
 					var elementScope = angular.element(elem);
 					var videoElement = elementScope.find("video");
-					var currentWidth = attrs.width + "px";
-					var currentHeight = attrs.height + "px";
+					var currentWidth = 0;
+					var currentHeight = 0;
 					var currentStretch = "fit";
 					var state = VG_STATES.STOP;
 					var isFullScreenPressed = false;
 					var isMetaDataLoaded = false;
+					var isResponsive = false;
+
+					if (attrs.vgWidth == undefined || attrs.vgHeight == undefined) {
+						isResponsive = true;
+						window.onresize = onResizeBrowser;
+					}
+					else {
+						currentWidth = attrs.vgWidth;
+						currentHeight = attrs.vgHeight;
+					}
 
 					scope.videoElement = videoElement;
 					scope.videogularElement = elementScope;
@@ -382,11 +419,6 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS, VG_UTILS) {
 					videoElement[0].addEventListener("ended", onComplete, false);
 					videoElement[0].addEventListener("playing", onStartPlaying, false);
 					videoElement[0].addEventListener("timeupdate", onUpdateTime, false);
-
-					// If we are on iOS we add a listener to check when the metadata is loaded
-					if (VG_UTILS.isiOSDevice()) {
-						videoElement[0].addEventListener(window.fullScreenAPI.onloadedmetadata, onLoadedMetaData);
-					}
 
 					if (window.fullScreenAPI) {
 						document.addEventListener(window.fullScreenAPI.onchange, onFullScreenChange);

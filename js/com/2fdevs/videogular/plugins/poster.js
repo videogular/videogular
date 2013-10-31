@@ -71,11 +71,12 @@ posterImageDirectives.directive("vgPosterStretch", function(VG_EVENTS) {
 				}
 				
 				function onLoadPoster() {
+					img = angular.element(elem).find("img");
 					updateStretch(currentStretch);
 				}
 
 				function updateStretch(value) {
-					if (img && img.length > 0) {
+					if (img) {
 						if (currentStretch) {
 							img.removeClass(currentStretch);
 						}
@@ -97,7 +98,7 @@ posterImageDirectives.directive("vgPosterStretch", function(VG_EVENTS) {
 						}
 					}
 					else {
-						img = angular.element(elem).find("img");
+						currentStretch = value;
 					}
 				}
 

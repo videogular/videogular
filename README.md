@@ -191,4 +191,4 @@ To change and create your own themes should be very easy just modifying `example
 
 Videogular is an open source project maintained by (literally) [two fucking developers] (http://twofuckingdevelopers.com/).
 
-We want to thank all our contributors: [Raúl Jiménez] (https://github.com/Elecash), [Robert Zhang] (https://github.com/rogerz) and [our bug submitters] (https://github.com/2fdevs/videogular/issues?state=open).
+We want to thank all our contributors: [Raúl Jiménez] (https://github.com/Elecash), [Robert Zhang] (https://github.com/rogerz), [Javier Tejero] (https://github.com/javiertejero) and [our bug submitters] (https://github.com/2fdevs/videogular/issues?state=open).

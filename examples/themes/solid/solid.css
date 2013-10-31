@@ -22,6 +22,12 @@
 	user-select: none;
 }
 
+[videogular] video {
+	position: absolute;
+    width: 100%;
+    height: auto;
+}
+
 .iconButton {
 	color: #FFFFFF;
 	font-family: 'icomoon';
@@ -158,7 +164,6 @@
 	cursor: pointer;
 }
 
-
 [vg-scrubBarCurrentTime], vg-scrubBarCurrentTime {
 	background-color: #FFFFFF;
 	width: 100%;
@@ -222,7 +227,6 @@
 	position: absolute;
 }
 
-
 /*****************/
 /* Poster plugin */
 /*****************/
@@ -246,6 +250,6 @@
 }
 
 [vg-poster-image] img.fill, vg-poster-image img.fill {
-	width: 100%;
-	height: 100%;
+    /* left: is changed dynamically through javascript at poster.js */
+    height: 100%;
 }
