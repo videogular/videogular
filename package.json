@@ -29,8 +29,8 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "colors": "*",
-    "docular": "*"
+    "grunt": "*",
+    "grunt-docular": "*"
   },
   "keywords": [
     "gruntplugin", "angular", "angularjs", "video"
