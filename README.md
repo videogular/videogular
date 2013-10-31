@@ -1,4 +1,4 @@
-## Videogular
+# Videogular
 
 Videogular is an HTML5 video player for AngularJS. Videogular is a wrapper over the HTML5 video tag, so you just could add whatever you want. This provides a very powerful, but simple to use solution, for everybody.
 
@@ -12,7 +12,33 @@ We're developing Videogular focusing on mobile devices and HTML5 video special c
 * **Extendable through plugins**: Thanks to our API you can develop your own plugins.
 * **Theme based**: Customize it with your own themes and change between them on the fly.
 * **Native fullscreen support**: Enjoy with native fullscreen support for Chrome, Firefox, Safari, iOS and Chrome for Android.
-* **Mobile support**: Videogular can detect mobile devices to show/hide components in case that aren't supported.
+* **Mobile support**: Videogular can detect mobile devices to show/hide components in case that aren't supported. Also, you could use it in your responsive websites, Videogular will fit in your container when you don't set vg-width and vg-height and will maintain proportions always.
+
+## Running documentation server
+
+Videogular uses [Docular] (http://grunt-docular.com/), a documentation server to maintain and see documentation. [Docular] (http://grunt-docular.com/) currently doesn't have (as far as I know) any way to create static files, so you need to create and run the server to access to the documentation.
+
+Clone the repository.
+```shell
+git clone https://github.com/2fdevs/videogular.git
+```
+
+Install dependencies.
+```shell
+npm install
+```
+
+Run Grunt.
+```shell
+grunt
+```
+
+Run [Docular] (http://grunt-docular.com/) server.
+```shell
+grunt docular-server
+```
+
+After that you could access to the documentation at http://127.0.0.1:8000/ url.
 
 ## How to use Videogular
 
@@ -38,12 +64,18 @@ Because `videogular` is an HTML5 video player for AngularJS it works (obviously)
 </div>
 ```
 
+### Responsive mode
+
+Videogular could be used in a responsive website, you only need to remove vg-width and vg-height attributes and Videogular will enter in a responsive mode.
+
+In this responsive mode Videogular will set its width to `100%` and the height will be calculated with video's metadata to preserve always aspect ratio.
+
 
 ## Plugins
 
 With Videogular you can write your own plugins through a simple API based in events. Plugins should be directives and they should communicate with `videogular` directive through an API based in events.
 
-## API Events
+### API Events
 
 * **VG_EVENTS.ON_PLAY**: Triggered when video plays.
 * **VG_EVENTS.ON_PAUSE**: Triggered when video is paused.
@@ -60,7 +92,7 @@ With Videogular you can write your own plugins through a simple API based in eve
 * **VG_EVENTS.ON_UPDATE_SIZE**: Triggered when video size updates.
 * **VG_EVENTS.ON_PLAYER_READY**: Triggered when DOM elements are ready. Very useful to initialize plugins.
 
-## Plugin example
+### Plugin example
 
 Currently you will find a `plugins` folder with some source code to inspire you, however, you could see how easy is to write your own plugin with this example:
 
@@ -82,7 +114,7 @@ myVGPlugin.directive("vgMyPlugin", function(VG_EVENTS){
 );
 ```
 
-## Adding a plugin
+### Adding a plugin
 
 To add a plugin just add your directives to your HTML. This is an example of a Videogular player:
 
