@@ -2,7 +2,7 @@
 
 Videogular is an HTML5 video player for AngularJS. Videogular is a wrapper over the HTML5 video tag, so you just could add whatever you want. This provides a very powerful, but simple to use solution, for everybody.
 
-You could see a demo here: http://twofuckingdevelopers.com/examples/videogular/examples/
+You could see a demo here: http://www.videogular.com
 
 ## Why Videogular?
 
