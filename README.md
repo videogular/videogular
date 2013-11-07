@@ -8,7 +8,7 @@ You could see a demo here: http://www.videogular.com
 
 We're developing Videogular focusing on mobile devices and HTML5 video special capabilities. Videogular brings to you this key features:
 
-* **Bindable properties**: Videogular's directives are bindable, just [try the demo] (http://twofuckingdevelopers.com/examples/videogular/examples/) and play with bindings.
+* **Bindable properties**: Videogular's directives are bindable, just [try the demo] (http://www.videogular.com) and play with bindings.
 * **Extendable through plugins**: Thanks to our API you can develop your own plugins.
 * **Theme based**: Customize it with your own themes and change between them on the fly.
 * **Native fullscreen support**: Enjoy with native fullscreen support for Chrome, Firefox, Safari, iOS and Chrome for Android.
