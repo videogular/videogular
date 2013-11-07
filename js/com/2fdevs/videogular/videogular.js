@@ -86,8 +86,8 @@ videogular.service("VG_UTILS", function() {
 			 * @returns {*}
 			 */
 			if (navigator.userAgent.match(/Firefox/i)) {
-				$event.offsetX = $event.layerX - $event.currentTarget.offsetLeft;
-				$event.offsetY = $event.layerY;
+				$event.offsetX = $event.pageX - $event.currentTarget.offsetLeft;
+				$event.offsetY = $event.pageY;
 			}
 
 			return $event;
@@ -148,7 +148,7 @@ videogular.constant("VG_EVENTS",
 	}
 );
 
-videogular.directive("videogular", function(VG_STATES, VG_EVENTS, VG_UTILS) {
+videogular.directive("videogular", function(VG_STATES, VG_EVENTS, VG_UTILS, $window) {
 		return {
 			restrict: "AE",
 			link: {
@@ -329,7 +329,13 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS, VG_UTILS) {
 					}
 
 					function onElementReady() {
-						videoElement[0].addEventListener(window.fullScreenAPI.onloadedmetadata, onLoadedMetaData);
+						// Check if video is cached and metadata has been fired before
+						if (videoElement[0].videoWidth == undefined) {
+							videoElement[0].addEventListener(window.fullScreenAPI.onloadedmetadata, onLoadedMetaData);
+						}
+						else {
+							checkMetaData();
+						}
 
 						if (isMetaDataLoaded) {
 							scope.isPlayerReady = true;
@@ -351,6 +357,11 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS, VG_UTILS) {
 					}
 
 					function onLoadedMetaData() {
+						checkMetaData();
+						onElementReady();
+					}
+
+					function checkMetaData() {
 						if (isResponsive) {
 							var percentWidth = elementScope[0].parentNode.clientWidth * 100 / videoElement[0].videoWidth;
 							var videoHeight = videoElement[0].videoHeight * percentWidth / 100;
@@ -364,8 +375,6 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS, VG_UTILS) {
 							enterElementInFullScreen(videoElement[0]);
 							isFullScreenPressed = false;
 						}
-
-						onElementReady();
 					}
 
 					function onResizeBrowser() {
@@ -401,7 +410,7 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS, VG_UTILS) {
 
 					if (attrs.vgWidth == undefined || attrs.vgHeight == undefined) {
 						isResponsive = true;
-						window.onresize = onResizeBrowser;
+						$window.onresize = onResizeBrowser;
 					}
 					else {
 						currentWidth = attrs.vgWidth;

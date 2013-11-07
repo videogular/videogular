@@ -35,8 +35,6 @@ controlBarPluginDirectives.directive("vgControls", function($timeout, VG_EVENTS,
 					w = params[0];
 					h = params[1];
 
-					controlBarHeight = elem.css("height");
-
 					TweenLite.killTweensOf(elem);
 					isShowing = false;
 
