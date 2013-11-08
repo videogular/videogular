@@ -177,46 +177,71 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS, VG_UTILS, $win
 								break;
 						}
 
+						// Metadata has not been loaded or any problem has been happened
+						if (result.height == 0 || isNaN(result.height)) {
+							result.width = elementScope[0].parentElement.clientWidth;
+							result.height = result.width * 9 / 16;
+						}
+
 						return result;
 					}
 
 					function updateSize()
 					{
-						var videoSize;
-						var playerWidth = currentWidth;
-						var playerHeight = currentHeight;
-						var videoTop;
-						var videoLeft;
+						if (isElementReady) {
+							var videoSize;
+							var playerWidth;
+							var playerHeight;
+							var videoTop;
+							var videoLeft;
 
-						if (window.fullScreenAPI && window.fullScreenAPI.isFullScreen()) {
-							elementScope.css("width", parseInt(window.screen.width, 10) + "px");
-							elementScope.css("height", parseInt(window.screen.height, 10) + "px");
+							if (window.fullScreenAPI && window.fullScreenAPI.isFullScreen()) {
+								elementScope.css("width", parseInt(window.screen.width, 10) + "px");
+								elementScope.css("height", parseInt(window.screen.height, 10) + "px");
 
-							videoSize = getVideoSize(window.screen.width, window.screen.height);
+								videoSize = getVideoSize(window.screen.width, window.screen.height);
 
-							playerWidth = window.screen.width;
-							playerHeight = window.screen.height;
+								playerWidth = window.screen.width;
+								playerHeight = window.screen.height;
+							}
+							else {
+								elementScope.css("width", parseInt(currentWidth, 10) + "px");
+								elementScope.css("height", parseInt(currentHeight, 10) + "px");
+
+								videoSize = getVideoSize(currentWidth, currentHeight);
+
+								playerWidth = currentWidth;
+								playerHeight = currentHeight;
+							}
+
+							if (currentHeight == 0 || isNaN(currentHeight)) {
+								playerWidth = videoSize.width;
+								playerHeight = videoSize.height;
+							}
+
+							if (videoSize.width == 0) videoSize.width = currentWidth;
+							if (videoSize.height == 0) videoSize.height = currentHeight;
+
+							videoLeft = (playerWidth - videoSize.width) / 2;
+							videoTop = (playerHeight - videoSize.height) / 2;
+
+							videoElement.attr("width", parseInt(videoSize.width, 10));
+							videoElement.attr("height", parseInt(videoSize.height, 10));
+							videoElement.css("width", parseInt(videoSize.width, 10) + "px");
+							videoElement.css("height", parseInt(videoSize.height, 10));
+							videoElement.css("top", videoTop + "px");
+							videoElement.css("left", videoLeft + "px");
+
+							elementScope.css("width", parseInt(playerWidth, 10) + "px");
+							elementScope.css("height", parseInt(playerHeight, 10) + "px");
+
+							if (!scope.isPlayerReady && !isMetaDataLoaded) {
+								scope.isPlayerReady = true;
+								scope.$emit(VG_EVENTS.ON_PLAYER_READY);
+							}
+
+							scope.$emit(VG_EVENTS.ON_UPDATE_SIZE, [playerWidth, playerHeight]);
 						}
-						else {
-							elementScope.css("width", parseInt(currentWidth, 10) + "px");
-							elementScope.css("height", parseInt(currentHeight, 10) + "px");
-
-							videoSize = getVideoSize(currentWidth, currentHeight);
-						}
-
-						if (videoSize.width == 0) videoSize.width = currentWidth;
-						if (videoSize.height == 0) videoSize.height = currentHeight;
-
-						videoLeft = (playerWidth - videoSize.width) / 2;
-						videoTop = (playerHeight - videoSize.height) / 2;
-
-						videoElement.attr("width", parseInt(videoSize.width, 10));
-						videoElement.attr("height", parseInt(videoSize.height, 10));
-						videoElement.css("width", parseInt(videoSize.width, 10) + "px");
-						videoElement.css("top", videoTop + "px");
-						videoElement.css("left", videoLeft + "px");
-
-						scope.$emit(VG_EVENTS.ON_UPDATE_SIZE, [playerWidth, playerHeight]);
 					}
 
 					function onSeekTime(target, params)
@@ -329,9 +354,12 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS, VG_UTILS, $win
 					}
 
 					function onElementReady() {
+						isElementReady = true;
+
 						// Check if video is cached and metadata has been fired before
-						if (videoElement[0].videoWidth == undefined) {
+						if (videoElement[0].videoWidth == undefined || videoElement[0].videoWidth == 0) {
 							videoElement[0].addEventListener(window.fullScreenAPI.onloadedmetadata, onLoadedMetaData);
+							updateSize();
 						}
 						else {
 							checkMetaData();
@@ -406,6 +434,7 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS, VG_UTILS, $win
 					var state = VG_STATES.STOP;
 					var isFullScreenPressed = false;
 					var isMetaDataLoaded = false;
+					var isElementReady = false;
 					var isResponsive = false;
 
 					if (attrs.vgWidth == undefined || attrs.vgHeight == undefined) {
@@ -420,9 +449,6 @@ videogular.directive("videogular", function(VG_STATES, VG_EVENTS, VG_UTILS, $win
 					scope.videoElement = videoElement;
 					scope.videogularElement = elementScope;
 					scope.isPlayerReady = false;
-
-					elementScope[0].style.width = currentWidth;
-					elementScope[0].style.height = currentHeight;
 
 					videoElement[0].addEventListener("waiting", onStartBuffering, false);
 					videoElement[0].addEventListener("ended", onComplete, false);
@@ -585,10 +611,10 @@ videogular.directive("vgPoster", function () {
 				}
 
 				if (attrs.vgPoster.indexOf(".jpg") > 0 ||
-						attrs.vgPoster.indexOf(".jpeg") > 0 ||
-						attrs.vgPoster.indexOf(".png") > 0 ||
-						attrs.vgPoster.indexOf(".gif") > 0 ||
-						attrs.vgPoster.indexOf("/") > 0) {
+					attrs.vgPoster.indexOf(".jpeg") > 0 ||
+					attrs.vgPoster.indexOf(".png") > 0 ||
+					attrs.vgPoster.indexOf(".gif") > 0 ||
+					attrs.vgPoster.indexOf("/") > 0) {
 					updatePoster(attrs.vgPoster);
 				}
 				else {

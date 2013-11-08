@@ -11,7 +11,6 @@ bufferingDirectives.directive("vgBuffering", function(VG_EVENTS){
 				"</div>",
 			link: function(scope, elem, attrs) {
 				function onPlayerReady(target, params) {
-					console.log("buffering - on player ready");
 					spinner.addClass("stop");
 					elem.css("display", "none");
 				}
