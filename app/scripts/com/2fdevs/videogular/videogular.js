@@ -50,8 +50,8 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 			return (navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/iPad/i));
 		};
 	})
-	.run(["VG_UTILS",
-		function(VG_UTILS) {
+	.run(["$window", "VG_UTILS",
+		function($window, VG_UTILS) {
 			// Native fullscreen polyfill
 			var fullScreenAPI;
 			var APIs = {
@@ -122,7 +122,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 				};
 			}
 
-			window.fullScreenAPI = fullScreenAPI;
+			angular.element($window)[0].fullScreenAPI = fullScreenAPI;
 		}
 	])
 	.directive(
@@ -135,6 +135,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 					playerHeight: "=vgHeight",
 					theme: "=vgTheme",
 					autoPlay: "=vgAutoplay",
+					responsive: "=vgResponsive",
 					stretch: "=vgStretch"
 				},
 				controller: function($scope) {
@@ -192,9 +193,9 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 					};
 
 					this.toggleFullScreen = function() {
-						if (window.fullScreenAPI.isFullScreen()) {
+						if (angular.element($window)[0].fullScreenAPI.isFullScreen()) {
 							if (!VG_UTILS.isMobileDevice()) {
-								document[window.fullScreenAPI.exit]();
+								document[angular.element($window)[0].fullScreenAPI.exit]();
 							}
 						}
 						else {
@@ -222,7 +223,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 					};
 
 					this.enterElementInFullScreen = function(element) {
-						element[window.fullScreenAPI.request]();
+						element[angular.element($window)[0].fullScreenAPI.request]();
 					};
 
 					this.setVolume = function(newVolume) {
@@ -264,9 +265,9 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 						vg.updateTheme($scope.theme);
 						$scope.addBindings();
 
-						if ($scope.playerWidth == undefined || $scope.playerHeight == undefined) {
+						if ($scope.playerWidth == undefined || $scope.playerHeight == undefined || $scope.responsive == true) {
 							isResponsive = true;
-							window.onresize = vg.onResizeBrowser;
+							angular.element($window).bind("resize", $scope.onResizeBrowser);
 						}
 						else {
 							playerWidth = $scope.playerWidth;
@@ -305,10 +306,22 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 							}
 						});
 
-
 						$scope.$watch("autoPlay", function(newValue, oldValue) {
 							if (newValue != oldValue){
 								vg.play();
+							}
+						});
+
+						$scope.$watch("responsive", function(newValue, oldValue) {
+							if (newValue != oldValue){
+								isResponsive = newValue;
+
+								if (isResponsive) {
+									angular.element($window).bind("resize", $scope.onResizeBrowser);
+								}
+								else {
+									angular.element($window).unbind("resize", $scope.onResizeBrowser);
+								}
 							}
 						});
 					};
@@ -318,7 +331,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 
 						// Check if video is cached and metadata has been fired before
 						if (vg.videoElement[0].videoWidth == null || vg.videoElement[0].videoWidth == 0) {
-							vg.videoElement[0].addEventListener(window.fullScreenAPI.onloadedmetadata, $scope.onLoadedMetaData);
+							vg.videoElement[0].addEventListener(angular.element($window)[0].fullScreenAPI.onloadedmetadata, $scope.onLoadedMetaData);
 							$scope.updateSize();
 						}
 						else {
@@ -419,7 +432,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 						currentWidth = vg.elementScope[0].parentNode.clientWidth;
 						currentHeight = videoHeight;
 
-						console.log(currentWidth + " / " + currentHeight);
+						console.log(currentWidth + "/" + currentHeight);
 
 						$scope.updateSize();
 					};

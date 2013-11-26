@@ -41,6 +41,8 @@ angular.module("com.2fdevs.videogular.plugins.overlayplay", [])
 								$scope.currentIcon = $scope.playIcon;
 								break;
 						}
+
+						$scope.$apply();
 					}
 
 					$elem.bind("click", onClickOverlayPlay);

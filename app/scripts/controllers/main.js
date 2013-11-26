@@ -10,8 +10,9 @@ angular.module('myApp').controller('MainCtrl',
 		$scope.config = {
 			width: 740,
 			height: 380,
-			autoHide: true,
+			autoHide: false,
 			autoPlay: false,
+			responsive: true,
 			stretch: $scope.stretchModes[1],
 			theme: {
 				url: "styles/themes/default/videogular.css",

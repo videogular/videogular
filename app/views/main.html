@@ -1,6 +1,6 @@
 <div class="container">
 	<div>
-		<videogular vg-theme="config.theme.url" vg-autoplay="config.autoPlay" vg-stretch="config.stretch.value" >
+		<videogular vg-width="config.width" vg-height="config.height" vg-theme="config.theme.url" vg-autoplay="config.autoPlay" vg-stretch="config.stretch.value" vg-responsive="config.responsive">
 			<video class='videoPlayer' preload='metadata'>
 				<source src="assets/videos/oceans-clip.mp4" type="video/mp4">
 				<source src="assets/videos/oceans-clip.webm" type="video/webm">
@@ -47,11 +47,6 @@
 				<label for="heightInput">Height:</label>
 				<input id="heightInput" type="text" class="form-control" ng-model="config.height">
 			</div>
-			<div>
-				<label class="checkbox">
-					<input id="autoPlayInput" type="checkbox" ng-model="config.autoPlay">Autoplay
-				</label>
-			</div>
 		</div>
 
 		<div class="col-6 col-sm-4 col-lg-4">
@@ -62,6 +57,19 @@
 			<div>
 				<label for="stretchSelect">Stretch Mode:</label>
 				<select id="stretchSelect" class="form-control" ng-model="config.stretch" ng-options="stretchItem.label for stretchItem in stretchModes"></select>
+			</div>
+		</div>
+
+		<div class="col-6 col-sm-4 col-lg-4">
+			<div>
+				<label class="checkbox">
+					<input id="responsiveInput" type="checkbox" ng-model="config.responsive">Responsive
+				</label>
+			</div>
+			<div>
+				<label class="checkbox">
+					<input id="autoPlayInput" type="checkbox" ng-model="config.autoPlay">Autoplay
+				</label>
 			</div>
 			<div>
 				<label class="checkbox">
