@@ -102,6 +102,8 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					$scope.$watch("autoHide", updateAutoHide);
 					updateAutoHide($scope.autoHide);
 
+					$scope.autoHideAnimation = "hide-animation";
+
 					$rootScope.$on(VG_EVENTS.ON_ENTER_FULLSCREEN, onEnterFullScreen);
 					$rootScope.$on(VG_EVENTS.ON_EXIT_FULLSCREEN, onExitFullscreen);
 					$rootScope.$on(VG_EVENTS.ON_UPDATE_SIZE, onUpdateSize);
@@ -139,6 +141,8 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 								$scope.currentIcon = $.parseHTML($scope.vgPlayIcon)[0].data;
 								break;
 						}
+
+						$scope.$apply();
 					}
 
 					function onClickPlayPause() {
