@@ -432,8 +432,6 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 						currentWidth = vg.elementScope[0].parentNode.clientWidth;
 						currentHeight = videoHeight;
 
-						console.log(currentWidth + "/" + currentHeight);
-
 						$scope.updateSize();
 					};
 

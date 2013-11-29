@@ -44,7 +44,7 @@ videogular video {
 /**********************/
 /* OverlayPlay plugin */
 /**********************/
-vg-overlayplay {
+vg-overlay-play {
 	width: 100%;
 	height: 100%;
 	position: absolute;
@@ -226,14 +226,14 @@ vg-fullscreenButton {
 	cursor: pointer;
 }
 
-.verticalVolumeBar {
+vg-volumebar .verticalVolumeBar {
 	width: 50px;
 	height: 100px;
 	background-color: #000000;
 	position: absolute;
 }
 
-.volumeBackground {
+vg-volumebar .volumeBackground {
 	width: 20px;
 	height: 70px;
 	left: 15px;
@@ -242,17 +242,203 @@ vg-fullscreenButton {
 	position: absolute;
 }
 
-.volumeValue {
+vg-volumebar .volumeValue {
 	width: 20px;
 	height: 100%;
 	background-color: #FFFFFF;
 	position: absolute;
 }
 
-.volumeClickArea {
+vg-volumebar .volumeClickArea {
 	width: 20px;
 	height: 100%;
 	position: absolute;
+}
+
+vg-controls .hide-animation {
+	animation: hideControlsAnimationFrames ease-out 0.5s;
+	animation-iteration-count: 1;
+	animation-fill-mode:forwards; /*when the spec is finished*/
+	-webkit-animation: hideControlsAnimationFrames ease-out 0.5s;
+	-webkit-animation-iteration-count: 1;
+	-webkit-animation-fill-mode:forwards; /*Chrome 16+, Safari 4+*/
+	-moz-animation: hideControlsAnimationFrames ease-out 0.5s;
+	-moz-animation-iteration-count: 1;
+	-moz-animation-fill-mode:forwards; /*FF 5+*/
+	-o-animation: hideControlsAnimationFrames ease-out 0.5s;
+	-o-animation-iteration-count: 1;
+	-o-animation-fill-mode:forwards; /*Not implemented yet*/
+	-ms-animation: hideControlsAnimationFrames ease-out 0.5s;
+	-ms-animation-iteration-count: 1;
+	-ms-animation-fill-mode:forwards; /*IE 10+*/
+}
+
+@keyframes hideControlsAnimationFrames{
+	0% {
+		left:0px;
+		top:0px;
+		opacity: 0.5;
+		transform:  rotate(0deg) scaleX(1) scaleY(1) ;
+	}
+	100% {
+		left:0px;
+		top:50px;
+		opacity: 0.5;
+		transform:  rotate(0deg) scaleX(1) scaleY(1) ;
+	}
+}
+
+@-moz-keyframes hideControlsAnimationFrames{
+	0% {
+		left:0px;
+		top:0px;
+		opacity: 0.5;
+		-moz-transform:  rotate(0deg) scaleX(1) scaleY(1) ;
+	}
+	100% {
+		left:0px;
+		top:50px;
+		opacity: 0.5;
+		-moz-transform:  rotate(0deg) scaleX(1) scaleY(1) ;
+	}
+}
+
+@-webkit-keyframes hideControlsAnimationFrames {
+	0% {
+		left:0px;
+		top:0px;
+		opacity: 0.5;
+		-webkit-transform:  rotate(0deg) scaleX(1) scaleY(1) ;
+	}
+	100% {
+		left:0px;
+		top:50px;
+		opacity: 0.5;
+		-webkit-transform:  rotate(0deg) scaleX(1) scaleY(1) ;
+	}
+}
+
+@-o-keyframes hideControlsAnimationFrames {
+	0% {
+		left:0px;
+		top:0px;
+		opacity: 0.5;
+		-o-transform:  rotate(0deg) scaleX(1) scaleY(1) ;
+	}
+	100% {
+		left:0px;
+		top:50px;
+		opacity: 0.5;
+		-o-transform:  rotate(0deg) scaleX(1) scaleY(1) ;
+	}
+}
+
+@-ms-keyframes hideControlsAnimationFrames {
+	0% {
+		left:0px;
+		top:0px;
+		opacity: 0.5;
+		-ms-transform:  rotate(0deg) scaleX(1) scaleY(1) ;
+	}
+	100% {
+		left:0px;
+		top:50px;
+		opacity: 0.5;
+		-ms-transform:  rotate(0deg) scaleX(1) scaleY(1) ;
+	}
+}
+
+vg-controls .show-animation {
+	animation: showControlsAnimationFrames ease-out 0.5s;
+	animation-iteration-count: 1;
+	animation-fill-mode:forwards; /*when the spec is finished*/
+	-webkit-animation: showControlsAnimationFrames ease-out 0.5s;
+	-webkit-animation-iteration-count: 1;
+	-webkit-animation-fill-mode:forwards; /*Chrome 16+, Safari 4+*/
+	-moz-animation: showControlsAnimationFrames ease-out 0.5s;
+	-moz-animation-iteration-count: 1;
+	-moz-animation-fill-mode:forwards; /*FF 5+*/
+	-o-animation: showControlsAnimationFrames ease-out 0.5s;
+	-o-animation-iteration-count: 1;
+	-o-animation-fill-mode:forwards; /*Not implemented yet*/
+	-ms-animation: showControlsAnimationFrames ease-out 0.5s;
+	-ms-animation-iteration-count: 1;
+	-ms-animation-fill-mode:forwards; /*IE 10+*/
+}
+
+@keyframes showControlsAnimationFrames{
+	0% {
+		left:0px;
+		top:50px;
+		opacity: 0.5;
+		transform:  rotate(0deg) scaleX(1) scaleY(1) ;
+	}
+	100% {
+		left:0px;
+		top:0px;
+		opacity: 0.5;
+		transform:  rotate(0deg) scaleX(1) scaleY(1) ;
+	}
+}
+
+@-moz-keyframes showControlsAnimationFrames{
+	0% {
+		left:0px;
+		top:50px;
+		opacity: 0.5;
+		-moz-transform:  rotate(0deg) scaleX(1) scaleY(1) ;
+	}
+	100% {
+		left:0px;
+		top:0px;
+		opacity: 0.5;
+		-moz-transform:  rotate(0deg) scaleX(1) scaleY(1) ;
+	}
+}
+
+@-webkit-keyframes showControlsAnimationFrames {
+	0% {
+		left:0px;
+		top:50px;
+		opacity: 0.5;
+		-webkit-transform:  rotate(0deg) scaleX(1) scaleY(1) ;
+	}
+	100% {
+		left:0px;
+		top:0px;
+		opacity: 0.5;
+		-webkit-transform:  rotate(0deg) scaleX(1) scaleY(1) ;
+	}
+}
+
+@-o-keyframes showControlsAnimationFrames {
+	0% {
+		left:0px;
+		top:50px;
+		opacity: 0.5;
+		-o-transform:  rotate(0deg) scaleX(1) scaleY(1) ;
+	}
+	100% {
+		left:0px;
+		top:0px;
+		opacity: 0.5;
+		-o-transform:  rotate(0deg) scaleX(1) scaleY(1) ;
+	}
+}
+
+@-ms-keyframes showControlsAnimationFrames {
+	0% {
+		left:0px;
+		top:50px;
+		opacity: 0.5;
+		-ms-transform:  rotate(0deg) scaleX(1) scaleY(1) ;
+	}
+	100% {
+		left:0px;
+		top:0px;
+		opacity: 0.5;
+		-ms-transform:  rotate(0deg) scaleX(1) scaleY(1) ;
+	}
 }
 
 /*****************/

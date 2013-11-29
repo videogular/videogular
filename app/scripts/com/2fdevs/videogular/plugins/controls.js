@@ -9,88 +9,36 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 				transclude: true,
 				templateUrl: "views/videogular/plugins/controls/controls.html",
 				scope: {
-					autoHide: "=vgAutohide"
+					autoHide: "=vgAutohide",
+					autoHideTime: "=vgAutohideTime"
 				},
 				link: function($scope, $elem, $attr, $API) {
 					var w = 0;
 					var h = 0;
-					var autoHideTime = 5000;
-					var isShowing = false;
-					var isBinding = false;
+					var autoHideTime = 2000;
 					var controlBarHeight = $elem[0].style.height;
 					var hideInterval;
-
-					function onEnterFullScreen(target, params) {
-						TweenLite.killTweensOf($elem);
-						isShowing = false;
-						hideInterval = $timeout(hideControls, autoHideTime);
-
-						if (!isBinding) {
-							isBinding = true;
-							$API.videogularElement.bind("mousemove", onMouseMove);
-						}
-					}
-
-					function onExitFullscreen(target, params) {
-						TweenLite.killTweensOf($elem);
-						isShowing = false;
-
-						if ($scope.autoHide) {
-							hideInterval = $timeout(hideControls, autoHideTime);
-						}
-						else {
-							$timeout.cancel(hideInterval);
-							isBinding = false;
-							$API.videogularElement.unbind("mousemove", onMouseMove);
-						}
-					}
 
 					function onUpdateSize(target, params) {
 						w = params[0];
 						h = params[1];
-
-						TweenLite.killTweensOf($elem);
-						isShowing = false;
 
 						$elem.css("top", (parseInt(h, 10) - parseInt(controlBarHeight, 10)) + "px");
 					}
 
 					function onMouseMove() {
 						showControls();
+						$scope.$apply();
 					}
 
 					function hideControls() {
-						TweenLite.to($elem, 0.5, {top: parseInt(h, 10)});
+						$scope.animationClass = "hide-animation";
 					}
 
 					function showControls() {
-						if (!isShowing)
-						{
-							isShowing = true;
-							TweenLite.to($elem, 0.5, {top: (parseInt(h, 10) - parseInt(controlBarHeight, 10)), onComplete: onShowControls});
-							$timeout.cancel(hideInterval);
-							if (isBinding) hideInterval = $timeout(hideControls, autoHideTime);
-						}
-					}
-
-					function onShowControls() {
-						isShowing = false;
-					}
-
-					function updateAutoHide(value) {
-						if (value) {
-							isBinding = true;
-							$API.videogularElement.bind("mousemove", onMouseMove);
-							hideInterval = $timeout(hideControls, autoHideTime);
-						}
-						else {
-							if (isBinding) {
-								isBinding = false;
-								$API.videogularElement.unbind("mousemove", onMouseMove);
-							}
-							$timeout.cancel(hideInterval);
-							showControls();
-						}
+						$scope.animationClass = "show-animation";
+						$timeout.cancel(hideInterval);
+						if ($scope.autoHide) hideInterval = $timeout(hideControls, autoHideTime);
 					}
 
 					function onPlayerReady() {
@@ -99,13 +47,29 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 
 					$elem.css("display", "none");
 
-					$scope.$watch("autoHide", updateAutoHide);
-					updateAutoHide($scope.autoHide);
+					// If vg-autohide has been set
+					if ($scope.autoHide != undefined) {
+						$scope.$watch("autoHide", function(value) {
+							if (value) {
+								$scope.animationClass = "hide-animation";
+								$API.videogularElement.bind("mousemove", onMouseMove);
+							}
+							else {
+								$scope.animationClass = "";
+								$timeout.cancel(hideInterval);
+								$API.videogularElement.unbind("mousemove", onMouseMove);
+								showControls();
+							}
+						});
+					}
 
-					$scope.autoHideAnimation = "hide-animation";
+					// If vg-autohide-time has been set
+					if ($scope.autoHideTime != undefined) {
+						$scope.$watch("autoHideTime", function(value) {
+							autoHideTime = value;
+						});
+					}
 
-					$rootScope.$on(VG_EVENTS.ON_ENTER_FULLSCREEN, onEnterFullScreen);
-					$rootScope.$on(VG_EVENTS.ON_EXIT_FULLSCREEN, onExitFullscreen);
 					$rootScope.$on(VG_EVENTS.ON_UPDATE_SIZE, onUpdateSize);
 					$rootScope.$on(VG_EVENTS.ON_PLAYER_READY, onPlayerReady);
 				}
