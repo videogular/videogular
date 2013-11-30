@@ -1,7 +1,7 @@
 <div class="container">
 	<div>
 		<videogular vg-width="config.width" vg-height="config.height" vg-theme="config.theme.url" vg-autoplay="config.autoPlay" vg-stretch="config.stretch.value" vg-responsive="config.responsive">
-			<video class='videoPlayer' preload='metadata'>
+			<video preload='metadata'>
 				<source src="assets/videos/oceans-clip.mp4" type="video/mp4">
 				<source src="assets/videos/oceans-clip.webm" type="video/webm">
 				<source src="assets/videos/oceans-clip.ogv" type="video/ogg">
@@ -76,6 +76,19 @@
 					<input id="autoHideInput" type="checkbox" ng-model="config.autoHide">Autohide
 				</label>
 			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div>Theme: {{config.theme.url}}</div>
+			<div>Width: {{config.width}}</div>
+			<div>Height: {{config.height}}</div>
+			<div>Poster image: {{config.plugins.poster.url}}</div>
+			<div>Stretch: {{config.stretch}}</div>
+			<div>AutoPlay: {{config.autoPlay}}</div>
+			<div>AutoHide: {{config.autoHide}}</div>
+			<div>Responsive: {{config.responsive}}</div>
 		</div>
 	</div>
 </div>
