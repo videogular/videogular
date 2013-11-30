@@ -17,3 +17,9 @@ We're developing Videogular focusing on mobile devices and HTML5 video special c
 ## Documentation
 
 See the [Wiki](https://github.com/2fdevs/videogular/wiki) pages for more info about how to use Videogular.
+
+## Credits
+
+Videogular is an open source project maintained by (literally) [two fucking developers] (http://twofuckingdevelopers.com/).
+
+We want to thank all our contributors: [Raúl Jiménez] (https://github.com/Elecash), [Robert Zhang] (https://github.com/rogerz), [Javier Tejero] (https://github.com/javiertejero) and [our bug submitters] (https://github.com/2fdevs/videogular/issues?state=open).
