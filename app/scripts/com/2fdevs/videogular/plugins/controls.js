@@ -42,7 +42,10 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					}
 
 					function onPlayerReady() {
+						var size = $API.getSize();
+
 						$elem.css("display", "table");
+						$elem.css("top", (parseInt(size.height, 10) - parseInt(controlBarHeight, 10)) + "px");
 					}
 
 					$elem.css("display", "none");
@@ -71,7 +74,9 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					}
 
 					$rootScope.$on(VG_EVENTS.ON_UPDATE_SIZE, onUpdateSize);
-					$rootScope.$on(VG_EVENTS.ON_PLAYER_READY, onPlayerReady);
+
+					if ($API.isPlayerReady()) onPlayerReady();
+					else $rootScope.$on(VG_EVENTS.ON_PLAYER_READY, onPlayerReady);
 				}
 			}
 		}
@@ -171,17 +176,20 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					var isSeeking = false;
 					var isPlaying = false;
 					var isPlayingWhenSeeking = false;
-					var iOSTouchStartX = 0;
+					var touchStartX = 0;
 
 					function onScrubBarTouchStart($event) {
+						var touches = $event.originalEvent.touches;
+						var touchX;
+
 						if (VG_UTILS.isiOSDevice()) {
-							iOSTouchStartX = ($event.touches[0].clientX - $event.layerX) * -1;
+							touchStartX = (touches[0].clientX - $event.originalEvent.layerX) * -1;
 						}
 						else {
-							iOSTouchStartX = $event.layerX;
+							touchStartX = $event.originalEvent.layerX;
 						}
 
-						var touchX = $event.touches[0].clientX + iOSTouchStartX - $event.touches[0].target.offsetLeft;
+						touchX = touches[0].clientX + touchStartX - touches[0].target.offsetLeft;
 
 						isSeeking = true;
 						if (isPlaying) isPlayingWhenSeeking = true;
@@ -196,9 +204,12 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 						isSeeking = false;
 					}
 					function onScrubBarTouchMove($event) {
+						var touches = $event.originalEvent.touches;
+						var touchX;
+
 						if (isSeeking) {
-							var touchX = $event.touches[0].clientX + iOSTouchStartX - $event.touches[0].target.offsetLeft;
-							seekTime(touchX * $scope.videoElement[0].duration / $elem[0].scrollWidth);
+							touchX = touches[0].clientX + touchStartX - touches[0].target.offsetLeft;
+							seekTime(touchX * $API.videoElement[0].duration / $elem[0].scrollWidth);
 						}
 					}
 					function onScrubBarTouchLeave($event) {
@@ -484,7 +495,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 	])
 	.directive(
 		"vgFullscreenbutton",
-		["$rootScope", "VG_EVENTS", function($rootScope, VG_EVENTS){
+		["$rootScope", "$window", "VG_EVENTS", function($rootScope, $window, VG_EVENTS){
 			return {
 				restrict: "AE",
 				require: "^videogular",
@@ -509,8 +520,8 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 						$API.toggleFullScreen();
 					}
 
-					if (!window.fullScreenAPI) {
-						var fullScreenButton = angular.element(elem[0]);
+					if (!angular.element($window)[0].fullScreenAPI) {
+						var fullScreenButton = angular.element($elem);
 						fullScreenButton.css("display", "none");
 					}
 					else {
