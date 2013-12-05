@@ -28,14 +28,21 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 		this.fixEventOffset = function($event) {
 			/**
 			 * There's no offsetX in Firefox, so we fix that.
-			 * Solution provided by Iaz Brannigan's answer in this thread:
-			 * http://stackoverflow.com/questions/11334452/event-offsetx-in-firefox
+			 * Solution provided by Jack Moore in this post:
+			 * http://www.jacklmoore.com/notes/mouse-position/
 			 * @param $event
 			 * @returns {*}
 			 */
 			if (navigator.userAgent.match(/Firefox/i)) {
-				$event.offsetX = $event.pageX - $event.currentTarget.offsetLeft;
-				$event.offsetY = $event.pageY;
+				var style = $event.target.currentStyle || window.getComputedStyle($event.target, null);
+				var borderLeftWidth = parseInt(style['borderLeftWidth'], 10);
+				var borderTopWidth = parseInt(style['borderTopWidth'], 10);
+				var rect = $event.target.getBoundingClientRect();
+				var offsetX = $event.clientX - borderLeftWidth - rect.left;
+				var offsetY = $event.clientY - borderTopWidth - rect.top;
+
+				$event.offsetX = offsetX;
+				$event.offsetY = offsetY;
 			}
 
 			return $event;
@@ -209,7 +216,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 									}
 									else {
 										isFullScreenPressed = true;
-										this.play(null);
+										this.play();
 									}
 								}
 								else {
@@ -322,9 +329,13 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 
 								if (isResponsive) {
 									angular.element($window).bind("resize", $scope.onResizeBrowser);
+									$scope.onResizeBrowser();
 								}
 								else {
 									angular.element($window).unbind("resize", $scope.onResizeBrowser);
+									currentWidth = $scope.playerWidth;
+									currentHeight = $scope.playerHeight;
+									$scope.updateSize();
 								}
 							}
 						});

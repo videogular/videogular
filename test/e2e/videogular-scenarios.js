@@ -1,9 +1,27 @@
 'use strict';
 
+angular.scenario.dsl('onPlayerReady', function() {
+	return function() {
+		return this.addFutureAction(
+			'videogular player should fire onPlayerReady',
+			function($window, $document, done) {
+				var $rootScope = $window.angular.element("body").scope();
+
+				function onPlayerReady() {
+					done(null, true);
+				}
+
+				$rootScope.$on("onVgPlayerReady", onPlayerReady);
+			}
+		)
+	}
+});
+
 describe('Videogular', function () {
 
     beforeEach(function () {
 	    browser().navigateTo('../../app/');
+	    expect(onPlayerReady()).toBe(true);
     });
 
 	describe("Videogular Core", function() {
@@ -25,11 +43,25 @@ describe('Videogular', function () {
 		        expect(element('videogular').css("height")).toBe("480px");
 	        });
 
-	        it('should have stretch selected to "Fit" and change it to "Fill"', function () {
+	        it('should have stretch selected to "Fit"', function () {
 		        expect(binding('config.stretch')).toBe("{\"label\":\"Fit\",\"value\":\"fit\"}");
-		        select("config.stretch").option("Fill");
-		        expect(binding('config.stretch')).toBe("{\"label\":\"Fill\",\"value\":\"fill\"}");
+		        expect(element('videogular video').css("width")).toBe("740px");
+		        expect(element('videogular video').css("height")).toBe("308px");
 	        });
+
+		    it('should have stretch selected to "Fit" and change it to "Fill"', function () {
+			    select("config.stretch").option("Fill");
+			    expect(binding('config.stretch')).toBe("{\"label\":\"Fill\",\"value\":\"fill\"}");
+			    expect(element('videogular video').css("width")).toBe("912px");
+			    expect(element('videogular video').css("height")).toBe("380px");
+		    });
+
+		    it('should have stretch selected to "Fit" and change it to "None"', function () {
+			    select("config.stretch").option("None");
+			    expect(binding('config.stretch')).toBe("{\"label\":\"None\",\"value\":\"none\"}");
+			    expect(element('videogular video').css("width")).toBe("634px");
+			    expect(element('videogular video').css("height")).toBe("264px");
+		    });
 
 	        it('should have not autoplay and change it to true', function () {
 		        expect(binding("config.autoPlay")).toBe("false");
@@ -45,8 +77,16 @@ describe('Videogular', function () {
 
 	        it('should have not be responsive and change it to true', function () {
 		        expect(binding("config.responsive")).toBe("false");
+		        expect(element('videogular video').css("width")).toBe("740px");
+		        expect(element('videogular video').css("height")).toBe("308px");
+	        });
+
+	        it('should change responsive mode to true', function () {
+		        expect(binding("config.responsive")).toBe("false");
 		        input("config.responsive").check();
 		        expect(binding("config.responsive")).toBe("true");
+		        expect(element('videogular video').css("width")).not().toBe("740px");
+		        expect(element('videogular video').css("height")).not().toBe("308px");
 	        });
 	    });
 	});
@@ -60,14 +100,20 @@ describe('Videogular', function () {
 		});
 
 		it('should change image size when stretch changes', function () {
-			expect(element("vg-poster-image img").width()).toBe(740);
-			expect(element("vg-poster-image img").height()).toBe(305);
+			expect(element("vg-poster-image img").css("width")).toBe("740px");
+			expect(element("vg-poster-image img").css("height")).toBe("305px");
 			select("config.stretch").option("Fill");
-			expect(element("vg-poster-image img").width()).toBe(921);
-			expect(element("vg-poster-image img").height()).toBe(380);
+			expect(element("vg-poster-image img").css("width")).toBe("921px");
+			expect(element("vg-poster-image img").css("height")).toBe("380px");
 			select("config.stretch").option("None");
-			expect(element("vg-poster-image img").width()).toBe(640);
-			expect(element("vg-poster-image img").height()).toBe(264);
+			expect(element("vg-poster-image img").css("width")).toBe("640px");
+			expect(element("vg-poster-image img").css("height")).toBe("264px");
+		});
+	});
+
+	describe("Buffering plugin", function() {
+		it('should hide buffering on load', function () {
+			expect(element("vg-buffering").css("display")).toBe("none");
 		});
 	});
 });
