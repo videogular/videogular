@@ -28,7 +28,7 @@ angular.module('myApp').controller('MainCtrl',
 			},
 			plugins: {
 				poster: {
-					url: "assets/images/oceans-clip.png"
+					url: "assets/images/videogular.png"
 				}
 			}
 		};
