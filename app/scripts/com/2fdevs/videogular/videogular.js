@@ -484,24 +484,19 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 						var percentageWidth;
 						var percentageHeight;
 						var result = {};
+						var wider = vg.videoElement[0].videoWidth / vg.videoElement[0].videoHeight > w / h;
 						result.width = w;
 						result.height = h;
 
-						switch (currentStretch) {
-							case "fit":
-								percentageWidth = w * 100 / vg.videoElement[0].videoWidth;
-								result.height = vg.videoElement[0].videoHeight * percentageWidth / 100;
-								break;
-
-							case "fill":
-								percentageHeight = h * 100 / vg.videoElement[0].videoHeight;
-								result.width = vg.videoElement[0].videoWidth * percentageHeight / 100;
-								break;
-
-							case "none":
-								result.width = vg.videoElement[0].videoWidth;
-								result.height = vg.videoElement[0].videoHeight;
-								break;
+						if (currentStretch == "fit" && wider || currentStretch == "fill" && !wider) {
+							percentageWidth = w * 100 / vg.videoElement[0].videoWidth;
+							result.height = vg.videoElement[0].videoHeight * percentageWidth / 100;
+						} else if (currentStretch == "fill" && wider || currentStretch == "fit" && !wider) {
+							percentageHeight = h * 100 / vg.videoElement[0].videoHeight;
+							result.width = vg.videoElement[0].videoWidth * percentageHeight / 100;
+						} else {
+							result.width = vg.videoElement[0].videoWidth;
+							result.height = vg.videoElement[0].videoHeight;
 						}
 
 						// Metadata has not been loaded or any problem has been happened
