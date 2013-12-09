@@ -45,15 +45,15 @@ describe('Videogular', function () {
 
 	        it('should have stretch selected to "Fit"', function () {
 		        expect(binding('config.stretch')).toBe("{\"label\":\"Fit\",\"value\":\"fit\"}");
-		        expect(element('videogular video').css("width")).toBe("740px");
-		        expect(element('videogular video').css("height")).toBe("416px");
+		        expect(element('videogular video').css("width")).toBe("675px");
+		        expect(element('videogular video').css("height")).toBe("380px");
 	        });
 
 		    it('should have stretch selected to "Fit" and change it to "Fill"', function () {
 			    select("config.stretch").option("Fill");
 			    expect(binding('config.stretch')).toBe("{\"label\":\"Fill\",\"value\":\"fill\"}");
-			    expect(element('videogular video').css("width")).toBe("675px");
-			    expect(element('videogular video').css("height")).toBe("380px");
+			    expect(element('videogular video').css("width")).toBe("740px");
+			    expect(element('videogular video').css("height")).toBe("416px");
 		    });
 
 		    it('should have stretch selected to "Fit" and change it to "None"', function () {
@@ -77,8 +77,8 @@ describe('Videogular', function () {
 
 	        it('should have not be responsive and change it to true', function () {
 		        expect(binding("config.responsive")).toBe("false");
-		        expect(element('videogular video').css("width")).toBe("740px");
-		        expect(element('videogular video').css("height")).toBe("416px");
+		        expect(element('videogular video').css("width")).toBe("675px");
+		        expect(element('videogular video').css("height")).toBe("380px");
 	        });
 
 	        it('should change responsive mode to true', function () {
