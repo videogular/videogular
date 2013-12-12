@@ -272,6 +272,8 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 					};
 
 					// PRIVATE FUNCTIONS
+					$scope.vg = this;
+
 					$scope.init = function() {
 						vg.updateTheme($scope.theme);
 						$scope.addBindings();
