@@ -12,70 +12,70 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					autoHide: "=vgAutohide",
 					autoHideTime: "=vgAutohideTime"
 				},
-				link: function($scope, $elem, $attr, $API) {
+				link: function(scope, elem, attr, API) {
 					var w = 0;
 					var h = 0;
 					var autoHideTime = 2000;
-					var controlBarHeight = $elem[0].style.height;
+					var controlBarHeight = elem[0].style.height;
 					var hideInterval;
 
 					function onUpdateSize(target, params) {
 						w = params[0];
 						h = params[1];
 
-						$elem.css("top", (parseInt(h, 10) - parseInt(controlBarHeight, 10)) + "px");
+						elem.css("top", (parseInt(h, 10) - parseInt(controlBarHeight, 10)) + "px");
 					}
 
 					function onMouseMove() {
 						showControls();
-						$scope.$apply();
+						scope.$apply();
 					}
 
 					function hideControls() {
-						$scope.animationClass = "hide-animation";
+						scope.animationClass = "hide-animation";
 					}
 
 					function showControls() {
-						$scope.animationClass = "show-animation";
+						scope.animationClass = "show-animation";
 						$timeout.cancel(hideInterval);
-						if ($scope.autoHide) hideInterval = $timeout(hideControls, autoHideTime);
+						if (scope.autoHide) hideInterval = $timeout(hideControls, autoHideTime);
 					}
 
 					function onPlayerReady() {
-						var size = $API.getSize();
+						var size = API.getSize();
 
-						$elem.css("display", "table");
-						$elem.css("top", (parseInt(size.height, 10) - parseInt(controlBarHeight, 10)) + "px");
+						elem.css("display", "table");
+						elem.css("top", (parseInt(size.height, 10) - parseInt(controlBarHeight, 10)) + "px");
 					}
 
-					$elem.css("display", "none");
+					elem.css("display", "none");
 
 					// If vg-autohide has been set
-					if ($scope.autoHide != undefined) {
-						$scope.$watch("autoHide", function(value) {
+					if (scope.autoHide != undefined) {
+						scope.$watch("autoHide", function(value) {
 							if (value) {
-								$scope.animationClass = "hide-animation";
-								$API.videogularElement.bind("mousemove", onMouseMove);
+								scope.animationClass = "hide-animation";
+								API.videogularElement.bind("mousemove", onMouseMove);
 							}
 							else {
-								$scope.animationClass = "";
+								scope.animationClass = "";
 								$timeout.cancel(hideInterval);
-								$API.videogularElement.unbind("mousemove", onMouseMove);
+								API.videogularElement.unbind("mousemove", onMouseMove);
 								showControls();
 							}
 						});
 					}
 
 					// If vg-autohide-time has been set
-					if ($scope.autoHideTime != undefined) {
-						$scope.$watch("autoHideTime", function(value) {
+					if (scope.autoHideTime != undefined) {
+						scope.$watch("autoHideTime", function(value) {
 							autoHideTime = value;
 						});
 					}
 
 					$rootScope.$on(VG_EVENTS.ON_UPDATE_SIZE, onUpdateSize);
 
-					if ($API.isPlayerReady()) onPlayerReady();
+					if (API.isPlayerReady()) onPlayerReady();
 					else $rootScope.$on(VG_EVENTS.ON_PLAYER_READY, onPlayerReady);
 				}
 			}
@@ -95,30 +95,30 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 				controller: function ($scope){
 					$scope.currentIcon = $.parseHTML($scope.vgPlayIcon)[0].data;
 				},
-				link: function($scope, $elem, $attr, $API) {
+				link: function(scope, elem, attr, API) {
 					function onChangeState(target, params) {
 						switch (params[0]) {
 							case VG_STATES.PLAY:
-								$scope.currentIcon = $.parseHTML($scope.vgPauseIcon)[0].data;
+								scope.currentIcon = $.parseHTML(scope.vgPauseIcon)[0].data;
 								break;
 
 							case VG_STATES.PAUSE:
-								$scope.currentIcon = $.parseHTML($scope.vgPlayIcon)[0].data;
+								scope.currentIcon = $.parseHTML(scope.vgPlayIcon)[0].data;
 								break;
 
 							case VG_STATES.STOP:
-								$scope.currentIcon = $.parseHTML($scope.vgPlayIcon)[0].data;
+								scope.currentIcon = $.parseHTML(scope.vgPlayIcon)[0].data;
 								break;
 						}
 
-						$scope.$apply();
+						scope.$apply();
 					}
 
 					function onClickPlayPause() {
-						$API.playPause();
+						API.playPause();
 					}
 
-					$elem.bind("click", onClickPlayPause);
+					elem.bind("click", onClickPlayPause);
 					$rootScope.$on(VG_EVENTS.ON_SET_STATE, onChangeState);
 				}
 			}
@@ -129,7 +129,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 		["$rootScope", "VG_EVENTS", function($rootScope, VG_EVENTS){
 			return {
 				restrict: "E",
-				link: function($scope, $elem, $attr) {
+				link: function(scope, elem, attr) {
 					function parseTime(time) {
 						var mm = Math.floor(time / 60);
 						var ss = Math.floor(time - (mm * 60));
@@ -142,21 +142,21 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					function onUpdateTime(target, params) {
 						var time = parseTime(params[0]);
 
-						$scope.currentTime = time.mins + ":" + time.secs;
+						scope.currentTime = time.mins + ":" + time.secs;
 					}
 
 					function onComplete(target, params) {
-						$scope.currentTime = "00:00";
+						scope.currentTime = "00:00";
 					}
 
 					function onStartPlaying(target, params) {
 						var time = parseTime(params[0]);
 
-						$scope.totalTime = time.mins + ":" + time.secs;
+						scope.totalTime = time.mins + ":" + time.secs;
 					}
 
-					$scope.currentTime = "00:00";
-					$scope.totalTime = "00:00";
+					scope.currentTime = "00:00";
+					scope.totalTime = "00:00";
 
 					$rootScope.$on(VG_EVENTS.ON_START_PLAYING, onStartPlaying);
 					$rootScope.$on(VG_EVENTS.ON_UPDATE_TIME, onUpdateTime);
@@ -172,7 +172,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 				restrict: "AE",
 				require: "^videogular",
 				replace: true,
-				link: function($scope, $elem, $attr, $API) {
+				link: function(scope, elem, attr, API) {
 					var isSeeking = false;
 					var isPlaying = false;
 					var isPlayingWhenSeeking = false;
@@ -193,13 +193,13 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 
 						isSeeking = true;
 						if (isPlaying) isPlayingWhenSeeking = true;
-						seekTime(touchX * $API.videoElement[0].duration / $elem[0].scrollWidth);
-						$API.pause();
+						seekTime(touchX * API.videoElement[0].duration / elem[0].scrollWidth);
+						API.pause();
 					}
 					function onScrubBarTouchEnd($event) {
 						if (isPlayingWhenSeeking) {
 							isPlayingWhenSeeking = false;
-							$API.play();
+							API.play();
 						}
 						isSeeking = false;
 					}
@@ -209,7 +209,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 
 						if (isSeeking) {
 							touchX = touches[0].clientX + touchStartX - touches[0].target.offsetLeft;
-							seekTime(touchX * $API.videoElement[0].duration / $elem[0].scrollWidth);
+							seekTime(touchX * API.videoElement[0].duration / elem[0].scrollWidth);
 						}
 					}
 					function onScrubBarTouchLeave($event) {
@@ -221,30 +221,30 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 
 						isSeeking = true;
 						if (isPlaying) isPlayingWhenSeeking = true;
-						seekTime($event.offsetX * $API.videoElement[0].duration / $elem[0].scrollWidth);
-						$API.pause();
+						seekTime($event.offsetX * API.videoElement[0].duration / elem[0].scrollWidth);
+						API.pause();
 					}
 					function onScrubBarMouseUp($event) {
 						$event = VG_UTILS.fixEventOffset($event);
 
 						if (isPlayingWhenSeeking) {
 							isPlayingWhenSeeking = false;
-							$API.play();
+							API.play();
 						}
 						isSeeking = false;
-						seekTime($event.offsetX * $API.videoElement[0].duration / $elem[0].scrollWidth);
+						seekTime($event.offsetX * API.videoElement[0].duration / elem[0].scrollWidth);
 					}
 					function onScrubBarMouseMove($event) {
 						if (isSeeking) {
 							$event = VG_UTILS.fixEventOffset($event);
-							seekTime($event.offsetX * $API.videoElement[0].duration / $elem[0].scrollWidth);
+							seekTime($event.offsetX * API.videoElement[0].duration / elem[0].scrollWidth);
 						}
 					}
 					function onScrubBarMouseLeave($event) {
 						isSeeking = false;
 					}
 					function seekTime(time) {
-						$API.seekTime(time);
+						API.seekTime(time);
 					}
 
 					function onChangeState(target, params) {
@@ -269,16 +269,16 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 
 					// Touch move is really buggy in Chrome for Android, maybe we could use mouse move that works ok
 					if (VG_UTILS.isMobileDevice()) {
-						$elem.bind("touchstart", onScrubBarTouchStart);
-						$elem.bind("touchend", onScrubBarTouchEnd);
-						$elem.bind("touchmove", onScrubBarTouchMove);
-						$elem.bind("touchleave", onScrubBarTouchLeave);
+						elem.bind("touchstart", onScrubBarTouchStart);
+						elem.bind("touchend", onScrubBarTouchEnd);
+						elem.bind("touchmove", onScrubBarTouchMove);
+						elem.bind("touchleave", onScrubBarTouchLeave);
 					}
 					else {
-						$elem.bind("mousedown", onScrubBarMouseDown);
-						$elem.bind("mouseup", onScrubBarMouseUp);
-						$elem.bind("mousemove", onScrubBarMouseMove);
-						$elem.bind("mouseleave", onScrubBarMouseLeave);
+						elem.bind("mousedown", onScrubBarMouseDown);
+						elem.bind("mouseup", onScrubBarMouseUp);
+						elem.bind("mousemove", onScrubBarMouseMove);
+						elem.bind("mouseleave", onScrubBarMouseLeave);
 					}
 				}
 			}
@@ -289,17 +289,17 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 		["$rootScope", "VG_EVENTS", function($rootScope, VG_EVENTS){
 			return {
 				restrict: "E",
-				link: function($scope, $elem, $attr) {
+				link: function(scope, elem, attr) {
 					var percentTime = 0;
 
 					function onUpdateTime(target, params){
 						percentTime = Math.round((params[0] / params[1]) * 100);
-						$elem.css("width", percentTime + "%");
+						elem.css("width", percentTime + "%");
 					}
 
 					function onComplete(target, params){
 						percentTime = 0;
-						$elem.css("width", percentTime + "%");
+						elem.css("width", percentTime + "%");
 					}
 
 					$rootScope.$on(VG_EVENTS.ON_UPDATE_TIME, onUpdateTime);
@@ -313,26 +313,26 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 		["$rootScope", "VG_UTILS", function($rootScope, VG_UTILS) {
 			return {
 				restrict: "E",
-				link: function($scope, $elem, $attr) {
+				link: function(scope, elem, attr) {
 					function onMouseOverVolume() {
-						$scope.volumeVisibility = "visible";
-						$scope.$apply();
+						scope.volumeVisibility = "visible";
+						scope.$apply();
 					}
 
 					function onMouseLeaveVolume() {
-						$scope.volumeVisibility = "hidden";
-						$scope.$apply();
+						scope.volumeVisibility = "hidden";
+						scope.$apply();
 					}
 
 					// We hide volume controls on mobile devices
 					if (VG_UTILS.isMobileDevice()) {
-						$elem.css("display", "none");
+						elem.css("display", "none");
 					}
 					else {
-						$scope.volumeVisibility = "hidden";
+						scope.volumeVisibility = "hidden";
 
-						$elem.bind("mouseover", onMouseOverVolume);
-						$elem.bind("mouseleave", onMouseLeaveVolume);
+						elem.bind("mouseover", onMouseOverVolume);
+						elem.bind("mouseleave", onMouseLeaveVolume);
 					}
 				}
 			}
@@ -345,10 +345,10 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 				restrict: "E",
 				require: "^videogular",
 				templateUrl: "views/videogular/plugins/controls/volume-bar.html",
-				link: function($scope, $elem, $attr, $API) {
+				link: function(scope, elem, attr, API) {
 					var isChangingVolume = false;
-					var volumeBackElem = angular.element($elem[0].getElementsByClassName("volumeBackground"));
-					var volumeValueElem = angular.element($elem[0].getElementsByClassName("volumeValue"));
+					var volumeBackElem = angular.element(elem[0].getElementsByClassName("volumeBackground"));
+					var volumeValueElem = angular.element(elem[0].getElementsByClassName("volumeValue"));
 
 					function onClickVolume($event) {
 						$event = VG_UTILS.fixEventOffset($event);
@@ -357,7 +357,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 						var volValue = 1 - (value / 100);
 						updateVolumeView(value);
 
-						$API.setVolume(volValue);
+						API.setVolume(volValue);
 					}
 
 					function onMouseDownVolume($event) {
@@ -380,7 +380,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 							var volValue = 1 - (value / 100);
 							updateVolumeView(value);
 
-							$API.setVolume(volValue);
+							API.setVolume(volValue);
 						}
 					}
 
@@ -394,12 +394,12 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					}
 
 					function onChangeVisibility(value) {
-						$elem.css("visibility", value);
+						elem.css("visibility", value);
 					}
 
-					$elem.css("visibility", $scope.volumeVisibility);
+					elem.css("visibility", scope.volumeVisibility);
 
-					$scope.$watch("volumeVisibility", onChangeVisibility);
+					scope.$watch("volumeVisibility", onChangeVisibility);
 
 					volumeBackElem.bind("click", onClickVolume);
 					volumeBackElem.bind("mousedown", onMouseDownVolume);
@@ -434,59 +434,59 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					$scope.currentIcon = $scope.volumeLevel3Icon;
 				},
 				templateUrl: "views/videogular/plugins/controls/mute-button.html",
-				link: function($scope, $elem, $attr, $API) {
+				link: function(scope, elem, attr, API) {
 					function onClickMute($event) {
-						if ($scope.currentIcon == $scope.muteIcon) {
-							$scope.currentVolume = $scope.defaultVolume;
+						if (scope.currentIcon == scope.muteIcon) {
+							scope.currentVolume = scope.defaultVolume;
 						}
 						else {
-							$scope.currentVolume = 0;
-							$scope.currentIcon = $scope.muteIcon;
+							scope.currentVolume = 0;
+							scope.currentIcon = scope.muteIcon;
 						}
 
-						$API.setVolume($scope.currentVolume);
+						API.setVolume(scope.currentVolume);
 					}
 
 					function onSetVolume(target, params) {
-						$scope.currentVolume = params[0];
+						scope.currentVolume = params[0];
 
 						// TODO: Save volume with LocalStorage
 						// if it's not muted we save the default volume
-						if ($scope.currentIcon != $scope.muteIcon) {
-							$scope.defaultVolume = params[0];
+						if (scope.currentIcon != scope.muteIcon) {
+							scope.defaultVolume = params[0];
 						}
 						else {
 							// if was muted but the user changed the volume
 							if (params[0] > 0) {
-								$scope.defaultVolume = params[0];
+								scope.defaultVolume = params[0];
 							}
 						}
 
 						var percentValue = Math.round(params[0] * 100);
 						if (percentValue == 0) {
-							$scope.currentIcon = $scope.muteIcon;
+							scope.currentIcon = scope.muteIcon;
 						}
 						else if (percentValue > 0 && percentValue < 25) {
-							$scope.currentIcon = $scope.volumeLevel0Icon;
+							scope.currentIcon = scope.volumeLevel0Icon;
 						}
 						else if (percentValue >= 25 && percentValue < 50) {
-							$scope.currentIcon = $scope.volumeLevel1Icon;
+							scope.currentIcon = scope.volumeLevel1Icon;
 						}
 						else if (percentValue >= 50 && percentValue < 75) {
-							$scope.currentIcon = $scope.volumeLevel2Icon;
+							scope.currentIcon = scope.volumeLevel2Icon;
 						}
 						else if (percentValue >= 75) {
-							$scope.currentIcon = $scope.volumeLevel3Icon;
+							scope.currentIcon = scope.volumeLevel3Icon;
 						}
 
-						$scope.$apply();
+						scope.$apply();
 					}
 
-					$scope.defaultVolume = 1;
-					$scope.currentVolume = $scope.defaultVolume;
+					scope.defaultVolume = 1;
+					scope.currentVolume = scope.defaultVolume;
 
 					//TODO: get volume from localStorage
-					$elem.bind("click", onClickMute);
+					elem.bind("click", onClickMute);
 
 					$rootScope.$on(VG_EVENTS.ON_SET_VOLUME, onSetVolume);
 				}
@@ -509,27 +509,21 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					$scope.currentIcon = $scope.enterFullScreenIcon;
 				},
 				templateUrl: "views/videogular/plugins/controls/full-screen-button.html",
-				link: function($scope, $elem, $attr, $API) {
+				link: function(scope, elem, attr, API) {
 					function onEnterFullScreen() {
-						$scope.fullscreenIcon = $scope.exitFullScreenIcon;
+						scope.fullscreenIcon = scope.exitFullScreenIcon;
 					}
 					function onExitFullScreen() {
-						$scope.fullscreenIcon = $scope.enterFullScreenIcon;
+						scope.fullscreenIcon = scope.enterFullScreenIcon;
 					}
 					function onClickFullScreen($event) {
-						$API.toggleFullScreen();
+						API.toggleFullScreen();
 					}
 
-					if (!angular.element($window)[0].fullScreenAPI) {
-						var fullScreenButton = angular.element($elem);
-						fullScreenButton.css("display", "none");
-					}
-					else {
-						$elem.bind("click", onClickFullScreen);
+					elem.bind("click", onClickFullScreen);
 
-						$rootScope.$on(VG_EVENTS.ON_ENTER_FULLSCREEN, onEnterFullScreen);
-						$rootScope.$on(VG_EVENTS.ON_EXIT_FULLSCREEN, onExitFullScreen);
-					}
+					$rootScope.$on(VG_EVENTS.ON_ENTER_FULLSCREEN, onEnterFullScreen);
+					$rootScope.$on(VG_EVENTS.ON_EXIT_FULLSCREEN, onExitFullScreen);
 				}
 			}
 		}

@@ -149,6 +149,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 					var playerWidth = 0;
 					var playerHeight = 0;
 					var isFullScreenPressed = false;
+					var isFullScreen = false;
 					var isMetaDataLoaded = false;
 					var isElementReady = false;
 					var isVideoReady = false;
@@ -200,31 +201,47 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 					};
 
 					this.toggleFullScreen = function() {
-						if (angular.element($window)[0].fullScreenAPI.isFullScreen()) {
-							if (!VG_UTILS.isMobileDevice()) {
-								document[angular.element($window)[0].fullScreenAPI.exit]();
+						// There is no native full screen support
+						if (!angular.element($window)[0].fullScreenAPI) {
+							if (isFullScreen) {
+								this.videogularElement.removeClass("fullscreen");
 							}
+							else {
+								this.videogularElement.addClass("fullscreen");
+							}
+
+							isFullScreen = !isFullScreen;
+
+							$scope.updateSize();
 						}
+						// Perform native full screen support
 						else {
-							// On mobile devices we should make fullscreen only the video object
-							if (VG_UTILS.isMobileDevice()) {
-								// On iOS we should check if user pressed before fullscreen button
-								// and also if metadata is loaded
-								if (VG_UTILS.isiOSDevice()) {
-									if (isMetaDataLoaded) {
-										this.enterElementInFullScreen(this.videoElement[0]);
-									}
-									else {
-										isFullScreenPressed = true;
-										this.play();
-									}
-								}
-								else {
-									this.enterElementInFullScreen(this.videoElement[0]);
+							if (angular.element($window)[0].fullScreenAPI.isFullScreen()) {
+								if (!VG_UTILS.isMobileDevice()) {
+									document[angular.element($window)[0].fullScreenAPI.exit]();
 								}
 							}
 							else {
-								this.enterElementInFullScreen(this.elementScope[0]);
+								// On mobile devices we should make fullscreen only the video object
+								if (VG_UTILS.isMobileDevice()) {
+									// On iOS we should check if user pressed before fullscreen button
+									// and also if metadata is loaded
+									if (VG_UTILS.isiOSDevice()) {
+										if (isMetaDataLoaded) {
+											this.enterElementInFullScreen(this.videoElement[0]);
+										}
+										else {
+											isFullScreenPressed = true;
+											this.play();
+										}
+									}
+									else {
+										this.enterElementInFullScreen(this.videoElement[0]);
+									}
+								}
+								else {
+									this.enterElementInFullScreen(this.elementScope[0]);
+								}
 							}
 						}
 					};
@@ -389,14 +406,20 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 							var videoTop;
 							var videoLeft;
 
-							if (angular.element($window)[0].fullScreenAPI && angular.element($window)[0].fullScreenAPI.isFullScreen()) {
+							if (angular.element($window)[0].fullScreenAPI && angular.element($window)[0].fullScreenAPI.isFullScreen() || isFullScreen) {
 								vg.elementScope.css("width", parseInt(window.screen.width, 10) + "px");
 								vg.elementScope.css("height", parseInt(window.screen.height, 10) + "px");
 
 								videoSize = $scope.getVideoSize(window.screen.width, window.screen.height);
 
-								playerWidth = window.screen.width;
-								playerHeight = window.screen.height;
+								if (isFullScreen) {
+									playerWidth = $window.innerWidth;
+									playerHeight = $window.innerHeight;
+								}
+								else {
+									playerWidth = $window.screen.width;
+									playerHeight = $window.screen.height;
+								}
 							}
 							else {
 								vg.elementScope.css("width", parseInt(currentWidth, 10) + "px");
