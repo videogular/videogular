@@ -73,10 +73,10 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 						});
 					}
 
-					$rootScope.$on(VG_EVENTS.ON_UPDATE_SIZE, onUpdateSize);
+					$API.$on(VG_EVENTS.ON_UPDATE_SIZE, onUpdateSize);
 
 					if ($API.isPlayerReady()) onPlayerReady();
-					else $rootScope.$on(VG_EVENTS.ON_PLAYER_READY, onPlayerReady);
+					else $API.$on(VG_EVENTS.ON_PLAYER_READY, onPlayerReady);
 				}
 			}
 		}
@@ -111,7 +111,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 								break;
 						}
 
-						$scope.$apply();
+						//if (!$scope.$$phase) $scope.$apply();
 					}
 
 					function onClickPlayPause() {
@@ -119,7 +119,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					}
 
 					$elem.bind("click", onClickPlayPause);
-					$rootScope.$on(VG_EVENTS.ON_SET_STATE, onChangeState);
+					$API.$on(VG_EVENTS.ON_SET_STATE, onChangeState);
 				}
 			}
 		}
@@ -128,8 +128,9 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 		"vgTimedisplay",
 		["$rootScope", "VG_EVENTS", function($rootScope, VG_EVENTS){
 			return {
+				require: "^videogular",
 				restrict: "E",
-				link: function($scope, $elem, $attr) {
+				link: function($scope, $elem, $attr, $API) {
 					function parseTime(time) {
 						var mm = Math.floor(time / 60);
 						var ss = Math.floor(time - (mm * 60));
@@ -158,9 +159,9 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					$scope.currentTime = "00:00";
 					$scope.totalTime = "00:00";
 
-					$rootScope.$on(VG_EVENTS.ON_START_PLAYING, onStartPlaying);
-					$rootScope.$on(VG_EVENTS.ON_UPDATE_TIME, onUpdateTime);
-					$rootScope.$on(VG_EVENTS.ON_COMPLETE, onComplete);
+					$API.$on(VG_EVENTS.ON_START_PLAYING, onStartPlaying);
+					$API.$on(VG_EVENTS.ON_UPDATE_TIME, onUpdateTime);
+					$API.$on(VG_EVENTS.ON_COMPLETE, onComplete);
 				}
 			}
 		}
@@ -265,7 +266,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 						}
 					}
 
-					$rootScope.$on(VG_EVENTS.ON_SET_STATE, onChangeState);
+					$API.$on(VG_EVENTS.ON_SET_STATE, onChangeState);
 
 					// Touch move is really buggy in Chrome for Android, maybe we could use mouse move that works ok
 					if (VG_UTILS.isMobileDevice()) {
@@ -289,7 +290,8 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 		["$rootScope", "VG_EVENTS", function($rootScope, VG_EVENTS){
 			return {
 				restrict: "E",
-				link: function($scope, $elem, $attr) {
+				require: "^videogular",
+				link: function($scope, $elem, $attr, $API) {
 					var percentTime = 0;
 
 					function onUpdateTime(target, params){
@@ -302,8 +304,8 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 						$elem.css("width", percentTime + "%");
 					}
 
-					$rootScope.$on(VG_EVENTS.ON_UPDATE_TIME, onUpdateTime);
-					$rootScope.$on(VG_EVENTS.ON_COMPLETE, onComplete);
+					$API.$on(VG_EVENTS.ON_UPDATE_TIME, onUpdateTime);
+					$API.$on(VG_EVENTS.ON_COMPLETE, onComplete);
 				}
 			}
 		}
@@ -407,7 +409,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					volumeBackElem.bind("mousemove", onMouseMoveVolume);
 					volumeBackElem.bind("mouseleave", onMouseLeaveVolume);
 
-					$rootScope.$on(VG_EVENTS.ON_SET_VOLUME, onSetVolume);
+					$API.$on(VG_EVENTS.ON_SET_VOLUME, onSetVolume);
 				}
 			}
 		}
@@ -488,7 +490,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					//TODO: get volume from localStorage
 					$elem.bind("click", onClickMute);
 
-					$rootScope.$on(VG_EVENTS.ON_SET_VOLUME, onSetVolume);
+					$API.$on(VG_EVENTS.ON_SET_VOLUME, onSetVolume);
 				}
 			}
 		}
@@ -527,8 +529,8 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					else {
 						$elem.bind("click", onClickFullScreen);
 
-						$rootScope.$on(VG_EVENTS.ON_ENTER_FULLSCREEN, onEnterFullScreen);
-						$rootScope.$on(VG_EVENTS.ON_EXIT_FULLSCREEN, onExitFullScreen);
+						$API.$on(VG_EVENTS.ON_ENTER_FULLSCREEN, onEnterFullScreen);
+						$API.$on(VG_EVENTS.ON_EXIT_FULLSCREEN, onExitFullScreen);
 					}
 				}
 			}

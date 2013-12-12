@@ -76,9 +76,9 @@ angular.module("com.2fdevs.videogular.plugins.poster", [])
 
 					$scope.$watch("vgStretch", onUpdateStretch);
 
-					$rootScope.$on(VG_EVENTS.ON_PLAY, onPlayVideo);
-					$rootScope.$on(VG_EVENTS.ON_COMPLETE, onCompleteVideo);
-					$rootScope.$on(VG_EVENTS.ON_UPDATE_SIZE, onUpdateSize);
+					$API.$on(VG_EVENTS.ON_PLAY, onPlayVideo);
+					$API.$on(VG_EVENTS.ON_COMPLETE, onCompleteVideo);
+					$API.$on(VG_EVENTS.ON_UPDATE_SIZE, onUpdateSize);
 				}
 			}
 		}
