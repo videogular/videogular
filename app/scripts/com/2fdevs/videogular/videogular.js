@@ -380,7 +380,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 						$scope.updateSize();
 						$rootScope.$emit(VG_EVENTS.ON_PLAYER_READY);
 
-						if ($scope.autoPlay && !VG_UTILS.isMobileDevice()) vg.play();
+						if ($scope.autoPlay && !VG_UTILS.isMobileDevice() || currentState === VG_STATES.PLAY) vg.play();
 					};
 
 					$scope.updateSize = function() {
