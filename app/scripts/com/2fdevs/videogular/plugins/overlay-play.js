@@ -47,9 +47,9 @@ angular.module("com.2fdevs.videogular.plugins.overlayplay", [])
 
 					$elem.bind("click", onClickOverlayPlay);
 
-					$rootScope.$on(VG_EVENTS.ON_PLAY, onPlay);
-					$rootScope.$on(VG_EVENTS.ON_SET_STATE, onChangeState);
-					$rootScope.$on(VG_EVENTS.ON_COMPLETE, onComplete);
+					$API.$on(VG_EVENTS.ON_PLAY, onPlay);
+					$API.$on(VG_EVENTS.ON_SET_STATE, onChangeState);
+					$API.$on(VG_EVENTS.ON_COMPLETE, onComplete);
 				}
 			}
 		}

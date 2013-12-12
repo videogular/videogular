@@ -34,11 +34,11 @@ angular.module("com.2fdevs.videogular.plugins.buffering", [])
 					}
 					else {
 						if ($API.isPlayerReady()) onPlayerReady();
-						else $rootScope.$on(VG_EVENTS.ON_PLAYER_READY, onPlayerReady);
+						else $API.$on(VG_EVENTS.ON_PLAYER_READY, onPlayerReady);
 					}
 
-					$rootScope.$on(VG_EVENTS.ON_BUFFERING, onBuffering);
-					$rootScope.$on(VG_EVENTS.ON_START_PLAYING, onStartPlaying);
+					$API.$on(VG_EVENTS.ON_BUFFERING, onBuffering);
+					$API.$on(VG_EVENTS.ON_START_PLAYING, onStartPlaying);
 				}
 			}
 		}

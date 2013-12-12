@@ -157,6 +157,10 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 					var vg = this;
 
 					// PUBLIC $API
+					this.$on = function() {
+						$scope.$on.apply($scope, arguments);
+					}
+
 					this.isPlayerReady = function() {
 						return isPlayerReady;
 					};
@@ -169,19 +173,19 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 						if (this.videoElement[0].paused) {
 							this.videoElement[0].play();
 							this.setState(VG_STATES.PLAY);
-							$rootScope.$emit(VG_EVENTS.ON_PLAY);
+							$scope.$emit(VG_EVENTS.ON_PLAY);
 						}
 						else {
 							this.videoElement[0].pause();
 							this.setState(VG_STATES.PAUSE);
-							$rootScope.$emit(VG_EVENTS.ON_PAUSE);
+							$scope.$emit(VG_EVENTS.ON_PAUSE);
 						}
 					};
 
 					this.setState = function(newState) {
 						if (newState && newState != currentState) {
 							currentState = newState;
-							$rootScope.$emit(VG_EVENTS.ON_SET_STATE, [currentState]);
+							$scope.$emit(VG_EVENTS.ON_SET_STATE, [currentState]);
 						}
 
 						return currentState;
@@ -190,13 +194,13 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 					this.play = function() {
 						this.videoElement[0].play();
 						this.setState(VG_STATES.PLAY);
-						$rootScope.$emit(VG_EVENTS.ON_PLAY);
+						$scope.$emit(VG_EVENTS.ON_PLAY);
 					};
 
 					this.pause = function() {
 						this.videoElement[0].pause();
 						this.setState(VG_STATES.PAUSE);
-						$rootScope.$emit(VG_EVENTS.ON_PAUSE);
+						$scope.$emit(VG_EVENTS.ON_PAUSE);
 					};
 
 					this.toggleFullScreen = function() {
@@ -235,7 +239,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 
 					this.setVolume = function(newVolume) {
 						this.videoElement[0].volume = newVolume;
-						$rootScope.$emit(VG_EVENTS.ON_SET_VOLUME, [newVolume]);
+						$scope.$emit(VG_EVENTS.ON_SET_VOLUME, [newVolume]);
 					};
 
 					this.updateTheme = function(value) {
@@ -378,7 +382,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 
 						isPlayerReady = true;
 						$scope.updateSize();
-						$rootScope.$emit(VG_EVENTS.ON_PLAYER_READY);
+						$scope.$emit(VG_EVENTS.ON_PLAYER_READY);
 
 						if ($scope.autoPlay && !VG_UTILS.isMobileDevice() || currentState === VG_STATES.PLAY) vg.play();
 					};
@@ -429,7 +433,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 							vg.elementScope.css("width", parseInt(playerWidth, 10) + "px");
 							vg.elementScope.css("height", parseInt(playerHeight, 10) + "px");
 
-							$rootScope.$emit(VG_EVENTS.ON_UPDATE_SIZE, [playerWidth, playerHeight]);
+							$scope.$emit(VG_EVENTS.ON_UPDATE_SIZE, [playerWidth, playerHeight]);
 						}
 					};
 
@@ -445,10 +449,10 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 
 					$scope.onFullScreenChange = function(event) {
 						if (angular.element($window)[0].fullScreenAPI.isFullScreen()) {
-							$rootScope.$emit(VG_EVENTS.ON_ENTER_FULLSCREEN);
+							$scope.$emit(VG_EVENTS.ON_ENTER_FULLSCREEN);
 						}
 						else {
-							$rootScope.$emit(VG_EVENTS.ON_EXIT_FULLSCREEN);
+							$scope.$emit(VG_EVENTS.ON_EXIT_FULLSCREEN);
 						}
 
 						$scope.updateSize();
@@ -457,12 +461,12 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 
 					$scope.onComplete = function(event) {
 						vg.setState(VG_STATES.STOP);
-						$rootScope.$emit(VG_EVENTS.ON_COMPLETE);
+						$scope.$emit(VG_EVENTS.ON_COMPLETE);
 						$scope.$apply();
 					};
 
 					$scope.onStartBuffering = function(event) {
-						$rootScope.$emit(VG_EVENTS.ON_BUFFERING);
+						$scope.$emit(VG_EVENTS.ON_BUFFERING);
 						$scope.$apply();
 					};
 
@@ -471,12 +475,12 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 						event.target.width++;
 						event.target.width--;
 
-						$rootScope.$emit(VG_EVENTS.ON_START_PLAYING, [event.target.duration]);
+						$scope.$emit(VG_EVENTS.ON_START_PLAYING, [event.target.duration]);
 						$scope.$apply();
 					};
 
 					$scope.onUpdateTime = function(event) {
-						$rootScope.$emit(VG_EVENTS.ON_UPDATE_TIME, [event.target.currentTime, event.target.duration]);
+						$scope.$emit(VG_EVENTS.ON_UPDATE_TIME, [event.target.currentTime, event.target.duration]);
 						$scope.$apply();
 					};
 
