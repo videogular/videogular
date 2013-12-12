@@ -47,6 +47,23 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 
 			return $event;
 		};
+		/**
+		 * Inspired by Paul Irish
+		 * https://gist.github.com/paulirish/211209
+		 * @returns {number}
+		 */
+		this.getZIndex = function() {
+			var zIndex = 1;
+
+			$('*')
+				.filter(function(){ return $(this).css('zIndex') !== 'auto'; })
+				.each(function(){
+					var thisZIndex = parseInt($(this).css('zIndex'));
+					if (zIndex < thisZIndex) zIndex = thisZIndex + 1;
+				});
+
+			return zIndex;
+		};
 
 		// Very simple mobile detection, not 100% reliable
 		this.isMobileDevice = function() {
@@ -129,7 +146,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 	])
 	.directive(
 		"videogular",
-		["$rootScope", "$window", "VG_STATES", "VG_EVENTS", "VG_UTILS", function($rootScope, $window, VG_STATES, VG_EVENTS, VG_UTILS) {
+		["$window", "VG_STATES", "VG_EVENTS", "VG_UTILS", function($window, VG_STATES, VG_EVENTS, VG_UTILS) {
 			return {
 				restrict: "E",
 				scope: {
@@ -160,7 +177,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 					// PUBLIC $API
 					this.$on = function() {
 						$scope.$on.apply($scope, arguments);
-					}
+					};
 
 					this.isPlayerReady = function() {
 						return isPlayerReady;
@@ -209,9 +226,11 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 						if (!angular.element($window)[0].fullScreenAPI) {
 							if (isFullScreen) {
 								this.videogularElement.removeClass("fullscreen");
+								this.videogularElement.css("z-index", 0);
 							}
 							else {
 								this.videogularElement.addClass("fullscreen");
+								this.videogularElement.css("z-index", VG_UTILS.getZIndex());
 							}
 
 							isFullScreen = !isFullScreen;
@@ -540,18 +559,18 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 					$scope.init();
 				},
 				link: {
-					pre: function($scope, $elem, $attr, $controller) {
-						$controller.videogularElement = $elem;
-						$controller.elementScope = angular.element($elem);
-						$controller.videoElement = $controller.elementScope.find("video");
+					pre: function(scope, elem, attr, controller) {
+						controller.videogularElement = elem;
+						controller.elementScope = angular.element(elem);
+						controller.videoElement = controller.elementScope.find("video");
 
-						$controller.videoElement[0].addEventListener("waiting", $scope.onStartBuffering, false);
-						$controller.videoElement[0].addEventListener("ended", $scope.onComplete, false);
-						$controller.videoElement[0].addEventListener("playing", $scope.onStartPlaying, false);
-						$controller.videoElement[0].addEventListener("timeupdate", $scope.onUpdateTime, false);
+						controller.videoElement[0].addEventListener("waiting", scope.onStartBuffering, false);
+						controller.videoElement[0].addEventListener("ended", scope.onComplete, false);
+						controller.videoElement[0].addEventListener("playing", scope.onStartPlaying, false);
+						controller.videoElement[0].addEventListener("timeupdate", scope.onUpdateTime, false);
 
-						$controller.elementScope.ready($scope.onElementReady);
-						$controller.videoElement.ready($scope.onVideoReady);
+						controller.elementScope.ready(scope.onElementReady);
+						controller.videoElement.ready(scope.onVideoReady);
 					}
 				}
 			}

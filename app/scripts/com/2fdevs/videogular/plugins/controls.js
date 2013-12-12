@@ -2,7 +2,7 @@
 angular.module("com.2fdevs.videogular.plugins.controls", [])
 	.directive(
 		"vgControls",
-		["$rootScope", "$timeout", "VG_STATES", "VG_EVENTS", function($rootScope, $timeout, VG_STATES, VG_EVENTS){
+		["$timeout", "VG_STATES", "VG_EVENTS", function($timeout, VG_STATES, VG_EVENTS){
 			return {
 				restrict: "E",
 				require: "^videogular",
@@ -73,17 +73,17 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 						});
 					}
 
-					$API.$on(VG_EVENTS.ON_UPDATE_SIZE, onUpdateSize);
+					API.$on(VG_EVENTS.ON_UPDATE_SIZE, onUpdateSize);
 
 					if (API.isPlayerReady()) onPlayerReady();
-					else $API.$on(VG_EVENTS.ON_PLAYER_READY, onPlayerReady);
+					else API.$on(VG_EVENTS.ON_PLAYER_READY, onPlayerReady);
 				}
 			}
 		}
 	])
 	.directive(
 		"vgPlayPauseButton",
-		["$rootScope", "VG_STATES", "VG_EVENTS", function($rootScope, VG_STATES, VG_EVENTS) {
+		["VG_STATES", "VG_EVENTS", function(VG_STATES, VG_EVENTS) {
 			return {
 				restrict: "E",
 				require: "^videogular",
@@ -119,18 +119,18 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					}
 
 					elem.bind("click", onClickPlayPause);
-					$API.$on(VG_EVENTS.ON_SET_STATE, onChangeState);
+					API.$on(VG_EVENTS.ON_SET_STATE, onChangeState);
 				}
 			}
 		}
 	])
 	.directive(
 		"vgTimedisplay",
-		["$rootScope", "VG_EVENTS", function($rootScope, VG_EVENTS){
+		["VG_EVENTS", function(VG_EVENTS){
 			return {
 				require: "^videogular",
 				restrict: "E",
-				link: function($scope, $elem, $attr, $API) {
+				link: function(scope, elem, attr, API) {
 					function parseTime(time) {
 						var mm = Math.floor(time / 60);
 						var ss = Math.floor(time - (mm * 60));
@@ -159,16 +159,16 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					scope.currentTime = "00:00";
 					scope.totalTime = "00:00";
 
-					$API.$on(VG_EVENTS.ON_START_PLAYING, onStartPlaying);
-					$API.$on(VG_EVENTS.ON_UPDATE_TIME, onUpdateTime);
-					$API.$on(VG_EVENTS.ON_COMPLETE, onComplete);
+					API.$on(VG_EVENTS.ON_START_PLAYING, onStartPlaying);
+					API.$on(VG_EVENTS.ON_UPDATE_TIME, onUpdateTime);
+					API.$on(VG_EVENTS.ON_COMPLETE, onComplete);
 				}
 			}
 		}
 	])
 	.directive(
 		"vgScrubbar",
-		["$rootScope", "VG_EVENTS", "VG_STATES", "VG_UTILS", function($rootScope, VG_EVENTS, VG_STATES, VG_UTILS){
+		["VG_EVENTS", "VG_STATES", "VG_UTILS", function(VG_EVENTS, VG_STATES, VG_UTILS){
 			return {
 				restrict: "AE",
 				require: "^videogular",
@@ -179,15 +179,15 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					var isPlayingWhenSeeking = false;
 					var touchStartX = 0;
 
-					function onScrubBarTouchStart($event) {
-						var touches = $event.originalEvent.touches;
+					function onScrubBarTouchStart(event) {
+						var touches = event.originalEvent.touches;
 						var touchX;
 
 						if (VG_UTILS.isiOSDevice()) {
-							touchStartX = (touches[0].clientX - $event.originalEvent.layerX) * -1;
+							touchStartX = (touches[0].clientX - event.originalEvent.layerX) * -1;
 						}
 						else {
-							touchStartX = $event.originalEvent.layerX;
+							touchStartX = event.originalEvent.layerX;
 						}
 
 						touchX = touches[0].clientX + touchStartX - touches[0].target.offsetLeft;
@@ -197,15 +197,15 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 						seekTime(touchX * API.videoElement[0].duration / elem[0].scrollWidth);
 						API.pause();
 					}
-					function onScrubBarTouchEnd($event) {
+					function onScrubBarTouchEnd(event) {
 						if (isPlayingWhenSeeking) {
 							isPlayingWhenSeeking = false;
 							API.play();
 						}
 						isSeeking = false;
 					}
-					function onScrubBarTouchMove($event) {
-						var touches = $event.originalEvent.touches;
+					function onScrubBarTouchMove(event) {
+						var touches = event.originalEvent.touches;
 						var touchX;
 
 						if (isSeeking) {
@@ -213,35 +213,35 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 							seekTime(touchX * API.videoElement[0].duration / elem[0].scrollWidth);
 						}
 					}
-					function onScrubBarTouchLeave($event) {
+					function onScrubBarTouchLeave(event) {
 						isSeeking = false;
 					}
 
-					function onScrubBarMouseDown($event) {
-						$event = VG_UTILS.fixEventOffset($event);
+					function onScrubBarMouseDown(event) {
+						event = VG_UTILS.fixEventOffset(event);
 
 						isSeeking = true;
 						if (isPlaying) isPlayingWhenSeeking = true;
-						seekTime($event.offsetX * API.videoElement[0].duration / elem[0].scrollWidth);
+						seekTime(event.offsetX * API.videoElement[0].duration / elem[0].scrollWidth);
 						API.pause();
 					}
-					function onScrubBarMouseUp($event) {
-						$event = VG_UTILS.fixEventOffset($event);
+					function onScrubBarMouseUp(event) {
+						event = VG_UTILS.fixEventOffset(event);
 
 						if (isPlayingWhenSeeking) {
 							isPlayingWhenSeeking = false;
 							API.play();
 						}
 						isSeeking = false;
-						seekTime($event.offsetX * API.videoElement[0].duration / elem[0].scrollWidth);
+						seekTime(event.offsetX * API.videoElement[0].duration / elem[0].scrollWidth);
 					}
-					function onScrubBarMouseMove($event) {
+					function onScrubBarMouseMove(event) {
 						if (isSeeking) {
-							$event = VG_UTILS.fixEventOffset($event);
-							seekTime($event.offsetX * API.videoElement[0].duration / elem[0].scrollWidth);
+							event = VG_UTILS.fixEventOffset(event);
+							seekTime(event.offsetX * API.videoElement[0].duration / elem[0].scrollWidth);
 						}
 					}
-					function onScrubBarMouseLeave($event) {
+					function onScrubBarMouseLeave(event) {
 						isSeeking = false;
 					}
 					function seekTime(time) {
@@ -266,7 +266,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 						}
 					}
 
-					$API.$on(VG_EVENTS.ON_SET_STATE, onChangeState);
+					API.$on(VG_EVENTS.ON_SET_STATE, onChangeState);
 
 					// Touch move is really buggy in Chrome for Android, maybe we could use mouse move that works ok
 					if (VG_UTILS.isMobileDevice()) {
@@ -287,11 +287,11 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 	])
 	.directive(
 		"vgScrubbarcurrenttime",
-		["$rootScope", "VG_EVENTS", function($rootScope, VG_EVENTS){
+		["VG_EVENTS", function(VG_EVENTS){
 			return {
 				restrict: "E",
 				require: "^videogular",
-				link: function($scope, $elem, $attr, $API) {
+				link: function(scope, elem, attr, API) {
 					var percentTime = 0;
 
 					function onUpdateTime(target, params){
@@ -304,15 +304,15 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 						elem.css("width", percentTime + "%");
 					}
 
-					$API.$on(VG_EVENTS.ON_UPDATE_TIME, onUpdateTime);
-					$API.$on(VG_EVENTS.ON_COMPLETE, onComplete);
+					API.$on(VG_EVENTS.ON_UPDATE_TIME, onUpdateTime);
+					API.$on(VG_EVENTS.ON_COMPLETE, onComplete);
 				}
 			}
 		}
 	])
 	.directive(
 		"vgVolume",
-		["$rootScope", "VG_UTILS", function($rootScope, VG_UTILS) {
+		["VG_UTILS", function(VG_UTILS) {
 			return {
 				restrict: "E",
 				link: function(scope, elem, attr) {
@@ -342,7 +342,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 	])
 	.directive(
 		"vgVolumebar",
-		["$rootScope", "VG_EVENTS", "VG_UTILS", function($rootScope, VG_EVENTS, VG_UTILS) {
+		["VG_EVENTS", "VG_UTILS", function(VG_EVENTS, VG_UTILS) {
 			return {
 				restrict: "E",
 				require: "^videogular",
@@ -352,33 +352,33 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					var volumeBackElem = angular.element(elem[0].getElementsByClassName("volumeBackground"));
 					var volumeValueElem = angular.element(elem[0].getElementsByClassName("volumeValue"));
 
-					function onClickVolume($event) {
-						$event = VG_UTILS.fixEventOffset($event);
+					function onClickVolume(event) {
+						event = VG_UTILS.fixEventOffset(event);
 						var volumeHeight = parseInt(volumeBackElem.prop("offsetHeight"));
-						var value = $event.offsetY * 100 / volumeHeight;
+						var value = event.offsetY * 100 / volumeHeight;
 						var volValue = 1 - (value / 100);
 						updateVolumeView(value);
 
 						API.setVolume(volValue);
 					}
 
-					function onMouseDownVolume($event) {
+					function onMouseDownVolume(event) {
 						isChangingVolume = true;
 					}
 
-					function onMouseUpVolume($event) {
+					function onMouseUpVolume(event) {
 						isChangingVolume = false;
 					}
 
-					function onMouseLeaveVolume($event) {
+					function onMouseLeaveVolume(event) {
 						isChangingVolume = false;
 					}
 
-					function onMouseMoveVolume($event) {
+					function onMouseMoveVolume(event) {
 						if (isChangingVolume) {
-							$event = VG_UTILS.fixEventOffset($event);
+							event = VG_UTILS.fixEventOffset(event);
 							var volumeHeight = parseInt(volumeBackElem.prop("offsetHeight"));
-							var value = $event.offsetY * 100 / volumeHeight;
+							var value = event.offsetY * 100 / volumeHeight;
 							var volValue = 1 - (value / 100);
 							updateVolumeView(value);
 
@@ -409,14 +409,14 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					volumeBackElem.bind("mousemove", onMouseMoveVolume);
 					volumeBackElem.bind("mouseleave", onMouseLeaveVolume);
 
-					$API.$on(VG_EVENTS.ON_SET_VOLUME, onSetVolume);
+					API.$on(VG_EVENTS.ON_SET_VOLUME, onSetVolume);
 				}
 			}
 		}
 	])
 	.directive(
 		"vgMutebutton",
-		["$rootScope", "VG_EVENTS", function($rootScope, VG_EVENTS) {
+		["VG_EVENTS", function(VG_EVENTS) {
 			return {
 				restrict: "E",
 				require: "^videogular",
@@ -437,7 +437,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 				},
 				templateUrl: "views/videogular/plugins/controls/mute-button.html",
 				link: function(scope, elem, attr, API) {
-					function onClickMute($event) {
+					function onClickMute(event) {
 						if (scope.currentIcon == scope.muteIcon) {
 							scope.currentVolume = scope.defaultVolume;
 						}
@@ -490,14 +490,14 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					//TODO: get volume from localStorage
 					elem.bind("click", onClickMute);
 
-					$API.$on(VG_EVENTS.ON_SET_VOLUME, onSetVolume);
+					API.$on(VG_EVENTS.ON_SET_VOLUME, onSetVolume);
 				}
 			}
 		}
 	])
 	.directive(
 		"vgFullscreenbutton",
-		["$rootScope", "$window", "VG_EVENTS", function($rootScope, $window, VG_EVENTS){
+		["$window", "VG_EVENTS", function($window, VG_EVENTS){
 			return {
 				restrict: "AE",
 				require: "^videogular",
@@ -518,15 +518,14 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					function onExitFullScreen() {
 						scope.fullscreenIcon = scope.enterFullScreenIcon;
 					}
-					function onClickFullScreen($event) {
+					function onClickFullScreen(event) {
 						API.toggleFullScreen();
 					}
 
 					elem.bind("click", onClickFullScreen);
 
-						$API.$on(VG_EVENTS.ON_ENTER_FULLSCREEN, onEnterFullScreen);
-						$API.$on(VG_EVENTS.ON_EXIT_FULLSCREEN, onExitFullScreen);
-					}
+					API.$on(VG_EVENTS.ON_ENTER_FULLSCREEN, onEnterFullScreen);
+					API.$on(VG_EVENTS.ON_EXIT_FULLSCREEN, onExitFullScreen);
 				}
 			}
 		}

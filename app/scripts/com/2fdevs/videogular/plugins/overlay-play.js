@@ -2,7 +2,7 @@
 angular.module("com.2fdevs.videogular.plugins.overlayplay", [])
 	.directive(
 		"vgOverlayPlay",
-		["$rootScope", "VG_EVENTS", "VG_STATES", function($rootScope, VG_EVENTS, VG_STATES){
+		["VG_EVENTS", "VG_STATES", function(VG_EVENTS, VG_STATES){
 			return {
 				restrict: "E",
 				require: "^videogular",
@@ -14,42 +14,42 @@ angular.module("com.2fdevs.videogular.plugins.overlayplay", [])
 					$scope.currentIcon = $scope.playIcon;
 				},
 				templateUrl: "views/videogular/plugins/overlay-play/overlay-play.html",
-				link: function($scope, $elem, $attr, $API) {
+				link: function(scope, elem, attr, API) {
 					function onComplete(target, params) {
-						$scope.currentIcon = $scope.playIcon;
+						scope.currentIcon = scope.playIcon;
 					}
 
-					function onClickOverlayPlay($event) {
-						$API.playPause();
+					function onClickOverlayPlay(event) {
+						API.playPause();
 					}
 
 					function onPlay(target, params) {
-						$scope.currentIcon = "";
+						scope.currentIcon = "";
 					}
 
 					function onChangeState(target, params) {
 						switch (params[0]) {
 							case VG_STATES.PLAY:
-								$scope.currentIcon = "";
+								scope.currentIcon = "";
 								break;
 
 							case VG_STATES.PAUSE:
-								$scope.currentIcon = $scope.playIcon;
+								scope.currentIcon = scope.playIcon;
 								break;
 
 							case VG_STATES.STOP:
-								$scope.currentIcon = $scope.playIcon;
+								scope.currentIcon = scope.playIcon;
 								break;
 						}
 
-						$scope.$apply();
+						scope.$apply();
 					}
 
-					$elem.bind("click", onClickOverlayPlay);
+					elem.bind("click", onClickOverlayPlay);
 
-					$API.$on(VG_EVENTS.ON_PLAY, onPlay);
-					$API.$on(VG_EVENTS.ON_SET_STATE, onChangeState);
-					$API.$on(VG_EVENTS.ON_COMPLETE, onComplete);
+					API.$on(VG_EVENTS.ON_PLAY, onPlay);
+					API.$on(VG_EVENTS.ON_SET_STATE, onChangeState);
+					API.$on(VG_EVENTS.ON_COMPLETE, onComplete);
 				}
 			}
 		}

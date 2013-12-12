@@ -27,12 +27,6 @@ videogular.fullscreen {
 	position: absolute;
 	left: 0;
 	top: 0;
-
-	/*
-	  Maybe would be better something like
-	  this http://abcoder.com/javascript/a-better-process-to-find-maximum-z-index-within-a-page
-	*/
-	z-index: 9999;
 }
 
 videogular video {
