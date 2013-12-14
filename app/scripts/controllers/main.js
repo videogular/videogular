@@ -1,6 +1,39 @@
 'use strict';
 angular.module('myApp').controller('MainCtrl',
 	function ($scope) {
+		$scope.currentTime = 0;
+		$scope.totalTime = 0;
+		$scope.state = null;
+		$scope.volume = 1;
+		$scope.isCompleted = false;
+		$scope.API = null;
+
+		$scope.onPlayerReady = function(API) {
+			$scope.API = API;
+		};
+
+		$scope.onCompleteVideo = function() {
+			$scope.isCompleted = true;
+		};
+
+		$scope.onUpdateState = function(state) {
+			$scope.state = state;
+		};
+
+		$scope.onUpdateTime = function(currentTime, totalTime) {
+			$scope.currentTime = currentTime;
+			$scope.totalTime = totalTime;
+		};
+
+		$scope.onUpdateVolume = function(newVol) {
+			$scope.volume = newVol;
+		};
+
+		$scope.onUpdateSize = function(width, height) {
+			$scope.config.width = width;
+			$scope.config.height = height;
+		};
+
 		$scope.stretchModes = [
 			{label: "None", value: "none"},
 			{label: "Fit", value: "fit"},

@@ -155,7 +155,13 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 					theme: "=vgTheme",
 					autoPlay: "=vgAutoplay",
 					responsive: "=vgResponsive",
-					stretch: "=vgStretch"
+					stretch: "=vgStretch",
+					vgComplete: "&",
+					vgUpdateVolume: "&",
+					vgUpdateTime: "&",
+					vgUpdateSize: "&",
+					vgUpdateState: "&",
+					vgPlayerReady: "&"
 				},
 				controller: function($scope) {
 					var currentTheme = null;
@@ -173,6 +179,13 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 					var isPlayerReady = false;
 					var isResponsive = false;
 					var vg = this;
+
+					var vgCompleteCallBack = $scope.vgComplete();
+					var vgUpdateVolumeCallBack = $scope.vgUpdateVolume();
+					var vgUpdateTimeCallBack = $scope.vgUpdateTime();
+					var vgUpdateSizeCallBack = $scope.vgUpdateSize();
+					var vgUpdateStateCallBack = $scope.vgUpdateState();
+					var vgPlayerReadyCallBack = $scope.vgPlayerReady();
 
 					// PUBLIC $API
 					this.$on = function() {
@@ -202,6 +215,8 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 
 					this.setState = function(newState) {
 						if (newState && newState != currentState) {
+							if (vgUpdateStateCallBack) vgUpdateStateCallBack(newState);
+
 							currentState = newState;
 							$scope.$emit(VG_EVENTS.ON_SET_STATE, [currentState]);
 						}
@@ -274,6 +289,8 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 					};
 
 					this.setVolume = function(newVolume) {
+						if (vgUpdateVolumeCallBack) vgUpdateVolumeCallBack(newVolume);
+
 						this.videoElement[0].volume = newVolume;
 						$scope.$emit(VG_EVENTS.ON_SET_VOLUME, [newVolume]);
 					};
@@ -312,7 +329,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 					};
 
 					// PRIVATE FUNCTIONS
-					$scope.vg = this;
+					$scope.API = this;
 
 					$scope.init = function() {
 						vg.updateTheme($scope.theme);
@@ -420,6 +437,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 
 						isPlayerReady = true;
 						$scope.updateSize();
+						if (vgPlayerReadyCallBack) vgPlayerReadyCallBack(vg);
 						$scope.$emit(VG_EVENTS.ON_PLAYER_READY);
 
 						if ($scope.autoPlay && !VG_UTILS.isMobileDevice() || currentState === VG_STATES.PLAY) vg.play();
@@ -477,6 +495,8 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 							vg.elementScope.css("width", parseInt(playerWidth, 10) + "px");
 							vg.elementScope.css("height", parseInt(playerHeight, 10) + "px");
 
+							if (vgUpdateSizeCallBack) vgUpdateSizeCallBack(playerWidth, playerHeight);
+
 							$scope.$emit(VG_EVENTS.ON_UPDATE_SIZE, [playerWidth, playerHeight]);
 						}
 					};
@@ -504,6 +524,8 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 					};
 
 					$scope.onComplete = function(event) {
+						if (vgCompleteCallBack) vgCompleteCallBack();
+
 						vg.setState(VG_STATES.STOP);
 						$scope.$emit(VG_EVENTS.ON_COMPLETE);
 						$scope.$apply();
@@ -524,6 +546,8 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 					};
 
 					$scope.onUpdateTime = function(event) {
+						if (vgUpdateTimeCallBack) vgUpdateTimeCallBack(event.target.currentTime, event.target.duration);
+
 						$scope.$emit(VG_EVENTS.ON_UPDATE_TIME, [event.target.currentTime, event.target.duration]);
 						$scope.$apply();
 					};

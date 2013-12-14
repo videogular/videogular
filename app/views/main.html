@@ -1,6 +1,8 @@
 <div class="container">
 	<div>
-		<videogular vg-width="config.width" vg-height="config.height" vg-theme="config.theme.url" vg-autoplay="config.autoPlay" vg-stretch="config.stretch.value" vg-responsive="config.responsive">
+		<videogular
+			vg-player-ready="onPlayerReady" vg-complete="onCompleteVideo" vg-update-time="onUpdateTime" vg-update-size="onUpdateSize" vg-update-volume="onUpdateVolume" vg-update-state="onUpdateState"
+			vg-width="config.width" vg-height="config.height" vg-theme="config.theme.url" vg-autoplay="config.autoPlay" vg-stretch="config.stretch.value" vg-responsive="config.responsive">
 			<video preload='metadata'>
 				<source src="http://www.videogular.com/assets/videos/videogular.mp4" type="video/mp4">
 				<source src="http://www.videogular.com/assets/videos/videogular.webm" type="video/webm">
@@ -81,15 +83,25 @@
 	</div>
 
 	<div class="row">
-		<div class="col-12">
+		<div class="col-6 col-sm-4 col-lg-4">
 			<div>Theme: {{config.theme.url}}</div>
 			<div>Width: {{config.width}}</div>
 			<div>Height: {{config.height}}</div>
 			<div>Poster image: {{config.plugins.poster.url}}</div>
 			<div>Stretch: {{config.stretch}}</div>
 			<div>AutoPlay: {{config.autoPlay}}</div>
+		</div>
+		<div class="col-6 col-sm-4 col-lg-4">
 			<div>AutoHide: {{config.autoHide}}</div>
 			<div>Responsive: {{config.responsive}}</div>
+			<div>State: {{state}}</div>
+			<div>Time: {{currentTime}} / {{totalTime || 0}}</div>
+			<div>Volume: {{volume}}</div>
+			<div>Completed: {{isCompleted}}</div>
+		</div>
+		<div class="col-6 col-sm-4 col-lg-4">
+			<button ng-click="API.play()">Play</button>
+			<button ng-click="API.pause()">Pause</button>
 		</div>
 	</div>
 </div>
