@@ -4,12 +4,13 @@
 			vg-player-ready="onPlayerReady" vg-complete="onCompleteVideo" vg-update-time="onUpdateTime" vg-update-size="onUpdateSize" vg-update-volume="onUpdateVolume" vg-update-state="onUpdateState"
 			vg-width="config.width" vg-height="config.height" vg-theme="config.theme.url" vg-autoplay="config.autoPlay" vg-stretch="config.stretch.value" vg-responsive="config.responsive">
 			<video preload='metadata'>
+				<source type="video/youtube" src="http://www.youtube.com/watch?v=nOEw9iiopwI" />
 				<source src="http://www.videogular.com/assets/videos/videogular.mp4" type="video/mp4">
 				<source src="http://www.videogular.com/assets/videos/videogular.webm" type="video/webm">
 
 				<track kind="captions" src="assets/subs/pale-blue-dot.vtt" srclang="en" label="English" default></track>
 			</video>
-
+			<vg-youtube></vg-youtube>
 			<vg-poster-image vg-url='config.plugins.poster.url' vg-stretch="config.stretch.value"></vg-poster-image>
 			<vg-buffering></vg-buffering>
 			<vg-overlay-play vg-play-icon="config.theme.playIcon"></vg-overlay-play>
