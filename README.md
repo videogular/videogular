@@ -14,6 +14,13 @@ We're developing Videogular focusing on mobile devices and HTML5 video special c
 * **Native fullscreen support**: Enjoy with native fullscreen support for Chrome, Firefox, Safari, iOS and Chrome for Android.
 * **Mobile support**: Videogular can detect mobile devices to show/hide components in case that aren't supported. Also, you could use it in your responsive websites, Videogular will fit in your container when you don't set vg-width and vg-height and will maintain proportions always.
 
+
+## Third-party plugins
+
+If you have developed a Videogular's plugin or theme [contact us through this form](http://twofuckingdevelopers.com/contact/) and we will add you to this list.
+
+* [**Youtube plugin**](https://github.com/NamPNQ/bower-videogular-youtube) by **[NamPNQ](https://github.com/NamPNQ)**
+
 ## Documentation
 
 See the [Wiki](https://github.com/2fdevs/videogular/wiki) pages for more info about how to use Videogular.
