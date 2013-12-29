@@ -20,6 +20,7 @@ We're developing Videogular focusing on mobile devices and HTML5 video special c
 If you have developed a Videogular's plugin or theme [contact us through this form](http://twofuckingdevelopers.com/contact/) and we will add you to this list.
 
 * [**Youtube plugin**](https://github.com/NamPNQ/bower-videogular-youtube) by **[NamPNQ](https://github.com/NamPNQ)**
+* [**Quiz plugin**](https://github.com/NamPNQ/bower-videogular-quiz) by **[NamPNQ](https://github.com/NamPNQ)**
 
 ## Documentation
 
