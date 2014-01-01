@@ -21,6 +21,7 @@ If you have developed a Videogular's plugin or theme [contact us through this fo
 
 * [**Youtube plugin**](https://github.com/NamPNQ/bower-videogular-youtube) by **[NamPNQ](https://github.com/NamPNQ)**
 * [**Quiz plugin**](https://github.com/NamPNQ/bower-videogular-quiz) by **[NamPNQ](https://github.com/NamPNQ)**
+* [**Flash fallback plugin**](https://github.com/NamPNQ/bower-videogular-flash) by **[NamPNQ](https://github.com/NamPNQ)**
 
 ## Documentation
 
