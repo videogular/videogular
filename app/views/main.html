@@ -2,14 +2,14 @@
 	<div>
 		<videogular
 			vg-player-ready="onPlayerReady" vg-complete="onCompleteVideo" vg-update-time="onUpdateTime" vg-update-size="onUpdateSize" vg-update-volume="onUpdateVolume" vg-update-state="onUpdateState"
-			vg-width="config.width" vg-height="config.height" vg-theme="config.theme.url" vg-autoplay="config.autoPlay" vg-stretch="config.stretch.value" vg-responsive="config.responsive">
+			vg-width="config.width" vg-height="config.height" vg-theme="config.theme.url" vg-autoplay="config.autoPlay" vg-stretch="config.stretch.value" vg-responsive="true">
 			<video preload='metadata'>
-				<source src="http://www.videogular.com/assets/videos/videogular.mp4" type="video/mp4">
-				<source src="http://www.videogular.com/assets/videos/videogular.webm" type="video/webm">
+				<source ng-repeat="source in config.sources" ng-src="{{source.src}}" type="{{source.type}}">
 
 				<track kind="captions" src="assets/subs/pale-blue-dot.vtt" srclang="en" label="English" default></track>
 			</video>
 
+			<vg-ima-ads vg-network="config.plugins.ads.network" vg-unit-path="config.plugins.ads.unitPath" vg-companion="config.plugins.ads.companion" vg-companion-size="config.plugins.ads.companionSize" vg-ad-tag-url="config.plugins.ads.adTagUrl"></vg-ima-ads>
 			<vg-poster-image vg-url='config.plugins.poster.url' vg-stretch="config.stretch.value"></vg-poster-image>
 			<vg-buffering></vg-buffering>
 			<vg-overlay-play vg-play-icon="config.theme.playIcon"></vg-overlay-play>
@@ -35,6 +35,8 @@
 			</vg-controls>
 		</videogular>
 	</div>
+
+	<div id="companionAd"></div>
 
 	<div class="row">
 		<div class="col-12"><h2>Properties</h2></div>

@@ -34,10 +34,10 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 			 * @returns {*}
 			 */
 			if (navigator.userAgent.match(/Firefox/i)) {
-				var style = $event.target.currentStyle || window.getComputedStyle($event.target, null);
+				var style = $event.currentTarget.currentStyle || window.getComputedStyle($event.currentTarget, null);
 				var borderLeftWidth = parseInt(style['borderLeftWidth'], 10);
 				var borderTopWidth = parseInt(style['borderTopWidth'], 10);
-				var rect = $event.target.getBoundingClientRect();
+				var rect = $event.currentTarget.getBoundingClientRect();
 				var offsetX = $event.clientX - borderLeftWidth - rect.left;
 				var offsetY = $event.clientY - borderTopWidth - rect.top;
 
@@ -306,10 +306,12 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 							}
 						}
 
-						var headElem = angular.element(document).find("head");
-						headElem.append("<link rel='stylesheet' href='" + value + "'>");
+						if (value) {
+							var headElem = angular.element(document).find("head");
+							headElem.append("<link rel='stylesheet' href='" + value + "'>");
 
-						currentTheme = value;
+							currentTheme = value;
+						}
 					};
 
 					this.updateStretch = function(value) {

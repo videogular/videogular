@@ -33,6 +33,7 @@ videogular video {
 	position: absolute;
     width: 100%;
     height: auto;
+	z-index: 1;
 }
 
 .iconButton {
@@ -54,6 +55,7 @@ vg-overlay-play {
 	width: 100%;
 	height: 100%;
 	position: absolute;
+	z-index: 3;
 }
 
 .overlayPlayContainer {
@@ -82,6 +84,7 @@ vg-buffering {
 	width: 100%;
 	height: 100%;
 	position: absolute;
+	z-index: 4;
 }
 
 .bufferingContainer {
@@ -143,6 +146,7 @@ vg-controls {
 	width: 100%;
 	height: 50px;
 	position: absolute;
+	z-index: 5;
 }
 vg-controls #controls-container {
 	width: 100%;
@@ -454,6 +458,7 @@ vg-poster-image {
 	width: 100%;
 	height: 100%;
 	position: absolute;
+	z-index: 2;
 }
 
 vg-poster-image img, vg-poster-image img.none {
@@ -472,4 +477,15 @@ vg-poster-image img.fit {
 vg-poster-image img.fill {
 	max-width: none;
 	height: 100%;
+}
+
+/**********************/
+/* IMA ads plugin */
+/**********************/
+vg-ima-ads {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	z-index: 6;
+	display: none;
 }
