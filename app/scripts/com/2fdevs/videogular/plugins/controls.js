@@ -48,7 +48,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 						var size = API.getSize();
 
 						elem.css("top", (parseInt(size.height, 10) - parseInt(controlBarHeight, 10)) + "px");
-						isReadyInterval = $timeout(showWhenIsReady, 100);
+						isReadyInterval = $timeout(showWhenIsReady, 500);
 					}
 
 					function showWhenIsReady() {
