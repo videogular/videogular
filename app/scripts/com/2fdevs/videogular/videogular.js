@@ -34,7 +34,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 			 * @returns {*}
 			 */
 			if (navigator.userAgent.match(/Firefox/i)) {
-				var style = $event.currentTarget.currentStyle || window.getComputedStyle($event.currentTarget, null);
+				var style = $event.currentTarget.currentStyle || window.getComputedStyle($event.target, null);
 				var borderLeftWidth = parseInt(style['borderLeftWidth'], 10);
 				var borderTopWidth = parseInt(style['borderTopWidth'], 10);
 				var rect = $event.currentTarget.getBoundingClientRect();

@@ -18,6 +18,9 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					var autoHideTime = 2000;
 					var controlBarHeight = elem[0].style.height;
 					var hideInterval;
+					var isReadyInterval;
+
+					scope.isReady = false;
 
 					function onUpdateSize(target, params) {
 						w = params[0];
@@ -44,11 +47,14 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					function onPlayerReady() {
 						var size = API.getSize();
 
-						elem.css("display", "table");
 						elem.css("top", (parseInt(size.height, 10) - parseInt(controlBarHeight, 10)) + "px");
+						isReadyInterval = $timeout(showWhenIsReady, 100);
 					}
 
-					elem.css("display", "none");
+					function showWhenIsReady() {
+						$timeout.cancel(isReadyInterval);
+						scope.isReady = true;
+					}
 
 					// If vg-autohide has been set
 					if (scope.autoHide != undefined) {
