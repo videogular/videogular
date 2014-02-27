@@ -163,7 +163,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 					vgUpdateState: "&",
 					vgPlayerReady: "&"
 				},
-				controller: function($scope) {
+				controller: ['$scope', function($scope) {
 					var currentTheme = null;
 					var currentWidth = null;
 					var currentHeight = null;
@@ -583,7 +583,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 					};
 
 					$scope.init();
-				},
+				}],
 				link: {
 					pre: function(scope, elem, attr, controller) {
 						controller.videogularElement = elem;
