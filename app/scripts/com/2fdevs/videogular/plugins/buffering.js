@@ -6,7 +6,10 @@ angular.module("com.2fdevs.videogular.plugins.buffering", [])
 			return {
 				restrict: "E",
 				require: "^videogular",
-				templateUrl: "views/videogular/plugins/buffering/buffering.html",
+				template: "<div class='bufferingContainer'>"+
+										"<div class='loadingSpinner stop'></div>"+
+									"</div>"
+				,
 				link: function(scope, elem, attr, API) {
 					var spinner = angular.element(elem[0].getElementsByClassName("loadingSpinner"));
 
