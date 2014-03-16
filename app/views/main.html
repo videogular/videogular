@@ -3,13 +3,9 @@
 		<videogular
 			vg-player-ready="onPlayerReady" vg-complete="onCompleteVideo" vg-update-time="onUpdateTime" vg-update-size="onUpdateSize" vg-update-volume="onUpdateVolume" vg-update-state="onUpdateState"
 			vg-width="config.width" vg-height="config.height" vg-theme="config.theme.url" vg-autoplay="config.autoPlay" vg-stretch="config.stretch.value" vg-responsive="true">
-			<video preload='metadata'>
-				<source ng-repeat="source in config.sources" ng-src="{{source.src}}" type="{{source.type}}">
+			<video vg-src="config.sources" preload='metadata'></video>
 
-				<track kind="captions" src="assets/subs/pale-blue-dot.vtt" srclang="en" label="English" default></track>
-			</video>
-
-			<vg-ima-ads vg-network="config.plugins.ads.network" vg-unit-path="config.plugins.ads.unitPath" vg-companion="config.plugins.ads.companion" vg-companion-size="config.plugins.ads.companionSize" vg-ad-tag-url="config.plugins.ads.adTagUrl"></vg-ima-ads>
+			<!--vg-ima-ads vg-network="config.plugins.ads.network" vg-unit-path="config.plugins.ads.unitPath" vg-companion="config.plugins.ads.companion" vg-companion-size="config.plugins.ads.companionSize" vg-ad-tag-url="config.plugins.ads.adTagUrl"></vg-ima-ads-->
 			<vg-poster-image vg-url='config.plugins.poster.url' vg-stretch="config.stretch.value"></vg-poster-image>
 			<vg-buffering></vg-buffering>
 			<vg-overlay-play vg-play-icon="config.theme.playIcon"></vg-overlay-play>
@@ -104,6 +100,7 @@
 		<div class="col-6 col-sm-4 col-lg-4">
 			<button ng-click="API.play()">Play</button>
 			<button ng-click="API.pause()">Pause</button>
+			<button ng-click="changeSource()">Change source</button>
 		</div>
 	</div>
 </div>

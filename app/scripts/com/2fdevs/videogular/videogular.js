@@ -22,7 +22,8 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 		ON_UPDATE_SIZE: "onVgUpdateSize",
 		ON_UPDATE_THEME: "onVgUpdateTheme",
 		ON_PLAYER_READY: "onVgPlayerReady",
-		ON_LOAD_POSTER: "onVgLoadPoster"
+		ON_LOAD_POSTER: "onVgLoadPoster",
+		ON_ERROR: "onVgError"
 	})
 	.service("VG_UTILS", function() {
 		this.fixEventOffset = function($event) {
@@ -601,5 +602,43 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 				}
 			}
 		}
-	]
-);
+	])
+	.directive("vgSrc",
+		["VG_EVENTS", "VG_UTILS", function(VG_EVENTS, VG_UTILS) {
+			return {
+				restrict: "A",
+				link: {
+					pre: function(scope, elem, attr) {
+						var element = elem;
+						var sources;
+						var canPlay;
+
+						function changeSource() {
+							for (var i=0, l=sources.length; i<l; i++)
+							{
+								canPlay = element[0].canPlayType(sources[i].type);
+
+								if (canPlay == "maybe" || canPlay == "probably")
+								{
+									element.attr("src", sources[i].src);
+									element.attr("type", sources[i].type);
+									break;
+								}
+							}
+
+							if (canPlay == "") {
+								scope.$emit(VG_EVENTS.ON_ERROR, {type: "Can't play file"})
+							}
+						}
+
+						scope.$watch(attr.vgSrc, function(newValue, oldValue) {
+							if (!sources || newValue != oldValue) {
+								sources = newValue;
+								changeSource();
+							}
+						});
+					}
+				}
+			}
+		}
+	]);
