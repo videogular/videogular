@@ -9,17 +9,13 @@ angular.module("com.2fdevs.videogular.plugins.overlayplay", [])
 				scope: {
 					vgPlayIcon: "="
 				},
-				controller: function ($scope){
-					$scope.playIcon = $.parseHTML($scope.vgPlayIcon)[0].data;
-					$scope.currentIcon = $scope.playIcon;
-				},
-				template: "<div class='overlayPlayContainer'>"+
-                    "<div class='iconButton'>{{currentIcon}}</div>"+
-                  "</div>"
-        ,
+				template:
+					"<div class='overlayPlayContainer'>"+
+						"<div class='iconButton' ng-class='overlayPlayIcon'></div>"+
+					"</div>",
 				link: function(scope, elem, attr, API) {
 					function onComplete(target, params) {
-						scope.currentIcon = scope.playIcon;
+						scope.overlayPlayIcon = scope.playIcon;
 					}
 
 					function onClickOverlayPlay(event) {
@@ -27,26 +23,27 @@ angular.module("com.2fdevs.videogular.plugins.overlayplay", [])
 					}
 
 					function onPlay(target, params) {
-						scope.currentIcon = "";
+						scope.overlayPlayIcon = {};
 					}
 
 					function onChangeState(target, params) {
 						switch (params[0]) {
 							case VG_STATES.PLAY:
-								scope.currentIcon = "";
+								scope.overlayPlayIcon = {};
 								break;
 
 							case VG_STATES.PAUSE:
-								scope.currentIcon = scope.playIcon;
+								scope.overlayPlayIcon = {play: true};
 								break;
 
 							case VG_STATES.STOP:
-								scope.currentIcon = scope.playIcon;
+								scope.overlayPlayIcon = {play: true};
 								break;
 						}
 					}
 
 					elem.bind("click", onClickOverlayPlay);
+					scope.overlayPlayIcon = {play: true};
 
 					API.$on(VG_EVENTS.ON_PLAY, onPlay);
 					API.$on(VG_EVENTS.ON_SET_STATE, onChangeState);

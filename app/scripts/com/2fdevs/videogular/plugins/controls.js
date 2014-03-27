@@ -93,36 +93,31 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 			return {
 				restrict: "E",
 				require: "^videogular",
-				template: "<div class='iconButton'>{{currentIcon}}</div>",
-				scope: {
-					vgPlayIcon: "=",
-					vgPauseIcon: "="
-				},
-				controller: function ($scope){
-					$scope.currentIcon = $.parseHTML($scope.vgPlayIcon)[0].data;
-				},
+				template: "<div class='iconButton' ng-class='playPauseIcon'></div>",
 				link: function(scope, elem, attr, API) {
 					function onChangeState(target, params) {
 						switch (params[0]) {
 							case VG_STATES.PLAY:
-								scope.currentIcon = $.parseHTML(scope.vgPauseIcon)[0].data;
+								scope.playPauseIcon = {pause: true};
 								break;
 
 							case VG_STATES.PAUSE:
-								scope.currentIcon = $.parseHTML(scope.vgPlayIcon)[0].data;
+								scope.playPauseIcon = {play: true};
 								break;
 
 							case VG_STATES.STOP:
-								scope.currentIcon = $.parseHTML(scope.vgPlayIcon)[0].data;
+								scope.playPauseIcon = {play: true};
 								break;
 						}
 
-						//if (!$scope.$$phase) $scope.$apply();
+						scope.$apply();
 					}
 
 					function onClickPlayPause() {
 						API.playPause();
 					}
+
+					scope.playPauseIcon = {play: true};
 
 					elem.bind("click", onClickPlayPause);
 					API.$on(VG_EVENTS.ON_SET_STATE, onChangeState);
@@ -352,13 +347,13 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 			return {
 				restrict: "E",
 				require: "^videogular",
-				template: "<div class='verticalVolumeBar'>"+
-										"<div class='volumeBackground'>"+
-											"<div class='volumeValue'></div>"+
-											"<div class='volumeClickArea'></div>"+
-										"</div>"+
-									"</div>"
-				,
+				template:
+					"<div class='verticalVolumeBar'>"+
+						"<div class='volumeBackground'>"+
+							"<div class='volumeValue'></div>"+
+							"<div class='volumeClickArea'></div>"+
+						"</div>"+
+					"</div>",
 				link: function(scope, elem, attr, API) {
 					var isChangingVolume = false;
 					var volumeBackElem = angular.element(elem[0].getElementsByClassName("volumeBackground"));
@@ -432,31 +427,20 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 			return {
 				restrict: "E",
 				require: "^videogular",
-				scope: {
-					vgVolumeLevel3Icon: "=",
-					vgVolumeLevel2Icon: "=",
-					vgVolumeLevel1Icon: "=",
-					vgVolumeLevel0Icon: "=",
-					vgMuteIcon: "="
-				},
-				controller: function ($scope){
-					$scope.muteIcon = $.parseHTML($scope.vgMuteIcon)[0].data;
-					$scope.volumeLevel0Icon = $.parseHTML($scope.vgVolumeLevel0Icon)[0].data;
-					$scope.volumeLevel1Icon = $.parseHTML($scope.vgVolumeLevel1Icon)[0].data;
-					$scope.volumeLevel2Icon = $.parseHTML($scope.vgVolumeLevel2Icon)[0].data;
-					$scope.volumeLevel3Icon = $.parseHTML($scope.vgVolumeLevel3Icon)[0].data;
-					$scope.currentIcon = $scope.volumeLevel3Icon;
-				},
-				template: "<div class='iconButton'>{{currentIcon}}</div>",
+				template: "<div class='iconButton' ng-class='muteIcon'></div>",
 				link: function(scope, elem, attr, API) {
+					var isMuted = false;
+
 					function onClickMute(event) {
-						if (scope.currentIcon == scope.muteIcon) {
+						if (isMuted) {
 							scope.currentVolume = scope.defaultVolume;
 						}
 						else {
 							scope.currentVolume = 0;
-							scope.currentIcon = scope.muteIcon;
+							scope.muteIcon = {mute: true};
 						}
+
+						isMuted = !isMuted;
 
 						API.setVolume(scope.currentVolume);
 					}
@@ -466,7 +450,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 
 						// TODO: Save volume with LocalStorage
 						// if it's not muted we save the default volume
-						if (scope.currentIcon != scope.muteIcon) {
+						if (!isMuted) {
 							scope.defaultVolume = params[0];
 						}
 						else {
@@ -478,19 +462,19 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 
 						var percentValue = Math.round(params[0] * 100);
 						if (percentValue == 0) {
-							scope.currentIcon = scope.muteIcon;
+							scope.muteIcon = {mute: true};
 						}
 						else if (percentValue > 0 && percentValue < 25) {
-							scope.currentIcon = scope.volumeLevel0Icon;
+							scope.muteIcon = {level0: true};
 						}
 						else if (percentValue >= 25 && percentValue < 50) {
-							scope.currentIcon = scope.volumeLevel1Icon;
+							scope.muteIcon = {level1: true};
 						}
 						else if (percentValue >= 50 && percentValue < 75) {
-							scope.currentIcon = scope.volumeLevel2Icon;
+							scope.muteIcon = {level2: true};
 						}
 						else if (percentValue >= 75) {
-							scope.currentIcon = scope.volumeLevel3Icon;
+							scope.muteIcon = {level3: true};
 						}
 
 						scope.$apply();
@@ -498,6 +482,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 
 					scope.defaultVolume = 1;
 					scope.currentVolume = scope.defaultVolume;
+					scope.muteIcon = {level3: true};
 
 					//TODO: get volume from localStorage
 					elem.bind("click", onClickMute);
@@ -517,24 +502,20 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					vgEnterFullScreenIcon: "=",
 					vgExitFullScreenIcon: "="
 				},
-				controller: function ($scope){
-					$scope.enterFullScreenIcon = $.parseHTML($scope.vgEnterFullScreenIcon)[0].data;
-					$scope.exitFullScreenIcon = $.parseHTML($scope.vgExitFullScreenIcon)[0].data;
-					$scope.currentIcon = $scope.enterFullScreenIcon;
-				},
-				template: "<div class='iconButton'>{{currentIcon}}</div>",
+				template: "<div class='iconButton' ng-class='fullscreenIcon'></div>",
 				link: function(scope, elem, attr, API) {
 					function onEnterFullScreen() {
-						scope.fullscreenIcon = scope.exitFullScreenIcon;
+						scope.fullscreenIcon = {exit: true};
 					}
 					function onExitFullScreen() {
-						scope.fullscreenIcon = scope.enterFullScreenIcon;
+						scope.fullscreenIcon = {enter: true};
 					}
 					function onClickFullScreen(event) {
 						API.toggleFullScreen();
 					}
 
 					elem.bind("click", onClickFullScreen);
+					scope.fullscreenIcon = {enter: true};
 
 					API.$on(VG_EVENTS.ON_ENTER_FULLSCREEN, onEnterFullScreen);
 					API.$on(VG_EVENTS.ON_EXIT_FULLSCREEN, onExitFullScreen);

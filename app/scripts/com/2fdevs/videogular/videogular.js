@@ -56,10 +56,10 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 		this.getZIndex = function() {
 			var zIndex = 1;
 
-			$('*')
-				.filter(function(){ return $(this).css('zIndex') !== 'auto'; })
+			angular.element('*')
+				.filter(function(){ return angular.element(this).css('zIndex') !== 'auto'; })
 				.each(function(){
-					var thisZIndex = parseInt($(this).css('zIndex'));
+					var thisZIndex = parseInt(angular.element(this).css('zIndex'));
 					if (zIndex < thisZIndex) zIndex = thisZIndex + 1;
 				});
 

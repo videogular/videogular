@@ -58,6 +58,10 @@ vg-overlay-play {
 	z-index: 3;
 }
 
+vg-overlay-play div.play:before {
+	content: "\e000";
+}
+
 .overlayPlayContainer {
 	font-size: 100px;
 	width: 100%;
@@ -449,6 +453,43 @@ vg-controls .show-animation {
 		opacity: 0.5;
 		-ms-transform:  rotate(0deg) scaleX(1) scaleY(1) ;
 	}
+}
+
+/* Controlbar icons */
+vg-play-pause-button div.play:before {
+	content: "\e000";
+}
+
+vg-play-pause-button div.pause:before {
+	content: "\e001";
+}
+
+vg-mutebutton div.level3:before {
+	content: "\e002";
+}
+
+vg-mutebutton div.level2:before {
+	content: "\e003";
+}
+
+vg-mutebutton div.level1:before {
+	content: "\e004";
+}
+
+vg-mutebutton div.level0:before {
+	content: "\e005";
+}
+
+vg-mutebutton div.mute:before {
+	content: "\e006";
+}
+
+vg-fullscreenButton div.enter:before {
+	content: "\e007";
+}
+
+vg-fullscreenButton div.exit:before {
+	content: "\e008";
 }
 
 /*****************/
