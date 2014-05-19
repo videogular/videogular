@@ -1,3 +1,8 @@
+/**
+ * @license Videogular v0.4.0 http://videogular.com
+ * Two Fucking Developers http://twofuckingdevelopers.com
+ * License: MIT
+ */
 "use strict";
 angular.module("com.2fdevs.videogular.plugins.controls", [])
 	.directive(
@@ -109,12 +114,12 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 								scope.playPauseIcon = {play: true};
 								break;
 						}
-
-						scope.$apply();
 					}
 
 					function onClickPlayPause() {
+						API.getScope().currentState = "play";
 						API.playPause();
+						scope.$apply();
 					}
 
 					scope.playPauseIcon = {play: true};
@@ -367,6 +372,8 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 						updateVolumeView(value);
 
 						API.setVolume(volValue);
+
+						scope.$apply();
 					}
 
 					function onMouseDownVolume(event) {
@@ -390,6 +397,8 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 							updateVolumeView(value);
 
 							API.setVolume(volValue);
+
+							scope.$apply();
 						}
 					}
 
@@ -443,6 +452,8 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 						isMuted = !isMuted;
 
 						API.setVolume(scope.currentVolume);
+
+						scope.$apply();
 					}
 
 					function onSetVolume(target, params) {
@@ -477,7 +488,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 							scope.muteIcon = {level3: true};
 						}
 
-						scope.$apply();
+						//scope.$apply();
 					}
 
 					scope.defaultVolume = 1;
@@ -512,6 +523,8 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					}
 					function onClickFullScreen(event) {
 						API.toggleFullScreen();
+
+						scope.$apply();
 					}
 
 					elem.bind("click", onClickFullScreen);

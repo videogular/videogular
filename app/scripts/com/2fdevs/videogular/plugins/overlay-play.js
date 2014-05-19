@@ -1,3 +1,8 @@
+/**
+ * @license Videogular v0.4.0 http://videogular.com
+ * Two Fucking Developers http://twofuckingdevelopers.com
+ * License: MIT
+ */
 "use strict";
 angular.module("com.2fdevs.videogular.plugins.overlayplay", [])
 	.directive(
@@ -15,11 +20,12 @@ angular.module("com.2fdevs.videogular.plugins.overlayplay", [])
 					"</div>",
 				link: function(scope, elem, attr, API) {
 					function onComplete(target, params) {
-						scope.overlayPlayIcon = scope.playIcon;
+						scope.overlayPlayIcon = {play: true};
 					}
 
 					function onClickOverlayPlay(event) {
 						API.playPause();
+						scope.$apply();
 					}
 
 					function onPlay(target, params) {

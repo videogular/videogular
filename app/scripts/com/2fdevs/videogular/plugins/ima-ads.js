@@ -1,3 +1,8 @@
+/**
+ * @license Videogular v0.4.0 http://videogular.com
+ * Two Fucking Developers http://twofuckingdevelopers.com
+ * License: MIT
+ */
 "use strict";
 angular.module("com.2fdevs.videogular.plugins.imaads", [])
 	.directive(

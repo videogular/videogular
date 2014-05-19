@@ -27,6 +27,7 @@
 		"grunt-ngmin": "~0.0.2",
 		"grunt-karma": "~0.7.2",
 		"grunt-hub": "~0.6.2",
+		"grunt-ngdocs": "~0.2.1",
 
 		"load-grunt-tasks": "~0.1.0",
 		"connect-livereload": "~0.2.0",

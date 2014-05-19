@@ -73,8 +73,8 @@ angular.module('myApp').controller('MainCtrl',
 
 		$scope.changeSource = function() {
 			$scope.config.sources = [
-				{src: $sce.trustAsResourceUrl("http://vjs.zencdn.net/v/oceans.mp4"), type: "video/mp4"},
-				{src: $sce.trustAsResourceUrl("http://vjs.zencdn.net/v/oceans.webm"), type: "video/webm"}
+				{src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/big_buck_bunny_720p_h264.mov"), type: "video/mp4"},
+				{src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/big_buck_bunny_720p_stereo.ogg"), type: "video/ogg"}
 			];
 		};
 	}

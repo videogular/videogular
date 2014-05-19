@@ -144,14 +144,28 @@ module.exports = function(grunt) {
 		clean: {
 			build: [
 				"build"
+			],
+			docs: [
+				"docs"
 			]
 		},
 		ngdocs: {
-			all: [
-				'app/scripts/**/*.js'
-			],
 			options: {
-				dest: 'build/docs'
+				dest: 'docs'
+			},
+			api: {
+				title: "API Reference",
+				src: [
+					'docs/content/api/*.ngdoc',
+					'app/scripts/com/2fdevs/videogular/videogular.js',
+					'app/scripts/com/2fdevs/videogular/plugins/poster.js'
+				]
+			},
+			guide: {
+				title: "Guide",
+				src: [
+					"docs/content/guide/*.ngdoc"
+				]
 			}
 		},
 		hub: {
@@ -202,9 +216,10 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-hub');
+	grunt.loadNpmTasks('grunt-ngdocs');
 
 	grunt.registerTask('default', ['karma:build', 'clean:build', 'cssmin:css', 'uglify:js', 'copy:main', 'copy:release']);
-	grunt.registerTask('docs', ['ngdocs']);
+	grunt.registerTask('docs', ['clean:docs', 'ngdocs']);
 	grunt.registerTask('major-release', ['hub:major']);
 	grunt.registerTask('minor-release', ['hub:minor']);
 	grunt.registerTask('patch-release', ['hub:patch']);
