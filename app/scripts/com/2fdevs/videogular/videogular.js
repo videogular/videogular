@@ -256,7 +256,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
                                 }
                                 // Perform native full screen support
                                 else {
-                                    if (this.elelementScope[0].msRequestFullscreen) {
+                                    if (this.elselementScope[0].msRequestFullscreen) {
                                         if (document.msFullscreenElement) {
                                             document.msExitFullscreen();
                                         } else {
