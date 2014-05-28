@@ -256,7 +256,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
                                 }
                                 // Perform native full screen support
                                 else {
-                                    if (this.elementScope[0].msRequestFullscreen) {
+                                    if (this.elselementScope[0].msRequestFullscreen) {
                                         if (document.msFullscreenElement) {
                                             document.msExitFullscreen();
                                         } else {
@@ -633,14 +633,25 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
                         var canPlay;
 
                         function changeSource() {
-                            for (var i = 0, l = sources.length; i < l; i++) {
-                                canPlay = element[0].canPlayType(sources[i].type);
+                            canPlay = "";
 
-                                if (canPlay == "maybe" || canPlay == "probably") {
-                                    element.attr("src", sources[i].src);
-                                    element.attr("type", sources[i].type);
-                                    break;
+                            // It's a cool browser
+                            if (element[0].canPlayType) {
+                                for (var i = 0, l = sources.length; i < l; i++) {
+                                    canPlay = element[0].canPlayType(sources[i].type);
+
+                                    if (canPlay == "maybe" || canPlay == "probably") {
+                                        element.attr("src", sources[i].src);
+                                        element.attr("type", sources[i].type);
+                                        break;
+                                    }
                                 }
+                            }
+                            // It's a crappy browser and it doesn't deserve any respect
+                            else {
+                                // Get H264 or the first one
+                                element.attr("src", sources[0].src);
+                                element.attr("type", sources[0].type);
                             }
 
                             if (canPlay == "") {
