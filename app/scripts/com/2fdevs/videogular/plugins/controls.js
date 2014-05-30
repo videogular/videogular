@@ -302,6 +302,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					function onUpdateTime(target, params){
 						percentTime = Math.round((params[0] / params[1]) * 100);
 						elem.css("width", percentTime + "%");
+						scope.$apply();
 					}
 
 					function onComplete(target, params){
