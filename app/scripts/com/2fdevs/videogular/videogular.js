@@ -553,8 +553,8 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 								playerHeight = videoSize.height;
 							}
 
-							if (videoSize.width == 0) videoSize.width = currentWidth;
-							if (videoSize.height == 0) videoSize.height = currentHeight;
+							if (videoSize.width == 0 || isNaN(videoSize.width)) videoSize.width = currentWidth;
+							if (videoSize.height == 0 || isNaN(videoSize.height)) videoSize.height = currentHeight;
 
 							videoLeft = (playerWidth - videoSize.width) / 2;
 							videoTop = (playerHeight - videoSize.height) / 2;
@@ -562,7 +562,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 							vg.videoElement.attr("width", parseInt(videoSize.width, 10));
 							vg.videoElement.attr("height", parseInt(videoSize.height, 10));
 							vg.videoElement.css("width", parseInt(videoSize.width, 10) + "px");
-							vg.videoElement.css("height", parseInt(videoSize.height, 10));
+							vg.videoElement.css("height", parseInt(videoSize.height, 10) + "px");
 							vg.videoElement.css("top", videoTop + "px");
 							vg.videoElement.css("left", videoLeft + "px");
 
@@ -680,16 +680,25 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 						var canPlay;
 
 						function changeSource() {
-							for (var i=0, l=sources.length; i<l; i++)
-							{
-								canPlay = element[0].canPlayType(sources[i].type);
+							canPlay = "";
 
-								if (canPlay == "maybe" || canPlay == "probably")
-								{
-									element.attr("src", sources[i].src);
-									element.attr("type", sources[i].type);
-									break;
+							// It's a cool browser
+							if (element[0].canPlayType) {
+								for (var i = 0, l = sources.length; i < l; i++) {
+									canPlay = element[0].canPlayType(sources[i].type);
+
+									if (canPlay == "maybe" || canPlay == "probably") {
+										element.attr("src", sources[i].src);
+										element.attr("type", sources[i].type);
+										break;
+									}
 								}
+							}
+							// It's a crappy browser and it doesn't deserve any respect
+							else {
+								// Get H264 or the first one
+								element.attr("src", sources[0].src);
+								element.attr("type", sources[0].type);
 							}
 
 							if (canPlay == "") {

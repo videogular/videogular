@@ -117,7 +117,6 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					}
 
 					function onClickPlayPause() {
-						API.getScope().currentState = "play";
 						API.playPause();
 						scope.$apply();
 					}
