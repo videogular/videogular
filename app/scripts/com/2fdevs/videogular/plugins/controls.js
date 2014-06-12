@@ -199,7 +199,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 
 						isSeeking = true;
 						if (isPlaying) isPlayingWhenSeeking = true;
-						seekTime(touchX * API.videoElement[0].duration / elem[0].scrollWidth);
+						seekTime(touchX / elem[0].scrollWidth);
 						API.pause();
 					}
 					function onScrubBarTouchEnd(event) {
@@ -215,7 +215,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 
 						if (isSeeking) {
 							touchX = touches[0].clientX + touchStartX - touches[0].target.offsetLeft;
-							seekTime(touchX * API.videoElement[0].duration / elem[0].scrollWidth);
+							seekTime(touchX / elem[0].scrollWidth);
 						}
 					}
 					function onScrubBarTouchLeave(event) {
@@ -227,7 +227,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 
 						isSeeking = true;
 						if (isPlaying) isPlayingWhenSeeking = true;
-						seekTime(event.offsetX * API.videoElement[0].duration / elem[0].scrollWidth);
+						seekTime(event.offsetX / elem[0].scrollWidth);
 						API.pause();
 					}
 					function onScrubBarMouseUp(event) {
@@ -238,12 +238,12 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 							API.play();
 						}
 						isSeeking = false;
-						seekTime(event.offsetX * API.videoElement[0].duration / elem[0].scrollWidth);
+						seekTime(event.offsetX / elem[0].scrollWidth);
 					}
 					function onScrubBarMouseMove(event) {
 						if (isSeeking) {
 							event = VG_UTILS.fixEventOffset(event);
-							seekTime(event.offsetX * API.videoElement[0].duration / elem[0].scrollWidth);
+							seekTime(event.offsetX / elem[0].scrollWidth);
 						}
 					}
 					function onScrubBarMouseLeave(event) {
