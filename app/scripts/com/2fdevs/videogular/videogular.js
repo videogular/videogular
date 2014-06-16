@@ -263,7 +263,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 
 					this.seekTime = function(percent) {
 						try {
-							this.videoElement[0].currentTime = percent * this.videoElement[0].duration;
+							this.videoElement[0].currentTime = percent * this.videoElement[0].duration / 100;
 						} 
 						catch(err) {
 
