@@ -137,6 +137,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 				restrict: "E",
 				link: function(scope, elem, attr, API) {
 					var showHours = false;
+					var totalTimeUnparsed = 0;
 
 					function parseTime(time) {
 						var hours = Math.floor(time / 3600);
@@ -162,8 +163,10 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 
 					function onUpdateTime(target, params) {
 						var time = parseTime(params[0]);
+						var timeLeft = parseTime(totalTimeUnparsed - params[0]);
 
 						scope.currentTime = displayTime(time.hours, time.mins, time.secs);
+						scope.timeLeft = displayTime(timeLeft.hours, timeLeft.mins, timeLeft.secs);
 					}
 
 					function onComplete(target, params) {
@@ -171,7 +174,9 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					}
 
 					function onStartPlaying(target, params) {
-						var time = parseTime(params[0]);
+						totalTimeUnparsed = params[0];
+
+						var time = parseTime(totalTimeUnparsed);
 
 						showHours = (time.hours > 0);
 
