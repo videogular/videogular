@@ -136,19 +136,34 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 				require: "^videogular",
 				restrict: "E",
 				link: function(scope, elem, attr, API) {
-					function parseTime(time) {
-						var mm = Math.floor(time / 60);
-						var ss = Math.floor(time - (mm * 60));
-						var mins = mm < 10 ? "0" + mm : mm;
-						var secs = ss < 10 ? "0" + ss : ss;
+					var showHours = false;
 
-						return {mins: mins, secs: secs};
+					function parseTime(time) {
+						var hours = Math.floor(time / 3600);
+						var mins = Math.floor((time % 3600) / 60);
+						var secs = Math.floor(time % 60);
+
+						return {hours: hours, mins: mins, secs: secs};
+					}
+
+					function displayTime(h, m, s) {
+						var displayTime = '';
+
+						var hh = h < 10 ? "0" + h : h;
+						var mm = m < 10 ? "0" + m : m;
+						var ss = s < 10 ? "0" + s : s;
+
+						if (showHours || h > 0) {
+							displayTime += hh + ':';
+						}
+
+						return displayTime + mm + ':' + ss;
 					}
 
 					function onUpdateTime(target, params) {
 						var time = parseTime(params[0]);
 
-						scope.currentTime = time.mins + ":" + time.secs;
+						scope.currentTime = displayTime(time.hours, time.mins, time.secs);
 					}
 
 					function onComplete(target, params) {
@@ -158,7 +173,9 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					function onStartPlaying(target, params) {
 						var time = parseTime(params[0]);
 
-						scope.totalTime = time.mins + ":" + time.secs;
+						showHours = (time.hours > 0);
+
+						scope.totalTime = displayTime(time.hours, time.mins, time.secs);
 					}
 
 					scope.currentTime = "00:00";
