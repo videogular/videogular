@@ -261,8 +261,14 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 						return isPlayerReady;
 					};
 
-					this.seekTime = function(time) {
-						this.videoElement[0].currentTime = time;
+					this.seekTime = function(percent) {
+						try {
+							this.videoElement[0].currentTime = percent * this.videoElement[0].duration / 100;
+						} 
+						catch(err) {
+
+						}
+						$scope.$emit(VG_EVENTS.ON_SEEK_TIME, [percent]);
 					};
 
 					this.playPause = function() {
@@ -723,7 +729,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 							}
 
 							if (canPlay == "") {
-								scope.$emit(VG_EVENTS.ON_ERROR, {type: "Can't play file"})
+								scope.$broadcast(VG_EVENTS.ON_ERROR, {type: "Can't play file"})
 							}
 						}
 
