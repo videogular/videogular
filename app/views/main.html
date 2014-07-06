@@ -16,7 +16,7 @@
 				<vg-scrubBar>
 					<vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
 				</vg-scrubBar>
-				<vg-timeDisplay>{{ totalTime }}</vg-timeDisplay>
+				<vg-timeDisplay>{{ timeLeft }}</vg-timeDisplay>
 				<vg-volume>
 					<vg-mutebutton></vg-mutebutton>
 					<vg-volumebar></vg-volumebar>
@@ -95,7 +95,8 @@
 			<button ng-click="API.play()">Play</button>
 			<button ng-click="API.pause()">Pause</button>
 			<button ng-click="API.stop()">Stop</button>
-			<button ng-click="API.seekTime(30)">Move to second 30</button>
+			<button ng-click="API.seekTime(30, false)">Move to second 30</button>
+			<button ng-click="API.seekTime(50, true)">Move to 50%</button>
 			<button ng-click="changeSource()">Change source</button>
 		</div>
 	</div>

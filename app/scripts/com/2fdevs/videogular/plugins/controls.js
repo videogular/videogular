@@ -272,7 +272,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 						isSeeking = false;
 					}
 					function seekTime(time) {
-						API.seekTime(time);
+						API.seekTime(time, false);
 					}
 
 					function onChangeState(target, params) {
