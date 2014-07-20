@@ -225,7 +225,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 					vgPlayerReady: "&",
 					vgChangeSource: "&"
 				},
-				controller: ['$scope', function($scope) {
+				controller: ['$scope','$timeout', function($scope,$timeout) {
 					var currentTheme = null;
 					var currentWidth = null;
 					var currentHeight = null;
@@ -536,7 +536,11 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 						}
 						$scope.$emit(VG_EVENTS.ON_PLAYER_READY);
 
-						if ($scope.autoPlay && !VG_UTILS.isMobileDevice() || $scope.currentState === VG_STATES.PLAY) vg.play();
+						if ($scope.autoPlay && !VG_UTILS.isMobileDevice() || $scope.currentState === VG_STATES.PLAY){
+							$timeout(function() {
+								vg.play();
+							})
+						}
 					};
 
 					$scope.updateSize = function() {
