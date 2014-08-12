@@ -7,7 +7,7 @@
 angular.module("com.2fdevs.videogular.plugins.imaads", [])
 	.directive(
 		"vgImaAds",
-		["$timeout", "VG_STATES", "VG_EVENTS", function($timeout, VG_STATES, VG_EVENTS){
+		["$window", "VG_STATES", function($window, VG_STATES){
 			return {
 				restrict: "E",
 				require: "^videogular",
@@ -27,42 +27,38 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
 					var w;
 					var h;
 
-					function onUpdateSize(target, params) {
-						var mode;
+					function onUpdateState(newState) {
+						switch (newState) {
+							case VG_STATES.PLAY:
+								if (!adsLoaded) {
+									API.pause();
+									adDisplayContainer.initialize();
+									requestAds(scope.vgAdTagUrl);
+									adsLoaded = true;
+								}
+								break;
 
-						w = params[0];
-						h = params[1];
-
-						if (API.isFullScreen) {
-							mode = google.ima.ViewMode.FULLSCREEN;
+							case VG_STATES.STOP:
+								contentCompleteCalled = true;
+								adsLoader.contentComplete();
+								break;
 						}
-						else {
-							mode = google.ima.ViewMode.NORMAL;
-						}
 
-						if (adsManager) adsManager.resize(w, h, mode);
-					}
-
-					function onPlay() {
-						if (!adsLoaded) {
-							API.pause();
-							requestAds(scope.vgAdTagUrl);
-							adsLoaded = true;
-						}
-					}
-
-					function onStartPlaying() {
-						adDisplayContainer.initialize();
 					}
 
 					function requestAds(adTagUrl) {
+						// Show only to get computed style in pixels
+						show();
+
 						var adsRequest = new google.ima.AdsRequest();
-						var size = API.getSize();
+						var computedStyle = $window.getComputedStyle(elem[0]);
 						adsRequest.adTagUrl = adTagUrl;
-						adsRequest.linearAdSlotWidth = size.width;
-						adsRequest.linearAdSlotHeight = size.height;
-						adsRequest.nonLinearAdSlotWidth = size.width;
-						adsRequest.nonLinearAdSlotHeight = size.height;
+
+						adsRequest.linearAdSlotWidth = parseInt(computedStyle.width, 10);
+						adsRequest.linearAdSlotHeight = parseInt(computedStyle.height, 10);
+						adsRequest.nonLinearAdSlotWidth = parseInt(computedStyle.width, 10);
+						adsRequest.nonLinearAdSlotHeight = parseInt(computedStyle.height, 10);
+
 						adsLoader.requestAds(adsRequest);
 					}
 
@@ -106,11 +102,6 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
 						API.play();
 					}
 
-					function onVideoComplete() {
-						contentCompleteCalled = true;
-						adsLoader.contentComplete();
-					}
-
 					function onAllAdsComplete() {
 						hide();
 					}
@@ -130,10 +121,17 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
 					adsLoader.addEventListener(google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED, onAdsManagerLoaded, false, this);
 					adsLoader.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR, onAdError, false, this);
 
-					API.$on(VG_EVENTS.ON_UPDATE_SIZE, onUpdateSize);
-					API.$on(VG_EVENTS.ON_PLAY, onPlay);
-					API.$on(VG_EVENTS.ON_START_PLAYING, onStartPlaying);
-					API.$on(VG_EVENTS.ON_COMPLETE, onVideoComplete);
+
+					scope.$watch(
+						function() {
+							return API.currentState;
+						},
+						function(newVal, oldVal) {
+							if (newVal != oldVal) {
+								onUpdateState(newVal);
+							}
+						}
+					);
 
 					if (scope.vgCompanion) {
 						googletag.cmd.push(function() {

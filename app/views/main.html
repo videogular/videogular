@@ -1,28 +1,34 @@
 <div class="container">
-	<div>
+	<div style="height: 400px;">
 		<videogular
-			vg-player-ready="onPlayerReady" vg-complete="onCompleteVideo" vg-update-time="onUpdateTime" vg-update-size="onUpdateSize" vg-update-volume="onUpdateVolume" vg-update-state="onUpdateState"
-			vg-width="config.width" vg-height="config.height" vg-theme="config.theme.url" vg-autoplay="config.autoPlay" vg-stretch="config.stretch.value" vg-responsive="config.responsive">
-			<video vg-src="config.sources" preload='metadata'></video>
+			vg-player-ready="onPlayerReady"
+            vg-complete="onCompleteVideo"
+            vg-update-time="onUpdateTime"
+            vg-update-size="onUpdateSize"
+            vg-update-volume="onUpdateVolume"
+            vg-update-state="onUpdateState"
+			vg-theme="config.theme.url"
+            vg-autoplay="config.autoPlay">
+			<vg-video vg-src="config.sources"></vg-video>
 
-			<!--vg-ima-ads vg-network="config.plugins.ads.network" vg-unit-path="config.plugins.ads.unitPath" vg-companion="config.plugins.ads.companion" vg-companion-size="config.plugins.ads.companionSize" vg-ad-tag-url="config.plugins.ads.adTagUrl"></vg-ima-ads-->
-			<vg-poster-image vg-url='config.plugins.poster.url' vg-stretch="config.stretch.value"></vg-poster-image>
-			<vg-buffering></vg-buffering>
-			<vg-overlay-play vg-play-icon="config.theme.playIcon"></vg-overlay-play>
-
-			<vg-controls vg-autohide="config.autoHide" vg-autohide-time="config.autoHideTime" style="height: 50px;">
+			<vg-controls vg-autohide="config.autoHide" vg-autohide-time="config.autoHideTime">
 				<vg-play-pause-button></vg-play-pause-button>
-				<vg-timeDisplay>{{ currentTime }}</vg-timeDisplay>
+				<vg-timeDisplay>{{ API.currentTime | date:'mm:ss' }}</vg-timeDisplay>
 				<vg-scrubBar>
 					<vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
 				</vg-scrubBar>
-				<vg-timeDisplay>{{ timeLeft }}</vg-timeDisplay>
+				<vg-timeDisplay>{{ API.timeLeft | date:'mm:ss' }}</vg-timeDisplay>
 				<vg-volume>
 					<vg-mutebutton></vg-mutebutton>
 					<vg-volumebar></vg-volumebar>
 				</vg-volume>
-				<vg-fullscreenButton vg-enter-full-screen-icon="config.theme.enterFullScreenIcon" vg-exit-full-screen-icon="config.theme.exitFullScreenIcon"></vg-fullscreenButton>
+				<vg-fullscreenButton></vg-fullscreenButton>
 			</vg-controls>
+
+            <!--vg-ima-ads vg-network="config.plugins.ads.network" vg-unit-path="config.plugins.ads.unitPath" vg-companion="config.plugins.ads.companion" vg-companion-size="config.plugins.ads.companionSize" vg-ad-tag-url="config.plugins.ads.adTagUrl"></vg-ima-ads-->
+			<vg-poster-image vg-url='config.plugins.poster.url'></vg-poster-image>
+			<vg-buffering></vg-buffering>
+            <vg-overlay-play vg-play-icon="config.theme.playIcon"></vg-overlay-play>
 		</videogular>
 	</div>
 
@@ -35,32 +41,12 @@
 	<div class="row">
 		<div class="col-6 col-sm-4 col-lg-4">
 			<div>
-				<label for="widthInput">Width:</label>
-				<input id="widthInput" type="text" class="form-control" ng-model="config.width">
-			</div>
-			<div>
-				<label for="heightInput">Height:</label>
-				<input id="heightInput" type="text" class="form-control" ng-model="config.height">
-			</div>
-		</div>
-
-		<div class="col-6 col-sm-4 col-lg-4">
-			<div>
 				<label for="posterInput">Poster url image (png/jpg/gif):</label>
 				<input id="posterInput" type="text" class="form-control" ng-model="config.plugins.poster.url">
 			</div>
-			<div>
-				<label for="stretchSelect">Stretch Mode:</label>
-				<select id="stretchSelect" class="form-control" ng-model="config.stretch" ng-options="stretchItem.label for stretchItem in stretchModes"></select>
-			</div>
 		</div>
 
 		<div class="col-6 col-sm-4 col-lg-4">
-			<div>
-				<label class="checkbox">
-					<input id="responsiveInput" type="checkbox" ng-model="config.responsive">Responsive
-				</label>
-			</div>
 			<div>
 				<label class="checkbox">
 					<input id="autoPlayInput" type="checkbox" ng-model="config.autoPlay">Autoplay
@@ -77,10 +63,7 @@
 	<div class="row">
 		<div class="col-6 col-sm-4 col-lg-4">
 			<div>Theme: {{config.theme.url}}</div>
-			<div>Width: {{config.width}}</div>
-			<div>Height: {{config.height}}</div>
 			<div>Poster image: {{config.plugins.poster.url}}</div>
-			<div>Stretch: {{config.stretch}}</div>
 			<div>AutoPlay: {{config.autoPlay}}</div>
 		</div>
 		<div class="col-6 col-sm-4 col-lg-4">

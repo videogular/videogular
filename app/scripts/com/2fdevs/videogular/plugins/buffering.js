@@ -33,46 +33,69 @@
 angular.module("com.2fdevs.videogular.plugins.buffering", [])
 	.directive(
 		"vgBuffering",
-		["VG_EVENTS", "VG_UTILS", function(VG_EVENTS, VG_UTILS){
+		["VG_UTILS", function(VG_UTILS){
 			return {
 				restrict: "E",
 				require: "^videogular",
 				template:
 					"<div class='bufferingContainer'>"+
-						"<div class='loadingSpinner stop'></div>"+
+						"<div ng-class='spinnerClass' class='loadingSpinner'></div>"+
 					"</div>",
 				link: function(scope, elem, attr, API) {
-					var spinner = angular.element(elem[0].getElementsByClassName("loadingSpinner"));
-
-					function onPlayerReady() {
-						spinner.addClass("stop");
-						elem.css("display", "none");
-					}
-
-					function onBuffering() {
-						spinner.removeClass("stop");
+					function showSpinner() {
+						scope.spinnerClass = {stop: API.isBuffering};
 						elem.css("display", "block");
 					}
 
-					function onStartPlaying() {
-						spinner.addClass("stop");
+					function hideSpinner() {
+						scope.spinnerClass = {stop: API.isBuffering};
 						elem.css("display", "none");
 					}
 
-					spinner.removeClass("stop");
+					function setState(isBuffering) {
+						if (isBuffering) {
+							showSpinner();
+						}
+						else {
+							hideSpinner();
+						}
+					}
+
+					function onPlayerReady(isReady) {
+						if (isReady) {
+							hideSpinner();
+						}
+					}
+
+					showSpinner();
 
 					// Workaround for issue #16: https://github.com/2fdevs/videogular/issues/16
 					if (VG_UTILS.isiOSDevice()) {
-						spinner.addClass("stop");
-						elem.css("display", "none");
+						hideSpinner();
 					}
 					else {
-						if (API.isPlayerReady()) onPlayerReady();
-						else API.$on(VG_EVENTS.ON_PLAYER_READY, onPlayerReady);
+						scope.$watch(
+							function() {
+								return API.isReady;
+							},
+							function(newVal, oldVal) {
+								if (newVal != oldVal) {
+									onPlayerReady(newVal);
+								}
+							}
+						);
 					}
 
-					API.$on(VG_EVENTS.ON_BUFFERING, onBuffering);
-					API.$on(VG_EVENTS.ON_START_PLAYING, onStartPlaying);
+					scope.$watch(
+						function() {
+							return API.isBuffering;
+						},
+						function(newVal, oldVal) {
+							if (newVal != oldVal) {
+								setState(newVal);
+							}
+						}
+					);
 				}
 			}
 		}
