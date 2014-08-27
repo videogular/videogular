@@ -742,7 +742,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 						}
 
 						scope.$watch(attr.vgSrc, function(newValue, oldValue) {
-							if (!sources || newValue != oldValue) {
+							if ((!sources || newValue != oldValue) && newValue) {
 								sources = newValue;
 								changeSource();
 							}
