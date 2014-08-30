@@ -23,9 +23,9 @@ If you have developed a Videogular's plugin or theme [contact us through this fo
 * [**Quiz plugin**](https://github.com/NamPNQ/bower-videogular-quiz) by **[NamPNQ](https://github.com/NamPNQ)**
 * [**Flash fallback plugin**](https://github.com/NamPNQ/bower-videogular-flash) by **[NamPNQ](https://github.com/NamPNQ)**
 
-## Documentation
+## Documentation and how to install
 
-See the [Wiki](https://github.com/2fdevs/videogular/wiki) pages for more info about how to use Videogular.
+See the [Wiki](https://github.com/2fdevs/videogular/wiki) pages for more info about how to use Videogular and [installation notes](https://github.com/2fdevs/videogular/wiki/Install).
 
 ## Install
 
