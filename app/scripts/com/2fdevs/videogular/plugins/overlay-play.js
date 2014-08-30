@@ -7,7 +7,7 @@
 angular.module("com.2fdevs.videogular.plugins.overlayplay", [])
 	.directive(
 		"vgOverlayPlay",
-		["VG_EVENTS", "VG_STATES", function(VG_EVENTS, VG_STATES){
+		["VG_STATES", function(VG_STATES){
 			return {
 				restrict: "E",
 				require: "^videogular",
@@ -32,8 +32,8 @@ angular.module("com.2fdevs.videogular.plugins.overlayplay", [])
 						scope.overlayPlayIcon = {};
 					}
 
-					function onChangeState(target, params) {
-						switch (params[0]) {
+					function onChangeState(newState) {
+						switch (newState) {
 							case VG_STATES.PLAY:
 								scope.overlayPlayIcon = {};
 								break;
@@ -51,9 +51,16 @@ angular.module("com.2fdevs.videogular.plugins.overlayplay", [])
 					elem.bind("click", onClickOverlayPlay);
 					scope.overlayPlayIcon = {play: true};
 
-					API.$on(VG_EVENTS.ON_PLAY, onPlay);
-					API.$on(VG_EVENTS.ON_SET_STATE, onChangeState);
-					API.$on(VG_EVENTS.ON_COMPLETE, onComplete);
+					scope.$watch(
+						function() {
+							return API.currentState;
+						},
+						function(newVal, oldVal) {
+							if (newVal != oldVal) {
+								onChangeState(newVal);
+							}
+						}
+					);
 				}
 			}
 		}
