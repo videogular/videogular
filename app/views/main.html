@@ -4,7 +4,6 @@
 			vg-player-ready="onPlayerReady"
             vg-complete="onCompleteVideo"
             vg-update-time="onUpdateTime"
-            vg-update-size="onUpdateSize"
             vg-update-volume="onUpdateVolume"
             vg-update-state="onUpdateState"
 			vg-theme="config.theme.url"
@@ -13,11 +12,11 @@
 
 			<vg-controls vg-autohide="config.autoHide" vg-autohide-time="config.autoHideTime">
 				<vg-play-pause-button></vg-play-pause-button>
-				<vg-timeDisplay>{{ API.currentTime | date:'mm:ss' }}</vg-timeDisplay>
+				<vg-timedisplay>{{ API.currentTime | date:'mm:ss' }}</vg-timedisplay>
 				<vg-scrubBar>
 					<vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
 				</vg-scrubBar>
-				<vg-timeDisplay>{{ API.timeLeft | date:'mm:ss' }}</vg-timeDisplay>
+				<vg-timedisplay>{{ API.timeLeft | date:'mm:ss' }}</vg-timedisplay>
 				<vg-volume>
 					<vg-mutebutton></vg-mutebutton>
 					<vg-volumebar></vg-volumebar>
