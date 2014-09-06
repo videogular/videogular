@@ -1,22 +1,26 @@
 <div class="container">
 	<div style="height: 400px;">
-		<videogular
-			vg-player-ready="onPlayerReady"
-            vg-complete="onCompleteVideo"
-            vg-update-time="onUpdateTime"
-            vg-update-volume="onUpdateVolume"
-            vg-update-state="onUpdateState"
-			vg-theme="config.theme.url"
-            vg-autoplay="config.autoPlay">
-			<vg-video vg-src="config.sources"></vg-video>
+		<videogular vg-player-ready="onPlayerReady"
+            		vg-complete="onCompleteVideo"
+            		vg-update-time="onUpdateTime"
+            		vg-update-volume="onUpdateVolume"
+            		vg-update-state="onUpdateState"
+					vg-theme="config.theme.url"
+            		vg-autoplay="config.autoPlay">
+			<vg-video vg-src="config.sources"
+					  vg-tracks="config.tracks"
+					  vg-loop="config.loop"
+					  vg-preload="config.preload"
+					  vg-native-controls="config.controls">
+			</vg-video>
 
 			<vg-controls vg-autohide="config.autoHide" vg-autohide-time="config.autoHideTime">
 				<vg-play-pause-button></vg-play-pause-button>
-				<vg-timedisplay>{{ API.currentTime | date:'mm:ss' }}</vg-timedisplay>
+				<vg-timedisplay>{{ currentTime | date:'mm:ss' }}</vg-timedisplay>
 				<vg-scrubBar>
 					<vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
 				</vg-scrubBar>
-				<vg-timedisplay>{{ API.timeLeft | date:'mm:ss' }}</vg-timedisplay>
+				<vg-timedisplay>{{ timeLeft | date:'mm:ss' }}</vg-timedisplay>
 				<vg-volume>
 					<vg-mutebutton></vg-mutebutton>
 					<vg-volumebar></vg-volumebar>

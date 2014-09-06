@@ -111,6 +111,49 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 			}
 		}
 	])
+    .directive(
+    "vgTimedisplay",
+    [function(){
+        return {
+            require: "^videogular",
+            restrict: "E",
+            link: function(scope, elem, attr, API) {
+                scope.$watch(
+                    function() {
+                        return API.currentTime;
+                    },
+                    function(newVal, oldVal) {
+                        if (newVal != oldVal) {
+                            scope.currentTime = newVal;
+                        }
+                    }
+                );
+
+                scope.$watch(
+                    function() {
+                        return API.timeLeft;
+                    },
+                    function(newVal, oldVal) {
+                        if (newVal != oldVal) {
+                            scope.timeLeft = newVal;
+                        }
+                    }
+                );
+
+                scope.$watch(
+                    function() {
+                        return API.totalTime;
+                    },
+                    function(newVal, oldVal) {
+                        if (newVal != oldVal) {
+                            scope.totalTime = newVal;
+                        }
+                    }
+                );
+            }
+        }
+    }
+    ])
 	.directive(
 		"vgScrubbar",
 		["VG_STATES", "VG_UTILS", function(VG_STATES, VG_UTILS){
@@ -350,7 +393,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 						var volumeHeight = parseInt(volumeBackElem.prop("offsetHeight"));
 						var value = event.offsetY * 100 / volumeHeight;
 						var volValue = 1 - (value / 100);
-						updateVolumeView(value);
+						updateVolumeView(volValue * 100);
 
 						API.setVolume(volValue);
 
@@ -375,7 +418,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 							var volumeHeight = parseInt(volumeBackElem.prop("offsetHeight"));
 							var value = event.offsetY * 100 / volumeHeight;
 							var volValue = 1 - (value / 100);
-							updateVolumeView(value);
+							updateVolumeView(volValue * 100);
 
 							API.setVolume(volValue);
 

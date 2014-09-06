@@ -34,16 +34,41 @@ angular.module('myApp').controller('MainCtrl',
 			$scope.config.height = height;
 		};
 
+        $scope.videos = [
+            {
+                sources: [
+                    {src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogular.mp4"), type: "video/mp4"},
+                    {src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogular.webm"), type: "video/webm"},
+                    {src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogular.ogg"), type: "video/ogg"}
+                ],
+                tracks: [
+                    {
+                        src: "assets/subs/pale-blue-dot.vtt",
+                        kind: "subtitles",
+                        srclang: "en",
+                        label: "English",
+                        default: ""
+                    }
+                ]
+            },
+            {
+                sources: [
+                    {src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/big_buck_bunny_720p_h264.mov"), type: "video/mp4"},
+                    {src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/big_buck_bunny_720p_stereo.ogg"), type: "video/ogg"}
+                ]
+            }
+        ];
+
 		$scope.config = {
 			autoHide: false,
 			autoHideTime: 3000,
 			autoPlay: false,
-			sources: [
-				{src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogular.mp4"), type: "video/mp4"},
-				{src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogular.webm"), type: "video/webm"},
-				{src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogular.ogg"), type: "video/ogg"}
-			],
+			sources: $scope.videos[0].sources,
+			tracks: $scope.videos[0].tracks,
+            loop: true,
+            preload: "auto",
 			transclude: true,
+			controls: undefined,
 			theme: {
 				url: "styles/themes/default/videogular.css"
 			},
@@ -62,10 +87,10 @@ angular.module('myApp').controller('MainCtrl',
 		};
 
 		$scope.changeSource = function() {
-			$scope.config.sources = [
-				{src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/big_buck_bunny_720p_h264.mov"), type: "video/mp4"},
-				{src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/big_buck_bunny_720p_stereo.ogg"), type: "video/ogg"}
-			];
+			$scope.config.sources = $scope.videos[1].sources;
+			$scope.config.tracks = undefined;
+            $scope.config.loop = false;
+            $scope.config.preload = true;
 		};
 	}
 );
