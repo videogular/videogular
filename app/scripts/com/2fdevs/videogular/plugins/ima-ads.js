@@ -64,7 +64,7 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
 
 				function onAdsManagerLoaded(adsManagerLoadedEvent) {
 					show();
-					adsManager = adsManagerLoadedEvent.getAdsManager(API.videoElement[0]);
+					adsManager = adsManagerLoadedEvent.getAdsManager(API.mediaElement[0]);
 					processAdsManager(adsManager);
 				}
 

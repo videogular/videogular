@@ -201,6 +201,8 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 				var vgChangeSourceCallBack = $scope.vgChangeSource();
 
 				// PUBLIC $API
+                this.videogularElement = null;
+
 				this.onMobileVideoReady = function (evt, target) {
 					this.onVideoReady();
 				};
@@ -242,26 +244,22 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 					$scope.$on.apply($scope, arguments);
 				};
 
-				this.isPlayerReady = function () {
-					return $scope.API.isReady;
-				};
-
 				this.seekTime = function (value, byPercent) {
 					var second;
 					if (byPercent) {
-						second = value * $scope.API.videoElement[0].duration / 100;
-						$scope.API.videoElement[0].currentTime = second;
+						second = value * $scope.API.mediaElement[0].duration / 100;
+						$scope.API.mediaElement[0].currentTime = second;
 					}
 					else {
 						second = value;
-						$scope.API.videoElement[0].currentTime = second;
+						$scope.API.mediaElement[0].currentTime = second;
 					}
 
 					$scope.API.currentTime = VG_UTILS.secondsToDate(second);
 				};
 
 				this.playPause = function () {
-					if ($scope.API.videoElement[0].paused) {
+					if ($scope.API.mediaElement[0].paused) {
 						this.play();
 					}
 					else {
@@ -283,18 +281,18 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 				};
 
 				this.play = function () {
-					$scope.API.videoElement[0].play();
+					$scope.API.mediaElement[0].play();
 					this.setState(VG_STATES.PLAY);
 				};
 
 				this.pause = function () {
-					$scope.API.videoElement[0].pause();
+					$scope.API.mediaElement[0].pause();
 					this.setState(VG_STATES.PAUSE);
 				};
 
 				this.stop = function () {
-					$scope.API.videoElement[0].pause();
-					$scope.API.videoElement[0].currentTime = 0;
+					$scope.API.mediaElement[0].pause();
+					$scope.API.mediaElement[0].currentTime = 0;
 					this.setState(VG_STATES.STOP);
 				};
 
@@ -302,12 +300,12 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 					// There is no native full screen support
 					if (!angular.element($window)[0].fullScreenAPI) {
 						if ($scope.API.isFullScreen) {
-							this.videogularElement.removeClass("fullscreen");
-							this.videogularElement.css("z-index", 0);
+							$scope.API.videogularElement.removeClass("fullscreen");
+                            $scope.API.videogularElement.css("z-index", 0);
 						}
 						else {
-							this.videogularElement.addClass("fullscreen");
-							this.videogularElement.css("z-index", VG_UTILS.getZIndex());
+                            $scope.API.videogularElement.addClass("fullscreen");
+                            $scope.API.videogularElement.css("z-index", VG_UTILS.getZIndex());
 						}
 
 						$scope.API.isFullScreen = !$scope.API.isFullScreen;
@@ -326,7 +324,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 								// and also if metadata is loaded
 								if (VG_UTILS.isiOSDevice()) {
 									if (isMetaDataLoaded) {
-										this.enterElementInFullScreen(this.videoElement[0]);
+										this.enterElementInFullScreen($scope.mediaElement[0]);
 									}
 									else {
 										isFullScreenPressed = true;
@@ -334,11 +332,11 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 									}
 								}
 								else {
-									this.enterElementInFullScreen(this.videoElement[0]);
+									this.enterElementInFullScreen($scope.mediaElement[0]);
 								}
 							}
 							else {
-								this.enterElementInFullScreen(this.elementScope[0]);
+								this.enterElementInFullScreen($scope.API.videogularElement[0]);
 							}
 						}
 					}
@@ -361,7 +359,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 						vgUpdateVolumeCallBack(newVolume);
 					}
 
-					$scope.API.videoElement[0].volume = newVolume;
+					$scope.API.mediaElement[0].volume = newVolume;
 					$scope.API.volume = newVolume;
 				};
 
@@ -448,8 +446,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 			}],
 			link: {
 				pre: function (scope, elem, attr, controller) {
-					controller.videogularElement = elem;
-					controller.elementScope = angular.element(elem);
+					controller.videogularElement = angular.element(elem);
 				}
 			}
 		}
@@ -472,19 +469,56 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 
 				videoTagText += '></video>';
 
-				API.videoElement = angular.element(videoTagText);
-				var compiled = $compile(API.videoElement)(scope);
+				API.mediaElement = angular.element(videoTagText);
+				var compiled = $compile(API.mediaElement)(scope);
 
-				API.videoElement[0].addEventListener("loadedmetadata", API.onVideoReady, false);
-				API.videoElement[0].addEventListener("waiting", API.onStartBuffering, false);
-				API.videoElement[0].addEventListener("ended", API.onComplete, false);
-				API.videoElement[0].addEventListener("playing", API.onStartPlaying, false);
-				API.videoElement[0].addEventListener("timeupdate", API.onUpdateTime, false);
+				API.mediaElement[0].addEventListener("loadedmetadata", API.onVideoReady, false);
+				API.mediaElement[0].addEventListener("waiting", API.onStartBuffering, false);
+				API.mediaElement[0].addEventListener("ended", API.onComplete, false);
+				API.mediaElement[0].addEventListener("playing", API.onStartPlaying, false);
+				API.mediaElement[0].addEventListener("timeupdate", API.onUpdateTime, false);
 
 				elem.append(compiled);
 
 				if (VG_UTILS.isMobileDevice()) {
-					API.videoElement[0].removeEventListener("loadedmetadata", API.onVideoReady, false);
+					API.mediaElement[0].removeEventListener("loadedmetadata", API.onVideoReady, false);
+					API.onMobileVideoReady();
+				}
+			}
+		}
+	}
+	])
+	
+	.directive("vgAudio",
+	["$compile", "VG_UTILS", function ($compile, VG_UTILS) {
+		return {
+			restrict: "E",
+			require: "^videogular",
+			scope: {
+				vgSrc: "=",
+				vgLoop: "=",
+				vgPreload: "=",
+				vgNativeControls: "=",
+				vgTracks: "="
+			},
+			link: function (scope, elem, attr, API) {
+				var audioTagText = '<audio vg-source="vgSrc" ';
+
+                audioTagText += '></audio>';
+
+				API.mediaElement = angular.element(audioTagText);
+				var compiled = $compile(API.mediaElement)(scope);
+
+				API.mediaElement[0].addEventListener("loadedmetadata", API.onVideoReady, false);
+				API.mediaElement[0].addEventListener("waiting", API.onStartBuffering, false);
+				API.mediaElement[0].addEventListener("ended", API.onComplete, false);
+				API.mediaElement[0].addEventListener("playing", API.onStartPlaying, false);
+				API.mediaElement[0].addEventListener("timeupdate", API.onUpdateTime, false);
+
+				elem.append(compiled);
+
+				if (VG_UTILS.isMobileDevice()) {
+					API.mediaElement[0].removeEventListener("loadedmetadata", API.onVideoReady, false);
 					API.onMobileVideoReady();
 				}
 			}
@@ -530,6 +564,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 					scope.$watch(attr.vgSource, function (newValue, oldValue) {
 						if ((!sources || newValue != oldValue) && newValue) {
 							sources = newValue;
+                            //API.sources = sources;
 							changeSource();
 						}
 					});
@@ -552,7 +587,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 
 					function changeSource() {
 						// Remove previous tracks
-						var oldTracks = API.videoElement.children();
+						var oldTracks = API.mediaElement.children();
 
 						for (i = 0, l = oldTracks.length; i < l; i++) {
 							oldTracks[i].remove();
@@ -570,7 +605,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 
 							trackText += '></track>';
 
-							API.videoElement.append(trackText, tracks[i].src);
+							API.mediaElement.append(trackText, tracks[i].src);
 						}
 					}
 
@@ -600,10 +635,10 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 					scope.$watch(attr.vgLoop, function (newValue, oldValue) {
 						if ((!loop || newValue != oldValue) && newValue) {
 							loop = newValue;
-							API.videoElement.attr("loop", loop);
+							API.mediaElement.attr("loop", loop);
 						}
 						else {
-							API.videoElement.removeAttr("loop");
+							API.mediaElement.removeAttr("loop");
 						}
 					});
 				}
@@ -623,10 +658,10 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 					scope.$watch(attr.vgPreload, function (newValue, oldValue) {
 						if ((!preload || newValue != oldValue) && newValue) {
 							preload = newValue;
-							API.videoElement.attr("preload", preload);
+							API.mediaElement.attr("preload", preload);
 						}
 						else {
-							API.videoElement.removeAttr("preload");
+							API.mediaElement.removeAttr("preload");
 						}
 					});
 				}
@@ -646,10 +681,10 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 					scope.$watch(attr.vgNativeControls, function (newValue, oldValue) {
 						if ((!controls || newValue != oldValue) && newValue) {
 							controls = newValue;
-							API.videoElement.attr("controls", "");
+							API.mediaElement.attr("controls", "");
 						}
 						else {
-							API.videoElement.removeAttr("controls");
+							API.mediaElement.removeAttr("controls");
 						}
 					});
 				}

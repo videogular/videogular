@@ -183,7 +183,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					isSeeking = true;
 					if (isPlaying) isPlayingWhenSeeking = true;
 					API.pause();
-					seekTime(touchX * API.videoElement[0].duration / elem[0].scrollWidth);
+					seekTime(touchX * API.mediaElement[0].duration / elem[0].scrollWidth);
 
 					scope.$apply();
 				}
@@ -204,7 +204,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 
 					if (isSeeking) {
 						touchX = touches[0].clientX + touchStartX - touches[0].target.offsetLeft;
-						seekTime(touchX * API.videoElement[0].duration / elem[0].scrollWidth);
+						seekTime(touchX * API.mediaElement[0].duration / elem[0].scrollWidth);
 					}
 
 					scope.$apply();
@@ -222,7 +222,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					isSeeking = true;
 					if (isPlaying) isPlayingWhenSeeking = true;
 					API.pause();
-					seekTime(event.offsetX * API.videoElement[0].duration / elem[0].scrollWidth);
+					seekTime(event.offsetX * API.mediaElement[0].duration / elem[0].scrollWidth);
 
 					scope.$apply();
 				}
@@ -235,7 +235,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 						API.play();
 					}
 					isSeeking = false;
-					seekTime(event.offsetX * API.videoElement[0].duration / elem[0].scrollWidth);
+					seekTime(event.offsetX * API.mediaElement[0].duration / elem[0].scrollWidth);
 
 					scope.$apply();
 				}
@@ -243,7 +243,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 				function onScrubBarMouseMove(event) {
 					if (isSeeking) {
 						event = VG_UTILS.fixEventOffset(event);
-						seekTime(event.offsetX * API.videoElement[0].duration / elem[0].scrollWidth);
+						seekTime(event.offsetX * API.mediaElement[0].duration / elem[0].scrollWidth);
 					}
 
 					scope.$apply();
@@ -562,16 +562,9 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 			template: "<div class='iconButton' ng-class='fullscreenIcon'></div>",
 			link: function (scope, elem, attr, API) {
 				function onChangeFullScreen(isFullScreen) {
-					var result;
+					var result =
 
-					if (isFullScreen) {
-						result = {exit: isFullScreen};
-					}
-					else {
-						result = {enter: isFullScreen};
-					}
-
-					scope.fullscreenIcon = result;
+					scope.fullscreenIcon = {enter: !isFullScreen, exit: isFullScreen};
 				}
 
 				function onClickFullScreen(event) {
