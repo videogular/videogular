@@ -1,5 +1,5 @@
 /**
- * @license Videogular v0.5.1 http://videogular.com
+ * @license Videogular v0.6.0 http://videogular.com
  * Two Fucking Developers http://twofuckingdevelopers.com
  * License: MIT
  */
@@ -69,7 +69,7 @@ angular.module("com.2fdevs.videogular.plugins.buffering", [])
 				showSpinner();
 
 				// Workaround for issue #16: https://github.com/2fdevs/videogular/issues/16
-				if (VG_UTILS.isiOSDevice()) {
+				if (VG_UTILS.isMobileDevice()) {
 					hideSpinner();
 				}
 				else {
@@ -78,6 +78,7 @@ angular.module("com.2fdevs.videogular.plugins.buffering", [])
 							return API.isReady;
 						},
 						function (newVal, oldVal) {
+							console.log(newVal + " != " + oldVal);
 							if (newVal != oldVal) {
 								onPlayerReady(newVal);
 							}

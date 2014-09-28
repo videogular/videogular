@@ -1,5 +1,5 @@
 /**
- * @license Videogular v0.5.1 http://videogular.com
+ * @license Videogular v0.6.0 http://videogular.com
  * Two Fucking Developers http://twofuckingdevelopers.com
  * License: MIT
  */
@@ -204,14 +204,14 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
                 this.videogularElement = null;
 
 				this.onMobileVideoReady = function (evt, target) {
-					this.onVideoReady();
+					this.onVideoReady(evt, target, true);
 				};
 
-				this.onVideoReady = function (evt, target) {
+				this.onVideoReady = function (evt, target, avoidDigest) {
 					// Here we're in the video scope, we can't use 'this.'
 					$scope.API.isReady = true;
 					$scope.API.currentState = VG_STATES.STOP;
-					$scope.$apply();
+					if (!avoidDigest) $scope.$apply();
 
 					isMetaDataLoaded = true;
 
@@ -324,7 +324,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 								// and also if metadata is loaded
 								if (VG_UTILS.isiOSDevice()) {
 									if (isMetaDataLoaded) {
-										this.enterElementInFullScreen($scope.mediaElement[0]);
+										this.enterElementInFullScreen($scope.API.mediaElement[0]);
 									}
 									else {
 										isFullScreenPressed = true;
@@ -332,7 +332,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 									}
 								}
 								else {
-									this.enterElementInFullScreen($scope.mediaElement[0]);
+									this.enterElementInFullScreen($scope.API.mediaElement[0]);
 								}
 							}
 							else {

@@ -37,3 +37,5 @@ For installation notes see [Install](https://github.com/2fdevs/videogular/wiki/I
 Videogular is an open source project maintained by (literally) [two fucking developers] (http://twofuckingdevelopers.com/).
 
 We want to thank all our contributors: [Raúl Jiménez] (https://github.com/Elecash), [Robert Zhang] (https://github.com/rogerz), [Javier Tejero] (https://github.com/javiertejero), [Marcos González](https://github.com/qmarcos), [Rafał Lindemann](https://github.com/panrafal), [Alberto Tafoya](https://github.com/withattribution), [Sergey Okhotnitski](https://github.com/5erg), [Javier Cejudo](https://github.com/javiercejudo), [Sam Lau](https://github.com/schmooie), [paxal78](https://github.com/paxal78), [Raymond Klass](https://github.com/RaymondKlass) and [our bug submitters] (https://github.com/2fdevs/videogular/issues?state=open).
+
+[Changelog] (https://github.com/2fdevs/videogular/CHANGELOG.md)

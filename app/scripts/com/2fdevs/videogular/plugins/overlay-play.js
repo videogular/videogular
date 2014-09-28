@@ -1,5 +1,5 @@
 /**
- * @license Videogular v0.5.1 http://videogular.com
+ * @license Videogular v0.6.0 http://videogular.com
  * Two Fucking Developers http://twofuckingdevelopers.com
  * License: MIT
  */
@@ -14,17 +14,12 @@ angular.module("com.2fdevs.videogular.plugins.overlayplay", [])
 			scope: {
 				vgPlayIcon: "="
 			},
-			template: "<div class='overlayPlayContainer'>" +
+			template: "<div class='overlayPlayContainer' ng-click='onClickOverlayPlay()'>" +
 				"<div class='iconButton' ng-class='overlayPlayIcon'></div>" +
 				"</div>",
 			link: function (scope, elem, attr, API) {
 				function onComplete(target, params) {
 					scope.overlayPlayIcon = {play: true};
-				}
-
-				function onClickOverlayPlay(event) {
-					API.playPause();
-					scope.$apply();
 				}
 
 				function onPlay(target, params) {
@@ -47,7 +42,10 @@ angular.module("com.2fdevs.videogular.plugins.overlayplay", [])
 					}
 				}
 
-				elem.bind("click", onClickOverlayPlay);
+				scope.onClickOverlayPlay = function onClickOverlayPlay(event) {
+					API.playPause();
+				};
+
 				scope.overlayPlayIcon = {play: true};
 
 				scope.$watch(

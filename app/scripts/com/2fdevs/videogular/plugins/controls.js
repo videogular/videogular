@@ -1,5 +1,5 @@
 /**
- * @license Videogular v0.5.1 http://videogular.com
+ * @license Videogular v0.6.0 http://videogular.com
  * Two Fucking Developers http://twofuckingdevelopers.com
  * License: MIT
  */
@@ -12,7 +12,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 			restrict: "E",
 			require: "^videogular",
 			transclude: true,
-			template: '<div id="controls-container" ng-class="animationClass" ng-transclude></div>',
+			template: '<div id="controls-container" ng-mousemove="onMouseMove()" ng-class="animationClass" ng-transclude></div>',
 			scope: {
 				autoHide: "=vgAutohide",
 				autoHideTime: "=vgAutohideTime"
@@ -23,10 +23,9 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 				var autoHideTime = 2000;
 				var hideInterval;
 
-				function onMouseMove() {
-					showControls();
-					scope.$apply();
-				}
+				scope.onMouseMove = function onMouseMove() {
+					if (scope.autoHide) showControls();
+				};
 
 				function hideControls() {
 					scope.animationClass = "hide-animation";
@@ -43,12 +42,10 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					scope.$watch("autoHide", function (value) {
 						if (value) {
 							scope.animationClass = "hide-animation";
-							API.videogularElement.bind("mousemove", onMouseMove);
 						}
 						else {
 							scope.animationClass = "";
 							$timeout.cancel(hideInterval);
-							API.videogularElement.unbind("mousemove", onMouseMove);
 							showControls();
 						}
 					});
@@ -70,7 +67,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 		return {
 			restrict: "E",
 			require: "^videogular",
-			template: "<div class='iconButton' ng-class='playPauseIcon'></div>",
+			template: "<div class='iconButton' ng-click='onClickPlayPause()' ng-class='playPauseIcon'></div>",
 			link: function (scope, elem, attr, API) {
 				function setState(newState) {
 					switch (newState) {
@@ -88,10 +85,9 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					}
 				}
 
-				function onClickPlayPause() {
+				scope.onClickPlayPause = function onClickPlayPause() {
 					API.playPause();
-					scope.$apply();
-				}
+				};
 
 				scope.playPauseIcon = {play: true};
 
@@ -105,8 +101,6 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 						}
 					}
 				);
-
-				elem.bind("click", onClickPlayPause);
 			}
 		}
 	}
@@ -168,14 +162,14 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 				var touchStartX = 0;
 
 				function onScrubBarTouchStart(event) {
-					var touches = event.originalEvent.touches;
+					var touches = event.touches;
 					var touchX;
 
 					if (VG_UTILS.isiOSDevice()) {
-						touchStartX = (touches[0].clientX - event.originalEvent.layerX) * -1;
+						touchStartX = (touches[0].clientX - event.layerX) * -1;
 					}
 					else {
-						touchStartX = event.originalEvent.layerX;
+						touchStartX = event.layerX;
 					}
 
 					touchX = touches[0].clientX + touchStartX - touches[0].target.offsetLeft;
@@ -199,7 +193,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 				}
 
 				function onScrubBarTouchMove(event) {
-					var touches = event.originalEvent.touches;
+					var touches = event.touches;
 					var touchX;
 
 					if (isSeeking) {
@@ -384,7 +378,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 			restrict: "E",
 			require: "^videogular",
 			template: "<div class='verticalVolumeBar'>" +
-				"<div class='volumeBackground'>" +
+				"<div class='volumeBackground' ng-click='onClickVolume($event)' ng-mousedown='onMouseDownVolume()' ng-mouseup='onMouseUpVolume()' ng-mousemove='onMouseMoveVolume($event)' ng-mouseleave='onMouseLeaveVolume()'>" +
 				"<div class='volumeValue'></div>" +
 				"<div class='volumeClickArea'></div>" +
 				"</div>" +
@@ -394,7 +388,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 				var volumeBackElem = angular.element(elem[0].getElementsByClassName("volumeBackground"));
 				var volumeValueElem = angular.element(elem[0].getElementsByClassName("volumeValue"));
 
-				function onClickVolume(event) {
+				scope.onClickVolume = function onClickVolume(event) {
 					event = VG_UTILS.fixEventOffset(event);
 					var volumeHeight = parseInt(volumeBackElem.prop("offsetHeight"));
 					var value = event.offsetY * 100 / volumeHeight;
@@ -402,23 +396,21 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					updateVolumeView(volValue * 100);
 
 					API.setVolume(volValue);
+				};
 
-					scope.$apply();
-				}
-
-				function onMouseDownVolume(event) {
+				scope.onMouseDownVolume = function onMouseDownVolume() {
 					isChangingVolume = true;
-				}
+				};
 
-				function onMouseUpVolume(event) {
+				scope.onMouseUpVolume = function onMouseUpVolume() {
 					isChangingVolume = false;
-				}
+				};
 
-				function onMouseLeaveVolume(event) {
+				scope.onMouseLeaveVolume = function onMouseLeaveVolume() {
 					isChangingVolume = false;
-				}
+				};
 
-				function onMouseMoveVolume(event) {
+				scope.onMouseMoveVolume = function onMouseMoveVolume(event) {
 					if (isChangingVolume) {
 						event = VG_UTILS.fixEventOffset(event);
 						var volumeHeight = parseInt(volumeBackElem.prop("offsetHeight"));
@@ -427,10 +419,8 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 						updateVolumeView(volValue * 100);
 
 						API.setVolume(volValue);
-
-						scope.$apply();
 					}
-				}
+				};
 
 				function updateVolumeView(value) {
 					volumeValueElem.css("height", value + "%");
@@ -448,12 +438,6 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 				elem.css("visibility", scope.volumeVisibility);
 
 				scope.$watch("volumeVisibility", onChangeVisibility);
-
-				volumeBackElem.bind("click", onClickVolume);
-				volumeBackElem.bind("mousedown", onMouseDownVolume);
-				volumeBackElem.bind("mouseup", onMouseUpVolume);
-				volumeBackElem.bind("mousemove", onMouseMoveVolume);
-				volumeBackElem.bind("mouseleave", onMouseLeaveVolume);
 
 				scope.$watch(
 					function () {
@@ -475,11 +459,11 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 		return {
 			restrict: "E",
 			require: "^videogular",
-			template: "<div class='iconButton' ng-class='muteIcon'></div>",
+			template: "<div class='iconButton' ng-click='onClickMute()' ng-class='muteIcon'></div>",
 			link: function (scope, elem, attr, API) {
 				var isMuted = false;
 
-				function onClickMute(event) {
+				scope.onClickMute = function onClickMute() {
 					if (isMuted) {
 						scope.currentVolume = scope.defaultVolume;
 					}
@@ -491,9 +475,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					isMuted = !isMuted;
 
 					API.setVolume(scope.currentVolume);
-
-					scope.$apply();
-				}
+				};
 
 				function onSetVolume(newVolume) {
 					scope.currentVolume = newVolume;
@@ -533,7 +515,6 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 				scope.muteIcon = {level3: true};
 
 				//TODO: get volume from localStorage
-				elem.bind("click", onClickMute);
 
 				scope.$watch(
 					function () {
@@ -559,7 +540,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 				vgEnterFullScreenIcon: "=",
 				vgExitFullScreenIcon: "="
 			},
-			template: "<div class='iconButton' ng-class='fullscreenIcon'></div>",
+			template: "<div class='iconButton' ng-click='onClickFullScreen()' ng-class='fullscreenIcon'></div>",
 			link: function (scope, elem, attr, API) {
 				function onChangeFullScreen(isFullScreen) {
 					var result =
@@ -567,13 +548,10 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					scope.fullscreenIcon = {enter: !isFullScreen, exit: isFullScreen};
 				}
 
-				function onClickFullScreen(event) {
+				scope.onClickFullScreen = function onClickFullScreen() {
 					API.toggleFullScreen();
+				};
 
-					scope.$apply();
-				}
-
-				elem.bind("click", onClickFullScreen);
 				scope.fullscreenIcon = {exit: false};
 				scope.fullscreenIcon = {enter: true};
 
