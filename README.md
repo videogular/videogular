@@ -23,6 +23,7 @@ If you have developed a Videogular's plugin or theme [contact us through this fo
 * [**Quiz plugin**](https://github.com/NamPNQ/bower-videogular-quiz) by **[NamPNQ](https://github.com/NamPNQ)**
 * [**Flash fallback plugin**](https://github.com/NamPNQ/bower-videogular-flash) by **[NamPNQ](https://github.com/NamPNQ)**
 * [**Background video plugin**](https://gist.github.com/panurge-ws/525caef640784a487aa2) by **[panurge-ws](https://github.com/panurge-ws)**
+* [**Videogular subtitle plugin**](https://github.com/farhan-repo/videogular-subtitle-plugin) (for Videogular 0.4.0) by **[farhan-repo](https://github.com/farhan-repo)**
 
 ## Documentation and how to install
 
@@ -38,4 +39,4 @@ Videogular is an open source project maintained by (literally) [two fucking deve
 
 We want to thank all our contributors: [Raúl Jiménez] (https://github.com/Elecash), [Robert Zhang] (https://github.com/rogerz), [Javier Tejero] (https://github.com/javiertejero), [Marcos González](https://github.com/qmarcos), [Rafał Lindemann](https://github.com/panrafal), [Alberto Tafoya](https://github.com/withattribution), [Sergey Okhotnitski](https://github.com/5erg), [Javier Cejudo](https://github.com/javiercejudo), [Sam Lau](https://github.com/schmooie), [paxal78](https://github.com/paxal78), [Raymond Klass](https://github.com/RaymondKlass) and [our bug submitters] (https://github.com/2fdevs/videogular/issues?state=open).
 
-[Changelog] (https://github.com/2fdevs/videogular/CHANGELOG.md)
+[Changelog] (https://github.com/2fdevs/videogular/blob/master/CHANGELOG.md)
