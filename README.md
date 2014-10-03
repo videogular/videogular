@@ -1,4 +1,5 @@
 ## Videogular
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/2fdevs/videogular?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 **Videogular is an HTML5 video player for AngularJS**. Videogular is a wrapper over the HTML5 video tag, so you just could add whatever you want. This provides a very powerful, but simple to use solution, for everybody.
 
