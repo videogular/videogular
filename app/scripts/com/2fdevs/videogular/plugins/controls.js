@@ -154,12 +154,21 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 		return {
 			restrict: "AE",
 			require: "^videogular",
-			replace: true,
+			transclude: true,
+			template: '<div role="slider" aria-valuemax="{{ariaTime(API.totalTime)}}" ' +
+					'aria-valuenow="{{ariaTime(API.currentTime)}}" ' +
+					'aria-valuemin="0" aria-label="Time scrub bar" tabindex="0" ' +
+			        'ng-transclude ng-keypress="onScrubBarKeyPress($event)"></div>',
 			link: function (scope, elem, attr, API) {
 				var isSeeking = false;
 				var isPlaying = false;
 				var isPlayingWhenSeeking = false;
 				var touchStartX = 0;
+
+				scope.API = API;
+				scope.ariaTime = function(time) {
+					return (time === 0) ? "0" : Math.round(time.getTime() / 1000);
+				}
 
 				function onScrubBarTouchStart(event) {
 					var touches = event.touches;
@@ -247,6 +256,17 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					isSeeking = false;
 
 					scope.$apply();
+				}
+
+				scope.onScrubBarKeyPress = function(event) {
+					var LEFT = 37, RIGHT = 39;
+					var NUM_PERCENT = 1;
+					var currentPercent = API.currentTime.getTime() / API.totalTime.getTime() * 100;
+					if (event.which === LEFT || event.keyCode === LEFT) {
+						API.seekTime(currentPercent - NUM_PERCENT, true);
+					} else if (event.which === RIGHT || event.keyCode === RIGHT) {
+						API.seekTime(currentPercent + NUM_PERCENT, true);
+					}
 				}
 
 				function seekTime(time) {

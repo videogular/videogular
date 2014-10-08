@@ -194,6 +194,10 @@ videogular vg-scrubbar {
 	cursor: pointer;
 }
 
+videogular vg-scrubbar :focus vg-scrubBarCurrentTime {
+	border-right: 6px black groove;
+}
+
 videogular vg-scrubBarCurrentTime {
 	background-color: #FFFFFF;
 	width: 100%;
