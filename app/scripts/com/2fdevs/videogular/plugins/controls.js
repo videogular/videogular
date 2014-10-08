@@ -67,7 +67,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 		return {
 			restrict: "E",
 			require: "^videogular",
-			template: "<div class='iconButton' ng-click='onClickPlayPause()' ng-class='playPauseIcon'></div>",
+			template: "<button class='iconButton' ng-click='onClickPlayPause()' ng-class='playPauseIcon' aria-label='Play/Pause'></button>",
 			link: function (scope, elem, attr, API) {
 				function setState(newState) {
 					switch (newState) {
@@ -154,12 +154,21 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 		return {
 			restrict: "AE",
 			require: "^videogular",
-			replace: true,
+			transclude: true,
+			template: '<div role="slider" aria-valuemax="{{ariaTime(API.totalTime)}}" ' +
+					'aria-valuenow="{{ariaTime(API.currentTime)}}" ' +
+					'aria-valuemin="0" aria-label="Time scrub bar" tabindex="0" ' +
+			        'ng-transclude ng-keypress="onScrubBarKeyPress($event)"></div>',
 			link: function (scope, elem, attr, API) {
 				var isSeeking = false;
 				var isPlaying = false;
 				var isPlayingWhenSeeking = false;
 				var touchStartX = 0;
+
+				scope.API = API;
+				scope.ariaTime = function(time) {
+					return (time === 0) ? "0" : Math.round(time.getTime() / 1000);
+				}
 
 				function onScrubBarTouchStart(event) {
 					var touches = event.touches;
@@ -247,6 +256,17 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					isSeeking = false;
 
 					scope.$apply();
+				}
+
+				scope.onScrubBarKeyPress = function(event) {
+					var LEFT = 37, RIGHT = 39;
+					var NUM_PERCENT = 1;
+					var currentPercent = API.currentTime.getTime() / API.totalTime.getTime() * 100;
+					if (event.which === LEFT || event.keyCode === LEFT) {
+						API.seekTime(currentPercent - NUM_PERCENT, true);
+					} else if (event.which === RIGHT || event.keyCode === RIGHT) {
+						API.seekTime(currentPercent + NUM_PERCENT, true);
+					}
 				}
 
 				function seekTime(time) {
@@ -393,7 +413,6 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					var volumeHeight = parseInt(volumeBackElem.prop("offsetHeight"));
 					var value = event.offsetY * 100 / volumeHeight;
 					var volValue = 1 - (value / 100);
-					updateVolumeView(volValue * 100);
 
 					API.setVolume(volValue);
 				};
@@ -416,19 +435,15 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 						var volumeHeight = parseInt(volumeBackElem.prop("offsetHeight"));
 						var value = event.offsetY * 100 / volumeHeight;
 						var volValue = 1 - (value / 100);
-						updateVolumeView(volValue * 100);
 
 						API.setVolume(volValue);
 					}
 				};
 
 				function updateVolumeView(value) {
+					value = value * 100;
 					volumeValueElem.css("height", value + "%");
 					volumeValueElem.css("top", (100 - value) + "%");
-				}
-
-				function onSetVolume(newVolume) {
-					updateVolumeView(newVolume * 100);
 				}
 
 				function onChangeVisibility(value) {
@@ -445,7 +460,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					},
 					function (newVal, oldVal) {
 						if (newVal != oldVal) {
-							onSetVolume(newVal);
+							updateVolumeView(newVal);
 						}
 					}
 				);
@@ -459,7 +474,9 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 		return {
 			restrict: "E",
 			require: "^videogular",
-			template: "<div class='iconButton' ng-click='onClickMute()' ng-class='muteIcon'></div>",
+			template: "<button class='iconButton' ng-class='muteIcon'" +
+				" ng-click='onClickMute()' ng-focus='onMuteButtonFocus()' ng-blur='onMuteButtonLoseFocus()' ng-keypress='onMuteButtonKeyPress($event)'" +
+				" aria-label='Mute'></button>",
 			link: function (scope, elem, attr, API) {
 				var isMuted = false;
 
@@ -475,6 +492,25 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					isMuted = !isMuted;
 
 					API.setVolume(scope.currentVolume);
+				};
+
+				scope.onMuteButtonFocus = function() {
+					scope.volumeVisibility = 'visible';
+				};
+
+				scope.onMuteButtonLoseFocus = function() {
+					scope.volumeVisibility = 'hidden';
+				};
+
+				scope.onMuteButtonKeyPress = function(event) {
+					var UP = 38, DOWN = 40;
+					var CHANGE_PER_PRESS = 0.05;
+					var currentVolume = (API.volume != null) ? API.volume : 1;
+					if (event.which === UP || event.keyCode === UP) {
+						API.setVolume(currentVolume + CHANGE_PER_PRESS);
+					} else if (event.which === DOWN || event.keyCode === DOWN) {
+						API.setVolume(currentVolume - CHANGE_PER_PRESS);
+					}
 				};
 
 				function onSetVolume(newVolume) {
@@ -540,7 +576,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 				vgEnterFullScreenIcon: "=",
 				vgExitFullScreenIcon: "="
 			},
-			template: "<div class='iconButton' ng-click='onClickFullScreen()' ng-class='fullscreenIcon'></div>",
+			template: "<button class='iconButton' ng-click='onClickFullScreen()' ng-class='fullscreenIcon' aria-label='Toggle full screen'></button>",
 			link: function (scope, elem, attr, API) {
 				function onChangeFullScreen(isFullScreen) {
 					var result =
