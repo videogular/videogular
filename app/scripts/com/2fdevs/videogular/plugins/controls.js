@@ -67,7 +67,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 		return {
 			restrict: "E",
 			require: "^videogular",
-			template: "<div class='iconButton' ng-click='onClickPlayPause()' ng-class='playPauseIcon'></div>",
+			template: "<button class='iconButton' ng-click='onClickPlayPause()' ng-class='playPauseIcon' aria-label='Play/Pause'></button>",
 			link: function (scope, elem, attr, API) {
 				function setState(newState) {
 					switch (newState) {
@@ -459,7 +459,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 		return {
 			restrict: "E",
 			require: "^videogular",
-			template: "<div class='iconButton' ng-click='onClickMute()' ng-class='muteIcon'></div>",
+			template: "<button class='iconButton' ng-click='onClickMute()' ng-class='muteIcon' aria-label='Mute'></button>",
 			link: function (scope, elem, attr, API) {
 				var isMuted = false;
 
@@ -540,7 +540,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 				vgEnterFullScreenIcon: "=",
 				vgExitFullScreenIcon: "="
 			},
-			template: "<div class='iconButton' ng-click='onClickFullScreen()' ng-class='fullscreenIcon'></div>",
+			template: "<button class='iconButton' ng-click='onClickFullScreen()' ng-class='fullscreenIcon' aria-label='Toggle full screen'></button>",
 			link: function (scope, elem, attr, API) {
 				function onChangeFullScreen(isFullScreen) {
 					var result =

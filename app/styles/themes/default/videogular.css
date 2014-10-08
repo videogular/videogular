@@ -62,6 +62,14 @@ videogular .iconButton {
 	text-transform: none;
 	line-height: 1;
 	-webkit-font-smoothing: antialiased;
+
+	background: none;
+	padding: 6px;
+	border: none;
+}
+
+videogular .iconButton:focus {
+	border: 1px solid white;
 }
 
 /*****************/
@@ -105,7 +113,7 @@ videogular vg-overlay-play {
     top: 0;
 }
 
-videogular vg-overlay-play div.play:before {
+videogular vg-overlay-play .play:before {
 	content: "\e000";
 }
 
@@ -309,39 +317,39 @@ videogular vg-controls .show-animation {
 
 
 /* Controlbar icons */
-videogular vg-play-pause-button div.play:before {
+videogular vg-play-pause-button .play:before {
 	content: "\e000";
 }
 
-videogular vg-play-pause-button div.pause:before {
+videogular vg-play-pause-button .pause:before {
 	content: "\e001";
 }
 
-videogular vg-mutebutton div.level3:before {
+videogular vg-mutebutton .level3:before {
 	content: "\e002";
 }
 
-videogular vg-mutebutton div.level2:before {
+videogular vg-mutebutton .level2:before {
 	content: "\e003";
 }
 
-videogular vg-mutebutton div.level1:before {
+videogular vg-mutebutton .level1:before {
 	content: "\e004";
 }
 
-videogular vg-mutebutton div.level0:before {
+videogular vg-mutebutton .level0:before {
 	content: "\e005";
 }
 
-videogular vg-mutebutton div.mute:before {
+videogular vg-mutebutton .mute:before {
 	content: "\e006";
 }
 
-videogular vg-fullscreenButton div.enter:before {
+videogular vg-fullscreenButton .enter:before {
 	content: "\e007";
 }
 
-videogular vg-fullscreenButton div.exit:before {
+videogular vg-fullscreenButton .exit:before {
 	content: "\e008";
 }
 
