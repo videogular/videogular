@@ -413,7 +413,6 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					var volumeHeight = parseInt(volumeBackElem.prop("offsetHeight"));
 					var value = event.offsetY * 100 / volumeHeight;
 					var volValue = 1 - (value / 100);
-					updateVolumeView(volValue * 100);
 
 					API.setVolume(volValue);
 				};
@@ -436,19 +435,15 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 						var volumeHeight = parseInt(volumeBackElem.prop("offsetHeight"));
 						var value = event.offsetY * 100 / volumeHeight;
 						var volValue = 1 - (value / 100);
-						updateVolumeView(volValue * 100);
 
 						API.setVolume(volValue);
 					}
 				};
 
 				function updateVolumeView(value) {
+					value = value * 100;
 					volumeValueElem.css("height", value + "%");
 					volumeValueElem.css("top", (100 - value) + "%");
-				}
-
-				function onSetVolume(newVolume) {
-					updateVolumeView(newVolume * 100);
 				}
 
 				function onChangeVisibility(value) {
@@ -465,7 +460,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					},
 					function (newVal, oldVal) {
 						if (newVal != oldVal) {
-							onSetVolume(newVal);
+							updateVolumeView(newVal);
 						}
 					}
 				);
@@ -479,7 +474,9 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 		return {
 			restrict: "E",
 			require: "^videogular",
-			template: "<button class='iconButton' ng-click='onClickMute()' ng-class='muteIcon' aria-label='Mute'></button>",
+			template: "<button class='iconButton' ng-class='muteIcon'" +
+				" ng-click='onClickMute()' ng-focus='onMuteButtonFocus()' ng-blur='onMuteButtonLoseFocus()' ng-keypress='onMuteButtonKeyPress($event)'" +
+				" aria-label='Mute'></button>",
 			link: function (scope, elem, attr, API) {
 				var isMuted = false;
 
@@ -495,6 +492,25 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					isMuted = !isMuted;
 
 					API.setVolume(scope.currentVolume);
+				};
+
+				scope.onMuteButtonFocus = function() {
+					scope.volumeVisibility = 'visible';
+				};
+
+				scope.onMuteButtonLoseFocus = function() {
+					scope.volumeVisibility = 'hidden';
+				};
+
+				scope.onMuteButtonKeyPress = function(event) {
+					var UP = 38, DOWN = 40;
+					var CHANGE_PER_PRESS = 0.05;
+					var currentVolume = (API.volume != null) ? API.volume : 1;
+					if (event.which === UP || event.keyCode === UP) {
+						API.setVolume(currentVolume + CHANGE_PER_PRESS);
+					} else if (event.which === DOWN || event.keyCode === DOWN) {
+						API.setVolume(currentVolume - CHANGE_PER_PRESS);
+					}
 				};
 
 				function onSetVolume(newVolume) {
