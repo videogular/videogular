@@ -158,17 +158,20 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 			template: '<div role="slider" aria-valuemax="{{ariaTime(API.totalTime)}}" ' +
 					'aria-valuenow="{{ariaTime(API.currentTime)}}" ' +
 					'aria-valuemin="0" aria-label="Time scrub bar" tabindex="0" ' +
-			        'ng-transclude ng-keypress="onScrubBarKeyPress($event)"></div>',
+			        'ng-transclude ng-keydown="onScrubBarKeyDown($event)"></div>',
 			link: function (scope, elem, attr, API) {
 				var isSeeking = false;
 				var isPlaying = false;
 				var isPlayingWhenSeeking = false;
 				var touchStartX = 0;
+				var LEFT = 37;
+				var RIGHT = 39;
+				var NUM_PERCENT = 1;
 
 				scope.API = API;
 				scope.ariaTime = function(time) {
 					return (time === 0) ? "0" : Math.round(time.getTime() / 1000);
-				}
+				};
 
 				function onScrubBarTouchStart(event) {
 					var touches = event.touches;
@@ -258,16 +261,18 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					scope.$apply();
 				}
 
-				scope.onScrubBarKeyPress = function(event) {
-					var LEFT = 37, RIGHT = 39;
-					var NUM_PERCENT = 1;
+				scope.onScrubBarKeyDown = function(event) {
 					var currentPercent = API.currentTime.getTime() / API.totalTime.getTime() * 100;
+
 					if (event.which === LEFT || event.keyCode === LEFT) {
 						API.seekTime(currentPercent - NUM_PERCENT, true);
-					} else if (event.which === RIGHT || event.keyCode === RIGHT) {
-						API.seekTime(currentPercent + NUM_PERCENT, true);
+						event.preventDefault();
 					}
-				}
+					else if (event.which === RIGHT || event.keyCode === RIGHT) {
+						API.seekTime(currentPercent + NUM_PERCENT, true);
+						event.preventDefault();
+					}
+				};
 
 				function seekTime(time) {
 					API.seekTime(time, false);
@@ -475,10 +480,13 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 			restrict: "E",
 			require: "^videogular",
 			template: "<button class='iconButton' ng-class='muteIcon'" +
-				" ng-click='onClickMute()' ng-focus='onMuteButtonFocus()' ng-blur='onMuteButtonLoseFocus()' ng-keypress='onMuteButtonKeyPress($event)'" +
+				" ng-click='onClickMute()' ng-focus='onMuteButtonFocus()' ng-blur='onMuteButtonLoseFocus()' ng-keydown='onMuteButtonKeyDown($event)'" +
 				" aria-label='Mute'></button>",
 			link: function (scope, elem, attr, API) {
 				var isMuted = false;
+				var UP = 38;
+				var DOWN = 40;
+				var CHANGE_PER_PRESS = 0.05;
 
 				scope.onClickMute = function onClickMute() {
 					if (isMuted) {
@@ -502,14 +510,16 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					scope.volumeVisibility = 'hidden';
 				};
 
-				scope.onMuteButtonKeyPress = function(event) {
-					var UP = 38, DOWN = 40;
-					var CHANGE_PER_PRESS = 0.05;
+				scope.onMuteButtonKeyDown = function(event) {
 					var currentVolume = (API.volume != null) ? API.volume : 1;
+
 					if (event.which === UP || event.keyCode === UP) {
 						API.setVolume(currentVolume + CHANGE_PER_PRESS);
-					} else if (event.which === DOWN || event.keyCode === DOWN) {
+						event.preventDefault();
+					}
+					else if (event.which === DOWN || event.keyCode === DOWN) {
 						API.setVolume(currentVolume - CHANGE_PER_PRESS);
+						event.preventDefault();
 					}
 				};
 

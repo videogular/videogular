@@ -329,6 +329,11 @@ videogular vg-play-pause-button .pause:before {
 	content: "\e001";
 }
 
+videogular vg-mutebutton {
+    width: 50px;
+    display: block;
+}
+
 videogular vg-mutebutton .level3:before {
 	content: "\e002";
 }
