@@ -1,0 +1,122 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2>Video player</h2>
+            <div class="videogular-container">
+                <videogular vg-player-ready="onPlayerReady"
+                            vg-complete="onCompleteVideo"
+                            vg-update-time="onUpdateTime"
+                            vg-update-volume="onUpdateVolume"
+                            vg-update-state="onUpdateState"
+                            vg-theme="config.theme.url"
+                            vg-autoplay="config.autoPlay">
+                    <vg-video vg-src="config.sources"
+                              vg-tracks="config.tracks"
+                              vg-loop="config.loop"
+                              vg-preload="config.preload"
+                              vg-native-controls="config.controls">
+                    </vg-video>
+
+                    <vg-controls vg-autohide="config.autoHide" vg-autohide-time="config.autoHideTime">
+                        <vg-play-pause-button></vg-play-pause-button>
+                        <vg-timedisplay>{{ currentTime | date:'mm:ss' }}</vg-timedisplay>
+                        <vg-scrubBar>
+                            <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
+                        </vg-scrubBar>
+                        <vg-timedisplay>{{ timeLeft | date:'mm:ss' }}</vg-timedisplay>
+                        <vg-volume>
+                            <vg-mutebutton></vg-mutebutton>
+                            <vg-volumebar></vg-volumebar>
+                        </vg-volume>
+                        <vg-fullscreenButton></vg-fullscreenButton>
+                    </vg-controls>
+
+                    <!--vg-ima-ads vg-network="config.plugins.ads.network" vg-unit-path="config.plugins.ads.unitPath" vg-companion="config.plugins.ads.companion" vg-companion-size="config.plugins.ads.companionSize" vg-ad-tag-url="config.plugins.ads.adTagUrl"></vg-ima-ads-->
+                    <vg-poster-image vg-url='config.plugins.poster.url'></vg-poster-image>
+                    <vg-buffering></vg-buffering>
+                    <vg-overlay-play vg-play-icon="config.theme.playIcon"></vg-overlay-play>
+                </videogular>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <h2>Audio player</h2>
+            <div class="videogular-container audio">
+                <videogular vg-theme="config.theme.url"
+                            vg-autoplay="config.autoPlay">
+                    <vg-audio vg-src="audio"
+                              vg-loop="config.loop"
+                              vg-preload="config.preload"
+                              vg-native-controls="config.controls">
+                    </vg-audio>
+
+                    <vg-controls vg-autohide="config.autoHide" vg-autohide-time="config.autoHideTime">
+                        <vg-play-pause-button></vg-play-pause-button>
+                        <vg-timedisplay>{{ currentTime | date:'mm:ss' }}</vg-timedisplay>
+                        <vg-scrubBar>
+                            <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
+                        </vg-scrubBar>
+                        <vg-timedisplay>{{ timeLeft | date:'mm:ss' }}</vg-timedisplay>
+                        <vg-volume>
+                            <vg-mutebutton></vg-mutebutton>
+                        </vg-volume>
+                    </vg-controls>
+                </videogular>
+            </div>
+        </div>
+    </div>
+
+	<div id="companionAd"></div>
+
+	<div class="row">
+		<div class="col-12"><h2>Video player properties</h2></div>
+	</div>
+
+	<div class="row">
+		<div class="col-6 col-sm-4 col-lg-4">
+			<div>
+				<label for="posterInput">Poster url image (png/jpg/gif):</label>
+				<input id="posterInput" type="text" class="form-control" ng-model="config.plugins.poster.url">
+			</div>
+		</div>
+
+		<div class="col-6 col-sm-4 col-lg-4">
+			<div>
+				<label class="checkbox">
+					<input id="autoPlayInput" type="checkbox" ng-model="config.autoPlay">Autoplay
+				</label>
+			</div>
+			<div>
+				<label class="checkbox">
+					<input id="autoHideInput" type="checkbox" ng-model="config.autoHide">Autohide
+				</label>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-6 col-sm-4 col-lg-4">
+			<div>Theme: {{config.theme.url}}</div>
+			<div>Poster image: {{config.plugins.poster.url}}</div>
+			<div>AutoPlay: {{config.autoPlay}}</div>
+		</div>
+		<div class="col-6 col-sm-4 col-lg-4">
+			<div>AutoHide: {{config.autoHide}}</div>
+			<div>Responsive: {{config.responsive}}</div>
+			<div>State: {{state}}</div>
+			<div>Time: {{currentTime}} / {{totalTime || 0}}</div>
+			<div>Volume: {{volume}}</div>
+			<div>Completed: {{isCompleted}}</div>
+		</div>
+		<div class="col-6 col-sm-4 col-lg-4">
+			<button ng-click="API.play()">Play</button>
+			<button ng-click="API.pause()">Pause</button>
+			<button ng-click="API.stop()">Stop</button>
+			<button ng-click="API.seekTime(30, false)">Move to second 30</button>
+			<button ng-click="API.seekTime(50, true)">Move to 50%</button>
+			<button ng-click="changeSource()">Change source</button>
+		</div>
+	</div>
+</div>

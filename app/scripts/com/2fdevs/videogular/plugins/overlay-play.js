@@ -4,6 +4,22 @@
  * License: MIT
  */
 "use strict";
+/**
+ * @ngdoc directive
+ * @name com.2fdevs.videogular.plugins.overlayplay:vgOverlayPlay
+ * @restrict E
+ * @description
+ * Shows a big play button centered when player is paused or stopped.
+ *
+ * ```html
+ * <videogular vg-theme="config.theme.url" vg-autoplay="config.autoPlay">
+ *    <vg-video vg-src="sources"></vg-video>
+ *
+ *    <vg-overlay-play></vg-overlay-play>
+ * </videogular>
+ * ```
+ *
+ */
 angular.module("com.2fdevs.videogular.plugins.overlayplay", [])
 	.directive(
 	"vgOverlayPlay",
@@ -11,9 +27,6 @@ angular.module("com.2fdevs.videogular.plugins.overlayplay", [])
 		return {
 			restrict: "E",
 			require: "^videogular",
-			scope: {
-				vgPlayIcon: "="
-			},
 			template: "<div class='overlayPlayContainer' ng-click='onClickOverlayPlay()'>" +
 				"<div class='iconButton' ng-class='overlayPlayIcon'></div>" +
 				"</div>",

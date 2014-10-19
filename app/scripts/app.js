@@ -17,6 +17,10 @@ angular.module('myApp',
 				templateUrl: 'views/main.html',
 				controller: 'MainCtrl'
 			})
+			.when('/view', {
+				templateUrl: 'views/view.html',
+				controller: 'ViewCtrl'
+			})
 			.otherwise({
 				redirectTo: '/'
 			}

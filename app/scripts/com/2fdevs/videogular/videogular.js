@@ -147,10 +147,10 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 	])
 /**
  * @ngdoc directive
- * @name com.2fdevs.videogular.videogular:videogular
+ * @name com.2fdevs.videogular.videogular
  * @restrict E
  * @description
- * Main directive that must wrap a &lt;video&gt; tag and all plugins.
+ * Main directive that must wrap a &lt;vg-video&gt; or &lt;vg-audio&gt; tag and all plugins.
  *
  * &lt;video&gt; tag usually will be above plugin tags, that's because plugins should be in a layer over the &lt;video&gt;.
  *
@@ -159,7 +159,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
  * @param {string} vgTheme String with a scope name variable. This directive will inject a CSS link in the header of your page.
  * **This parameter is required.**
  *
- * @param {boolean or string} [autoPlay=false] vgAutoplay Boolean value or a String with a scope name variable to auto start playing video when it is initialized.
+ * @param {boolean} [vgAutoplay=false] vgAutoplay Boolean value or a String with a scope name variable to auto start playing video when it is initialized.
  *
  * **This parameter is disabled in mobile devices** because user must click on content to prevent consuming mobile data plans.
  *
@@ -202,6 +202,10 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 
 				// PUBLIC $API
                 this.videogularElement = null;
+
+				this.clearMedia = function() {
+					$scope.API.mediaElement[0].src = '';
+				};
 
 				this.onMobileVideoReady = function (evt, target) {
 					this.onVideoReady(evt, target, true);
@@ -442,6 +446,12 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 					$scope.$apply();
 				};
 
+				// Empty mediaElement on destroy to avoid that Chrome downloads video even when it's not present
+				$scope.$on('$destroy', this.clearMedia);
+
+				// Empty mediaElement when router changes
+				$scope.$on('$routeChangeStart', this.clearMedia);
+
 				$scope.init();
 			}],
 			link: {
@@ -452,6 +462,26 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 		}
 	}
 	])
+/**
+ * @ngdoc directive
+ * @name com.2fdevs.videogular.vgVideo
+ * @restrict E
+ * @description
+ * Directive to add a source of videos. This directive will create a &lt;video&gt; tag and usually will be above plugin tags.
+ *
+ * You can customize `vgVideo` with these attributes:
+ *
+ * @param {array} vgSrc Bindable array with a list of video sources. A video source is an object with two properties `src` and `type`. The `src` property must contains a trusful url resource.
+ * {src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogular.mp4"), type: "video/mp4"}
+ * **This parameter is required.**
+ *
+ * @param {boolean} [vgLoop=false] vgLoop Boolean value or scope variable name to auto start playing video when it is initialized.
+ * @param {string} [vgPreload=false] vgPreload String value or scope variable name to set how to preload the video. **This parameter is disabled in mobile devices** because user must click on content to start data preload.
+ * @param {boolean} [vgNativeControls=false] vgNativeControls String value or scope variable name to set native controls visible.
+ * @param {array} [vgTracks=false] vgTracks Bindable array with a list of subtitles sources. A track source is an object with five properties: `src`, `kind`, `srclang`, `label` and `default`.
+ * {src: "assets/subs/pale-blue-dot.vtt", kind: "subtitles", srclang: "en", label: "English", default: "true/false"}
+ *
+ */
 	.directive("vgVideo",
 	["$compile", "VG_UTILS", function ($compile, VG_UTILS) {
 		return {
@@ -488,7 +518,26 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 		}
 	}
 	])
-	
+/**
+ * @ngdoc directive
+ * @name com.2fdevs.videogular.vgAudio
+ * @restrict E
+ * @description
+ * Directive to add a source of audios. This directive will create a &lt;audio&gt; tag and usually will be above plugin tags.
+ *
+ * You can customize `vgAudio` with these attributes:
+ *
+ * @param {array} vgSrc Bindable array with a list of audio sources. A video source is an object with two properties `src` and `type`. The `src` property must contains a trusful url resource.
+ * {src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogular.mp4"), type: "video/mp4"}
+ * **This parameter is required.**
+ *
+ * @param {boolean} [vgLoop=false] vgLoop Boolean value or scope variable name to auto start playing audio when it is initialized.
+ * @param {string} [vgPreload=false] vgPreload String value or scope variable name to set how to preload the video. **This parameter is disabled in mobile devices** because user must click on content to start data preload.
+ * @param {boolean} [vgNativeControls=false] vgNativeControls String value or scope variable name to set native controls visible.
+ * @param {array} [vgTracks=false] vgTracks Bindable array with a list of subtitles sources. A track source is an object with five properties: `src`, `kind`, `srclang`, `label` and `default`.
+ * {src: "assets/subs/pale-blue-dot.vtt", kind: "subtitles", srclang: "en", label: "English", default: "true/false"}
+ *
+ */
 	.directive("vgAudio",
 	["$compile", "VG_UTILS", function ($compile, VG_UTILS) {
 		return {
@@ -594,18 +643,20 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 						}
 
 						// Add new tracks
-						for (i = 0, l = tracks.length; i < l; i++) {
-							trackText = "";
-							trackText += '<track ';
+						if (tracks) {
+							for (i = 0, l = tracks.length; i < l; i++) {
+								trackText = "";
+								trackText += '<track ';
 
-							// Add track properties
-							for (var prop in tracks[i]) {
-								trackText += prop + '="' + tracks[i][prop] + '" ';
+								// Add track properties
+								for (var prop in tracks[i]) {
+									trackText += prop + '="' + tracks[i][prop] + '" ';
+								}
+
+								trackText += '></track>';
+
+								API.mediaElement.append(trackText, tracks[i].src);
 							}
-
-							trackText += '></track>';
-
-							API.mediaElement.append(trackText, tracks[i].src);
 						}
 					}
 

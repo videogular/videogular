@@ -1,0 +1,35 @@
+<h1><code ng:non-bindable="">videogular</code>
+<div><span class="hint">service in module <code ng:non-bindable="">com.2fdevs.videogular</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="com-2fdevs-videogular-videogular-page"><p>Main directive that must wrap a &lt;vg-video&gt; or &lt;vg-audio&gt; tag and all plugins.</p>
+<p>&lt;video&gt; tag usually will be above plugin tags, that&#39;s because plugins should be in a layer over the &lt;video&gt;.</p>
+<p>You can customize <code>videogular</code> with these attributes:</p>
+</div></div>
+<h2 id="usage">Usage</h2>
+<div class="usage">as element:<pre class="prettyprint linenums">&lt;videogular
+       vg-theme="{string}"
+       vg-autoplay="{boolean}"
+       vg-complete="{function}"
+       vg-update-volume="{function}"
+       vg-update-time="{function}"
+       vg-update-state="{function}"
+       vg-player-ready="{function}"
+       vg-change-source="{function}"&gt;
+&lt;/videogular&gt;</pre>
+<h4 id="usage_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>vgTheme</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="com-2fdevs-videogular-videogular-page"><p>String with a scope name variable. This directive will inject a CSS link in the header of your page.
+<strong>This parameter is required.</strong></p>
+</div></td></tr><tr><td>vgAutoplay</td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="com-2fdevs-videogular-videogular-page"><p>vgAutoplay Boolean value or a String with a scope name variable to auto start playing video when it is initialized.</p>
+<p><strong>This parameter is disabled in mobile devices</strong> because user must click on content to prevent consuming mobile data plans.</p>
+</div> <p><em>(default: false)</em></p></td></tr><tr><td>vgComplete</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-videogular-page"><p>Function name in controller&#39;s scope to call when video have been completed.</p>
+</div></td></tr><tr><td>vgUpdateVolume</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-videogular-page"><p>Function name in controller&#39;s scope to call when volume changes. Receives a param with the new volume.</p>
+</div></td></tr><tr><td>vgUpdateTime</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-videogular-page"><p>Function name in controller&#39;s scope to call when video playback time is updated. Receives two params with current time and duration in milliseconds.</p>
+</div></td></tr><tr><td>vgUpdateState</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-videogular-page"><p>Function name in controller&#39;s scope to call when video state changes. Receives a param with the new state. Possible values are &quot;play&quot;, &quot;stop&quot; or &quot;pause&quot;.</p>
+</div></td></tr><tr><td>vgPlayerReady</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-videogular-page"><p>Function name in controller&#39;s scope to call when video have been initialized. Receives a param with the videogular API.</p>
+</div></td></tr><tr><td>vgChangeSource</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-videogular-page"><p>Function name in controller&#39;s scope to change current video source. Receives a param with the new video.
+This is a free parameter and it could be values like &quot;new.mp4&quot;, &quot;320&quot; or &quot;sd&quot;. This will allow you to use this to change a video or video quality.
+This callback will not change the video, you should do that by updating your sources scope variable.</p>
+</div></td></tr></tbody></table></div>
+</div>

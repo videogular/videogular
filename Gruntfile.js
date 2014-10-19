@@ -157,8 +157,7 @@ module.exports = function(grunt) {
 				title: "API Reference",
 				src: [
 					'docs/content/api/*.ngdoc',
-					'app/scripts/com/2fdevs/videogular/videogular.js',
-					'app/scripts/com/2fdevs/videogular/plugins/poster.js'
+					'app/scripts/com/2fdevs/videogular/**/*.js'
 				]
 			},
 			guide: {

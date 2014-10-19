@@ -7,12 +7,12 @@
 angular.module("com.2fdevs.videogular.plugins.controls", [])
 	.directive(
 	"vgControls",
-	["$timeout", "VG_STATES", function ($timeout, VG_STATES) {
+	["$timeout", function ($timeout) {
 		return {
 			restrict: "E",
 			require: "^videogular",
 			transclude: true,
-			template: '<div id="controls-container" ng-mousemove="onMouseMove()" ng-class="animationClass" ng-transclude></div>',
+			template: '<div id="controls-container" ng-class="animationClass" ng-transclude></div>',
 			scope: {
 				autoHide: "=vgAutohide",
 				autoHideTime: "=vgAutohideTime"
@@ -23,9 +23,12 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 				var autoHideTime = 2000;
 				var hideInterval;
 
-				scope.onMouseMove = function onMouseMove() {
-					if (scope.autoHide) showControls();
-				};
+				function onMouseMove() {
+					if (scope.autoHide) {
+						showControls();
+						scope.$apply();
+					}
+				}
 
 				function hideControls() {
 					scope.animationClass = "hide-animation";
@@ -42,10 +45,12 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					scope.$watch("autoHide", function (value) {
 						if (value) {
 							scope.animationClass = "hide-animation";
+							API.videogularElement.bind("mousemove", onMouseMove);
 						}
 						else {
 							scope.animationClass = "";
 							$timeout.cancel(hideInterval);
+							API.videogularElement.unbind("mousemove", onMouseMove);
 							showControls();
 						}
 					});
@@ -589,8 +594,6 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 			template: "<button class='iconButton' ng-click='onClickFullScreen()' ng-class='fullscreenIcon' aria-label='Toggle full screen'></button>",
 			link: function (scope, elem, attr, API) {
 				function onChangeFullScreen(isFullScreen) {
-					var result =
-
 					scope.fullscreenIcon = {enter: !isFullScreen, exit: isFullScreen};
 				}
 

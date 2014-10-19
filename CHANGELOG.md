@@ -1,5 +1,13 @@
 CHANGELOG
 ================
+## v0.6.1
+* Added new API method clearMedia() to prevent browsers download media when player is destroyed or ngRoute changes.
+* Fixed bug when autohide is true and user moves mouse wasn't showing the controls.
+* Fixed bug when a source is changed but there are no tracks.
+* Removed unnecessary scope variable on overlay-play.
+* Improved docs.
+* Improved demo.
+
 ## v0.6.0
 * Added new directive vg-audio.
 * Improved performance removing some $apply() calls.
