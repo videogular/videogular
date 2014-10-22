@@ -161,6 +161,20 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
 
 				elem.prepend(skipButton);
 
+				angular.element($window).bind("resize", function() {
+					w = API.videogularElement[0].offsetWidth;
+					h = API.videogularElement[0].offsetHeight;
+
+					if (adsManager) {
+						if (API.isFullScreen) {
+							adsManager.resize(w, h, google.ima.ViewMode.FULLSCREEN);
+						}
+						else {
+							adsManager.resize(w, h, google.ima.ViewMode.NORMAL);
+						}
+					}
+				});
+
 				scope.$watch(
 					function () {
 						return API.isReady;
