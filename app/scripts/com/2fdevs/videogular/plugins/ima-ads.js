@@ -16,16 +16,42 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
 				vgUnitPath: "=",
 				vgCompanion: "=",
 				vgCompanionSize: "=",
-				vgAdTagUrl: "="
+				vgAdTagUrl: "=",
+				vgSkipButton: "="
 			},
 			link: function (scope, elem, attr, API) {
-				var contentCompleteCalled = false;
 				var adDisplayContainer = new google.ima.AdDisplayContainer(elem[0]);
 				var adsLoader = new google.ima.AdsLoader(adDisplayContainer);
 				var adsManager = null;
 				var adsLoaded = false;
 				var w;
 				var h;
+				var onContentEnded = function() {adsLoader.contentComplete();};
+				var currentAd = 0;
+				var skipButton = angular.element(scope.vgSkipButton);
+
+				function onPlayerReady(isReady) {
+					if (isReady) {
+						API.mediaElement[0].addEventListener('ended', onContentEnded);
+
+						w = API.videogularElement[0].offsetWidth;
+						h = API.videogularElement[0].offsetHeight;
+
+						adsLoader.addEventListener(google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED, onAdsManagerLoaded, false, this);
+						adsLoader.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR, onAdError, false, this);
+
+						if (scope.vgCompanion) {
+							googletag.cmd.push(function () {
+								googletag.defineSlot("/" + scope.vgNetwork + "/" + scope.vgUnitPath, scope.vgCompanionSize, scope.vgCompanion)
+									.addService(googletag.companionAds())
+									.addService(googletag.pubads());
+								googletag.companionAds().setRefreshUnfilledSlots(true);
+								googletag.pubads().enableVideoAds();
+								googletag.enableServices();
+							});
+						}
+					}
+				}
 
 				function onUpdateState(newState) {
 					switch (newState) {
@@ -39,7 +65,6 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
 							break;
 
 						case VG_STATES.STOP:
-							contentCompleteCalled = true;
 							adsLoader.contentComplete();
 							break;
 					}
@@ -72,31 +97,44 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
 					// Attach the pause/resume events.
 					adsManager.addEventListener(google.ima.AdEvent.Type.CONTENT_PAUSE_REQUESTED, onContentPauseRequested, false, this);
 					adsManager.addEventListener(google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED, onContentResumeRequested, false, this);
-
-					// Handle events.
-					adsManager.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR, onAdError, false, this);
+					adsManager.addEventListener(google.ima.AdEvent.Type.SKIPPABLE_STATE_CHANGED, onSkippableStateChanged, false, this);
 					adsManager.addEventListener(google.ima.AdEvent.Type.ALL_ADS_COMPLETED, onAllAdsComplete, false, this);
 					adsManager.addEventListener(google.ima.AdEvent.Type.COMPLETE, onAdComplete, false, this);
+					adsManager.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR, onAdError, false, this);
 
 					adsManager.init(w, h, google.ima.ViewMode.NORMAL);
 					adsManager.start();
 				}
 
-				function onContentPauseRequested(adErrorEvent) {
-					show();
-					API.pause();
-				}
+				function onSkippableStateChanged() {
+					var isSkippable = adsManager.getAdSkippableState();
 
-				function onContentResumeRequested(adErrorEvent) {
-					// Without this check the video starts over from the beginning on a
-					// post-roll's CONTENT_RESUME_REQUESTED
-					if (!contentCompleteCalled) {
-						API.play();
-						hide();
+					if (isSkippable) {
+						skipButton.css("display", "block");
+					}
+					else {
+						skipButton.css("display", "none");
 					}
 				}
 
-				function onAdError(adErrorEvent) {
+				function onClickSkip() {
+					adsManager.skip();
+				}
+
+				function onContentPauseRequested() {
+					show();
+					API.mediaElement[0].removeEventListener('ended', onContentEnded);
+					API.pause();
+				}
+
+				function onContentResumeRequested() {
+					API.mediaElement[0].addEventListener('ended', onContentEnded);
+
+					API.play();
+					hide();
+				}
+
+				function onAdError() {
 					if (adsManager) adsManager.destroy();
 					hide();
 					API.play();
@@ -107,7 +145,8 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
 				}
 
 				function onAdComplete() {
-					hide();
+					// TODO: Update view with current ad count
+					currentAd++;
 				}
 
 				function show() {
@@ -118,9 +157,20 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
 					elem.css("display", "none");
 				}
 
-				adsLoader.addEventListener(google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED, onAdsManagerLoaded, false, this);
-				adsLoader.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR, onAdError, false, this);
+				skipButton.bind("click", onClickSkip);
 
+				elem.prepend(skipButton);
+
+				scope.$watch(
+					function () {
+						return API.isReady;
+					},
+					function (newVal, oldVal) {
+						if (newVal != oldVal) {
+							onPlayerReady(newVal);
+						}
+					}
+				);
 
 				scope.$watch(
 					function () {
@@ -132,17 +182,6 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
 						}
 					}
 				);
-
-				if (scope.vgCompanion) {
-					googletag.cmd.push(function () {
-						googletag.defineSlot("/" + scope.vgNetwork + "/" + scope.vgUnitPath, scope.vgCompanionSize, scope.vgCompanion)
-							.addService(googletag.companionAds())
-							.addService(googletag.pubads());
-						googletag.companionAds().setRefreshUnfilledSlots(true);
-						googletag.pubads().enableVideoAds();
-						googletag.enableServices();
-					});
-				}
 			}
 		}
 	}
