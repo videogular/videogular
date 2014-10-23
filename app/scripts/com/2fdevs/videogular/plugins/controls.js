@@ -178,7 +178,8 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					return (time === 0) ? "0" : Math.round(time.getTime() / 1000);
 				};
 
-				function onScrubBarTouchStart(event) {
+				function onScrubBarTouchStart($event) {
+					var event = $event.originalEvent || $event;
 					var touches = event.touches;
 					var touchX;
 
@@ -199,7 +200,8 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					scope.$apply();
 				}
 
-				function onScrubBarTouchEnd(event) {
+				function onScrubBarTouchMove($event) {
+					var event = $event.originalEvent || $event;
 					if (isPlayingWhenSeeking) {
 						isPlayingWhenSeeking = false;
 						API.play();
