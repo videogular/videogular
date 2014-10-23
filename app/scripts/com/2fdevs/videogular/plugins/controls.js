@@ -1,5 +1,5 @@
 /**
- * @license Videogular v0.6.2 http://videogular.com
+ * @license Videogular v0.6.0 http://videogular.com
  * Two Fucking Developers http://twofuckingdevelopers.com
  * License: MIT
  */
@@ -7,12 +7,12 @@
 angular.module("com.2fdevs.videogular.plugins.controls", [])
 	.directive(
 	"vgControls",
-	["$timeout", function ($timeout) {
+	["$timeout", "VG_STATES", function ($timeout, VG_STATES) {
 		return {
 			restrict: "E",
 			require: "^videogular",
 			transclude: true,
-			template: '<div id="controls-container" ng-class="animationClass" ng-transclude></div>',
+			template: '<div id="controls-container" ng-mousemove="onMouseMove()" ng-class="animationClass" ng-transclude></div>',
 			scope: {
 				autoHide: "=vgAutohide",
 				autoHideTime: "=vgAutohideTime"
@@ -23,12 +23,9 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 				var autoHideTime = 2000;
 				var hideInterval;
 
-				function onMouseMove() {
-					if (scope.autoHide) {
-						showControls();
-						scope.$apply();
-					}
-				}
+				scope.onMouseMove = function onMouseMove() {
+					if (scope.autoHide) showControls();
+				};
 
 				function hideControls() {
 					scope.animationClass = "hide-animation";
@@ -45,12 +42,10 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					scope.$watch("autoHide", function (value) {
 						if (value) {
 							scope.animationClass = "hide-animation";
-							API.videogularElement.bind("mousemove", onMouseMove);
 						}
 						else {
 							scope.animationClass = "";
 							$timeout.cancel(hideInterval);
-							API.videogularElement.unbind("mousemove", onMouseMove);
 							showControls();
 						}
 					});
@@ -178,7 +173,8 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					return (time === 0) ? "0" : Math.round(time.getTime() / 1000);
 				};
 
-				function onScrubBarTouchStart(event) {
+				function onScrubBarTouchStart($event) {
+					var event = $event.originalEvent || $event;
 					var touches = event.touches;
 					var touchX;
 
@@ -199,7 +195,8 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					scope.$apply();
 				}
 
-				function onScrubBarTouchEnd(event) {
+				function onScrubBarTouchMove($event) {
+					var event = $event.originalEvent || $event;
 					if (isPlayingWhenSeeking) {
 						isPlayingWhenSeeking = false;
 						API.play();
@@ -594,6 +591,8 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 			template: "<button class='iconButton' ng-click='onClickFullScreen()' ng-class='fullscreenIcon' aria-label='Toggle full screen'></button>",
 			link: function (scope, elem, attr, API) {
 				function onChangeFullScreen(isFullScreen) {
+					var result =
+
 					scope.fullscreenIcon = {enter: !isFullScreen, exit: isFullScreen};
 				}
 
