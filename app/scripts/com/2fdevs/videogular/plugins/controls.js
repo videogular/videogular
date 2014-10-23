@@ -211,7 +211,8 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					scope.$apply();
 				}
 
-				function onScrubBarTouchMove(event) {
+				function onScrubBarTouchMove($event) {
+					var event = $event.originalEvent || $event;
 					var touches = event.touches;
 					var touchX;
 
