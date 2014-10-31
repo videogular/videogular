@@ -154,8 +154,6 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
  *
  * &lt;video&gt; tag usually will be above plugin tags, that's because plugins should be in a layer over the &lt;video&gt;.
  *
- * You can customize `videogular` with these attributes:
- *
  * @param {string} vgTheme String with a scope name variable. This directive will inject a CSS link in the header of your page.
  * **This parameter is required.**
  *
@@ -201,7 +199,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 				var vgChangeSourceCallBack = $scope.vgChangeSource();
 
 				// PUBLIC $API
-                this.videogularElement = null;
+        this.videogularElement = null;
 
 				this.clearMedia = function() {
 					$scope.API.mediaElement[0].src = '';
@@ -469,8 +467,6 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
  * @description
  * Directive to add a source of videos. This directive will create a &lt;video&gt; tag and usually will be above plugin tags.
  *
- * You can customize `vgVideo` with these attributes:
- *
  * @param {array} vgSrc Bindable array with a list of video sources. A video source is an object with two properties `src` and `type`. The `src` property must contains a trusful url resource.
  * {src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogular.mp4"), type: "video/mp4"}
  * **This parameter is required.**
@@ -524,8 +520,6 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
  * @restrict E
  * @description
  * Directive to add a source of audios. This directive will create a &lt;audio&gt; tag and usually will be above plugin tags.
- *
- * You can customize `vgAudio` with these attributes:
  *
  * @param {array} vgSrc Bindable array with a list of audio sources. A video source is an object with two properties `src` and `type`. The `src` property must contains a trusful url resource.
  * {src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogular.mp4"), type: "video/mp4"}

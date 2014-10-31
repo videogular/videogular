@@ -3,7 +3,6 @@
  * Two Fucking Developers http://twofuckingdevelopers.com
  * License: MIT
  */
-"use strict";
 /**
  * @ngdoc directive
  * @name com.2fdevs.videogular.plugins.poster:vgPoster
@@ -11,7 +10,8 @@
  * @description
  * Shows an image when player hasn't been played or has been completed a video.
  *
- * You can customize vgPosterImage with these attributes:
+ * @param {string} vgUrl String with a scope name variable. URL to an image supported by the img tag.
+ * **This parameter is required.**
  *
  * ```html
  * <videogular vg-theme="config.theme.url" vg-autoplay="config.autoPlay">
@@ -22,6 +22,7 @@
  * ```
  *
  */
+"use strict";
 angular.module("com.2fdevs.videogular.plugins.poster", [])
 	.directive(
 	"vgPosterImage",

@@ -159,12 +159,6 @@ module.exports = function(grunt) {
 					'docs/content/api/*.ngdoc',
 					'app/scripts/com/2fdevs/videogular/**/*.js'
 				]
-			},
-			guide: {
-				title: "Guide",
-				src: [
-					"docs/content/guide/*.ngdoc"
-				]
 			}
 		},
 		hub: {

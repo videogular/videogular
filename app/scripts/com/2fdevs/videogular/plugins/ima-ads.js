@@ -3,6 +3,21 @@
  * Two Fucking Developers http://twofuckingdevelopers.com
  * License: MIT
  */
+/**
+ * @ngdoc directive
+ * @name com.2fdevs.videogular.plugins.imaads:vgImaAds
+ * @restrict E
+ * @description
+ * Directive to show Google Interactive Media Ads.
+ *
+ * @param {string} vgNetwork Your network name.
+ * @param {string} vgUnitPath Target unit path.
+ * @param {string} vgCompanion Companion name.
+ * @param {array} vgCompanionSize Companion size as an array like [width, height].
+ * @param {string} vgAdTagUrl Ad tag url, usually a link to the VAST file provided by DoubleClick.
+ * @param {string} vgSkipButton Custom skip button HTML like &lt;div class='skipButton'&gt;skip ad&lt;/div&gt;.
+ *
+ */
 "use strict";
 angular.module("com.2fdevs.videogular.plugins.imaads", [])
 	.directive(

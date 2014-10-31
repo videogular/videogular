@@ -1,7 +1,27 @@
 /**
- * @license Videogular v0.6.0 http://videogular.com
+ * @license Videogular v0.6.2 http://videogular.com
  * Two Fucking Developers http://twofuckingdevelopers.com
  * License: MIT
+ */
+/**
+ * @ngdoc directive
+ * @name com.2fdevs.videogular.plugins.controls:vgControls
+ * @restrict E
+ * @description
+ * This directive acts as a container and you will need other directives to control the media.
+ * Inside this directive you can add other directives like vg-play-pause-button and vg-scrubbar.
+ *
+ * @param {boolean=false} vgAutohide Boolean variable or value to activate autohide.
+ * @param {number=2000} vgAutohideTime Number variable or value that represents the time in milliseconds that will wait vgControls until it hides.
+ *
+ * ```html
+ * <videogular vg-theme="config.theme.url">
+ *    <vg-video vg-src="sources"></vg-video>
+ *
+ *    <vg-controls vg-autohide='config.autohide' vg-autohide-time='config.autohideTime'></vg-controls>
+ * </videogular>
+ * ```
+ *
  */
 "use strict";
 angular.module("com.2fdevs.videogular.plugins.controls", [])
@@ -61,6 +81,24 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 		}
 	}
 	])
+/**
+ * @ngdoc directive
+ * @name com.2fdevs.videogular.plugins.controls:vgPlayPauseButton
+ * @restrict E
+ * @description
+ * Adds a button inside vg-controls to play and pause media.
+ *
+ * ```html
+ * <videogular vg-theme="config.theme.url">
+ *    <vg-video vg-src="sources"></vg-video>
+ *
+ *    <vg-controls vg-autohide='config.autohide' vg-autohide-time='config.autohideTime'>
+ *        <vg-play-pause-button></vg-play-pause-button>
+ *    </vg-controls>
+ * </videogular>
+ * ```
+ *
+ */
 	.directive(
 	"vgPlayPauseButton",
 	["VG_STATES", function (VG_STATES) {
@@ -105,6 +143,29 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 		}
 	}
 	])
+/**
+ * @ngdoc directive
+ * @name com.2fdevs.videogular.plugins.controls:vgTimedisplay
+ * @restrict E
+ * @description
+ * Adds a time display inside vg-controls to play and pause media.
+ * You have three scope variables to show current time, time left and total time.
+ *
+ * Those scope variables are type Date so you can add a date filter to show the time as you wish.
+ *
+ * ```html
+ * <videogular vg-theme="config.theme.url">
+ *    <vg-video vg-src="sources"></vg-video>
+ *
+ *    <vg-controls vg-autohide='config.autohide' vg-autohide-time='config.autohideTime'>
+ *        <vg-timedisplay>{{currentTime | date:'hh:mm'}}</vg-timedisplay>
+ *        <vg-timedisplay>{{timeLeft | date:'mm:ss'}}</vg-timedisplay>
+ *        <vg-timedisplay>{{totalTime | date:'hh:mm:ss'}}</vg-timedisplay>
+ *    </vg-controls>
+ * </videogular>
+ * ```
+ *
+ */
 	.directive(
 	"vgTimedisplay",
 	[function () {
@@ -148,6 +209,25 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 		}
 	}
 	])
+/**
+ * @ngdoc directive
+ * @name com.2fdevs.videogular.plugins.controls:vgScrubbar
+ * @restrict E
+ * @description
+ * Directive to control the time and display other information layers about the progress of the media.
+ * This directive acts as a container and you can add more layers to display current time, cuepoints, buffer or whatever you need.
+ *
+ * ```html
+ * <videogular vg-theme="config.theme.url">
+ *    <vg-video vg-src="sources"></vg-video>
+ *
+ *    <vg-controls vg-autohide='config.autohide' vg-autohide-time='config.autohideTime'>
+ *        <vg-scrubbar></vg-scrubbar>
+ *    </vg-controls>
+ * </videogular>
+ * ```
+ *
+ */
 	.directive(
 	"vgScrubbar",
 	["VG_STATES", "VG_UTILS", function (VG_STATES, VG_UTILS) {
@@ -327,6 +407,26 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 		}
 	}
 	])
+/**
+ * @ngdoc directive
+ * @name com.2fdevs.videogular.plugins.controls:vgScrubbarcurrenttime
+ * @restrict E
+ * @description
+ * Layer inside vg-scrubbar to display the current time.
+ *
+ * ```html
+ * <videogular vg-theme="config.theme.url">
+ *    <vg-video vg-src="sources"></vg-video>
+ *
+ *    <vg-controls vg-autohide='config.autohide' vg-autohide-time='config.autohideTime'>
+ *        <vg-scrubbar>
+ *            <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
+ *        </vg-scrubbar>
+ *    </vg-controls>
+ * </videogular>
+ * ```
+ *
+ */
 	.directive(
 	"vgScrubbarcurrenttime",
 	[function () {
@@ -369,6 +469,26 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 		}
 	}
 	])
+/**
+ * @ngdoc directive
+ * @name com.2fdevs.videogular.plugins.controls:vgVolume
+ * @restrict E
+ * @description
+ * Directive to control the volume.
+ * This directive acts as a container and you will need other directives like vg-mutebutton and vg-volumebar to control the volume.
+ * In mobile will be hided since volume API is disabled for mobile devices.
+ *
+ * ```html
+ * <videogular vg-theme="config.theme.url">
+ *    <vg-video vg-src="sources"></vg-video>
+ *
+ *    <vg-controls vg-autohide='config.autohide' vg-autohide-time='config.autohideTime'>
+ *        <vg-volume></vg-volume>
+ *    </vg-controls>
+ * </videogular>
+ * ```
+ *
+ */
 	.directive(
 	"vgVolume",
 	["VG_UTILS", function (VG_UTILS) {
@@ -399,6 +519,28 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 		}
 	}
 	])
+/**
+ * @ngdoc directive
+ * @name com.2fdevs.videogular.plugins.controls:vgVolumebar
+ * @restrict E
+ * @description
+ * Directive to display a vertical volume bar to control the volume.
+ * This directive must be inside vg-volume directive and requires vg-mutebutton to be displayed.
+ *
+ * ```html
+ * <videogular vg-theme="config.theme.url">
+ *    <vg-video vg-src="sources"></vg-video>
+ *
+ *    <vg-controls vg-autohide='config.autohide' vg-autohide-time='config.autohideTime'>
+ *        <vg-volume>
+ *            <vg-mutebutton><vg-mutebutton>
+ *            <vg-volumebar><vg-volumebar>
+ *        </vg-volume>
+ *    </vg-controls>
+ * </videogular>
+ * ```
+ *
+ */
 	.directive(
 	"vgVolumebar",
 	["VG_UTILS", function (VG_UTILS) {
@@ -476,6 +618,26 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 		}
 	}
 	])
+/**
+ * @ngdoc directive
+ * @name com.2fdevs.videogular.plugins.controls:vgMutebutton
+ * @restrict E
+ * @description
+ * Directive to display a button to mute volume.
+ *
+ * ```html
+ * <videogular vg-theme="config.theme.url">
+ *    <vg-video vg-src="sources"></vg-video>
+ *
+ *    <vg-controls vg-autohide='config.autohide' vg-autohide-time='config.autohideTime'>
+ *        <vg-volume>
+ *            <vg-mutebutton><vg-mutebutton>
+ *        </vg-volume>
+ *    </vg-controls>
+ * </videogular>
+ * ```
+ *
+ */
 	.directive(
 	"vgMutebutton",
 	[function () {
@@ -579,6 +741,24 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 		}
 	}
 	])
+/**
+ * @ngdoc directive
+ * @name com.2fdevs.videogular.plugins.controls:vgFullscreenbutton
+ * @restrict E
+ * @description
+ * Directive to switch between fullscreen and normal mode.
+ *
+ * ```html
+ * <videogular vg-theme="config.theme.url">
+ *    <vg-video vg-src="sources"></vg-video>
+ *
+ *    <vg-controls vg-autohide='config.autohide' vg-autohide-time='config.autohideTime'>
+ *        <vg-fullscreenbutton></vg-fullscreenbutton>
+ *    </vg-controls>
+ * </videogular>
+ * ```
+ *
+ */
 	.directive(
 	"vgFullscreenbutton",
 	[function () {
