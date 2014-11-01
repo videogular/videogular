@@ -68,7 +68,7 @@ angular.module("com.2fdevs.videogular.plugins.buffering", [])
 							return API.isReady;
 						},
 						function (newVal, oldVal) {
-							if (newVal != oldVal) {
+							if (API.isReady == true || newVal != oldVal) {
 								onPlayerReady(newVal);
 							}
 						}

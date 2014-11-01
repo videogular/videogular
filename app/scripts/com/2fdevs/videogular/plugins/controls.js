@@ -677,19 +677,26 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 
 				scope.onMuteButtonKeyDown = function(event) {
 					var currentVolume = (API.volume != null) ? API.volume : 1;
+          var newVolume;
 
 					if (event.which === UP || event.keyCode === UP) {
-						API.setVolume(currentVolume + CHANGE_PER_PRESS);
+            newVolume = currentVolume + CHANGE_PER_PRESS;
+            if (newVolume > 1) newVolume = 1;
+
+						API.setVolume(newVolume);
 						event.preventDefault();
 					}
 					else if (event.which === DOWN || event.keyCode === DOWN) {
-						API.setVolume(currentVolume - CHANGE_PER_PRESS);
+            newVolume = currentVolume - CHANGE_PER_PRESS;
+            if (newVolume < 0) newVolume = 0;
+
+						API.setVolume(newVolume);
 						event.preventDefault();
 					}
 				};
 
 				function onSetVolume(newVolume) {
-					scope.currentVolume = newVolume;
+          scope.currentVolume = newVolume;
 
 					// TODO: Save volume with LocalStorage
 					// if it's not muted we save the default volume
@@ -772,8 +779,6 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 			template: "<button class='iconButton' ng-click='onClickFullScreen()' ng-class='fullscreenIcon' aria-label='Toggle full screen'></button>",
 			link: function (scope, elem, attr, API) {
 				function onChangeFullScreen(isFullScreen) {
-					var result =
-
 					scope.fullscreenIcon = {enter: !isFullScreen, exit: isFullScreen};
 				}
 
