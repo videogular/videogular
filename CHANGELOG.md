@@ -1,5 +1,16 @@
 CHANGELOG
 ================
+## v0.6.3
+* Added jquery-event-fix for function `onScrubBarTouchMove`.
+* Fixed error changing volume with keys.
+* Fixed init problem when preload is 'none'.
+* Updated docs.
+
+## v0.6.2
+* Updated IMA ads plugin to work with the new API.
+* Added resize in IMA ads plugin.
+* Updated demo with Google IMA ads.
+
 ## v0.6.1
 * Added new API method clearMedia() to prevent browsers download media when player is destroyed or ngRoute changes.
 * Fixed bug when autohide is true and user moves mouse wasn't showing the controls.
