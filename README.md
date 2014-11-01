@@ -25,6 +25,7 @@ If you have developed a Videogular's plugin or theme [contact us through this fo
 * [**Flash fallback plugin**](https://github.com/NamPNQ/bower-videogular-flash) by **[NamPNQ](https://github.com/NamPNQ)**
 * [**Background video plugin**](https://gist.github.com/panurge-ws/525caef640784a487aa2) by **[panurge-ws](https://github.com/panurge-ws)**
 * [**Videogular subtitle plugin**](https://github.com/farhan-repo/videogular-subtitle-plugin) (for Videogular 0.4.0) by **[farhan-repo](https://github.com/farhan-repo)**
+* [**Videogular cuepoints plugin**](https://github.com/soton-ecs-2014-gdp-12/videogular-cuepoints) by **[Group 12 GDP](https://github.com/soton-ecs-2014-gdp-12)**
 
 ## Documentation and how to install
 
