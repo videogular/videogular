@@ -29,7 +29,7 @@ If you have developed a Videogular's plugin or theme [contact us through this fo
 
 ## Documentation and how to install
 
-See the [Videogular's website](https://www.videogular.com) for more info about [how to start and installation notes](http://www.videogular.com/tutorials/how-to-start/).
+See the [Videogular's website](http://www.videogular.com) for more info about [how to start and installation notes](http://www.videogular.com/tutorials/how-to-start/).
 
 ## Credits
 
