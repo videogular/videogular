@@ -29,11 +29,7 @@ If you have developed a Videogular's plugin or theme [contact us through this fo
 
 ## Documentation and how to install
 
-See the [Wiki](https://github.com/2fdevs/videogular/wiki) pages for more info about how to use Videogular and [installation notes](https://github.com/2fdevs/videogular/wiki/Install).
-
-## Install
-
-For installation notes see [Install](https://github.com/2fdevs/videogular/wiki/Install).
+See the [Videogular's website](https://www.videogular.com) for more info about [how to start and installation notes](http://www.videogular.com/tutorials/how-to-start/).
 
 ## Credits
 
