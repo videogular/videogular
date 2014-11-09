@@ -1,5 +1,14 @@
 CHANGELOG
 ================
+## v0.7.0
+* Added DASH plugin for streaming and live streaming in Chrome. This is still beta, but it's awesome in Chrome.
+* Updated demo.
+* Moved all media files to dropbox.
+* Fixed UTC time problems on time display.
+* Fixed bindings for native controls.
+* Fixed to hide buffering when it's loading content and state changes to stop.
+* Fixed to use cursor pointer on buttons.
+
 ## v0.6.3
 * Added jquery-event-fix for function `onScrubBarTouchMove`.
 * Fixed error changing volume with keys.
