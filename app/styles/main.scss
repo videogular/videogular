@@ -5,9 +5,28 @@
 	border-radius: $radius;
 }
 
-.sixteenByNine {
-	width: 640px;
-	height: 360px;
+div.menu {
+  padding: 10px;
+  font-size: 16px;
+  background-color: #507eb3;
+  color: white;
+
+  ul {
+    list-style-type: none;
+
+    li {
+      display: inline-block;
+      padding-right: 20px;
+    }
+  }
+
+  a {
+    color: white;
+
+    &.selected {
+      text-decoration: underline;
+    }
+  }
 }
 
 $large-width: 1170px;

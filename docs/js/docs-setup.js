@@ -95,6 +95,15 @@ NG_DOCS={
     },
     {
       "section": "api",
+      "id": "com.2fdevs.videogular.plugins.dash:vgDash",
+      "shortName": "vgDash",
+      "type": "directive",
+      "moduleName": "com.2fdevs.videogular.plugins",
+      "shortDescription": "Adds support for vg-video and vg-audio tags.",
+      "keywords": "adds api autoplay config dash directive file html https js plugin plugins project requires sources support tags theme url vg-audio vg-autoplay vg-dash vg-src vg-theme vg-video videogular"
+    },
+    {
+      "section": "api",
       "id": "com.2fdevs.videogular.plugins.imaads:vgImaAds",
       "shortName": "vgImaAds",
       "type": "directive",
@@ -127,7 +136,7 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "com.2fdevs.videogular",
       "shortDescription": "Directive to add a source of audios. This directive will create a &lt;audio&gt; tag and usually will be above plugin tags.",
-      "keywords": "$sce add api array assets audio audios auto bindable boolean click content controls create data default devices directive disabled en english http initialized kind label list mobile mp4 native object parameter playing plugin preload properties property required resource scope set source sources src srclang start string subtitles tag tags track true trusful trustasresourceurl type url user variable vgaudio vgloop vgnativecontrols vgpreload vgsrc vgtracks video videogular visible vtt"
+      "keywords": "$sce add api array assets audio audios auto bindable boolean click content controls create data default devices directive disabled dropboxusercontent en english https initialized kind label list mobile mp3 native object parameter playing plugin preload properties property required resource scope set source sources src srclang start string subtitles tag tags track true trusful trustasresourceurl type url user variable vgaudio vgloop vgnativecontrols vgpreload vgsrc vgtracks video videogular visible vtt"
     },
     {
       "section": "api",
@@ -136,7 +145,7 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "com.2fdevs.videogular",
       "shortDescription": "Directive to add a source of videos. This directive will create a &lt;video&gt; tag and usually will be above plugin tags.",
-      "keywords": "$sce add api array assets auto bindable boolean click content controls create data default devices directive disabled en english http initialized kind label list mobile mp4 native object parameter playing plugin preload properties property required resource scope set source sources src srclang start string subtitles tag tags track true trusful trustasresourceurl type url user variable vgloop vgnativecontrols vgpreload vgsrc vgtracks vgvideo video videogular videos visible vtt"
+      "keywords": "$sce add api array assets auto bindable boolean click content controls create data default devices directive disabled dropboxusercontent en english https initialized kind label list mobile mp4 native object parameter playing plugin preload properties property required resource scope set source sources src srclang start string subtitles tag tags track true trusful trustasresourceurl type url user variable vgloop vgnativecontrols vgpreload vgsrc vgtracks vgvideo video videogular videos visible vtt"
     },
     {
       "section": "api",

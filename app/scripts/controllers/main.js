@@ -29,22 +29,17 @@ angular.module('myApp').controller('MainCtrl',
 			$scope.volume = newVol;
 		};
 
-		$scope.onUpdateSize = function (width, height) {
-			$scope.config.width = width;
-			$scope.config.height = height;
-		};
-
-		$scope.audio = [
-            {src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/audios/videogular.mp3"), type: "audio/mpeg"},
-            {src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/audios/videogular.ogg"), type: "audio/ogg"}
-        ];
+    $scope.audio = [
+        {src: $sce.trustAsResourceUrl("https://dl.dropboxusercontent.com/u/7359898/audio/videogular.mp3"), type: "audio/mpeg"},
+        {src: $sce.trustAsResourceUrl("https://dl.dropboxusercontent.com/u/7359898/audio/videogular.ogg"), type: "audio/ogg"}
+    ];
 
 		$scope.videos = [
 			{
 				sources: [
-					{src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogular.mp4"), type: "video/mp4"},
-					{src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogular.webm"), type: "video/webm"},
-					{src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogular.ogg"), type: "video/ogg"}
+					{src: $sce.trustAsResourceUrl("https://dl.dropboxusercontent.com/u/7359898/video/videogular.mp4"), type: "video/mp4"},
+					{src: $sce.trustAsResourceUrl("https://dl.dropboxusercontent.com/u/7359898/video/videogular.webm"), type: "video/webm"},
+					{src: $sce.trustAsResourceUrl("https://dl.dropboxusercontent.com/u/7359898/video/videogular.ogg"), type: "video/ogg"}
 				],
 				tracks: [
 					{
@@ -58,8 +53,8 @@ angular.module('myApp').controller('MainCtrl',
 			},
 			{
 				sources: [
-					{src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/big_buck_bunny_720p_h264.mov"), type: "video/mp4"},
-					{src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/big_buck_bunny_720p_stereo.ogg"), type: "video/ogg"}
+					{src: $sce.trustAsResourceUrl("https://dl.dropboxusercontent.com/u/7359898/video/big_buck_bunny_720p_h264.mov"), type: "video/mp4"},
+					{src: $sce.trustAsResourceUrl("https://dl.dropboxusercontent.com/u/7359898/video/big_buck_bunny_720p_stereo.ogg"), type: "video/ogg"}
 				]
 			}
 		];
@@ -73,7 +68,7 @@ angular.module('myApp').controller('MainCtrl',
 			loop: false,
 			preload: "auto",
 			transclude: true,
-			controls: undefined,
+			controls: false,
 			theme: {
 				url: "styles/themes/default/videogular.css"
 			},

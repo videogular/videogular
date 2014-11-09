@@ -1,9 +1,8 @@
 /**
- * @license Videogular v0.6.3 http://videogular.com
+ * @license Videogular v0.7.0 http://videogular.com
  * Two Fucking Developers http://twofuckingdevelopers.com
  * License: MIT
  */
-"use strict";
 /**
  * @ngdoc directive
  * @name com.2fdevs.videogular.plugins.buffering:vgBuffering
@@ -20,10 +19,11 @@
  * ```
  *
  */
+"use strict";
 angular.module("com.2fdevs.videogular.plugins.buffering", [])
 	.directive(
 	"vgBuffering",
-	["VG_UTILS", function (VG_UTILS) {
+	["VG_STATES", "VG_UTILS", function (VG_STATES, VG_UTILS) {
 		return {
 			restrict: "E",
 			require: "^videogular",
@@ -47,6 +47,12 @@ angular.module("com.2fdevs.videogular.plugins.buffering", [])
 					}
 					else {
 						hideSpinner();
+					}
+				}
+
+				function onStateChange(state) {
+					if (state == VG_STATES.STOP) {
+            hideSpinner();
 					}
 				}
 
@@ -74,6 +80,17 @@ angular.module("com.2fdevs.videogular.plugins.buffering", [])
 						}
 					);
 				}
+
+				scope.$watch(
+					function () {
+						return API.currentState;
+					},
+					function (newVal, oldVal) {
+						if (newVal != oldVal) {
+							onStateChange(newVal);
+						}
+					}
+				);
 
 				scope.$watch(
 					function () {

@@ -1,5 +1,5 @@
 /**
- * @license Videogular v0.6.3 http://videogular.com
+ * @license Videogular v0.7.0 http://videogular.com
  * Two Fucking Developers http://twofuckingdevelopers.com
  * License: MIT
  */
@@ -173,6 +173,11 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 			require: "^videogular",
 			restrict: "E",
 			link: function (scope, elem, attr, API) {
+        scope.currentTime = API.currentTime;
+        scope.timeLeft = API.timeLeft;
+        scope.totalTime = API.totalTime;
+        scope.isLive = API.isLive;
+
 				scope.$watch(
 					function () {
 						return API.currentTime;
@@ -202,6 +207,17 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					function (newVal, oldVal) {
 						if (newVal != oldVal) {
 							scope.totalTime = newVal;
+						}
+					}
+				);
+
+				scope.$watch(
+					function () {
+						return API.isLive;
+					},
+					function (newVal, oldVal) {
+						if (newVal != oldVal) {
+							scope.isLive = newVal;
 						}
 					}
 				);
@@ -246,7 +262,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 				var touchStartX = 0;
 				var LEFT = 37;
 				var RIGHT = 39;
-				var NUM_PERCENT = 1;
+				var NUM_PERCENT = 5;
 
 				scope.API = API;
 				scope.ariaTime = function(time) {
@@ -345,7 +361,9 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 				}
 
 				scope.onScrubBarKeyDown = function(event) {
-					var currentPercent = API.currentTime.getTime() / API.totalTime.getTime() * 100;
+          var currentISO = API.currentTime.getTime() - (API.totalTime.getTimezoneOffset() * 60000);
+          var totalISO = API.totalTime.getTime() - (API.totalTime.getTimezoneOffset() * 60000);
+					var currentPercent = currentISO / totalISO * 100;
 
 					if (event.which === LEFT || event.keyCode === LEFT) {
 						API.seekTime(currentPercent - NUM_PERCENT, true);
@@ -438,7 +456,9 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 
 				function onUpdateTime(newCurrentTime) {
 					if (newCurrentTime && API.totalTime) {
-						percentTime = (newCurrentTime.getTime() * -1 / 1000) * 100 / (API.totalTime.getTime() * -1 / 1000);
+            var currentISO = newCurrentTime.getTime() - (API.totalTime.getTimezoneOffset() * 60000);
+            var totalISO = API.totalTime.getTime() - (API.totalTime.getTimezoneOffset() * 60000);
+						percentTime = (currentISO * -1 / 1000) * 100 / (totalISO * -1 / 1000);
 						elem.css("width", percentTime + "%");
 					}
 				}

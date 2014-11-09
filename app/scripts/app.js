@@ -7,7 +7,8 @@ angular.module('myApp',
 		"com.2fdevs.videogular.plugins.overlayplay",
 		"com.2fdevs.videogular.plugins.buffering",
 		"com.2fdevs.videogular.plugins.poster",
-		"com.2fdevs.videogular.plugins.imaads"
+		"com.2fdevs.videogular.plugins.imaads",
+		"com.2fdevs.videogular.plugins.dash"
 	]
 )
 	.config(
@@ -17,9 +18,17 @@ angular.module('myApp',
 				templateUrl: 'views/main.html',
 				controller: 'MainCtrl'
 			})
-			.when('/view', {
-				templateUrl: 'views/view.html',
-				controller: 'ViewCtrl'
+			.when('/imaads', {
+				templateUrl: 'views/imaads.html',
+				controller: 'ImaAdsCtrl'
+			})
+			.when('/dash', {
+				templateUrl: 'views/dash.html',
+				controller: 'DashCtrl'
+			})
+			.when('/dash-live', {
+				templateUrl: 'views/dash-live.html',
+				controller: 'DashLiveCtrl'
 			})
 			.otherwise({
 				redirectTo: '/'

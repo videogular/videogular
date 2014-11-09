@@ -1,5 +1,5 @@
 /**
- * @license Videogular v0.6.3 http://videogular.com
+ * @license Videogular v0.7.0 http://videogular.com
  * Two Fucking Developers http://twofuckingdevelopers.com
  * License: MIT
  */
@@ -33,6 +33,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 
       return $event;
     };
+
     /**
      * Inspired by Paul Irish
      * https://gist.github.com/paulirish/211209
@@ -53,9 +54,16 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
       return zIndex;
     };
 
+    this.toUTCDate = function(date){
+      return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),  date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+    };
+
     this.secondsToDate = function (seconds) {
       var result = new Date();
       result.setTime(seconds * 1000);
+
+      result = this.toUTCDate(result);
+
       return result;
     };
 
@@ -212,7 +220,9 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
         this.onVideoReady = function (evt, target, avoidDigest) {
           // Here we're in the video scope, we can't use 'this.'
           $scope.API.isReady = true;
+          $scope.API.autoPlay = $scope.autoPlay;
           $scope.API.currentState = VG_STATES.STOP;
+          $scope.API.onUpdateTime(evt);
           if (!avoidDigest) $scope.$apply();
 
           isMetaDataLoaded = true;
@@ -225,14 +235,22 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
           if ($scope.autoPlay && !VG_UTILS.isMobileDevice() || $scope.API.currentState === VG_STATES.PLAY) {
             $timeout(function () {
               $scope.API.play();
-            })
+            });
           }
         };
 
         this.onUpdateTime = function (event) {
           $scope.API.currentTime = VG_UTILS.secondsToDate(event.target.currentTime);
-          $scope.API.totalTime = VG_UTILS.secondsToDate(event.target.duration);
-          $scope.API.timeLeft = VG_UTILS.secondsToDate(event.target.duration - event.target.currentTime);
+
+          if (event.target.duration != Infinity) {
+            $scope.API.totalTime = VG_UTILS.secondsToDate(event.target.duration);
+            $scope.API.timeLeft = VG_UTILS.secondsToDate(event.target.duration - event.target.currentTime);
+            $scope.API.isLive = false;
+          }
+          else {
+            // It's a live streaming without and end
+            $scope.API.isLive = true;
+          }
 
           if ($scope.vgUpdateTime()) {
             vgUpdateTimeCallBack = $scope.vgUpdateTime();
@@ -242,8 +260,19 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
           $scope.$apply();
         };
 
-        this.$on = function () {
-          $scope.$on.apply($scope, arguments);
+        this.onPlay = function() {
+          $scope.API.setState(VG_STATES.PLAY);
+          $scope.$apply();
+        };
+
+        this.onPause = function() {
+          $scope.API.setState(VG_STATES.PAUSE);
+          $scope.$apply();
+        };
+
+        this.onVolumeChange = function() {
+          $scope.API.volume = $scope.API.mediaElement[0].volume;
+          $scope.$apply();
         };
 
         this.seekTime = function (value, byPercent) {
@@ -409,9 +438,10 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
         $scope.init = function () {
           $scope.API.isReady = false;
           $scope.API.isCompleted = false;
-          $scope.API.currentTime = 0;
-          $scope.API.totalTime = 0;
-          $scope.API.timeLeft = 0;
+          $scope.API.currentTime = VG_UTILS.secondsToDate(0);
+          $scope.API.totalTime = VG_UTILS.secondsToDate(0);
+          $scope.API.timeLeft = VG_UTILS.secondsToDate(0);
+          $scope.API.isLive = false;
 
           $scope.API.updateTheme($scope.theme);
           $scope.addBindings();
@@ -464,7 +494,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
  * Directive to add a source of videos. This directive will create a &lt;video&gt; tag and usually will be above plugin tags.
  *
  * @param {array} vgSrc Bindable array with a list of video sources. A video source is an object with two properties `src` and `type`. The `src` property must contains a trusful url resource.
- * {src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogular.mp4"), type: "video/mp4"}
+ * {src: $sce.trustAsResourceUrl("https://dl.dropboxusercontent.com/u/7359898/video/videogular.mp4"), type: "video/mp4"}
  * **This parameter is required.**
  *
  * @param {boolean} [vgLoop=false] vgLoop Boolean value or scope variable name to auto start playing video when it is initialized.
@@ -491,6 +521,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 
         videoTagText += '></video>';
 
+        API.sources = scope.vgSrc;
         API.mediaElement = angular.element(videoTagText);
         var compiled = $compile(API.mediaElement)(scope);
 
@@ -498,6 +529,9 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
         API.mediaElement[0].addEventListener("waiting", API.onStartBuffering, false);
         API.mediaElement[0].addEventListener("ended", API.onComplete, false);
         API.mediaElement[0].addEventListener("playing", API.onStartPlaying, false);
+        API.mediaElement[0].addEventListener("play", API.onPlay, false);
+        API.mediaElement[0].addEventListener("pause", API.onPause, false);
+        API.mediaElement[0].addEventListener("volumechange", API.onVolumeChange, false);
         API.mediaElement[0].addEventListener("timeupdate", API.onUpdateTime, false);
 
         elem.append(compiled);
@@ -518,7 +552,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
  * Directive to add a source of audios. This directive will create a &lt;audio&gt; tag and usually will be above plugin tags.
  *
  * @param {array} vgSrc Bindable array with a list of audio sources. A video source is an object with two properties `src` and `type`. The `src` property must contains a trusful url resource.
- * {src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogular.mp4"), type: "video/mp4"}
+ * {src: $sce.trustAsResourceUrl("https://dl.dropboxusercontent.com/u/7359898/audio/videogular.mp3"), type: "video/mp4"}
  * **This parameter is required.**
  *
  * @param {boolean} [vgLoop=false] vgLoop Boolean value or scope variable name to auto start playing audio when it is initialized.
@@ -545,6 +579,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 
         audioTagText += '></audio>';
 
+        API.sources = scope.vgSrc;
         API.mediaElement = angular.element(audioTagText);
         var compiled = $compile(API.mediaElement)(scope);
 
@@ -552,6 +587,9 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
         API.mediaElement[0].addEventListener("waiting", API.onStartBuffering, false);
         API.mediaElement[0].addEventListener("ended", API.onComplete, false);
         API.mediaElement[0].addEventListener("playing", API.onStartPlaying, false);
+        API.mediaElement[0].addEventListener("play", API.onPlay, false);
+        API.mediaElement[0].addEventListener("pause", API.onPause, false);
+        API.mediaElement[0].addEventListener("volumechange", API.onVolumeChange, false);
         API.mediaElement[0].addEventListener("timeupdate", API.onUpdateTime, false);
 
         elem.append(compiled);
@@ -603,7 +641,6 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
           scope.$watch(attr.vgSource, function (newValue, oldValue) {
             if ((!sources || newValue != oldValue) && newValue) {
               sources = newValue;
-              //API.sources = sources;
               changeSource();
             }
           });

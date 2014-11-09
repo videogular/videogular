@@ -1,9 +1,8 @@
 /**
- * @license Videogular v0.6.3 http://videogular.com
+ * @license Videogular v0.7.0 http://videogular.com
  * Two Fucking Developers http://twofuckingdevelopers.com
  * License: MIT
  */
-"use strict";
 /**
  * @ngdoc directive
  * @name com.2fdevs.videogular.plugins.overlayplay:vgOverlayPlay
@@ -20,6 +19,7 @@
  * ```
  *
  */
+"use strict";
 angular.module("com.2fdevs.videogular.plugins.overlayplay", [])
 	.directive(
 	"vgOverlayPlay",
