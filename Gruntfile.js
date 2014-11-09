@@ -29,7 +29,8 @@ module.exports = function(grunt) {
 					'build/controls/controls.min.js': ['app/scripts/com/2fdevs/videogular/plugins/controls.js'],
 					'build/ima-ads/ima-ads.min.js': ['app/scripts/com/2fdevs/videogular/plugins/ima-ads.js'],
 					'build/overlay-play/overlay-play.min.js': ['app/scripts/com/2fdevs/videogular/plugins/overlay-play.js'],
-					'build/poster/poster.min.js': ['app/scripts/com/2fdevs/videogular/plugins/poster.js']
+					'build/poster/poster.min.js': ['app/scripts/com/2fdevs/videogular/plugins/poster.js'],
+					'build/dash/dash.min.js': ['app/scripts/com/2fdevs/videogular/plugins/dash.js']
 				}
 			}
 		},
@@ -76,6 +77,11 @@ module.exports = function(grunt) {
 					{
 						src: ['app/scripts/com/2fdevs/videogular/plugins/poster.js'],
 						dest: 'build/poster/poster.js',
+						filter: 'isFile'
+					},
+					{
+						src: ['app/scripts/com/2fdevs/videogular/plugins/dash.js'],
+						dest: 'build/dash/dash.js',
 						filter: 'isFile'
 					}
 				]
@@ -137,6 +143,13 @@ module.exports = function(grunt) {
 						src: ['build/poster/*.js'],
 						dest: '../bower-videogular-poster/',
 						filter: 'isFile'
+					},
+					{
+						expand: true,
+						flatten: true,
+						src: ['build/dash/*.js'],
+						dest: '../bower-videogular-dash/',
+						filter: 'isFile'
 					}
 				]
 			}
@@ -170,6 +183,7 @@ module.exports = function(grunt) {
 					"../bower-videogular-ima-ads/Gruntfile.js",
 					"../bower-videogular-overlay-play/Gruntfile.js",
 					"../bower-videogular-poster/Gruntfile.js",
+					"../bower-videogular-dash/Gruntfile.js",
 					"../bower-videogular-themes-default/Gruntfile.js"],
 				tasks: ["release:major"],
 				concurrent: 1
@@ -182,6 +196,7 @@ module.exports = function(grunt) {
 					"../bower-videogular-ima-ads/Gruntfile.js",
 					"../bower-videogular-overlay-play/Gruntfile.js",
 					"../bower-videogular-poster/Gruntfile.js",
+					"../bower-videogular-dash/Gruntfile.js",
 					"../bower-videogular-themes-default/Gruntfile.js"],
 				tasks: ["release:minor"],
 				concurrent: 1
@@ -194,6 +209,7 @@ module.exports = function(grunt) {
 					"../bower-videogular-ima-ads/Gruntfile.js",
 					"../bower-videogular-overlay-play/Gruntfile.js",
 					"../bower-videogular-poster/Gruntfile.js",
+					"../bower-videogular-dash/Gruntfile.js",
 					"../bower-videogular-themes-default/Gruntfile.js"],
 				tasks: ["release:patch"],
 				concurrent: 1
