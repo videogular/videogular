@@ -105,7 +105,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 		return {
 			restrict: "E",
 			require: "^videogular",
-			template: "<button class='iconButton' ng-click='onClickPlayPause()' ng-class='playPauseIcon' aria-label='Play/Pause'></button>",
+			template: "<button class='iconButton' ng-click='onClickPlayPause()' ng-class='playPauseIcon' aria-label='Play/Pause' type='button'></button>",
 			link: function (scope, elem, attr, API) {
 				function setState(newState) {
 					switch (newState) {
@@ -248,7 +248,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 	"vgScrubbar",
 	["VG_STATES", "VG_UTILS", function (VG_STATES, VG_UTILS) {
 		return {
-			restrict: "AE",
+			restrict: "E",
 			require: "^videogular",
 			transclude: true,
 			template: '<div role="slider" aria-valuemax="{{ariaTime(API.totalTime)}}" ' +
@@ -291,7 +291,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					scope.$apply();
 				}
 
-				function onScrubBarTouchMove($event) {
+				function onScrubBarTouchEnd($event) {
 					var event = $event.originalEvent || $event;
 					if (isPlayingWhenSeeking) {
 						isPlayingWhenSeeking = false;
@@ -666,7 +666,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 			require: "^videogular",
 			template: "<button class='iconButton' ng-class='muteIcon'" +
 				" ng-click='onClickMute()' ng-focus='onMuteButtonFocus()' ng-blur='onMuteButtonLoseFocus()' ng-keydown='onMuteButtonKeyDown($event)'" +
-				" aria-label='Mute'></button>",
+				" aria-label='Mute' type='button'></button>",
 			link: function (scope, elem, attr, API) {
 				var isMuted = false;
 				var UP = 38;
@@ -790,13 +790,13 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 	"vgFullscreenbutton",
 	[function () {
 		return {
-			restrict: "AE",
+			restrict: "E",
 			require: "^videogular",
 			scope: {
 				vgEnterFullScreenIcon: "=",
 				vgExitFullScreenIcon: "="
 			},
-			template: "<button class='iconButton' ng-click='onClickFullScreen()' ng-class='fullscreenIcon' aria-label='Toggle full screen'></button>",
+			template: "<button class='iconButton' ng-click='onClickFullScreen()' ng-class='fullscreenIcon' aria-label='Toggle full screen' type='button'></button>",
 			link: function (scope, elem, attr, API) {
 				function onChangeFullScreen(isFullScreen) {
 					scope.fullscreenIcon = {enter: !isFullScreen, exit: isFullScreen};

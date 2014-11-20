@@ -213,17 +213,16 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
           $scope.API.mediaElement[0].src = '';
         };
 
-        this.onMobileVideoReady = function (evt, target) {
-          this.onVideoReady(evt, target, true);
+        this.onCanPlay = function(evt) {
+          $scope.API.isBuffering = false;
+          $scope.$apply();
         };
 
-        this.onVideoReady = function (evt, target, avoidDigest) {
+        this.onVideoReady = function () {
           // Here we're in the video scope, we can't use 'this.'
           $scope.API.isReady = true;
           $scope.API.autoPlay = $scope.autoPlay;
           $scope.API.currentState = VG_STATES.STOP;
-          $scope.API.onUpdateTime(evt);
-          if (!avoidDigest) $scope.$apply();
 
           isMetaDataLoaded = true;
 
@@ -237,6 +236,11 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
               $scope.API.play();
             });
           }
+        };
+
+        this.onLoadMetaData = function(evt) {
+          $scope.API.isBuffering = false;
+          $scope.API.onUpdateTime(evt);
         };
 
         this.onUpdateTime = function (event) {
@@ -415,10 +419,12 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 
         this.onStartBuffering = function (event) {
           $scope.API.isBuffering = true;
+          $scope.$apply();
         };
 
         this.onStartPlaying = function (event) {
           $scope.API.isBuffering = false;
+          $scope.$apply();
         };
 
         this.onComplete = function (event) {
@@ -525,7 +531,8 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
         API.mediaElement = angular.element(videoTagText);
         var compiled = $compile(API.mediaElement)(scope);
 
-        API.mediaElement[0].addEventListener("loadedmetadata", API.onVideoReady, false);
+        API.mediaElement[0].addEventListener("canplay", API.onCanPlay, false);
+        API.mediaElement[0].addEventListener("loadedmetadata", API.onLoadMetaData, false);
         API.mediaElement[0].addEventListener("waiting", API.onStartBuffering, false);
         API.mediaElement[0].addEventListener("ended", API.onComplete, false);
         API.mediaElement[0].addEventListener("playing", API.onStartPlaying, false);
@@ -536,10 +543,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 
         elem.append(compiled);
 
-        if (VG_UTILS.isMobileDevice()) {
-          API.mediaElement[0].removeEventListener("loadedmetadata", API.onVideoReady, false);
-          API.onMobileVideoReady();
-        }
+        API.onVideoReady();
       }
     }
   }
@@ -583,7 +587,8 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
         API.mediaElement = angular.element(audioTagText);
         var compiled = $compile(API.mediaElement)(scope);
 
-        API.mediaElement[0].addEventListener("loadedmetadata", API.onVideoReady, false);
+        API.mediaElement[0].addEventListener("canplay", API.onCanPlay, false);
+        API.mediaElement[0].addEventListener("loadedmetadata", API.onLoadMetaData, false);
         API.mediaElement[0].addEventListener("waiting", API.onStartBuffering, false);
         API.mediaElement[0].addEventListener("ended", API.onComplete, false);
         API.mediaElement[0].addEventListener("playing", API.onStartPlaying, false);
@@ -594,10 +599,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 
         elem.append(compiled);
 
-        if (VG_UTILS.isMobileDevice()) {
-          API.mediaElement[0].removeEventListener("loadedmetadata", API.onVideoReady, false);
-          API.onMobileVideoReady();
-        }
+        API.onVideoReady();
       }
     }
   }
@@ -739,11 +741,6 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
             if ((!preload || newValue != oldValue) && newValue) {
               preload = newValue;
               API.mediaElement.attr("preload", preload);
-
-              if (preload == "none") {
-                API.mediaElement[0].removeEventListener("loadedmetadata", API.onVideoReady, false);
-                API.onMobileVideoReady();
-              }
             }
             else {
               API.mediaElement.removeAttr("preload");

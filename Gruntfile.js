@@ -164,7 +164,8 @@ module.exports = function(grunt) {
 		},
 		ngdocs: {
 			options: {
-				dest: 'docs'
+				dest: 'docs',
+        html5Mode: false
 			},
 			api: {
 				title: "API Reference",
