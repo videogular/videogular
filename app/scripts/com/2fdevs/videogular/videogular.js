@@ -438,6 +438,23 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
           $scope.$apply();
         };
 
+        this.onVideoError = function (event) {
+          // Show error
+        };
+
+        this.addListeners = function() {
+          $scope.API.mediaElement[0].addEventListener("canplay", $scope.API.onCanPlay, false);
+          $scope.API.mediaElement[0].addEventListener("loadedmetadata", $scope.API.onLoadMetaData, false);
+          $scope.API.mediaElement[0].addEventListener("waiting", $scope.API.onStartBuffering, false);
+          $scope.API.mediaElement[0].addEventListener("ended", $scope.API.onComplete, false);
+          $scope.API.mediaElement[0].addEventListener("playing", $scope.API.onStartPlaying, false);
+          $scope.API.mediaElement[0].addEventListener("play", $scope.API.onPlay, false);
+          $scope.API.mediaElement[0].addEventListener("pause", $scope.API.onPause, false);
+          $scope.API.mediaElement[0].addEventListener("volumechange", $scope.API.onVolumeChange, false);
+          $scope.API.mediaElement[0].addEventListener("timeupdate", $scope.API.onUpdateTime, false);
+          $scope.API.mediaElement[0].addEventListener("error", $scope.API.onVideoError, false);
+        };
+
         // FUNCTIONS NOT AVAILABLE THROUGH API
         $scope.API = this;
 
@@ -531,15 +548,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
         API.mediaElement = angular.element(videoTagText);
         var compiled = $compile(API.mediaElement)(scope);
 
-        API.mediaElement[0].addEventListener("canplay", API.onCanPlay, false);
-        API.mediaElement[0].addEventListener("loadedmetadata", API.onLoadMetaData, false);
-        API.mediaElement[0].addEventListener("waiting", API.onStartBuffering, false);
-        API.mediaElement[0].addEventListener("ended", API.onComplete, false);
-        API.mediaElement[0].addEventListener("playing", API.onStartPlaying, false);
-        API.mediaElement[0].addEventListener("play", API.onPlay, false);
-        API.mediaElement[0].addEventListener("pause", API.onPause, false);
-        API.mediaElement[0].addEventListener("volumechange", API.onVolumeChange, false);
-        API.mediaElement[0].addEventListener("timeupdate", API.onUpdateTime, false);
+        API.addListeners();
 
         elem.append(compiled);
 
@@ -587,15 +596,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
         API.mediaElement = angular.element(audioTagText);
         var compiled = $compile(API.mediaElement)(scope);
 
-        API.mediaElement[0].addEventListener("canplay", API.onCanPlay, false);
-        API.mediaElement[0].addEventListener("loadedmetadata", API.onLoadMetaData, false);
-        API.mediaElement[0].addEventListener("waiting", API.onStartBuffering, false);
-        API.mediaElement[0].addEventListener("ended", API.onComplete, false);
-        API.mediaElement[0].addEventListener("playing", API.onStartPlaying, false);
-        API.mediaElement[0].addEventListener("play", API.onPlay, false);
-        API.mediaElement[0].addEventListener("pause", API.onPause, false);
-        API.mediaElement[0].addEventListener("volumechange", API.onVolumeChange, false);
-        API.mediaElement[0].addEventListener("timeupdate", API.onUpdateTime, false);
+        API.addListeners();
 
         elem.append(compiled);
 
