@@ -12,6 +12,10 @@ angular.module('myApp').controller('MainCtrl',
 			$scope.API = API;
 		};
 
+		$scope.onError = function (event) {
+			alert(event);
+		};
+
 		$scope.onCompleteVideo = function () {
 			$scope.isCompleted = true;
 		};
@@ -89,6 +93,17 @@ angular.module('myApp').controller('MainCtrl',
 
 		$scope.changeSource = function () {
 			$scope.config.sources = $scope.videos[1].sources;
+			$scope.config.tracks = undefined;
+			$scope.config.loop = false;
+			$scope.config.preload = true;
+		};
+
+		$scope.wrongSource = function () {
+			$scope.config.sources = [
+        {src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogula.mp4"), type: "video/mp4"},
+        {src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogula.webm"), type: "video/webm"},
+        {src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogula.ogg"), type: "video/ogg"}
+      ];
 			$scope.config.tracks = undefined;
 			$scope.config.loop = false;
 			$scope.config.preload = true;

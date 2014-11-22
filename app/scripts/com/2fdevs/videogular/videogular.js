@@ -192,7 +192,8 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
         vgUpdateTime: "&",
         vgUpdateState: "&",
         vgPlayerReady: "&",
-        vgChangeSource: "&"
+        vgChangeSource: "&",
+        vgError: "&"
       },
       controller: ['$scope', '$timeout', function ($scope, $timeout) {
         var currentTheme = null;
@@ -205,6 +206,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
         var vgUpdateStateCallBack = $scope.vgUpdateState();
         var vgPlayerReadyCallBack = $scope.vgPlayerReady();
         var vgChangeSourceCallBack = $scope.vgChangeSource();
+        var vgError = $scope.vgError();
 
         // PUBLIC $API
         this.videogularElement = null;
@@ -439,7 +441,10 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
         };
 
         this.onVideoError = function (event) {
-          // Show error
+          if ($scope.vgError()) {
+            vgError = $scope.vgError();
+            vgError(event);
+          }
         };
 
         this.addListeners = function() {

@@ -5,6 +5,7 @@
             <div class="videogular-container">
                 <videogular vg-player-ready="onPlayerReady"
                             vg-complete="onCompleteVideo"
+                            vg-error="onError"
                             vg-update-time="onUpdateTime"
                             vg-update-volume="onUpdateVolume"
                             vg-update-state="onUpdateState"
@@ -116,6 +117,7 @@
 			<button ng-click="API.seekTime(30, false)">Move to second 30</button>
 			<button ng-click="API.seekTime(50, true)">Move to 50%</button>
 			<button ng-click="changeSource()">Change source</button>
+			<button ng-click="wrongSource()">Set invalid source</button>
 		</div>
 	</div>
 </div>
