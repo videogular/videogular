@@ -1,5 +1,12 @@
 CHANGELOG
 ================
+## v0.7.1
+* Added vgError to notify video object error events.
+* Improved buffering API.
+* Fixed problems initializing player.
+* Some minor code fixes for maintainability.
+* Updated grunt files.
+
 ## v0.7.0
 * Added DASH plugin for streaming and live streaming in Chrome. This is still beta, but it's awesome in Chrome.
 * Updated demo.

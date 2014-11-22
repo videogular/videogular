@@ -1,5 +1,5 @@
 /**
- * @license Videogular v0.7.0 http://videogular.com
+ * @license Videogular v0.7.1 http://videogular.com
  * Two Fucking Developers http://twofuckingdevelopers.com
  * License: MIT
  */
@@ -175,6 +175,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
  * @param {function} vgUpdateState Function name in controller's scope to call when video state changes. Receives a param with the new state. Possible values are "play", "stop" or "pause".
  * @param {function} vgPlayerReady Function name in controller's scope to call when video have been initialized. Receives a param with the videogular API.
  * @param {function} vgChangeSource Function name in controller's scope to change current video source. Receives a param with the new video.
+ * @param {function} vgError Function name in controller's scope to receive an error from video object. Receives a param with the error event.
  * This is a free parameter and it could be values like "new.mp4", "320" or "sd". This will allow you to use this to change a video or video quality.
  * This callback will not change the video, you should do that by updating your sources scope variable.
  *

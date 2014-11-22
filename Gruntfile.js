@@ -230,7 +230,7 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('default', ['clean:build', 'cssmin:css', 'uglify:js', 'copy:main', 'copy:release']);
 	grunt.registerTask('docs', ['clean:docs', 'ngdocs']);
-	grunt.registerTask('major-release', ['hub:major']);
-	grunt.registerTask('minor-release', ['hub:minor']);
-	grunt.registerTask('patch-release', ['hub:patch']);
+	grunt.registerTask('major-release', ['default', 'hub:major']);
+	grunt.registerTask('minor-release', ['default', 'hub:minor']);
+	grunt.registerTask('patch-release', ['default', 'hub:patch']);
 };

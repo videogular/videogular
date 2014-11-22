@@ -154,7 +154,7 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "com.2fdevs.videogular",
       "shortDescription": "Main directive that must wrap a &lt;vg-video&gt; or &lt;vg-audio&gt; tag and all plugins.",
-      "keywords": "allow api auto boolean call callback change changes click completed consuming content controller css current data devices directive disabled duration free function header initialized inject layer link main milliseconds mobile mp4 param parameter params pause plans play playback playing plugin plugins prevent quality receives required scope sd source sources start string tag tags time updated updating user values variable vgautoplay vgchangesource vgcomplete vgplayerready vgtheme vgupdatestate vgupdatetime vgupdatevolume video videogular volume wrap"
+      "keywords": "allow api auto boolean call callback change changes click completed consuming content controller css current data devices directive disabled duration error event free function header initialized inject layer link main milliseconds mobile mp4 object param parameter params pause plans play playback playing plugin plugins prevent quality receive receives required scope sd source sources start string tag tags time updated updating user values variable vgautoplay vgchangesource vgcomplete vgerror vgplayerready vgtheme vgupdatestate vgupdatetime vgupdatevolume video videogular volume wrap"
     }
   ],
   "apis": {
