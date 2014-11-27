@@ -55,7 +55,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
     };
 
     this.toUTCDate = function(date){
-      return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),  date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+      return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds(), date.getUTCMilliseconds());
     };
 
     this.secondsToDate = function (seconds) {
