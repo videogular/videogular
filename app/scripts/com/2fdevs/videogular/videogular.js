@@ -530,7 +530,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
  *
  */
   .directive("vgVideo",
-  ["$compile", "$timeout", "VG_UTILS", function ($compile, $timeout, VG_UTILS) {
+  ["$compile", "$timeout", "VG_UTILS", "VG_STATES", function ($compile, $timeout, VG_UTILS, VG_STATES) {
     return {
       restrict: "E",
       require: "^videogular",
@@ -549,13 +549,13 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
           canPlay = "";
 
           // It's a cool browser
-          if (elem[0].canPlayType) {
+          if (API.mediaElement[0].canPlayType) {
             for (var i = 0, l = sources.length; i < l; i++) {
-              canPlay = elem[0].canPlayType(sources[i].type);
+              canPlay = API.mediaElement[0].canPlayType(sources[i].type);
 
               if (canPlay == "maybe" || canPlay == "probably") {
-                elem.attr("src", sources[i].src);
-                elem.attr("type", sources[i].type);
+                API.mediaElement.attr("src", sources[i].src);
+                API.mediaElement.attr("type", sources[i].type);
                 break;
               }
             }
@@ -563,8 +563,8 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
           // It's a crappy browser and it doesn't deserve any respect
           else {
             // Get H264 or the first one
-            elem.attr("src", sources[0].src);
-            elem.attr("type", sources[0].type);
+            API.mediaElement.attr("src", sources[0].src);
+            API.mediaElement.attr("type", sources[0].type);
           }
 
           $timeout(function() {
@@ -615,7 +615,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
  *
  */
   .directive("vgAudio",
-  ["$compile", "$timeout", "VG_UTILS", function ($compile, $timeout, VG_UTILS) {
+  ["$compile", "$timeout", "VG_UTILS", "VG_STATES", function ($compile, $timeout, VG_UTILS, VG_STATES) {
     return {
       restrict: "E",
       require: "^videogular",
@@ -634,13 +634,13 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
           canPlay = "";
 
           // It's a cool browser
-          if (elem[0].canPlayType) {
+          if (API.mediaElement[0].canPlayType) {
             for (var i = 0, l = sources.length; i < l; i++) {
-              canPlay = elem[0].canPlayType(sources[i].type);
+              canPlay = API.mediaElement[0].canPlayType(sources[i].type);
 
               if (canPlay == "maybe" || canPlay == "probably") {
-                elem.attr("src", sources[i].src);
-                elem.attr("type", sources[i].type);
+                API.mediaElement.attr("src", sources[i].src);
+                API.mediaElement.attr("type", sources[i].type);
                 break;
               }
             }
@@ -648,8 +648,8 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
           // It's a crappy browser and it doesn't deserve any respect
           else {
             // Get H264 or the first one
-            elem.attr("src", sources[0].src);
-            elem.attr("type", sources[0].type);
+            API.mediaElement.attr("src", sources[0].src);
+            API.mediaElement.attr("type", sources[0].type);
           }
 
           $timeout(function() {
