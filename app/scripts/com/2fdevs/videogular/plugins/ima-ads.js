@@ -49,9 +49,6 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
 					if (isReady) {
 						API.mediaElement[0].addEventListener('ended', onContentEnded);
 
-						w = API.videogularElement[0].offsetWidth;
-						h = API.videogularElement[0].offsetHeight;
-
 						adsLoader.addEventListener(google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED, onAdsManagerLoaded, false, this);
 						adsLoader.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR, onAdError, false, this);
 
@@ -109,6 +106,9 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
 				}
 
 				function processAdsManager(adsManager) {
+          w = API.videogularElement[0].offsetWidth;
+          h = API.videogularElement[0].offsetHeight;
+
 					// Attach the pause/resume events.
 					adsManager.addEventListener(google.ima.AdEvent.Type.CONTENT_PAUSE_REQUESTED, onContentPauseRequested, false, this);
 					adsManager.addEventListener(google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED, onContentResumeRequested, false, this);
@@ -157,6 +157,7 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
 
 				function onAllAdsComplete() {
 					hide();
+          API.stop();
 				}
 
 				function onAdComplete() {
@@ -195,7 +196,7 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
 						return API.isReady;
 					},
 					function (newVal, oldVal) {
-						if (newVal != oldVal) {
+						if (API.isReady == true || newVal != oldVal) {
 							onPlayerReady(newVal);
 						}
 					}

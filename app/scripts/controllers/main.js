@@ -13,7 +13,8 @@ angular.module('myApp').controller('MainCtrl',
 		};
 
 		$scope.onError = function (event) {
-			alert(event);
+      console.log("VIDEOGULAR ERROR EVENT");
+			console.log(event);
 		};
 
 		$scope.onCompleteVideo = function () {
@@ -66,7 +67,7 @@ angular.module('myApp').controller('MainCtrl',
 		$scope.config = {
 			autoHide: false,
 			autoHideTime: 3000,
-			autoPlay: false,
+			autoPlay: true,
 			sources: $scope.videos[0].sources,
 			tracks: $scope.videos[0].tracks,
 			loop: false,

@@ -59,6 +59,8 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
     };
 
     this.secondsToDate = function (seconds) {
+      if (isNaN(seconds)) seconds = 0;
+
       var result = new Date();
       result.setTime(seconds * 1000);
 
@@ -622,7 +624,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
 
           function changeSource() {
             canPlay = "";
-
+            
             // It's a cool browser
             if (elem[0].canPlayType) {
               for (var i = 0, l = sources.length; i < l; i++) {

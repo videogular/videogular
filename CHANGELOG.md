@@ -1,5 +1,10 @@
 CHANGELOG
 ================
+## v0.7.2
+* Fixed NaN values when video duration is not specified.
+* Fixed problem with Google IMA when preload='none'.
+* Fixed problem with Google IMA when all ads complete it was starting the video again.
+
 ## v0.7.1
 * Added vgError to notify video object error events.
 * Improved buffering API.
