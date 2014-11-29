@@ -67,11 +67,11 @@ angular.module('myApp').controller('MainCtrl',
 		$scope.config = {
 			autoHide: false,
 			autoHideTime: 3000,
-			autoPlay: true,
+			autoPlay: false,
 			sources: $scope.videos[0].sources,
 			tracks: $scope.videos[0].tracks,
 			loop: false,
-			preload: "none",
+			preload: "auto",
 			transclude: true,
 			controls: false,
 			theme: {
