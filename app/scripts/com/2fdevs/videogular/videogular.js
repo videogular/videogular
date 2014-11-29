@@ -235,12 +235,6 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
             vgPlayerReadyCallBack = $scope.vgPlayerReady();
             vgPlayerReadyCallBack($scope.API);
           }
-
-          if ($scope.autoPlay && !VG_UTILS.isMobileDevice() || $scope.API.currentState === VG_STATES.PLAY) {
-            $timeout(function () {
-              $scope.API.play();
-            });
-          }
         };
 
         this.onLoadMetaData = function(evt) {
@@ -536,7 +530,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
  *
  */
   .directive("vgVideo",
-  ["$compile", "VG_UTILS", function ($compile, VG_UTILS) {
+  ["$compile", "$timeout", "VG_UTILS", function ($compile, $timeout, VG_UTILS) {
     return {
       restrict: "E",
       require: "^videogular",
@@ -548,12 +542,49 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
         vgTracks: "="
       },
       link: function (scope, elem, attr, API) {
-        var videoTagText = '<video vg-source="vgSrc" ';
+        var sources;
+        var canPlay;
 
-        videoTagText += '></video>';
+        function changeSource() {
+          canPlay = "";
+
+          // It's a cool browser
+          if (elem[0].canPlayType) {
+            for (var i = 0, l = sources.length; i < l; i++) {
+              canPlay = elem[0].canPlayType(sources[i].type);
+
+              if (canPlay == "maybe" || canPlay == "probably") {
+                elem.attr("src", sources[i].src);
+                elem.attr("type", sources[i].type);
+                break;
+              }
+            }
+          }
+          // It's a crappy browser and it doesn't deserve any respect
+          else {
+            // Get H264 or the first one
+            elem.attr("src", sources[0].src);
+            elem.attr("type", sources[0].type);
+          }
+
+          $timeout(function() {
+            if (API.autoPlay && !VG_UTILS.isMobileDevice() || API.currentState === VG_STATES.PLAY) API.play();
+          });
+
+          if (canPlay == "") {
+            // Throw error
+          }
+        }
+
+        scope.$watch("vgSrc", function (newValue, oldValue) {
+          if ((!sources || newValue != oldValue) && newValue) {
+            sources = newValue;
+            changeSource();
+          }
+        });
 
         API.sources = scope.vgSrc;
-        API.mediaElement = angular.element(videoTagText);
+        API.mediaElement = angular.element('<video vg-source="vgSrc"></video>');
         var compiled = $compile(API.mediaElement)(scope);
 
         API.addListeners();
@@ -584,7 +615,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
  *
  */
   .directive("vgAudio",
-  ["$compile", "VG_UTILS", function ($compile, VG_UTILS) {
+  ["$compile", "$timeout", "VG_UTILS", function ($compile, $timeout, VG_UTILS) {
     return {
       restrict: "E",
       require: "^videogular",
@@ -596,12 +627,49 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
         vgTracks: "="
       },
       link: function (scope, elem, attr, API) {
-        var audioTagText = '<audio vg-source="vgSrc" ';
+        var sources;
+        var canPlay;
 
-        audioTagText += '></audio>';
+        function changeSource() {
+          canPlay = "";
+
+          // It's a cool browser
+          if (elem[0].canPlayType) {
+            for (var i = 0, l = sources.length; i < l; i++) {
+              canPlay = elem[0].canPlayType(sources[i].type);
+
+              if (canPlay == "maybe" || canPlay == "probably") {
+                elem.attr("src", sources[i].src);
+                elem.attr("type", sources[i].type);
+                break;
+              }
+            }
+          }
+          // It's a crappy browser and it doesn't deserve any respect
+          else {
+            // Get H264 or the first one
+            elem.attr("src", sources[0].src);
+            elem.attr("type", sources[0].type);
+          }
+
+          $timeout(function() {
+            if (API.autoPlay && !VG_UTILS.isMobileDevice() || API.currentState === VG_STATES.PLAY) API.play();
+          });
+
+          if (canPlay == "") {
+            // Throw error
+          }
+        }
+
+        scope.$watch("vgSrc", function (newValue, oldValue) {
+          if ((!sources || newValue != oldValue) && newValue) {
+            sources = newValue;
+            changeSource();
+          }
+        });
 
         API.sources = scope.vgSrc;
-        API.mediaElement = angular.element(audioTagText);
+        API.mediaElement = angular.element('<audio vg-source="vgSrc"></audio>');
         var compiled = $compile(API.mediaElement)(scope);
 
         API.addListeners();
@@ -609,53 +677,6 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
         elem.append(compiled);
 
         API.onVideoReady();
-      }
-    }
-  }
-  ])
-  .directive("vgSource",
-  [function () {
-    return {
-      restrict: "A",
-      link: {
-        pre: function (scope, elem, attr) {
-          var sources;
-          var canPlay;
-
-          function changeSource() {
-            canPlay = "";
-            
-            // It's a cool browser
-            if (elem[0].canPlayType) {
-              for (var i = 0, l = sources.length; i < l; i++) {
-                canPlay = elem[0].canPlayType(sources[i].type);
-
-                if (canPlay == "maybe" || canPlay == "probably") {
-                  elem.attr("src", sources[i].src);
-                  elem.attr("type", sources[i].type);
-                  break;
-                }
-              }
-            }
-            // It's a crappy browser and it doesn't deserve any respect
-            else {
-              // Get H264 or the first one
-              elem.attr("src", sources[0].src);
-              elem.attr("type", sources[0].type);
-            }
-
-            if (canPlay == "") {
-              // Throw error
-            }
-          }
-
-          scope.$watch(attr.vgSource, function (newValue, oldValue) {
-            if ((!sources || newValue != oldValue) && newValue) {
-              sources = newValue;
-              changeSource();
-            }
-          });
-        }
       }
     }
   }
