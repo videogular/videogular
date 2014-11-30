@@ -572,7 +572,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
           });
 
           if (canPlay == "") {
-            // Throw error
+            API.onVideoError();
           }
         }
 

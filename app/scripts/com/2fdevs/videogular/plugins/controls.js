@@ -27,7 +27,7 @@
 angular.module("com.2fdevs.videogular.plugins.controls", [])
 	.directive(
 	"vgControls",
-	["$timeout", "VG_STATES", function ($timeout, VG_STATES) {
+	["$timeout", function ($timeout) {
 		return {
 			restrict: "E",
 			require: "^videogular",
