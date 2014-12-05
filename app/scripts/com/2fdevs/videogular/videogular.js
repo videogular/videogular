@@ -579,6 +579,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
         scope.$watch("vgSrc", function (newValue, oldValue) {
           if ((!sources || newValue != oldValue) && newValue) {
             sources = newValue;
+            API.sources = sources;
             changeSource();
           }
         });
@@ -664,6 +665,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
         scope.$watch("vgSrc", function (newValue, oldValue) {
           if ((!sources || newValue != oldValue) && newValue) {
             sources = newValue;
+            API.sources = sources;
             changeSource();
           }
         });
