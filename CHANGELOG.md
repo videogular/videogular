@@ -1,6 +1,7 @@
 CHANGELOG
 ================
 ## v0.7.2
+* Changed videogular font name to 'videogular' to avoid problems with other 'icomoon' fonts.
 * Improved error messages.
 * Fixed NaN values when video duration is not specified.
 * Fixed problem with Google IMA when preload='none'.
