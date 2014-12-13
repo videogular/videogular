@@ -24,40 +24,20 @@
  */
 "use strict";
 angular.module("com.2fdevs.videogular.plugins.poster", [])
-	.directive(
-	"vgPosterImage",
-	["VG_STATES", function (VG_STATES) {
-		return {
-			restrict: "E",
-			require: "^videogular",
-			scope: {
-				vgUrl: "="
-			},
-			template: '<img ng-src="{{vgUrl}}">',
-			link: function (scope, elem, attr, API) {
-				function onUpdateState(newState) {
-					switch (newState) {
-						case VG_STATES.PLAY:
-							elem.css("display", "none");
-							break;
-
-						case VG_STATES.STOP:
-							elem.css("display", "block");
-							break;
-					}
-				}
-
-				scope.$watch(
-					function () {
-						return API.currentState;
-					},
-					function (newVal, oldVal) {
-						if (newVal != oldVal) {
-							onUpdateState(newVal);
-						}
-					}
-				);
-			}
-		}
-	}
-	]);
+	.directive("vgPosterImage",
+    [function () {
+      return {
+        restrict: "E",
+        require: "^videogular",
+        scope: {
+          vgUrl: "="
+        },
+        templateUrl: function(elem, attrs) {
+          return attrs.vgTemplate || 'scripts/com/2fdevs/videogular/plugins/vg-poster/views/vg-poster.html';
+        },
+        link: function (scope, elem, attr, API) {
+          scope.API = API;
+        }
+      }
+    }]
+  );

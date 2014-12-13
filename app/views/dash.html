@@ -4,7 +4,7 @@
       <h2>Video player</h2>
 
       <div class="videogular-container">
-        <videogular vg-player-ready="onPlayerReady"
+        <videogular vg-player-ready="onPlayerReady($API)"
                     vg-theme="config.theme.url"
                     vg-autoplay="config.autoPlay">
           <vg-video vg-src="config.sources" vg-tracks="config.tracks" vg-dash></vg-video>

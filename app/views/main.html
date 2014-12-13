@@ -3,12 +3,12 @@
         <div class="col-12">
             <h2>Video player</h2>
             <div class="videogular-container">
-                <videogular vg-player-ready="onPlayerReady"
-                            vg-complete="onCompleteVideo"
-                            vg-error="onError"
-                            vg-update-time="onUpdateTime"
-                            vg-update-volume="onUpdateVolume"
-                            vg-update-state="onUpdateState"
+                <videogular vg-player-ready="onPlayerReady($API)"
+                            vg-complete="onCompleteVideo()"
+                            vg-error="onError($event)"
+                            vg-update-time="onUpdateTime($currentTime, $duration)"
+                            vg-update-volume="onUpdateVolume($volume)"
+                            vg-update-state="onUpdateState($state)"
                             vg-theme="config.theme.url"
                             vg-autoplay="config.autoPlay">
                     <vg-video vg-src="config.sources"
@@ -20,16 +20,16 @@
 
                     <vg-controls vg-autohide="config.autoHide" vg-autohide-time="config.autoHideTime">
                         <vg-play-pause-button></vg-play-pause-button>
-                        <vg-timedisplay>{{ currentTime | date:'mm:ss' }}</vg-timedisplay>
-                        <vg-scrubBar>
-                            <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
-                        </vg-scrubBar>
-                        <vg-timedisplay>{{ timeLeft | date:'mm:ss' }}</vg-timedisplay>
+                        <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
+                        <vg-scrub-bar>
+                            <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                        </vg-scrub-bar>
+                        <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
                         <vg-volume>
-                            <vg-mutebutton></vg-mutebutton>
-                            <vg-volumebar></vg-volumebar>
+                            <vg-mute-button></vg-mute-button>
+                            <vg-volume-bar></vg-volume-bar>
                         </vg-volume>
-                        <vg-fullscreenButton></vg-fullscreenButton>
+                        <vg-fullscreen-button></vg-fullscreen-button>
                     </vg-controls>
 
                     <vg-poster-image vg-url='config.plugins.poster.url'></vg-poster-image>
@@ -54,13 +54,13 @@
 
                     <vg-controls vg-autohide="config.autoHide" vg-autohide-time="config.autoHideTime">
                         <vg-play-pause-button></vg-play-pause-button>
-                        <vg-timedisplay>{{ currentTime | date:'mm:ss' }}</vg-timedisplay>
-                        <vg-scrubBar>
-                            <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
-                        </vg-scrubBar>
-                        <vg-timedisplay>{{ timeLeft | date:'mm:ss' }}</vg-timedisplay>
+                        <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
+                        <vg-scrub-bar>
+                            <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                        </vg-scrub-bar>
+                        <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
                         <vg-volume>
-                            <vg-mutebutton></vg-mutebutton>
+                            <vg-mute-button></vg-mute-button>
                         </vg-volume>
                     </vg-controls>
                 </videogular>

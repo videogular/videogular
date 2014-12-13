@@ -27,9 +27,9 @@ angular.module("com.2fdevs.videogular.plugins.overlayplay", [])
 		return {
 			restrict: "E",
 			require: "^videogular",
-			template: "<div class='overlayPlayContainer' ng-click='onClickOverlayPlay()'>" +
-				"<div class='iconButton' ng-class='overlayPlayIcon'></div>" +
-				"</div>",
+      templateUrl: function(elem, attrs) {
+        return attrs.vgTemplate || 'scripts/com/2fdevs/videogular/plugins/vg-overlay-play/views/vg-overlay-play.html';
+      },
 			link: function (scope, elem, attr, API) {
 				function onComplete(target, params) {
 					scope.overlayPlayIcon = {play: true};

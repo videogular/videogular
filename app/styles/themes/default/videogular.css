@@ -104,6 +104,15 @@ videogular vg-poster-image img {
   position: absolute;
 }
 
+videogular vg-poster-image img.pause,
+videogular vg-poster-image img.play {
+  display: none;
+}
+
+videogular vg-poster-image img.stop {
+  display: block;
+}
+
 /**********************/
 /* OverlayPlay plugin */
 /**********************/
@@ -174,7 +183,7 @@ videogular vg-play-pause-button {
   cursor: pointer;
 }
 
-videogular vg-timedisplay {
+videogular vg-time-display {
   color: #FFFFFF;
   display: table-cell;
   font-family: Arial;
@@ -192,17 +201,17 @@ videogular .vgTimeDisplay {
   width: auto;
 }
 
-videogular vg-scrubbar {
+videogular vg-scrub-bar {
   width: auto;
   display: table-cell;
   cursor: pointer;
 }
 
-videogular vg-scrubbar :focus vg-scrubBarCurrentTime {
+videogular vg-scrub-bar :focus vg-scrub-bar-current-time {
   border-right: 6px black groove;
 }
 
-videogular vg-scrubBarCurrentTime {
+videogular vg-scrub-bar-current-time {
   background-color: #FFFFFF;
   width: 100%;
   height: 50px;
@@ -218,7 +227,7 @@ videogular vg-volume {
   cursor: pointer;
 }
 
-videogular vg-volumebar {
+videogular vg-volume-bar {
   width: 50px;
   height: 100px;
   top: -100px;
@@ -231,14 +240,14 @@ videogular vg-volumebar {
 
 /* IE10 hack */
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-  videogular vg-volumebar {
+  videogular vg-volume-bar {
     zoom: 1;
     filter: alpha(opacity=50);
     opacity: 0.5;
   }
 }
 
-videogular vg-fullscreenButton {
+videogular vg-fullscreen-button {
   display: table-cell;
   width: 50px;
   vertical-align: middle;
@@ -246,14 +255,14 @@ videogular vg-fullscreenButton {
   cursor: pointer;
 }
 
-videogular vg-volumebar .verticalVolumeBar {
+videogular vg-volume-bar .verticalVolumeBar {
   width: 50px;
   height: 100px;
   background-color: #000000;
   position: absolute;
 }
 
-videogular vg-volumebar .volumeBackground {
+videogular vg-volume-bar .volumeBackground {
   width: 20px;
   height: 70px;
   left: 15px;
@@ -262,14 +271,14 @@ videogular vg-volumebar .volumeBackground {
   position: absolute;
 }
 
-videogular vg-volumebar .volumeValue {
+videogular vg-volume-bar .volumeValue {
   width: 20px;
   height: 100%;
   background-color: #FFFFFF;
   position: absolute;
 }
 
-videogular vg-volumebar .volumeClickArea {
+videogular vg-volume-bar .volumeClickArea {
   width: 20px;
   height: 100%;
   position: absolute;
@@ -410,36 +419,36 @@ videogular vg-play-pause-button .pause:before {
   content: "\e001";
 }
 
-videogular vg-mutebutton {
+videogular vg-mute-button {
   width: 50px;
   display: block;
 }
 
-videogular vg-mutebutton .level3:before {
+videogular vg-mute-button .level3:before {
   content: "\e002";
 }
 
-videogular vg-mutebutton .level2:before {
+videogular vg-mute-button .level2:before {
   content: "\e003";
 }
 
-videogular vg-mutebutton .level1:before {
+videogular vg-mute-button .level1:before {
   content: "\e004";
 }
 
-videogular vg-mutebutton .level0:before {
+videogular vg-mute-button .level0:before {
   content: "\e005";
 }
 
-videogular vg-mutebutton .mute:before {
+videogular vg-mute-button .mute:before {
   content: "\e006";
 }
 
-videogular vg-fullscreenButton .enter:before {
+videogular vg-fullscreen-button .enter:before {
   content: "\e007";
 }
 
-videogular vg-fullscreenButton .exit:before {
+videogular vg-fullscreen-button .exit:before {
   content: "\e008";
 }
 

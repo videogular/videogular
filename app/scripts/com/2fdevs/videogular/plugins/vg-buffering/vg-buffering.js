@@ -27,9 +27,9 @@ angular.module("com.2fdevs.videogular.plugins.buffering", [])
 		return {
 			restrict: "E",
 			require: "^videogular",
-			template: "<div class='bufferingContainer'>" +
-				"<div ng-class='spinnerClass' class='loadingSpinner'></div>" +
-				"</div>",
+      templateUrl: function(elem, attrs) {
+        return attrs.vgTemplate || 'scripts/com/2fdevs/videogular/plugins/vg-buffering/views/vg-buffering.html';
+      },
 			link: function (scope, elem, attr, API) {
 				function showSpinner() {
 					scope.spinnerClass = {stop: API.isBuffering};
