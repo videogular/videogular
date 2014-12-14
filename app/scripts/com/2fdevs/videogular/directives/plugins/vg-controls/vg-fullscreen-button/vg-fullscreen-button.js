@@ -27,7 +27,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
           vgExitFullScreenIcon: "="
         },
         templateUrl: function(elem, attrs) {
-          return attrs.vgTemplate || 'scripts/com/2fdevs/videogular/plugins/vg-controls/vg-fullscreen-button/views/vg-fullscreen-button.html';
+          return attrs.vgTemplate || 'scripts/com/2fdevs/videogular/directives/plugins/vg-controls/vg-fullscreen-button/views/vg-fullscreen-button.html';
         },
         link: function (scope, elem, attr, API) {
           function onChangeFullScreen(isFullScreen) {

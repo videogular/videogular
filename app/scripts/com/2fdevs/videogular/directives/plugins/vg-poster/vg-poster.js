@@ -30,13 +30,23 @@ angular.module("com.2fdevs.videogular.plugins.poster", [])
         restrict: "E",
         require: "^videogular",
         scope: {
-          vgUrl: "="
+          vgUrl: "=?"
         },
         templateUrl: function(elem, attrs) {
-          return attrs.vgTemplate || 'scripts/com/2fdevs/videogular/plugins/vg-poster/views/vg-poster.html';
+          return attrs.vgTemplate || 'scripts/com/2fdevs/videogular/directives/plugins/vg-poster/views/vg-poster.html';
         },
         link: function (scope, elem, attr, API) {
           scope.API = API;
+
+          if (API.isConfig) {
+            scope.$watch("API.config",
+              function() {
+                if (scope.API.config) {
+                  scope.vgUrl = scope.API.config.plugins.poster.url;
+                }
+              }
+            );
+          }
         }
       }
     }]

@@ -27,7 +27,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
         restrict: "E",
         require: "^videogular",
         templateUrl: function(elem, attrs) {
-          return attrs.vgTemplate || 'scripts/com/2fdevs/videogular/plugins/vg-controls/vg-volume/views/vg-volume-bar.html';
+          return attrs.vgTemplate || 'scripts/com/2fdevs/videogular/directives/plugins/vg-controls/vg-volume/views/vg-volume-bar.html';
         },
         link: function (scope, elem, attr, API) {
           var isChangingVolume = false;

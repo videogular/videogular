@@ -25,7 +25,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
         require: "^videogular",
         transclude: true,
         templateUrl: function(elem, attrs) {
-          return attrs.vgTemplate || 'scripts/com/2fdevs/videogular/plugins/vg-controls/vg-scrub-bar/views/vg-scrub-bar.html';
+          return attrs.vgTemplate || 'scripts/com/2fdevs/videogular/directives/plugins/vg-controls/vg-scrub-bar/views/vg-scrub-bar.html';
         },
         link: function (scope, elem, attr, API) {
           var isSeeking = false;

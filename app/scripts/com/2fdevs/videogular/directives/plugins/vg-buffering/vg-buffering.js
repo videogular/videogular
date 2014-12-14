@@ -28,7 +28,7 @@ angular.module("com.2fdevs.videogular.plugins.buffering", [])
 			restrict: "E",
 			require: "^videogular",
       templateUrl: function(elem, attrs) {
-        return attrs.vgTemplate || 'scripts/com/2fdevs/videogular/plugins/vg-buffering/views/vg-buffering.html';
+        return attrs.vgTemplate || 'scripts/com/2fdevs/videogular/directives/plugins/vg-buffering/views/vg-buffering.html';
       },
 			link: function (scope, elem, attr, API) {
 				function showSpinner() {

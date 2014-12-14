@@ -27,12 +27,12 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
 			restrict: "E",
 			require: "^videogular",
 			scope: {
-				vgNetwork: "=",
-				vgUnitPath: "=",
-				vgCompanion: "=",
-				vgCompanionSize: "=",
-				vgAdTagUrl: "=",
-				vgSkipButton: "="
+				vgNetwork: "=?",
+				vgUnitPath: "=?",
+				vgCompanion: "=?",
+				vgCompanionSize: "=?",
+				vgAdTagUrl: "=?",
+				vgSkipButton: "=?"
 			},
 			link: function (scope, elem, attr, API) {
 				var adDisplayContainer = new google.ima.AdDisplayContainer(elem[0]);
@@ -45,6 +45,8 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
 				var currentAd = 0;
 				var skipButton = angular.element(scope.vgSkipButton);
 
+        scope.API = API;
+
 				function onPlayerReady(isReady) {
 					if (isReady) {
 						API.mediaElement[0].addEventListener('ended', onContentEnded);
@@ -53,14 +55,16 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
 						adsLoader.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR, onAdError, false, this);
 
 						if (scope.vgCompanion) {
-							googletag.cmd.push(function () {
-								googletag.defineSlot("/" + scope.vgNetwork + "/" + scope.vgUnitPath, scope.vgCompanionSize, scope.vgCompanion)
-									.addService(googletag.companionAds())
-									.addService(googletag.pubads());
-								googletag.companionAds().setRefreshUnfilledSlots(true);
-								googletag.pubads().enableVideoAds();
-								googletag.enableServices();
-							});
+							googletag.cmd.push(
+                function () {
+                  googletag.defineSlot("/" + scope.vgNetwork + "/" + scope.vgUnitPath, scope.vgCompanionSize, scope.vgCompanion)
+                    .addService(googletag.companionAds())
+                    .addService(googletag.pubads());
+                  googletag.companionAds().setRefreshUnfilledSlots(true);
+                  googletag.pubads().enableVideoAds();
+                  googletag.enableServices();
+                }
+              );
 						}
 					}
 				}
@@ -80,7 +84,6 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
 							adsLoader.contentComplete();
 							break;
 					}
-
 				}
 
 				function requestAds(adTagUrl) {
@@ -191,29 +194,45 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
 					}
 				});
 
-				scope.$watch(
-					function () {
-						return API.isReady;
-					},
-					function (newVal, oldVal) {
-						if (API.isReady == true || newVal != oldVal) {
-							onPlayerReady(newVal);
-						}
-					}
-				);
+        if (API.isConfig) {
+          scope.$watch("API.config",
+            function() {
+              if (scope.API.config) {
+                scope.vgNetwork = scope.API.config.plugins["ima-ads"].network;
+                scope.vgUnitPath = scope.API.config.plugins["ima-ads"].unitPath;
+                scope.vgCompanion = scope.API.config.plugins["ima-ads"].companion;
+                scope.vgCompanionSize = scope.API.config.plugins["ima-ads"].companionSize;
+                scope.vgAdTagUrl = scope.API.config.plugins["ima-ads"].adTagUrl;
+                scope.vgSkipButton = scope.API.config.plugins["ima-ads"].skipButton;
 
-				scope.$watch(
-					function () {
-						return API.currentState;
-					},
-					function (newVal, oldVal) {
-						if (newVal != oldVal) {
-							onUpdateState(newVal);
-						}
-					}
-				);
+                onPlayerReady(true);
+              }
+            }
+          );
+        }
+
+        scope.$watch(
+          function () {
+            return API.isReady;
+          },
+          function (newVal, oldVal) {
+            if (API.isReady == true || newVal != oldVal) {
+              onPlayerReady(newVal);
+            }
+          }
+        );
+
+        scope.$watch(
+          function () {
+            return API.currentState;
+          },
+          function (newVal, oldVal) {
+            if (newVal != oldVal) {
+              onUpdateState(newVal);
+            }
+          }
+        );
 			}
 		}
-	}
-	]
+	}]
 );

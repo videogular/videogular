@@ -1,7 +1,8 @@
 "use strict";
 angular.module("com.2fdevs.videogular")
   .controller("vgController",
-    ['$scope', "$window", 'VG_UTILS', 'VG_STATES', function ($scope, $window, VG_UTILS, VG_STATES) {
+    ['$scope', '$window', 'vgConfigLoader', 'VG_UTILS', 'VG_STATES', function ($scope, $window, vgConfigLoader, VG_UTILS, VG_STATES) {
+      var ctrl = this;
       var currentTheme = null;
       var isFullScreenPressed = false;
       var isMetaDataLoaded = false;
@@ -21,10 +22,28 @@ angular.module("com.2fdevs.videogular")
       this.onVideoReady = function () {
         // Here we're in the video scope, we can't use 'this.'
         $scope.API.isReady = true;
-        $scope.API.autoPlay = $scope.autoPlay;
+        $scope.API.autoPlay = $scope.vgAutoPlay;
         $scope.API.currentState = VG_STATES.STOP;
 
         isMetaDataLoaded = true;
+
+        if ($scope.vgConfig) {
+          vgConfigLoader.loadConfig($scope.vgConfig).then(
+            function success(result) {
+              ctrl.onLoadConfig(result);
+            }
+          );
+        }
+        else {
+          $scope.vgPlayerReady({$API: $scope.API});
+        }
+      };
+
+      this.onLoadConfig = function(config) {
+        $scope.API.config = config;
+
+        $scope.vgTheme = $scope.API.config.theme;
+        $scope.vgAutoPlay = $scope.API.config.autoPlay;
 
         $scope.vgPlayerReady({$API: $scope.API});
       };
@@ -241,8 +260,9 @@ angular.module("com.2fdevs.videogular")
         $scope.API.totalTime = VG_UTILS.secondsToDate(0);
         $scope.API.timeLeft = VG_UTILS.secondsToDate(0);
         $scope.API.isLive = false;
+        $scope.API.isConfig = ($scope.vgConfig != undefined);
 
-        $scope.API.updateTheme($scope.theme);
+        $scope.API.updateTheme($scope.vgTheme);
         $scope.addBindings();
 
         if (angular.element($window)[0].fullScreenAPI) {
@@ -251,13 +271,13 @@ angular.module("com.2fdevs.videogular")
       };
 
       $scope.addBindings = function () {
-        $scope.$watch("theme", function (newValue, oldValue) {
+        $scope.$watch("vgTheme", function (newValue, oldValue) {
           if (newValue != oldValue) {
             $scope.API.updateTheme(newValue);
           }
         });
 
-        $scope.$watch("autoPlay", function (newValue, oldValue) {
+        $scope.$watch("vgAutoPlay", function (newValue, oldValue) {
           if (newValue != oldValue) {
             if (newValue) $scope.API.play();
           }

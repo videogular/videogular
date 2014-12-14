@@ -32,8 +32,9 @@ angular.module("com.2fdevs.videogular")
     return {
       restrict: "E",
       scope: {
-        theme: "=vgTheme",
-        autoPlay: "=vgAutoplay",
+        vgTheme: "=?",
+        vgAutoPlay: "=?",
+        vgConfig: "@",
         vgComplete: "&",
         vgUpdateVolume: "&",
         vgUpdateTime: "&",

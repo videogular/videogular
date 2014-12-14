@@ -18,6 +18,14 @@ angular.module('myApp',
 				templateUrl: 'views/main.html',
 				controller: 'MainCtrl'
 			})
+			.when('/audio', {
+				templateUrl: 'views/audio.html',
+				controller: 'AudioCtrl'
+			})
+			.when('/config', {
+				templateUrl: 'views/config.html',
+				controller: 'ConfigCtrl'
+			})
 			.when('/imaads', {
 				templateUrl: 'views/imaads.html',
 				controller: 'ImaAdsCtrl'
