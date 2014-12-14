@@ -33,7 +33,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
           scope.totalTime = API.totalTime;
           scope.isLive = API.isLive;
 
-          /*scope.$watch(
+          scope.$watch(
             function () {
               return API.currentTime;
             },
@@ -75,7 +75,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                 scope.isLive = newVal;
               }
             }
-          );*/
+          );
         }
       }
     }]
