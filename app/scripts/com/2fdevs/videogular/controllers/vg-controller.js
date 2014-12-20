@@ -197,10 +197,13 @@ angular.module("com.2fdevs.videogular")
       };
 
       this.updateTheme = function (value) {
+        var links = document.getElementsByTagName("link");
+        var i;
+        var l;
+
+        // Remove previous theme
         if (currentTheme) {
-          // Remove previous theme
-          var links = document.getElementsByTagName("link");
-          for (var i = 0, l = links.length; i < l; i++) {
+          for (i = 0, l = links.length; i < l; i++) {
             if (links[i].outerHTML.indexOf(currentTheme) >= 0) {
               links[i].parentNode.removeChild(links[i]);
             }
@@ -209,7 +212,17 @@ angular.module("com.2fdevs.videogular")
 
         if (value) {
           var headElem = angular.element(document).find("head");
-          headElem.append("<link rel='stylesheet' href='" + value + "'>");
+          var exists = false;
+
+          // Look if theme already exists
+          for (i = 0, l = links.length; i < l; i++) {
+            exists = (links[i].outerHTML.indexOf(value) >= 0);
+            if (exists) break;
+          }
+
+          if (!exists) {
+            headElem.append("<link rel='stylesheet' href='" + value + "'>");
+          }
 
           currentTheme = value;
         }

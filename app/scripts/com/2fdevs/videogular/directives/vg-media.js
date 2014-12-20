@@ -12,20 +12,67 @@
 "use strict";
 angular.module("com.2fdevs.videogular")
   .directive("vgMedia",
-  [function () {
+  ["$timeout", "VG_STATES", function ($timeout, VG_STATES) {
     return {
       restrict: "E",
-      require: ["^videogular", "vgMedia"],
-      controller: "vgMediaController",
+      require: "^videogular",
+      templateUrl: function(elem, attrs) {
+        return attrs.vgTemplate || 'scripts/com/2fdevs/videogular/directives/views/vg-media.html';
+      },
       scope: {
         vgSrc: "=?"
       },
-      link: function (scope, elem, attr, controllers) {
-        var API = controllers[0];
-        var mediaCtrl = controllers[1];
+      link: function (scope, elem, attr, API) {
+        var sources;
 
-        mediaCtrl.init(API);
-        mediaCtrl.compile(elem, '<video></video>');
+        // FUNCTIONS
+        scope.onChangeSource = function onChangeSource(newValue, oldValue) {
+          if ((!sources || newValue != oldValue) && newValue) {
+            sources = newValue;
+            API.sources = sources;
+            scope.changeSource();
+          }
+        };
+
+        scope.changeSource = function changeSource() {
+          var canPlay = "";
+
+          // It's a cool browser
+          if (API.mediaElement[0].canPlayType) {
+            for (var i = 0, l = sources.length; i < l; i++) {
+              canPlay = API.mediaElement[0].canPlayType(sources[i].type);
+
+              if (canPlay == "maybe" || canPlay == "probably") {
+                API.mediaElement.attr("src", sources[i].src);
+                API.mediaElement.attr("type", sources[i].type);
+                break;
+              }
+            }
+          }
+          // It's a crappy browser and it doesn't deserve any respect
+          else {
+            // Get H264 or the first one
+            API.mediaElement.attr("src", sources[0].src);
+            API.mediaElement.attr("type", sources[0].type);
+          }
+
+          $timeout(function() {
+            if (API.autoPlay && !VG_UTILS.isMobileDevice() || API.currentState === VG_STATES.PLAY) API.play();
+          });
+
+          if (canPlay == "") {
+            API.onVideoError();
+          }
+        };
+
+        // INIT
+        API.mediaElement = elem.find("video");
+        API.sources = scope.vgSrc;
+
+        API.addListeners();
+        API.onVideoReady();
+
+        scope.$watch("vgSrc", scope.onChangeSource);
 
         if (API.isConfig) {
           scope.$watch(
