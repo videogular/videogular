@@ -33,7 +33,7 @@ angular.module("com.2fdevs.videogular.plugins.poster", [])
           vgUrl: "=?"
         },
         templateUrl: function(elem, attrs) {
-          return attrs.vgTemplate || 'scripts/com/2fdevs/videogular/directives/plugins/vg-poster/views/vg-poster.html';
+          return attrs.vgTemplate || 'bower_components/vg-poster/views/vg-poster.html';
         },
         link: function (scope, elem, attr, API) {
           scope.API = API;

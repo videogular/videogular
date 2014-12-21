@@ -28,7 +28,7 @@ angular.module("com.2fdevs.videogular.plugins.overlayplay", [])
 			restrict: "E",
 			require: "^videogular",
       templateUrl: function(elem, attrs) {
-        return attrs.vgTemplate || 'scripts/com/2fdevs/videogular/directives/plugins/vg-overlay-play/views/vg-overlay-play.html';
+        return attrs.vgTemplate || 'bower_components/vg-overlay-play/views/vg-overlay-play.html';
       },
 			link: function (scope, elem, attr, API) {
 				function onComplete(target, params) {

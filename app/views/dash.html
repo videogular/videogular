@@ -7,25 +7,25 @@
         <videogular vg-player-ready="onPlayerReady($API)"
                     vg-theme="config.theme.url"
                     vg-autoplay="config.autoPlay">
-          <vg-media vg-src="config.sources" vg-tracks="config.tracks" vg-dash></vg-media>
+          <vg-media vg-src="config.sources" vg-tracks="config.tracks" vg-dash vg-template="scripts/com/2fdevs/videogular/directives/views/vg-media.html"></vg-media>
 
-          <vg-controls vg-autohide="config.autoHide" vg-autohide-time="config.autoHideTime">
-            <vg-play-pause-button></vg-play-pause-button>
+          <vg-controls vg-autohide="config.autoHide" vg-autohide-time="config.autoHideTime" vg-template="scripts/com/2fdevs/videogular/plugins/vg-controls/views/vg-controls.html">
+            <vg-play-pause-button vg-template="scripts/com/2fdevs/videogular/plugins/vg-controls/vg-play-pause-button/views/vg-play-pause-button.html"></vg-play-pause-button>
             <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
-            <vg-scrub-bar>
+            <vg-scrub-bar vg-template="scripts/com/2fdevs/videogular/plugins/vg-controls/vg-scrub-bar/views/vg-scrub-bar.html">
               <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
             </vg-scrub-bar>
             <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
             <vg-volume>
-              <vg-mute-button></vg-mute-button>
-              <vg-volume-bar></vg-volume-bar>
+              <vg-mute-button vg-template="scripts/com/2fdevs/videogular/plugins/vg-controls/vg-volume/views/vg-mute-button.html"></vg-mute-button>
+              <vg-volume-bar vg-template="scripts/com/2fdevs/videogular/plugins/vg-controls/vg-volume/views/vg-volume-bar.html"></vg-volume-bar>
             </vg-volume>
-            <vg-fullscreen-button></vg-fullscreen-button>
+            <vg-fullscreen-button vg-template="scripts/com/2fdevs/videogular/plugins/vg-controls/vg-fullscreen-button/views/vg-fullscreen-button.html"></vg-fullscreen-button>
           </vg-controls>
 
-          <vg-poster-image vg-url='config.plugins.poster.url'></vg-poster-image>
-          <vg-buffering></vg-buffering>
-          <vg-overlay-play vg-play-icon="config.theme.playIcon"></vg-overlay-play>
+          <vg-poster-image vg-url='config.plugins.poster.url' vg-template="scripts/com/2fdevs/videogular/plugins/vg-poster/views/vg-poster.html"></vg-poster-image>
+          <vg-buffering vg-template="scripts/com/2fdevs/videogular/plugins/vg-buffering/views/vg-buffering.html"></vg-buffering>
+          <vg-overlay-play vg-template="scripts/com/2fdevs/videogular/plugins/vg-overlay-play/views/vg-overlay-play.html"></vg-overlay-play>
         </videogular>
       </div>
     </div>

@@ -17,7 +17,7 @@ angular.module("com.2fdevs.videogular")
       restrict: "E",
       require: "^videogular",
       templateUrl: function(elem, attrs) {
-        return attrs.vgTemplate || 'scripts/com/2fdevs/videogular/directives/views/vg-media.html';
+        return attrs.vgTemplate || 'bower_components/videogular/views/vg-media.html';
       },
       scope: {
         vgSrc: "=?"

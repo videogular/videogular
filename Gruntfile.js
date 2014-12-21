@@ -21,71 +21,98 @@ module.exports = function(grunt) {
 				dest: 'build/themes/default/videogular.min.css'
 			}
 		},
+    concat: {
+      videogular: {
+        src: [
+          'app/scripts/com/2fdevs/videogular/vg-module.js',
+          'app/scripts/com/2fdevs/videogular/constants/*.js',
+          'app/scripts/com/2fdevs/videogular/controllers/*.js',
+          'app/scripts/com/2fdevs/videogular/directives/*.js',
+          'app/scripts/com/2fdevs/videogular/services/*.js'
+        ],
+        dest: 'build/videogular/videogular.js'
+      },
+      vgControls: {
+        src: [
+          'app/scripts/com/2fdevs/videogular/plugins/vg-controls/vg-controls.js',
+          'app/scripts/com/2fdevs/videogular/plugins/vg-controls/**/*.js'
+        ],
+        dest: 'build/controls/vg-controls.js'
+      }
+    },
 		uglify: {
 			js: {
 				files: {
-					'build/videogular/videogular.min.js': ['app/scripts/com/2fdevs/videogular/videogular.js'],
-					'build/buffering/buffering.min.js': ['app/scripts/com/2fdevs/videogular/plugins/buffering.js'],
-					'build/controls/controls.min.js': ['app/scripts/com/2fdevs/videogular/plugins/controls.js'],
-					'build/ima-ads/ima-ads.min.js': ['app/scripts/com/2fdevs/videogular/plugins/ima-ads.js'],
-					'build/overlay-play/overlay-play.min.js': ['app/scripts/com/2fdevs/videogular/plugins/overlay-play.js'],
-					'build/poster/poster.min.js': ['app/scripts/com/2fdevs/videogular/plugins/poster.js'],
-					'build/dash/dash.min.js': ['app/scripts/com/2fdevs/videogular/plugins/dash.js']
+					'build/videogular/videogular.min.js': ['build/videogular/videogular.js'],
+					'build/buffering/vg-buffering.min.js': ['app/scripts/com/2fdevs/videogular/plugins/vg-buffering/vg-buffering.js'],
+					'build/controls/vg-controls.min.js': ['build/controls/vg-controls.js'],
+					'build/ima-ads/vg-ima-ads.min.js': ['app/scripts/com/2fdevs/videogular/plugins/vg-ima-ads/vg-ima-ads.js'],
+					'build/overlay-play/vg-overlay-play.min.js': ['app/scripts/com/2fdevs/videogular/plugins/vg-overlay-play/vg-overlay-play.js'],
+					'build/poster/vg-poster.min.js': ['app/scripts/com/2fdevs/videogular/plugins/vg-poster/vg-poster.js'],
+					'build/dash/vg-dash.min.js': ['app/scripts/com/2fdevs/videogular/plugins/vg-dash/vg-dash.js']
 				}
 			}
 		},
 		copy: {
-			main: {
+      main: {
 				files: [
 					{
-						src: ['app/scripts/com/2fdevs/videogular/videogular.js'],
-						dest: 'build/videogular/videogular.js',
-						filter: 'isFile'
+            expand: true,
+            cwd: 'app/scripts/com/2fdevs/videogular/directives/views/',
+						src: ['**'],
+						dest: 'build/videogular/views/'
 					},
-					{
-						expand: true,
-						flatten: true,
-						src: ['app/styles/themes/default/fonts/**'],
-						dest: 'build/themes/default/fonts/',
-						filter: 'isFile'
-					},
-					{
-						src: ['app/styles/themes/default/videogular.css'],
-						dest: 'build/themes/default/videogular.css',
-						filter: 'isFile'
-					},
-					{
-						src: ['app/scripts/com/2fdevs/videogular/plugins/buffering.js'],
-						dest: 'build/buffering/buffering.js',
-						filter: 'isFile'
-					},
-					{
-						src: ['app/scripts/com/2fdevs/videogular/plugins/controls.js'],
-						dest: 'build/controls/controls.js',
-						filter: 'isFile'
-					},
-					{
-						src: ['app/scripts/com/2fdevs/videogular/plugins/ima-ads.js'],
-						dest: 'build/ima-ads/ima-ads.js',
-						filter: 'isFile'
-					},
-					{
-						src: ['app/scripts/com/2fdevs/videogular/plugins/overlay-play.js'],
-						dest: 'build/overlay-play/overlay-play.js',
-						filter: 'isFile'
-					},
-					{
-						src: ['app/scripts/com/2fdevs/videogular/plugins/poster.js'],
-						dest: 'build/poster/poster.js',
-						filter: 'isFile'
-					},
-					{
-						src: ['app/scripts/com/2fdevs/videogular/plugins/dash.js'],
-						dest: 'build/dash/dash.js',
-						filter: 'isFile'
-					}
-				]
-			},
+          {
+            expand: true,
+            cwd: 'app/styles/themes/default/',
+            src: ['**'],
+            dest: 'build/themes/default/'
+          },
+          {
+            expand: true,
+            cwd: 'app/scripts/com/2fdevs/videogular/plugins/vg-buffering/',
+            src: ['**'],
+            dest: 'build/buffering/'
+          },
+          {
+            expand: true,
+            flatten: true,
+            cwd: 'app/scripts/com/2fdevs/videogular/plugins/vg-controls/',
+            src: [
+              'views/*.html',
+              'vg-fullscreen-button/views/*.html',
+              'vg-play-pause-button/views/*.html',
+              'vg-scrub-bar/views/*.html',
+              'vg-volume/views/*.html'
+            ],
+            dest: 'build/controls/views/'
+          },
+          {
+            expand: true,
+            cwd: 'app/scripts/com/2fdevs/videogular/plugins/vg-ima-ads/',
+            src: ['**'],
+            dest: 'build/ima-ads'
+          },
+          {
+            expand: true,
+            cwd: 'app/scripts/com/2fdevs/videogular/plugins/vg-overlay-play/',
+            src: ['**'],
+            dest: 'build/overlay-play'
+          },
+          {
+            expand: true,
+            cwd: 'app/scripts/com/2fdevs/videogular/plugins/vg-poster/',
+            src: ['**'],
+            dest: 'build/poster'
+          },
+          {
+            expand: true,
+            cwd: 'app/scripts/com/2fdevs/videogular/plugins/vg-dash/',
+            src: ['**'],
+            dest: 'build/dash'
+          }
+        ]
+      },
 			release: {
 				files: [
 					{
@@ -225,10 +252,11 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-hub');
 	grunt.loadNpmTasks('grunt-ngdocs');
 
-	grunt.registerTask('default', ['clean:build', 'cssmin:css', 'uglify:js', 'copy:main', 'copy:release']);
+	grunt.registerTask('default', ['clean:build', 'cssmin:css', 'concat', 'uglify:js', 'copy:main', 'copy:release']);
 	grunt.registerTask('docs', ['clean:docs', 'ngdocs']);
 	grunt.registerTask('major-release', ['default', 'hub:major']);
 	grunt.registerTask('minor-release', ['default', 'hub:minor']);

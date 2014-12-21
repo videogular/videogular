@@ -23,7 +23,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
         restrict: "E",
         require: "^videogular",
         templateUrl: function(elem, attrs) {
-          return attrs.vgTemplate || 'scripts/com/2fdevs/videogular/directives/plugins/vg-controls/vg-play-pause-button/views/vg-play-pause-button.html';
+          return attrs.vgTemplate || 'bower_components/vg-controls/views/vg-play-pause-button.html';
         },
         link: function (scope, elem, attr, API) {
           function setState(newState) {

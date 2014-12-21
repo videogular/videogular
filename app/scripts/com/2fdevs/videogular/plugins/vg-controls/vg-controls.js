@@ -32,7 +32,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
         require: "^videogular",
         transclude: true,
         templateUrl: function(elem, attrs) {
-          return attrs.vgTemplate || 'scripts/com/2fdevs/videogular/directives/plugins/vg-controls/views/vg-controls.html';
+          return attrs.vgTemplate || 'bower_components/vg-controls/views/vg-controls.html';
         },
         scope: {
           vgAutohide: "=?",
