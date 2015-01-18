@@ -32,7 +32,7 @@ angular.module("com.2fdevs.videogular.plugins.analytics", ["angulartics"])
       restrict: "E",
       require: "^videogular",
       scope: {
-        vgTrackInfo: "="
+        vgTrackInfo: "=?"
       },
       link: function (scope, elem, attr, API) {
         var info = null;
@@ -40,12 +40,7 @@ angular.module("com.2fdevs.videogular.plugins.analytics", ["angulartics"])
         var totalISO = null;
         var progressTracks = [];
 
-        if (scope.vgTrackInfo.category || scope.vgTrackInfo.label) {
-          info = {};
-
-          if (scope.vgTrackInfo.category) info.category = scope.vgTrackInfo.category;
-          if (scope.vgTrackInfo.label) info.label = scope.vgTrackInfo.label;
-        }
+        scope.API = API;
 
         scope.trackEvent = function trackEvent(eventName) {
           $analytics.eventTrack(eventName, info);
@@ -92,72 +87,95 @@ angular.module("com.2fdevs.videogular.plugins.analytics", ["angulartics"])
           }
         };
 
-        // Add ready track event
-        if (scope.vgTrackInfo.events.ready) {
-          scope.$watch(
-            function () {
-              return API.isReady;
-            },
-            function (newVal, oldVal) {
-              scope.onPlayerReady(newVal);
-            }
-          );
-        }
+        scope.addWatchers = function() {
+          if (scope.vgTrackInfo.category || scope.vgTrackInfo.label) {
+            info = {};
 
-        // Add state track event
-        if (scope.vgTrackInfo.events.play || scope.vgTrackInfo.events.pause || scope.vgTrackInfo.events.stop) {
-          scope.$watch(
-            function () {
-              return API.currentState;
-            },
-            function (newVal, oldVal) {
-              if (newVal != oldVal) scope.onChangeState(newVal);
-            }
-          );
-        }
+            if (scope.vgTrackInfo.category) info.category = scope.vgTrackInfo.category;
+            if (scope.vgTrackInfo.label) info.label = scope.vgTrackInfo.label;
+          }
 
-        // Add complete track event
-        if (scope.vgTrackInfo.events.complete) {
-          scope.$watch(
-            function () {
-              return API.isCompleted;
-            },
-            function (newVal, oldVal) {
-              scope.onCompleteVideo(newVal);
-            }
-          );
-        }
+          // Add ready track event
+          if (scope.vgTrackInfo.events.ready) {
+            scope.$watch(
+              function () {
+                return API.isReady;
+              },
+              function (newVal, oldVal) {
+                scope.onPlayerReady(newVal);
+              }
+            );
+          }
 
-        // Add progress track event
-        if (scope.vgTrackInfo.events.progress) {
-          scope.$watch(
-            function () {
-              return API.currentTime;
-            },
-            function (newVal, oldVal) {
-              scope.onUpdateTime(newVal);
-            }
-          );
+          // Add state track event
+          if (scope.vgTrackInfo.events.play || scope.vgTrackInfo.events.pause || scope.vgTrackInfo.events.stop) {
+            scope.$watch(
+              function () {
+                return API.currentState;
+              },
+              function (newVal, oldVal) {
+                if (newVal != oldVal) scope.onChangeState(newVal);
+              }
+            );
+          }
 
-          var totalTimeWatch = scope.$watch(
-            function () {
-              return API.totalTime;
-            },
-            function (newVal, oldVal) {
-              totalISO = newVal.getTime() - (newVal.getTimezoneOffset() * 60000);
+          // Add complete track event
+          if (scope.vgTrackInfo.events.complete) {
+            scope.$watch(
+              function () {
+                return API.isCompleted;
+              },
+              function (newVal, oldVal) {
+                scope.onCompleteVideo(newVal);
+              }
+            );
+          }
 
-              if (totalISO > 0) {
-                var totalTracks = scope.vgTrackInfo.events.progress - 1;
-                var progressJump = Math.floor(totalISO / scope.vgTrackInfo.events.progress);
+          // Add progress track event
+          if (scope.vgTrackInfo.events.progress) {
+            scope.$watch(
+              function () {
+                return API.currentTime;
+              },
+              function (newVal, oldVal) {
+                scope.onUpdateTime(newVal);
+              }
+            );
 
-                for (var i=0; i<totalTracks; i++) {
-                  progressTracks.push({percent: (i + 1) * scope.vgTrackInfo.events.progress, jump: (i + 1) * progressJump});
+            var totalTimeWatch = scope.$watch(
+              function () {
+                return API.totalTime;
+              },
+              function (newVal, oldVal) {
+                totalISO = newVal.getTime() - (newVal.getTimezoneOffset() * 60000);
+
+                if (totalISO > 0) {
+                  var totalTracks = scope.vgTrackInfo.events.progress - 1;
+                  var progressJump = Math.floor(totalISO / scope.vgTrackInfo.events.progress);
+
+                  for (var i=0; i<totalTracks; i++) {
+                    progressTracks.push({percent: (i + 1) * scope.vgTrackInfo.events.progress, jump: (i + 1) * progressJump});
+                  }
+
+                  totalTimeWatch();
                 }
+              }
+            );
+          }
+        };
 
-                totalTimeWatch();
+        if (API.isConfig) {
+          scope.$watch("API.config",
+            function() {
+              if (scope.API.config) {
+                scope.vgTrackInfo = scope.API.config.plugins.analytics;
+                scope.addWatchers();
               }
             }
           );
+        }
+        else {
+          scope.addWatchers();
         }
       }
     }
