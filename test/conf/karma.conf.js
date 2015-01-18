@@ -11,11 +11,13 @@ module.exports = function (config) {
 
     // list of files / patterns to load in the browser
     files: [
-
       'test/libs/jquery/2.1.0/jquery-2.1.0.min.js',
       'app/bower_components/angular/angular.js',
       'app/bower_components/angular-sanitize/angular-sanitize.js',
       'app/bower_components/angular-mocks/angular-mocks.js',
+      'app/bower_components/angulartics/src/angulartics.js',
+      'app/bower_components/angulartics/src/angulartics-ga.js',
+      'app/scripts/dash/dash.all.js',
 
       'app/scripts/com/2fdevs/videogular/vg-module.js',
       'app/scripts/com/2fdevs/videogular/**/*.js',
@@ -30,10 +32,6 @@ module.exports = function (config) {
     // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
     logLevel: config.LOG_INFO,
 
-    // Colors default true
-    colors: true,
-
-
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: true,
 
@@ -46,13 +44,14 @@ module.exports = function (config) {
     // - Safari (only Mac)
     // - PhantomJS
     // - IE (only Windows)
-    browsers: ['Chrome'],
+    browsers: ['Chrome', 'Firefox'],
 
     plugins: [
       'karma-jasmine',
       'karma-junit-reporter',
       'karma-coverage',
       'karma-chrome-launcher',
+      'karma-firefox-launcher',
       'karma-script-launcher',
       'karma-ng-html2js-preprocessor'
     ],
@@ -84,8 +83,8 @@ module.exports = function (config) {
       // source files, that you wanna generate coverage for
       // do not include tests or libraries
       // (these files will be instrumented by Istanbul)
-      'app/scripts/**/*.js': ['coverage'],
-      'app/scripts/**/*.html': ['ng-html2js']
+      'app/scripts/com/2fdevs/videogular/**/!(vg-ima-ads)/*.js': ['coverage'],
+      'app/scripts/com/2fdevs/videogular/**/*.html': ['ng-html2js']
     },
 
     ngHtml2JsPreprocessor: {
@@ -96,10 +95,6 @@ module.exports = function (config) {
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
-    singleRun: false,
-
-    proxies:  {
-      '/mocks': 'http://localhost:8060/mocks'
-    }
+    singleRun: false
   });
 };

@@ -31,42 +31,42 @@ angular.module("com.2fdevs.videogular.plugins.buffering", [])
         return attrs.vgTemplate || 'bower_components/vg-buffering/views/vg-buffering.html';
       },
 			link: function (scope, elem, attr, API) {
-				function showSpinner() {
+        scope.showSpinner = function showSpinner() {
 					scope.spinnerClass = {stop: API.isBuffering};
 					elem.css("display", "block");
-				}
+				};
 
-				function hideSpinner() {
+        scope.hideSpinner = function hideSpinner() {
 					scope.spinnerClass = {stop: API.isBuffering};
 					elem.css("display", "none");
-				}
+				};
 
-				function setState(isBuffering) {
+        scope.setState = function setState(isBuffering) {
 					if (isBuffering) {
-						showSpinner();
+            scope.showSpinner();
 					}
 					else {
-						hideSpinner();
+            scope.hideSpinner();
 					}
-				}
+				};
 
-				function onStateChange(state) {
+        scope.onStateChange = function onStateChange(state) {
 					if (state == VG_STATES.STOP) {
-            hideSpinner();
+            scope.hideSpinner();
 					}
-				}
+				};
 
-				function onPlayerReady(isReady) {
+        scope.onPlayerReady = function onPlayerReady(isReady) {
 					if (isReady) {
-						hideSpinner();
+            scope.hideSpinner();
 					}
-				}
+				};
 
-				showSpinner();
+        scope.showSpinner();
 
 				// Workaround for issue #16: https://github.com/2fdevs/videogular/issues/16
 				if (VG_UTILS.isMobileDevice()) {
-					hideSpinner();
+          scope.hideSpinner();
 				}
 				else {
 					scope.$watch(
@@ -75,7 +75,7 @@ angular.module("com.2fdevs.videogular.plugins.buffering", [])
 						},
 						function (newVal, oldVal) {
 							if (API.isReady == true || newVal != oldVal) {
-								onPlayerReady(newVal);
+                scope.onPlayerReady(newVal);
 							}
 						}
 					);
@@ -87,7 +87,7 @@ angular.module("com.2fdevs.videogular.plugins.buffering", [])
 					},
 					function (newVal, oldVal) {
 						if (newVal != oldVal) {
-							onStateChange(newVal);
+              scope.onStateChange(newVal);
 						}
 					}
 				);
@@ -98,7 +98,7 @@ angular.module("com.2fdevs.videogular.plugins.buffering", [])
 					},
 					function (newVal, oldVal) {
 						if (newVal != oldVal) {
-							setState(newVal);
+              scope.setState(newVal);
 						}
 					}
 				);

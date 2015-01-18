@@ -22,11 +22,12 @@ angular.module("com.2fdevs.videogular.plugins.controls")
       return {
         restrict: "E",
         require: "^videogular",
+        scope: {},
         templateUrl: function(elem, attrs) {
           return attrs.vgTemplate || 'bower_components/vg-controls/views/vg-play-pause-button.html';
         },
         link: function (scope, elem, attr, API) {
-          function setState(newState) {
+          scope.setState = function setState(newState) {
             switch (newState) {
               case VG_STATES.PLAY:
                 scope.playPauseIcon = {pause: true};
@@ -40,7 +41,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                 scope.playPauseIcon = {play: true};
                 break;
             }
-          }
+          };
 
           scope.onClickPlayPause = function onClickPlayPause() {
             API.playPause();
@@ -54,7 +55,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
             },
             function (newVal, oldVal) {
               if (newVal != oldVal) {
-                setState(newVal);
+                scope.setState(newVal);
               }
             }
           );

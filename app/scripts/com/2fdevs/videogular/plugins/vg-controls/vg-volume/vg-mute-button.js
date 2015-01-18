@@ -47,15 +47,15 @@ angular.module("com.2fdevs.videogular.plugins.controls")
             API.setVolume(scope.currentVolume);
           };
 
-          scope.onMuteButtonFocus = function() {
-            scope.volumeVisibility = 'visible';
+          scope.onMuteButtonFocus = function onMuteButtonFocus() {
+            scope.volumeVisibility = "visible";
           };
 
-          scope.onMuteButtonLoseFocus = function() {
-            scope.volumeVisibility = 'hidden';
+          scope.onMuteButtonLoseFocus = function onMuteButtonLoseFocus() {
+            scope.volumeVisibility = "hidden";
           };
 
-          scope.onMuteButtonKeyDown = function(event) {
+          scope.onMuteButtonKeyDown = function onMuteButtonKeyDown(event) {
             var currentVolume = (API.volume != null) ? API.volume : 1;
             var newVolume;
 
@@ -75,7 +75,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
             }
           };
 
-          function onSetVolume(newVolume) {
+          scope.onSetVolume = function onSetVolume(newVolume) {
             scope.currentVolume = newVolume;
 
             // TODO: Save volume with LocalStorage
@@ -106,7 +106,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
             else if (percentValue >= 75) {
               scope.muteIcon = {level3: true};
             }
-          }
+          };
 
           scope.defaultVolume = 1;
           scope.currentVolume = scope.defaultVolume;
@@ -120,7 +120,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
             },
             function (newVal, oldVal) {
               if (newVal != oldVal) {
-                onSetVolume(newVal);
+                scope.onSetVolume(newVal);
               }
             }
           );

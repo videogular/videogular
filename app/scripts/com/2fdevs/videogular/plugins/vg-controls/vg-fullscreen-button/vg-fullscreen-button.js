@@ -22,23 +22,19 @@ angular.module("com.2fdevs.videogular.plugins.controls")
       return {
         restrict: "E",
         require: "^videogular",
-        scope: {
-          vgEnterFullScreenIcon: "=",
-          vgExitFullScreenIcon: "="
-        },
+        scope: {},
         templateUrl: function(elem, attrs) {
           return attrs.vgTemplate || 'bower_components/vg-controls/views/vg-fullscreen-button.html';
         },
         link: function (scope, elem, attr, API) {
-          function onChangeFullScreen(isFullScreen) {
+          scope.onChangeFullScreen = function onChangeFullScreen(isFullScreen) {
             scope.fullscreenIcon = {enter: !isFullScreen, exit: isFullScreen};
-          }
+          };
 
           scope.onClickFullScreen = function onClickFullScreen() {
             API.toggleFullScreen();
           };
 
-          scope.fullscreenIcon = {exit: false};
           scope.fullscreenIcon = {enter: true};
 
           scope.$watch(
@@ -47,7 +43,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
             },
             function (newVal, oldVal) {
               if (newVal != oldVal) {
-                onChangeFullScreen(newVal);
+                scope.onChangeFullScreen(newVal);
               }
             }
           );

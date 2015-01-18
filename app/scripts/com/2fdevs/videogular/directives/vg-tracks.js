@@ -12,7 +12,7 @@ angular.module("com.2fdevs.videogular")
           var i;
           var l;
 
-          function changeSource() {
+          scope.changeSource = function changeSource() {
             // Remove previous tracks
             var oldTracks = API.mediaElement.children();
 
@@ -36,14 +36,14 @@ angular.module("com.2fdevs.videogular")
                 API.mediaElement.append(trackText);
               }
             }
-          }
+          };
 
-          function setTracks(value) {
+          scope.setTracks = function setTracks(value) {
             // Add tracks to the API to have it available for other plugins (like controls)
             tracks = value;
             API.tracks = value;
-            changeSource();
-          }
+            scope.changeSource();
+          };
 
           if (API.isConfig) {
             scope.$watch(
@@ -52,7 +52,7 @@ angular.module("com.2fdevs.videogular")
               },
               function() {
                 if (API.config) {
-                  setTracks(API.config.tracks);
+                  scope.setTracks(API.config.tracks);
                 }
               }
             );
@@ -60,9 +60,7 @@ angular.module("com.2fdevs.videogular")
           else {
             scope.$watch(attr.vgTracks, function (newValue, oldValue) {
               if ((!tracks || newValue != oldValue)) {
-
-
-                setTracks(newValue);
+                scope.setTracks(newValue);
               }
             });
           }

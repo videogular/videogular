@@ -9,14 +9,14 @@ angular.module("com.2fdevs.videogular")
         pre: function (scope, elem, attr, API) {
           var preload;
 
-          function setPreload(value) {
+          scope.setPreload = function setPreload(value) {
             if (value) {
               API.mediaElement.attr("preload", value);
             }
             else {
               API.mediaElement.removeAttr("preload");
             }
-          }
+          };
 
           if (API.isConfig) {
             scope.$watch(
@@ -25,7 +25,7 @@ angular.module("com.2fdevs.videogular")
               },
               function() {
                 if (API.config) {
-                  setPreload(API.config.preload);
+                  scope.setPreload(API.config.preload);
                 }
               }
             );
@@ -34,10 +34,10 @@ angular.module("com.2fdevs.videogular")
             scope.$watch(attr.vgPreload, function (newValue, oldValue) {
               if ((!preload || newValue != oldValue) && newValue) {
                 preload = newValue;
-                setPreload(preload);
+                scope.setPreload(preload);
               }
               else {
-                setPreload();
+                scope.setPreload();
               }
             });
           }

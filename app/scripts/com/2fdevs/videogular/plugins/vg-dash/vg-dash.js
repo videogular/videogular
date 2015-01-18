@@ -31,15 +31,15 @@ angular.module("com.2fdevs.videogular.plugins.dash", [])
         var context;
         var player;
 
-        function isDASH(url) {
+        scope.isDASH = function isDASH(url) {
           if (url.indexOf) {
             return (url.indexOf(".mpd") > 0);
           }
-        }
+        };
 
-        function onSourceChange(url) {
+        scope.onSourceChange = function onSourceChange(url) {
           // It's DASH, we use Dash.js
-          if (isDASH(url)) {
+          if (scope.isDASH(url)) {
             context = new Dash.di.DashContext();
             player = new MediaPlayer(context);
             player.setAutoPlay(API.autoPlay);
@@ -53,14 +53,14 @@ angular.module("com.2fdevs.videogular.plugins.dash", [])
               player = null;
             }
           }
-        }
+        };
 
         scope.$watch(
           function () {
             return API.sources;
           },
           function (newVal, oldVal) {
-            onSourceChange(newVal[0].src);
+            scope.onSourceChange(newVal[0].src);
           }
         );
       }

@@ -47,50 +47,50 @@ angular.module("com.2fdevs.videogular.plugins.analytics", ["angulartics"])
           if (scope.vgTrackInfo.label) info.label = scope.vgTrackInfo.label;
         }
 
-        function trackEvent(eventName) {
+        scope.trackEvent = function trackEvent(eventName) {
           $analytics.eventTrack(eventName, info);
-        }
+        };
 
-        function onPlayerReady(isReady) {
+        scope.onPlayerReady = function onPlayerReady(isReady) {
           if (isReady) {
-              trackEvent("ready");
+            scope.trackEvent("ready");
           }
-        }
+        };
 
-        function onChangeState(state) {
+        scope.onChangeState = function onChangeState(state) {
           currentState = state;
 
           switch(state) {
             case VG_STATES.PLAY:
-              if (scope.vgTrackInfo.events.play) trackEvent("play");
+              if (scope.vgTrackInfo.events.play) scope.trackEvent("play");
               break;
 
             case VG_STATES.PAUSE:
-              if (scope.vgTrackInfo.events.pause) trackEvent("pause");
+              if (scope.vgTrackInfo.events.pause) scope.trackEvent("pause");
               break;
 
             case VG_STATES.STOP:
-              if (scope.vgTrackInfo.events.stop) trackEvent("stop");
+              if (scope.vgTrackInfo.events.stop) scope.trackEvent("stop");
               break;
           }
-        }
+        };
 
-        function onCompleteVideo(isCompleted) {
+        scope.onCompleteVideo = function onCompleteVideo(isCompleted) {
           if (isCompleted) {
-            trackEvent("complete");
+            scope.trackEvent("complete");
           }
-        }
+        };
 
-        function onUpdateTime(newCurrentTime) {
+        scope.onUpdateTime = function onUpdateTime(newCurrentTime) {
           var currentISO = newCurrentTime.getTime() - (API.totalTime.getTimezoneOffset() * 60000);
 
           if (currentISO && totalISO) {
             if (progressTracks.length > 0 && currentISO >= progressTracks[0].jump) {
-              trackEvent("progress " + progressTracks[0].percent + "%");
+              scope.trackEvent("progress " + progressTracks[0].percent + "%");
               progressTracks.shift();
             }
           }
-        }
+        };
 
         // Add ready track event
         if (scope.vgTrackInfo.events.ready) {
@@ -99,7 +99,7 @@ angular.module("com.2fdevs.videogular.plugins.analytics", ["angulartics"])
               return API.isReady;
             },
             function (newVal, oldVal) {
-              onPlayerReady(newVal);
+              scope.onPlayerReady(newVal);
             }
           );
         }
@@ -111,7 +111,7 @@ angular.module("com.2fdevs.videogular.plugins.analytics", ["angulartics"])
               return API.currentState;
             },
             function (newVal, oldVal) {
-              if (newVal != oldVal) onChangeState(newVal);
+              if (newVal != oldVal) scope.onChangeState(newVal);
             }
           );
         }
@@ -123,7 +123,7 @@ angular.module("com.2fdevs.videogular.plugins.analytics", ["angulartics"])
               return API.isCompleted;
             },
             function (newVal, oldVal) {
-              onCompleteVideo(newVal);
+              scope.onCompleteVideo(newVal);
             }
           );
         }
@@ -135,7 +135,7 @@ angular.module("com.2fdevs.videogular.plugins.analytics", ["angulartics"])
               return API.currentTime;
             },
             function (newVal, oldVal) {
-              onUpdateTime(newVal);
+              scope.onUpdateTime(newVal);
             }
           );
 

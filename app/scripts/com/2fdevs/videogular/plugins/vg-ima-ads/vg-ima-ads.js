@@ -47,12 +47,12 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
 
         scope.API = API;
 
-				function onPlayerReady(isReady) {
+        scope.onPlayerReady = function onPlayerReady(isReady) {
 					if (isReady) {
 						API.mediaElement[0].addEventListener('ended', onContentEnded);
 
-						adsLoader.addEventListener(google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED, onAdsManagerLoaded, false, this);
-						adsLoader.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR, onAdError, false, this);
+						adsLoader.addEventListener(google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED, scope.onAdsManagerLoaded, false, this);
+						adsLoader.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR, scope.onAdError, false, this);
 
 						if (scope.vgCompanion) {
 							googletag.cmd.push(
@@ -67,28 +67,28 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
               );
 						}
 					}
-				}
+				};
 
-				function onUpdateState(newState) {
-					switch (newState) {
-						case VG_STATES.PLAY:
-							if (!adsLoaded) {
-								API.pause();
-								adDisplayContainer.initialize();
-								requestAds(scope.vgAdTagUrl);
-								adsLoaded = true;
-							}
-							break;
+        scope.onUpdateState = function onUpdateState(newState) {
+          switch (newState) {
+            case VG_STATES.PLAY:
+              if (!adsLoaded) {
+                API.pause();
+                adDisplayContainer.initialize();
+                scope.requestAds(scope.vgAdTagUrl);
+                adsLoaded = true;
+              }
+              break;
 
-						case VG_STATES.STOP:
-							adsLoader.contentComplete();
-							break;
-					}
-				}
+            case VG_STATES.STOP:
+              adsLoader.contentComplete();
+              break;
+          }
+        };
 
-				function requestAds(adTagUrl) {
+        scope.requestAds = function requestAds(adTagUrl) {
 					// Show only to get computed style in pixels
-					show();
+          scope.show();
 
 					var adsRequest = new google.ima.AdsRequest();
 					var computedStyle = $window.getComputedStyle(elem[0]);
@@ -100,31 +100,31 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
 					adsRequest.nonLinearAdSlotHeight = parseInt(computedStyle.height, 10);
 
 					adsLoader.requestAds(adsRequest);
-				}
+				};
 
-				function onAdsManagerLoaded(adsManagerLoadedEvent) {
-					show();
+        scope.onAdsManagerLoaded = function onAdsManagerLoaded(adsManagerLoadedEvent) {
+          scope.show();
 					adsManager = adsManagerLoadedEvent.getAdsManager(API.mediaElement[0]);
-					processAdsManager(adsManager);
-				}
+          scope.processAdsManager(adsManager);
+				};
 
-				function processAdsManager(adsManager) {
+        scope.processAdsManager = function processAdsManager(adsManager) {
           w = API.videogularElement[0].offsetWidth;
           h = API.videogularElement[0].offsetHeight;
 
 					// Attach the pause/resume events.
-					adsManager.addEventListener(google.ima.AdEvent.Type.CONTENT_PAUSE_REQUESTED, onContentPauseRequested, false, this);
-					adsManager.addEventListener(google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED, onContentResumeRequested, false, this);
-					adsManager.addEventListener(google.ima.AdEvent.Type.SKIPPABLE_STATE_CHANGED, onSkippableStateChanged, false, this);
-					adsManager.addEventListener(google.ima.AdEvent.Type.ALL_ADS_COMPLETED, onAllAdsComplete, false, this);
-					adsManager.addEventListener(google.ima.AdEvent.Type.COMPLETE, onAdComplete, false, this);
-					adsManager.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR, onAdError, false, this);
+					adsManager.addEventListener(google.ima.AdEvent.Type.CONTENT_PAUSE_REQUESTED, scope.onContentPauseRequested, false, this);
+					adsManager.addEventListener(google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED, scope.onContentResumeRequested, false, this);
+					adsManager.addEventListener(google.ima.AdEvent.Type.SKIPPABLE_STATE_CHANGED, scope.onSkippableStateChanged, false, this);
+					adsManager.addEventListener(google.ima.AdEvent.Type.ALL_ADS_COMPLETED, scope.onAllAdsComplete, false, this);
+					adsManager.addEventListener(google.ima.AdEvent.Type.COMPLETE, scope.onAdComplete, false, this);
+					adsManager.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR, scope.onAdError, false, this);
 
 					adsManager.init(w, h, google.ima.ViewMode.NORMAL);
 					adsManager.start();
-				}
+				};
 
-				function onSkippableStateChanged() {
+        scope.onSkippableStateChanged = function onSkippableStateChanged() {
 					var isSkippable = adsManager.getAdSkippableState();
 
 					if (isSkippable) {
@@ -133,50 +133,50 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
 					else {
 						skipButton.css("display", "none");
 					}
-				}
+				};
 
-				function onClickSkip() {
+        scope.onClickSkip = function onClickSkip() {
 					adsManager.skip();
-				}
+				};
 
-				function onContentPauseRequested() {
-					show();
+        scope.onContentPauseRequested = function onContentPauseRequested() {
+          scope.show();
 					API.mediaElement[0].removeEventListener('ended', onContentEnded);
 					API.pause();
-				}
+				};
 
-				function onContentResumeRequested() {
+        scope.onContentResumeRequested = function onContentResumeRequested() {
 					API.mediaElement[0].addEventListener('ended', onContentEnded);
 
 					API.play();
-					hide();
-				}
+          scope.hide();
+				};
 
-				function onAdError() {
+        scope.onAdError = function onAdError() {
 					if (adsManager) adsManager.destroy();
-					hide();
+          scope.hide();
 					API.play();
-				}
+				};
 
-				function onAllAdsComplete() {
-					hide();
+        scope.onAllAdsComplete = function onAllAdsComplete() {
+          scope.hide();
           API.stop();
-				}
+				};
 
-				function onAdComplete() {
+        scope.onAdComplete = function onAdComplete() {
 					// TODO: Update view with current ad count
 					currentAd++;
-				}
+				};
 
-				function show() {
+        scope.show = function show() {
 					elem.css("display", "block");
-				}
+				};
 
-				function hide() {
+        scope.hide = function hide() {
 					elem.css("display", "none");
-				}
+				};
 
-				skipButton.bind("click", onClickSkip);
+				skipButton.bind("click", scope.onClickSkip);
 
 				elem.prepend(skipButton);
 
@@ -205,7 +205,7 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
                 scope.vgAdTagUrl = scope.API.config.plugins["ima-ads"].adTagUrl;
                 scope.vgSkipButton = scope.API.config.plugins["ima-ads"].skipButton;
 
-                onPlayerReady(true);
+                scope.onPlayerReady(true);
               }
             }
           );
@@ -217,7 +217,7 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
           },
           function (newVal, oldVal) {
             if (API.isReady == true || newVal != oldVal) {
-              onPlayerReady(newVal);
+              scope.onPlayerReady(newVal);
             }
           }
         );
@@ -228,7 +228,7 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
           },
           function (newVal, oldVal) {
             if (newVal != oldVal) {
-              onUpdateState(newVal);
+              scope.onUpdateState(newVal);
             }
           }
         );

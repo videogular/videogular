@@ -31,15 +31,7 @@ angular.module("com.2fdevs.videogular.plugins.overlayplay", [])
         return attrs.vgTemplate || 'bower_components/vg-overlay-play/views/vg-overlay-play.html';
       },
 			link: function (scope, elem, attr, API) {
-				function onComplete(target, params) {
-					scope.overlayPlayIcon = {play: true};
-				}
-
-				function onPlay(target, params) {
-					scope.overlayPlayIcon = {};
-				}
-
-				function onChangeState(newState) {
+        scope.onChangeState = function onChangeState(newState) {
 					switch (newState) {
 						case VG_STATES.PLAY:
 							scope.overlayPlayIcon = {};
@@ -53,7 +45,7 @@ angular.module("com.2fdevs.videogular.plugins.overlayplay", [])
 							scope.overlayPlayIcon = {play: true};
 							break;
 					}
-				}
+				};
 
 				scope.onClickOverlayPlay = function onClickOverlayPlay(event) {
 					API.playPause();
@@ -67,7 +59,7 @@ angular.module("com.2fdevs.videogular.plugins.overlayplay", [])
 					},
 					function (newVal, oldVal) {
 						if (newVal != oldVal) {
-							onChangeState(newVal);
+              scope.onChangeState(newVal);
 						}
 					}
 				);

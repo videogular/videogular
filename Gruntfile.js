@@ -1,20 +1,14 @@
 module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
-		karma: {
-			build: {
-				configFile: 'karma.conf.js',
-				singleRun: true,
-				logLevel: 'INFO',
-				port: 8071
-			},
-			test: {
-				configFile: 'karma.conf.js',
-				autoWatch: true,
-				logLevel: 'INFO',
-				port: 8070
-			}
-		},
+    karma: {
+      test: {
+        configFile: 'test/conf/karma.conf.js',
+        singleRun: true,
+        logLevel: 'INFO',
+        port: 8070
+      }
+    },
 		cssmin: {
 			css: {
 				src: 'app/styles/themes/default/videogular.css',
@@ -256,8 +250,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-hub');
 	grunt.loadNpmTasks('grunt-ngdocs');
 
-	grunt.registerTask('default', ['clean:build', 'cssmin:css', 'concat', 'uglify:js', 'copy:main', 'copy:release']);
+	grunt.registerTask('default', ['karma:test', 'clean:build', 'cssmin:css', 'concat', 'uglify:js', 'copy:main', 'copy:release']);
 	grunt.registerTask('docs', ['clean:docs', 'ngdocs']);
+	grunt.registerTask('test', ['karma:test']);
 	grunt.registerTask('major-release', ['default', 'hub:major']);
 	grunt.registerTask('minor-release', ['default', 'hub:minor']);
 	grunt.registerTask('patch-release', ['default', 'hub:patch']);

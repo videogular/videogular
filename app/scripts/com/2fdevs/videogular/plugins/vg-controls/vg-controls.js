@@ -47,33 +47,33 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
           scope.API = API;
 
           scope.onMouseMove = function onMouseMove() {
-            if (scope.vgAutohide) showControls();
+            if (scope.vgAutohide) scope.showControls();
           };
 
-          function setAutohide(value) {
+          scope.setAutohide = function setAutohide(value) {
             if (value) {
-              hideInterval = $timeout(hideControls, autoHideTime);
+              hideInterval = $timeout(scope.hideControls, autoHideTime);
             }
             else {
               scope.animationClass = "";
               $timeout.cancel(hideInterval);
-              showControls();
+              scope.showControls();
             }
-          }
+          };
 
-          function setAutohideTime(value) {
+          scope.setAutohideTime = function setAutohideTime(value) {
             autoHideTime = value;
-          }
+          };
 
-          function hideControls() {
+          scope.hideControls = function hideControls() {
             scope.animationClass = "hide-animation";
-          }
+          };
 
-          function showControls() {
+          scope.showControls = function showControls() {
             scope.animationClass = "show-animation";
             $timeout.cancel(hideInterval);
-            if (scope.vgAutohide) hideInterval = $timeout(hideControls, autoHideTime);
-          }
+            if (scope.vgAutohide) hideInterval = $timeout(scope.hideControls, autoHideTime);
+          };
 
           if (API.isConfig) {
             scope.$watch("API.config",
@@ -83,8 +83,8 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
                   var ahtValue = scope.API.config.plugins.controls.autohideTime || 2000;
                   scope.vgAutohide = ahValue;
                   scope.vgAutohideTime = ahtValue;
-                  setAutohideTime(ahtValue);
-                  setAutohide(ahValue);
+                  scope.setAutohideTime(ahtValue);
+                  scope.setAutohide(ahValue);
                 }
               }
             );
@@ -92,12 +92,12 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
           else {
             // If vg-autohide has been set
             if (scope.vgAutohide != undefined) {
-              scope.$watch("vgAutohide", setAutohide);
+              scope.$watch("vgAutohide", scope.setAutohide);
             }
 
             // If vg-autohide-time has been set
             if (scope.vgAutohideTime != undefined) {
-              scope.$watch("vgAutohideTime", setAutohideTime);
+              scope.$watch("vgAutohideTime", scope.setAutohideTime);
             }
           }
         }

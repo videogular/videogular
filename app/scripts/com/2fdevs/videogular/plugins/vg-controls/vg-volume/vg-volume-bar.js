@@ -66,19 +66,19 @@ angular.module("com.2fdevs.videogular.plugins.controls")
             }
           };
 
-          function updateVolumeView(value) {
+          scope.updateVolumeView = function updateVolumeView(value) {
             value = value * 100;
             volumeValueElem.css("height", value + "%");
             volumeValueElem.css("top", (100 - value) + "%");
-          }
+          };
 
-          function onChangeVisibility(value) {
+          scope.onChangeVisibility = function onChangeVisibility(value) {
             elem.css("visibility", value);
-          }
+          };
 
           elem.css("visibility", scope.volumeVisibility);
 
-          scope.$watch("volumeVisibility", onChangeVisibility);
+          scope.$watch("volumeVisibility", scope.onChangeVisibility);
 
           scope.$watch(
             function () {
@@ -86,7 +86,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
             },
             function (newVal, oldVal) {
               if (newVal != oldVal) {
-                updateVolumeView(newVal);
+                scope.updateVolumeView(newVal);
               }
             }
           );

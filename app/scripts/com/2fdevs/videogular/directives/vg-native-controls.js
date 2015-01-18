@@ -9,14 +9,14 @@ angular.module("com.2fdevs.videogular")
         pre: function (scope, elem, attr, API) {
           var controls;
 
-          function setControls(value) {
+          scope.setControls = function setControls(value) {
             if (value) {
               API.mediaElement.attr("controls", value);
             }
             else {
               API.mediaElement.removeAttr("controls");
             }
-          }
+          };
 
           if (API.isConfig) {
             scope.$watch(
@@ -25,7 +25,7 @@ angular.module("com.2fdevs.videogular")
               },
               function() {
                 if (API.config) {
-                  setControls(API.config.controls);
+                  scope.setControls(API.config.controls);
                 }
               }
             );
@@ -34,10 +34,10 @@ angular.module("com.2fdevs.videogular")
             scope.$watch(attr.vgNativeControls, function (newValue, oldValue) {
               if ((!controls || newValue != oldValue) && newValue) {
                 controls = newValue;
-                setControls(controls);
+                scope.setControls(controls);
               }
               else {
-                setControls();
+                scope.setControls();
               }
             });
           }

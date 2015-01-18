@@ -24,15 +24,17 @@ angular.module("com.2fdevs.videogular.plugins.controls")
       return {
         restrict: "E",
         link: function (scope, elem, attr) {
-          function onMouseOverVolume() {
-            scope.volumeVisibility = "visible";
-            scope.$apply();
-          }
+          scope.onMouseOverVolume = function onMouseOverVolume() {
+            scope.$evalAsync(function() {
+              scope.volumeVisibility = "visible";
+            });
+          };
 
-          function onMouseLeaveVolume() {
-            scope.volumeVisibility = "hidden";
-            scope.$apply();
-          }
+          scope.onMouseLeaveVolume = function onMouseLeaveVolume() {
+            scope.$evalAsync(function() {
+              scope.volumeVisibility = "hidden";
+            });
+          };
 
           // We hide volume controls on mobile devices
           if (VG_UTILS.isMobileDevice()) {
@@ -41,8 +43,8 @@ angular.module("com.2fdevs.videogular.plugins.controls")
           else {
             scope.volumeVisibility = "hidden";
 
-            elem.bind("mouseover", onMouseOverVolume);
-            elem.bind("mouseleave", onMouseLeaveVolume);
+            elem.bind("mouseover", scope.onMouseOverVolume);
+            elem.bind("mouseleave", scope.onMouseLeaveVolume);
           }
         }
       }

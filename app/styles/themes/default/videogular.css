@@ -79,7 +79,7 @@ videogular .iconButton:focus {
 /*****************/
 /* Poster plugin */
 /*****************/
-videogular vg-poster-image {
+videogular vg-poster {
   width: 100%;
   height: 100%;
   max-width: 100%;
@@ -90,7 +90,7 @@ videogular vg-poster-image {
   top: 0;
 }
 
-videogular vg-poster-image img {
+videogular vg-poster img {
   width: auto;
   height: auto;
   max-width: 100%;
@@ -104,12 +104,12 @@ videogular vg-poster-image img {
   position: absolute;
 }
 
-videogular vg-poster-image img.pause,
-videogular vg-poster-image img.play {
+videogular vg-poster img.pause,
+videogular vg-poster img.play {
   display: none;
 }
 
-videogular vg-poster-image img.stop {
+videogular vg-poster img.stop {
   display: block;
 }
 
@@ -163,7 +163,7 @@ videogular vg-controls {
   top: calc(100% - 50px);
 }
 
-videogular vg-controls #controls-container {
+videogular vg-controls .controls-container {
   width: 100%;
   height: 50px;
   background-color: #000000;

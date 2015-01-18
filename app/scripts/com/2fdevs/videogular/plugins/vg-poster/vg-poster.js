@@ -17,14 +17,14 @@
  * <videogular vg-theme="config.theme.url" vg-autoplay="config.autoPlay">
  *    <vg-video vg-src="sources"></vg-video>
  *
- *    <vg-poster-image vg-url='config.plugins.poster.url'></vg-poster-image>
+ *    <vg-poster vg-url='config.plugins.poster.url'></vg-poster>
  * </videogular>
  * ```
  *
  */
 "use strict";
 angular.module("com.2fdevs.videogular.plugins.poster", [])
-	.directive("vgPosterImage",
+	.directive("vgPoster",
     [function () {
       return {
         restrict: "E",

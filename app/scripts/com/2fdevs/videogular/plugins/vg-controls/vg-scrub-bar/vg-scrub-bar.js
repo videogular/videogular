@@ -41,7 +41,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
             return (time === 0) ? "0" : Math.round(time.getTime() / 1000);
           };
 
-          function onScrubBarTouchStart($event) {
+          scope.onScrubBarTouchStart = function onScrubBarTouchStart($event) {
             var event = $event.originalEvent || $event;
             var touches = event.touches;
             var touchX;
@@ -58,12 +58,12 @@ angular.module("com.2fdevs.videogular.plugins.controls")
             isSeeking = true;
             if (isPlaying) isPlayingWhenSeeking = true;
             API.pause();
-            seekTime(touchX * API.mediaElement[0].duration / elem[0].scrollWidth);
+            API.seekTime(touchX * API.mediaElement[0].duration / elem[0].scrollWidth);
 
             scope.$apply();
-          }
+          };
 
-          function onScrubBarTouchEnd($event) {
+          scope.onScrubBarTouchEnd = function onScrubBarTouchEnd($event) {
             var event = $event.originalEvent || $event;
             if (isPlayingWhenSeeking) {
               isPlayingWhenSeeking = false;
@@ -72,67 +72,68 @@ angular.module("com.2fdevs.videogular.plugins.controls")
             isSeeking = false;
 
             scope.$apply();
-          }
+          };
 
-          function onScrubBarTouchMove($event) {
+          scope.onScrubBarTouchMove = function onScrubBarTouchMove($event) {
             var event = $event.originalEvent || $event;
             var touches = event.touches;
             var touchX;
 
             if (isSeeking) {
               touchX = touches[0].clientX + touchStartX - touches[0].target.offsetLeft;
-              seekTime(touchX * API.mediaElement[0].duration / elem[0].scrollWidth);
+              API.seekTime(touchX * API.mediaElement[0].duration / elem[0].scrollWidth);
             }
 
             scope.$apply();
-          }
+          };
 
-          function onScrubBarTouchLeave(event) {
+          scope.onScrubBarTouchLeave = function onScrubBarTouchLeave(event) {
             isSeeking = false;
 
             scope.$apply();
-          }
+          };
 
-          function onScrubBarMouseDown(event) {
+          scope.onScrubBarMouseDown = function onScrubBarMouseDown(event) {
             event = VG_UTILS.fixEventOffset(event);
 
             isSeeking = true;
             if (isPlaying) isPlayingWhenSeeking = true;
             API.pause();
-            seekTime(event.offsetX * API.mediaElement[0].duration / elem[0].scrollWidth);
+
+            API.seekTime(event.offsetX * API.mediaElement[0].duration / elem[0].scrollWidth);
 
             scope.$apply();
-          }
+          };
 
-          function onScrubBarMouseUp(event) {
-            event = VG_UTILS.fixEventOffset(event);
+          scope.onScrubBarMouseUp = function onScrubBarMouseUp(event) {
+            //event = VG_UTILS.fixEventOffset(event);
 
             if (isPlayingWhenSeeking) {
               isPlayingWhenSeeking = false;
               API.play();
             }
             isSeeking = false;
-            seekTime(event.offsetX * API.mediaElement[0].duration / elem[0].scrollWidth);
+            //API.seekTime(event.offsetX * API.mediaElement[0].duration / elem[0].scrollWidth);
 
             scope.$apply();
-          }
+          };
 
-          function onScrubBarMouseMove(event) {
+          scope.onScrubBarMouseMove = function onScrubBarMouseMove(event) {
             if (isSeeking) {
               event = VG_UTILS.fixEventOffset(event);
-              seekTime(event.offsetX * API.mediaElement[0].duration / elem[0].scrollWidth);
+              API.seekTime(event.offsetX * API.mediaElement[0].duration / elem[0].scrollWidth);
             }
 
             scope.$apply();
-          }
+          };
 
-          function onScrubBarMouseLeave(event) {
+          scope.onScrubBarMouseLeave = function onScrubBarMouseLeave(event) {
             isSeeking = false;
 
             scope.$apply();
-          }
+          };
 
-          scope.onScrubBarKeyDown = function(event) {
+          scope.onScrubBarKeyDown = function onScrubBarKeyDown(event) {
             var currentISO = API.currentTime.getTime() - (API.totalTime.getTimezoneOffset() * 60000);
             var totalISO = API.totalTime.getTime() - (API.totalTime.getTimezoneOffset() * 60000);
             var currentPercent = currentISO / totalISO * 100;
@@ -147,11 +148,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
             }
           };
 
-          function seekTime(time) {
-            API.seekTime(time, false);
-          }
-
-          function setState(newState) {
+          scope.setState = function setState(newState) {
             if (!isSeeking) {
               switch (newState) {
                 case VG_STATES.PLAY:
@@ -167,7 +164,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                   break;
               }
             }
-          }
+          };
 
           scope.$watch(
             function () {
@@ -175,23 +172,23 @@ angular.module("com.2fdevs.videogular.plugins.controls")
             },
             function (newVal, oldVal) {
               if (newVal != oldVal) {
-                setState(newVal);
+                scope.setState(newVal);
               }
             }
           );
 
           // Touch move is really buggy in Chrome for Android, maybe we could use mouse move that works ok
           if (VG_UTILS.isMobileDevice()) {
-            elem.bind("touchstart", onScrubBarTouchStart);
-            elem.bind("touchend", onScrubBarTouchEnd);
-            elem.bind("touchmove", onScrubBarTouchMove);
-            elem.bind("touchleave", onScrubBarTouchLeave);
+            elem.bind("touchstart", scope.onScrubBarTouchStart);
+            elem.bind("touchend", scope.onScrubBarTouchEnd);
+            elem.bind("touchmove", scope.onScrubBarTouchMove);
+            elem.bind("touchleave", scope.onScrubBarTouchLeave);
           }
           else {
-            elem.bind("mousedown", onScrubBarMouseDown);
-            elem.bind("mouseup", onScrubBarMouseUp);
-            elem.bind("mousemove", onScrubBarMouseMove);
-            elem.bind("mouseleave", onScrubBarMouseLeave);
+            elem.bind("mousedown", scope.onScrubBarMouseDown);
+            elem.bind("mouseup", scope.onScrubBarMouseUp);
+            elem.bind("mousemove", scope.onScrubBarMouseMove);
+            elem.bind("mouseleave", scope.onScrubBarMouseLeave);
           }
         }
       }

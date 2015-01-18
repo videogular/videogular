@@ -2,7 +2,6 @@
 angular.module("com.2fdevs.videogular")
   .controller("vgController",
     ['$scope', '$window', 'vgConfigLoader', 'VG_UTILS', 'VG_STATES', function ($scope, $window, vgConfigLoader, VG_UTILS, VG_STATES) {
-      var ctrl = this;
       var currentTheme = null;
       var isFullScreenPressed = false;
       var isMetaDataLoaded = false;
@@ -29,9 +28,7 @@ angular.module("com.2fdevs.videogular")
 
         if ($scope.vgConfig) {
           vgConfigLoader.loadConfig($scope.vgConfig).then(
-            function success(result) {
-              ctrl.onLoadConfig(result);
-            }
+            this.onLoadConfig.bind(this)
           );
         }
         else {

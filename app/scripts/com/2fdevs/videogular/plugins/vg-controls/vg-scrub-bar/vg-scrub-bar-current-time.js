@@ -27,26 +27,26 @@ angular.module("com.2fdevs.videogular.plugins.controls")
         link: function (scope, elem, attr, API) {
           var percentTime = 0;
 
-          function onUpdateTime(newCurrentTime) {
+          scope.onUpdateTime = function onUpdateTime(newCurrentTime) {
             if (newCurrentTime && API.totalTime) {
               var currentISO = newCurrentTime.getTime() - (API.totalTime.getTimezoneOffset() * 60000);
               var totalISO = API.totalTime.getTime() - (API.totalTime.getTimezoneOffset() * 60000);
               percentTime = (currentISO * -1 / 1000) * 100 / (totalISO * -1 / 1000);
               elem.css("width", percentTime + "%");
             }
-          }
+          };
 
-          function onComplete() {
+          scope.onComplete = function onComplete() {
             percentTime = 0;
             elem.css("width", percentTime + "%");
-          }
+          };
 
           scope.$watch(
             function () {
               return API.currentTime;
             },
             function (newVal, oldVal) {
-              onUpdateTime(newVal);
+              scope.onUpdateTime(newVal);
             }
           );
 
@@ -55,7 +55,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
               return API.isCompleted;
             },
             function (newVal, oldVal) {
-              onComplete(newVal);
+              scope.onComplete(newVal);
             }
           );
         }
