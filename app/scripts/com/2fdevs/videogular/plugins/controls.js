@@ -173,19 +173,17 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 			require: "^videogular",
 			restrict: "E",
 			link: function (scope, elem, attr, API) {
-        scope.currentTime = API.currentTime;
-        scope.timeLeft = API.timeLeft;
-        scope.totalTime = API.totalTime;
-        scope.isLive = API.isLive;
+				scope.currentTime = API.currentTime;
+				scope.timeLeft = API.timeLeft;
+				scope.totalTime = API.totalTime;
+				scope.isLive = API.isLive;
 
 				scope.$watch(
 					function () {
 						return API.currentTime;
 					},
 					function (newVal, oldVal) {
-						if (newVal != oldVal) {
-							scope.currentTime = newVal;
-						}
+						scope.currentTime = newVal;
 					}
 				);
 
@@ -194,9 +192,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 						return API.timeLeft;
 					},
 					function (newVal, oldVal) {
-						if (newVal != oldVal) {
-							scope.timeLeft = newVal;
-						}
+						scope.timeLeft = newVal;
 					}
 				);
 
@@ -205,9 +201,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 						return API.totalTime;
 					},
 					function (newVal, oldVal) {
-						if (newVal != oldVal) {
-							scope.totalTime = newVal;
-						}
+						scope.totalTime = newVal;
 					}
 				);
 
@@ -216,9 +210,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 						return API.isLive;
 					},
 					function (newVal, oldVal) {
-						if (newVal != oldVal) {
-							scope.isLive = newVal;
-						}
+						scope.isLive = newVal;
 					}
 				);
 			}
@@ -266,7 +258,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 
 				scope.API = API;
 				scope.ariaTime = function(time) {
-					return (time === 0) ? "0" : Math.round(time.getTime() / 1000);
+					return Math.round(time / 1000);
 				};
 
 				function onScrubBarTouchStart($event) {
@@ -361,9 +353,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 				}
 
 				scope.onScrubBarKeyDown = function(event) {
-          var currentISO = API.currentTime.getTime() - (API.totalTime.getTimezoneOffset() * 60000);
-          var totalISO = API.totalTime.getTime() - (API.totalTime.getTimezoneOffset() * 60000);
-					var currentPercent = currentISO / totalISO * 100;
+					var currentPercent = (API.currentTime / API.totalTime) * 100;
 
 					if (event.which === LEFT || event.keyCode === LEFT) {
 						API.seekTime(currentPercent - NUM_PERCENT, true);
@@ -455,18 +445,16 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 				var percentTime = 0;
 
 				function onUpdateTime(newCurrentTime) {
-					if (newCurrentTime && API.totalTime) {
-            var currentISO = newCurrentTime.getTime() - (API.totalTime.getTimezoneOffset() * 60000);
-            var totalISO = API.totalTime.getTime() - (API.totalTime.getTimezoneOffset() * 60000);
-						percentTime = (currentISO * -1 / 1000) * 100 / (totalISO * -1 / 1000);
+					if (typeof newCurrentTime === 'number' && API.totalTime) {
+						percentTime = 100 * (newCurrentTime / API.totalTime);
 						elem.css("width", percentTime + "%");
+					} else {
+						elem.css("width", 0);
 					}
 				}
 
-				function onComplete() {
-					percentTime = 0;
-					elem.css("width", percentTime + "%");
-				}
+				// Initial call to set vg-scrubbarcurrenttime
+				onUpdateTime(percentTime);
 
 				scope.$watch(
 					function () {
@@ -474,15 +462,6 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
 					},
 					function (newVal, oldVal) {
 						onUpdateTime(newVal);
-					}
-				);
-
-				scope.$watch(
-					function () {
-						return API.isCompleted;
-					},
-					function (newVal, oldVal) {
-						onComplete(newVal);
 					}
 				);
 			}
