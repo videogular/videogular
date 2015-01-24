@@ -54,21 +54,6 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
       return zIndex;
     };
 
-    this.toUTCDate = function(date){
-      return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds(), date.getUTCMilliseconds());
-    };
-
-    this.secondsToDate = function (seconds) {
-      if (isNaN(seconds)) seconds = 0;
-
-      var result = new Date();
-      result.setTime(seconds * 1000);
-
-      result = this.toUTCDate(result);
-
-      return result;
-    };
-
     // Very simple mobile detection, not 100% reliable
     this.isMobileDevice = function () {
       return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf("IEMobile") !== -1);
@@ -243,11 +228,11 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
         };
 
         this.onUpdateTime = function (event) {
-          $scope.API.currentTime = VG_UTILS.secondsToDate(event.target.currentTime);
+          $scope.API.currentTime = 1000 * event.target.currentTime;
 
           if (event.target.duration != Infinity) {
-            $scope.API.totalTime = VG_UTILS.secondsToDate(event.target.duration);
-            $scope.API.timeLeft = VG_UTILS.secondsToDate(event.target.duration - event.target.currentTime);
+            $scope.API.totalTime = 1000 * event.target.duration;
+            $scope.API.timeLeft = 1000 * (event.target.duration - event.target.currentTime);
             $scope.API.isLive = false;
           }
           else {
@@ -289,7 +274,7 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
             $scope.API.mediaElement[0].currentTime = second;
           }
 
-          $scope.API.currentTime = VG_UTILS.secondsToDate(second);
+          $scope.API.currentTime = 1000 * second;
         };
 
         this.playPause = function () {
@@ -463,9 +448,9 @@ angular.module("com.2fdevs.videogular", ["ngSanitize"])
         $scope.init = function () {
           $scope.API.isReady = false;
           $scope.API.isCompleted = false;
-          $scope.API.currentTime = VG_UTILS.secondsToDate(0);
-          $scope.API.totalTime = VG_UTILS.secondsToDate(0);
-          $scope.API.timeLeft = VG_UTILS.secondsToDate(0);
+          $scope.API.currentTime = 0;
+          $scope.API.totalTime = 0;
+          $scope.API.timeLeft = 0;
           $scope.API.isLive = false;
 
           $scope.API.updateTheme($scope.theme);
