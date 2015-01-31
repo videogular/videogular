@@ -1,12 +1,17 @@
 /**
  * @ngdoc directive
- * @name com.2fdevs.videogular.vgMedia
+ * @name com.2fdevs.videogular.direcitve:vgMedia
  * @restrict E
  * @description
  * Directive to add a source of videos or audios. This directive will create a &lt;video&gt; tag and usually will be above plugin tags.
  *
  * @param {array} vgSrc Bindable array with a list of media sources. A media source is an object with two properties `src` and `type`. The `src` property must contains a trusful url resource.
- * {src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogular.mp4"), type: "video/mp4"}
+ * ```js
+ * {
+ *    src: $sce.trustAsResourceUrl("path/to/video/videogular.mp4"),
+ *    type: "video/mp4"
+ * }
+ * ```
  *
  */
 "use strict";
@@ -17,7 +22,7 @@ angular.module("com.2fdevs.videogular")
       restrict: "E",
       require: "^videogular",
       templateUrl: function(elem, attrs) {
-        return attrs.vgTemplate || 'bower_components/videogular/views/vg-media.html';
+        return attrs.vgTemplate || 'vg-templates/vg-media';
       },
       scope: {
         vgSrc: "=?"

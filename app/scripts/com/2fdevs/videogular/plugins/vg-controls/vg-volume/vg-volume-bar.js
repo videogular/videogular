@@ -1,6 +1,6 @@
 /**
  * @ngdoc directive
- * @name com.2fdevs.videogular.plugins.controls:vgVolumeBar
+ * @name com.2fdevs.videogular.plugins.controls.directive:vgVolumeBar
  * @restrict E
  * @description
  * Directive to display a vertical volume bar to control the volume.
@@ -21,13 +21,24 @@
  *
  */
 angular.module("com.2fdevs.videogular.plugins.controls")
+  .run(
+    ["$templateCache", function($templateCache) {
+      $templateCache.put("vg-templates/vg-volume-bar",
+        '<div class="verticalVolumeBar">\
+          <div class="volumeBackground" ng-click="onClickVolume($event)" ng-mousedown="onMouseDownVolume()" ng-mouseup="onMouseUpVolume()" ng-mousemove="onMouseMoveVolume($event)" ng-mouseleave="onMouseLeaveVolume()">\
+            <div class="volumeValue"></div>\
+            <div class="volumeClickArea"></div>\
+          </div>\
+        </div>');
+    }]
+  )
   .directive("vgVolumeBar",
     ["VG_UTILS", function (VG_UTILS) {
       return {
         restrict: "E",
         require: "^videogular",
         templateUrl: function(elem, attrs) {
-          return attrs.vgTemplate || 'bower_components/vg-controls/views/vg-volume-bar.html';
+          return attrs.vgTemplate || 'vg-templates/vg-volume-bar';
         },
         link: function (scope, elem, attr, API) {
           var isChangingVolume = false;

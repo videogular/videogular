@@ -5,7 +5,7 @@
  */
 /**
  * @ngdoc directive
- * @name com.2fdevs.videogular.plugins.poster:vgPoster
+ * @name com.2fdevs.videogular.plugins.poster.directive:vgPoster
  * @restrict E
  * @description
  * Shows an image when player hasn't been played or has been completed a video.
@@ -24,6 +24,12 @@
  */
 "use strict";
 angular.module("com.2fdevs.videogular.plugins.poster", [])
+  .run(
+    ["$templateCache", function($templateCache) {
+      $templateCache.put("vg-templates/vg-poster",
+        '<img ng-src="{{vgUrl}}" ng-class="API.currentState">');
+    }]
+  )
 	.directive("vgPoster",
     [function () {
       return {
@@ -33,7 +39,7 @@ angular.module("com.2fdevs.videogular.plugins.poster", [])
           vgUrl: "=?"
         },
         templateUrl: function(elem, attrs) {
-          return attrs.vgTemplate || 'bower_components/vg-poster/views/vg-poster.html';
+          return attrs.vgTemplate || 'vg-templates/vg-poster';
         },
         link: function (scope, elem, attr, API) {
           scope.API = API;

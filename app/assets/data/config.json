@@ -6,15 +6,15 @@
   "theme": "styles/themes/default/videogular.css",
   "sources": [
     {
-      "src": "http://www.videogular.com/assets/videos/videogular.mp4",
+      "src": "http://static.videogular.com/assets/videos/videogular.mp4",
       "type": "video/mp4"
     },
     {
-      "src": "http://www.videogular.com/assets/videos/videogular.webm",
+      "src": "http://static.videogular.com/assets/videos/videogular.webm",
       "type": "video/webm"
     },
     {
-      "src": "http://www.videogular.com/assets/videos/videogular.ogg",
+      "src": "http://static.videogular.com/assets/videos/videogular.ogg",
       "type": "video/ogg"
     }
   ],
@@ -33,7 +33,7 @@
       "autohideTime": 3000
     },
     "poster": {
-      "url": "http://propagandaandcriticalthought.com/wp-content/uploads/2013/12/earth.png"
+      "url": "http://static.videogular.com/assets/images/earth.png"
     },
     "ima-ads": {
       "companion": "companionAd",

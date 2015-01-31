@@ -1,6 +1,6 @@
 /**
  * @ngdoc directive
- * @name com.2fdevs.videogular.plugins.controls:vgMuteButton
+ * @name com.2fdevs.videogular.plugins.controls.directive:vgMuteButton
  * @restrict E
  * @description
  * Directive to display a button to mute volume.
@@ -19,13 +19,19 @@
  *
  */
 angular.module("com.2fdevs.videogular.plugins.controls")
+  .run(
+    ["$templateCache", function($templateCache) {
+      $templateCache.put("vg-templates/vg-mute-button",
+        '<button type="button" class="iconButton" ng-class="muteIcon" ng-click="onClickMute()" ng-focus="onMuteButtonFocus()" ng-blur="onMuteButtonLoseFocus()" ng-keydown="onMuteButtonKeyDown($event)" aria-label="Mute"></button>');
+    }]
+  )
   .directive("vgMuteButton",
     [function () {
       return {
         restrict: "E",
         require: "^videogular",
         templateUrl: function(elem, attrs) {
-          return attrs.vgTemplate || 'bower_components/vg-controls/views/vg-mute-button.html';
+          return attrs.vgTemplate || 'vg-templates/vg-mute-button';
         },
         link: function (scope, elem, attr, API) {
           var isMuted = false;

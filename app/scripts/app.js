@@ -40,6 +40,10 @@ angular.module('myApp',
           templateUrl: 'views/dash-live.html',
           controller: 'DashLiveCtrl'
         })
+        .when('/templating', {
+          templateUrl: 'views/templates.html',
+          controller: 'TemplatesCtrl'
+        })
         .otherwise({
           redirectTo: '/'
         }

@@ -5,7 +5,7 @@
  */
 /**
  * @ngdoc directive
- * @name com.2fdevs.videogular.plugins.buffering:vgBuffering
+ * @name com.2fdevs.videogular.plugins.buffering.directive:vgBuffering
  * @restrict E
  * @description
  * Shows a spinner when Videogular is buffering or preparing the video player.
@@ -21,6 +21,14 @@
  */
 "use strict";
 angular.module("com.2fdevs.videogular.plugins.buffering", [])
+  .run(
+    ["$templateCache", function($templateCache) {
+      $templateCache.put("vg-templates/vg-buffering",
+        '<div class="bufferingContainer">\
+          <div ng-class="spinnerClass" class="loadingSpinner"></div>\
+        </div>');
+    }]
+  )
 	.directive(
 	"vgBuffering",
 	["VG_STATES", "VG_UTILS", function (VG_STATES, VG_UTILS) {
@@ -28,7 +36,7 @@ angular.module("com.2fdevs.videogular.plugins.buffering", [])
 			restrict: "E",
 			require: "^videogular",
       templateUrl: function(elem, attrs) {
-        return attrs.vgTemplate || 'bower_components/vg-buffering/views/vg-buffering.html';
+        return attrs.vgTemplate || 'vg-templates/vg-buffering';
       },
 			link: function (scope, elem, attr, API) {
         scope.showSpinner = function showSpinner() {

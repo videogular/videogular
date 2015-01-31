@@ -1,0 +1,21 @@
+<h1><code ng:non-bindable="">vgController</code>
+<div><span class="hint">controller in module <code ng:non-bindable="">com.2fdevs.videogular</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="com-2fdevs-videogular-controller-page com-2fdevs-videogular-controller-vgcontroller-page"><p>Videogular controller.
+This controller offers a public API to control video object:</p>
+<ul>
+<li>playPause(): Plays or pauses current media file.</li>
+<li>pause(): Pauses current media file.</li>
+<li>stop(): Stops current media file.</li>
+<li>seekTime(value, byPercent): Seeks by miliseconds or percentage. Param <code>byPercent</code> is a boolean with &quot;false&quot; by default.</li>
+<li>toggleFullScreen(): Toggles between normal and fullscreen mode.</li>
+<li>changeSource(array): Updates current media source. Param <code>array</code> must be an array of media source objects.
+A media source is an object with two properties <code>src</code> and <code>type</code>. The <code>src</code> property must contains a trusful url resource.
+{src: $sce.trustAsResourceUrl(&quot;<a href="http://static.videogular.com/assets/videos/videogular.mp4">http://static.videogular.com/assets/videos/videogular.mp4</a>&quot;), type: &quot;video/mp4&quot;}</li>
+<li>setVolume(volume): Changes current media file volume. Param <code>volume</code> must be an integer value between 0 and 1.</li>
+</ul>
+</div></div>
+</div>

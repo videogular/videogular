@@ -8,7 +8,6 @@ describe('Directive: Overlay Play', function () {
 
 	beforeEach(module('com.2fdevs.videogular'));
 	beforeEach(module('com.2fdevs.videogular.plugins.overlayplay'));
-	beforeEach(module('vg-templates'));
 
 	beforeEach(inject(function ($injector) {
     $compile = $injector.get('$compile');
@@ -32,8 +31,8 @@ describe('Directive: Overlay Play', function () {
 
 		element = angular.element(
       '<videogular vg-theme="config.theme.url">' +
-        '<vg-media vg-template="scripts/com/2fdevs/videogular/directives/views/vg-media.html" vg-src="config.sources"></vg-media>' +
-        '<vg-overlay-play vg-template="scripts/com/2fdevs/videogular/plugins/vg-overlay-play/views/vg-overlay-play.html"></vg-overlay-play>' +
+        '<vg-media vg-src="config.sources"></vg-media>' +
+        '<vg-overlay-play></vg-overlay-play>' +
       '</videogular>'
     );
 

@@ -8,7 +8,6 @@ describe('Directive: Videogular', function () {
 	var VG_STATES;
 
 	beforeEach(module('com.2fdevs.videogular'));
-	beforeEach(module('vg-templates'));
 
 	beforeEach(inject(function ($injector) {
     $compile = $injector.get('$compile');
@@ -48,7 +47,7 @@ describe('Directive: Videogular', function () {
 
 		element = angular.element(
       '<videogular vg-theme="config.theme.url">' +
-        '<vg-media vg-template="scripts/com/2fdevs/videogular/directives/views/vg-media.html" vg-src="config.sources" vg-tracks="config.tracks" vg-native-controls="config.controls" vg-preload="config.preload" vg-loop="config.loop"></vg-media>' +
+        '<vg-media vg-src="config.sources" vg-tracks="config.tracks" vg-native-controls="config.controls" vg-preload="config.preload" vg-loop="config.loop"></vg-media>' +
       '</videogular>'
     );
 
@@ -63,10 +62,12 @@ describe('Directive: Videogular', function () {
       expect(video[0]).not.toBe(null);
 
       if ($window.navigator.userAgent.toLowerCase().indexOf("webkit") >= 0) {
+        // Chrome + MacOS X "Mavericks" 10.9.5
         expect(video.attr("src")).toBe("assets/videos/videogular.mp4");
       }
       if ($window.navigator.userAgent.toLowerCase().indexOf("firefox") >= 0) {
-        expect(video.attr("src")).toBe("assets/videos/videogular.webm");
+        // Firefox + MacOS X "Mavericks" 10.9.5
+        expect(video.attr("src")).toBe("assets/videos/videogular.mp4");
       }
 
       expect(video.attr("controls")).not.toBe(null);

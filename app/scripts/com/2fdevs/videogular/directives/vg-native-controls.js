@@ -1,3 +1,11 @@
+/**
+ * @ngdoc directive
+ * @name com.2fdevs.videogular.directive:vgNativeControls
+ * @restrict A
+ * @description
+ * Optional directive for `vg-media` to add or remove the native controls. Possible values are: "true" and "false"
+ *
+ */
 "use strict";
 angular.module("com.2fdevs.videogular")
   .directive("vgNativeControls",

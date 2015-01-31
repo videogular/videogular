@@ -8,7 +8,6 @@ describe('Directive: Buffering', function () {
 
 	beforeEach(module('com.2fdevs.videogular'));
 	beforeEach(module('com.2fdevs.videogular.plugins.buffering'));
-	beforeEach(module('vg-templates'));
 
 	beforeEach(inject(function ($injector) {
     $compile = $injector.get('$compile');
@@ -37,8 +36,8 @@ describe('Directive: Buffering', function () {
 
 		element = angular.element(
       '<videogular vg-theme="config.theme.url">' +
-        '<vg-media vg-template="scripts/com/2fdevs/videogular/directives/views/vg-media.html" vg-src="config.sources"></vg-media>' +
-        '<vg-buffering vg-template="scripts/com/2fdevs/videogular/plugins/vg-buffering/views/vg-buffering.html"></vg-buffering>' +
+        '<vg-media vg-src="config.sources"></vg-media>' +
+        '<vg-buffering></vg-buffering>' +
       '</videogular>'
     );
 

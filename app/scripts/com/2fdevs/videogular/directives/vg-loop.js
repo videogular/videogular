@@ -1,3 +1,11 @@
+/**
+ * @ngdoc directive
+ * @name com.2fdevs.videogular.directive:vgLoop
+ * @restrict A
+ * @description
+ * Optional directive for `vg-media` to add or remove loop in media files. Possible values are: "true" and "false"
+ *
+ */
 "use strict";
 angular.module("com.2fdevs.videogular")
   .directive("vgLoop",

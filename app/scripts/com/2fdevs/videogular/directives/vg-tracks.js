@@ -1,3 +1,21 @@
+/**
+ * @ngdoc directive
+ * @name com.2fdevs.videogular.directive:vgTracks
+ * @restrict A
+ * @description
+ * Optional directive for `vg-media` to add a list of tracks.
+ *
+ * vgTracks Bindable array with a list of subtitles sources. A track source is an object with five properties: src, kind, srclang, label and default.
+ * ```js
+ * {
+ *    src: "assets/subs/pale-blue-dot.vtt",
+ *    kind: "subtitles",
+ *    srclang: "en",
+ *    label: "English",
+ *    default: "true/false"
+ * }
+ * ```
+ */
 "use strict";
 angular.module("com.2fdevs.videogular")
   .directive("vgTracks",

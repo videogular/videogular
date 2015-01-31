@@ -5,7 +5,7 @@
  */
 /**
  * @ngdoc directive
- * @name com.2fdevs.videogular.plugins.overlayplay:vgOverlayPlay
+ * @name com.2fdevs.videogular.plugins.overlayplay.directive:vgOverlayPlay
  * @restrict E
  * @description
  * Shows a big play button centered when player is paused or stopped.
@@ -21,6 +21,14 @@
  */
 "use strict";
 angular.module("com.2fdevs.videogular.plugins.overlayplay", [])
+  .run(
+    ["$templateCache", function($templateCache) {
+      $templateCache.put("vg-templates/vg-overlay-play",
+        '<div class="overlayPlayContainer" ng-click="onClickOverlayPlay()">\
+          <div class="iconButton" ng-class="overlayPlayIcon"></div>\
+        </div>');
+    }]
+  )
 	.directive(
 	"vgOverlayPlay",
 	["VG_STATES", function (VG_STATES) {
@@ -28,7 +36,7 @@ angular.module("com.2fdevs.videogular.plugins.overlayplay", [])
 			restrict: "E",
 			require: "^videogular",
       templateUrl: function(elem, attrs) {
-        return attrs.vgTemplate || 'bower_components/vg-overlay-play/views/vg-overlay-play.html';
+        return attrs.vgTemplate || 'vg-templates/vg-overlay-play';
       },
 			link: function (scope, elem, attr, API) {
         scope.onChangeState = function onChangeState(newState) {

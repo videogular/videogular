@@ -8,7 +8,6 @@ describe('Directive: DASH', function () {
 
 	beforeEach(module('com.2fdevs.videogular'));
 	beforeEach(module('com.2fdevs.videogular.plugins.dash'));
-	beforeEach(module('vg-templates'));
 
 	beforeEach(inject(function ($injector) {
     $compile = $injector.get('$compile');
@@ -30,7 +29,7 @@ describe('Directive: DASH', function () {
 
 		element = angular.element(
       '<videogular vg-theme="config.theme.url">' +
-        '<vg-media vg-template="scripts/com/2fdevs/videogular/directives/views/vg-media.html" vg-src="config.sources" vg-dash></vg-media>' +
+        '<vg-media vg-src="config.sources" vg-dash></vg-media>' +
       '</videogular>'
     );
 

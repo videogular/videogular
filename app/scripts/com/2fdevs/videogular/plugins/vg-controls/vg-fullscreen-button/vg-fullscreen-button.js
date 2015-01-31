@@ -1,6 +1,6 @@
 /**
  * @ngdoc directive
- * @name com.2fdevs.videogular.plugins.controls:vgFullscreenButton
+ * @name com.2fdevs.videogular.plugins.controls.directive:vgFullscreenButton
  * @restrict E
  * @description
  * Directive to switch between fullscreen and normal mode.
@@ -17,6 +17,12 @@
  *
  */
 angular.module("com.2fdevs.videogular.plugins.controls")
+  .run(
+    ["$templateCache", function($templateCache) {
+      $templateCache.put("vg-templates/vg-fullscreen-button",
+        '<button class="iconButton" ng-click="onClickFullScreen()" ng-class="fullscreenIcon" aria-label="Toggle full screen" type="button"> </button>');
+    }]
+  )
   .directive("vgFullscreenButton",
     [function () {
       return {
@@ -24,7 +30,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
         require: "^videogular",
         scope: {},
         templateUrl: function(elem, attrs) {
-          return attrs.vgTemplate || 'bower_components/vg-controls/views/vg-fullscreen-button.html';
+          return attrs.vgTemplate || 'vg-templates/vg-fullscreen-button';
         },
         link: function (scope, elem, attr, API) {
           scope.onChangeFullScreen = function onChangeFullScreen(isFullScreen) {

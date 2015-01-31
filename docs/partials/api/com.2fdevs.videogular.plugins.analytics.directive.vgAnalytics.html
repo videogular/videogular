@@ -1,0 +1,49 @@
+<h1><code ng:non-bindable="">vgAnalytics</code>
+<div><span class="hint">directive in module <code ng:non-bindable="">com.2fdevs.videogular.plugins.analytics</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="com-2fdevs-videogular-plugins-analytics-directive-page com-2fdevs-videogular-plugins-analytics-directive-vganalytics-page"><p>Adds analytics support for your videos.
+This plugin requires the awesome angulartics module:
+<a href="http://luisfarzati.github.io/angulartics">http://luisfarzati.github.io/angulartics</a></p>
+<p>This plugin is not using any analytics provider, you need to add the analytic provider of your choice to your app, like: &quot;angulartics.google.analytics&quot;</p>
+<p>Videogular analytics injects Angulartics, so to use your preferred plugin you need to add it on your app.</p>
+<pre><code class="lang-html">&lt;videogular vg-theme=&quot;config.theme.url&quot; vg-autoplay=&quot;config.autoPlay&quot;&gt;
+   &lt;vg-analytics vg-track-info=&quot;events&quot;&gt;&lt;/vg-analytics&gt;
+&lt;/videogular&gt;
+</code></pre>
+<p>This plugin requires an object with the following structure:</p>
+<pre><code class="lang-js">{
+   &quot;category&quot;: &quot;Videogular&quot;,
+   &quot;label&quot;: &quot;Main&quot;,
+   &quot;events&quot;: {
+     &quot;ready&quot;: true,     // Triggered when player is ready
+     &quot;play&quot;: true,      // Triggered each time player has been played
+     &quot;pause&quot;: true,     // Triggered each time player has been paused
+     &quot;stop&quot;: true,      // Triggered each time player has been stopped
+     &quot;complete&quot;: true,  // Triggered each time player has been completed
+     &quot;progress&quot;: 10     // Triggered each 10% of the progress video
+   }
+ }
+</code></pre>
+</div></div>
+<h2 id="usage">Usage</h2>
+<div class="usage">as element:<pre class="prettyprint linenums">&lt;vg-analytics
+       vg-track-info="{object}"&gt;
+&lt;/vg-analytics&gt;</pre>
+<h4 id="usage_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>vgTrackInfo</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="com-2fdevs-videogular-plugins-analytics-directive-page com-2fdevs-videogular-plugins-analytics-directive-vganalytics-page"><p>Object with the tracking info with the following structure:</p>
+<p>{
+   &quot;category&quot;: &quot;Videogular&quot;,
+   &quot;label&quot;: &quot;Main&quot;,
+   &quot;events&quot;: {
+     &quot;ready&quot;: true,
+     &quot;play&quot;: true,
+     &quot;pause&quot;: true,
+     &quot;stop&quot;: true,
+     &quot;complete&quot;: true,
+     &quot;progress&quot;: 10
+   }
+ }</p>
+</div></td></tr></tbody></table></div>
+</div>

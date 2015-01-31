@@ -38,6 +38,7 @@ module.exports = function(grunt) {
 			js: {
 				files: {
 					'build/videogular/videogular.min.js': ['build/videogular/videogular.js'],
+					'build/analytics/vg-analytics.min.js': ['app/scripts/com/2fdevs/videogular/plugins/vg-analytics/vg-analytics.js'],
 					'build/buffering/vg-buffering.min.js': ['app/scripts/com/2fdevs/videogular/plugins/vg-buffering/vg-buffering.js'],
 					'build/controls/vg-controls.min.js': ['build/controls/vg-controls.js'],
 					'build/ima-ads/vg-ima-ads.min.js': ['app/scripts/com/2fdevs/videogular/plugins/vg-ima-ads/vg-ima-ads.js'],
@@ -52,34 +53,21 @@ module.exports = function(grunt) {
 				files: [
 					{
             expand: true,
-            cwd: 'app/scripts/com/2fdevs/videogular/directives/views/',
-						src: ['**'],
-						dest: 'build/videogular/views/'
-					},
-          {
-            expand: true,
             cwd: 'app/styles/themes/default/',
             src: ['**'],
             dest: 'build/themes/default/'
           },
           {
             expand: true,
-            cwd: 'app/scripts/com/2fdevs/videogular/plugins/vg-buffering/',
+            cwd: 'app/scripts/com/2fdevs/videogular/plugins/vg-analytics/',
             src: ['**'],
-            dest: 'build/buffering/'
+            dest: 'build/analytics/'
           },
           {
             expand: true,
-            flatten: true,
-            cwd: 'app/scripts/com/2fdevs/videogular/plugins/vg-controls/',
-            src: [
-              'views/*.html',
-              'vg-fullscreen-button/views/*.html',
-              'vg-play-pause-button/views/*.html',
-              'vg-scrub-bar/views/*.html',
-              'vg-volume/views/*.html'
-            ],
-            dest: 'build/controls/views/'
+            cwd: 'app/scripts/com/2fdevs/videogular/plugins/vg-buffering/',
+            src: ['**'],
+            dest: 'build/buffering/'
           },
           {
             expand: true,
@@ -128,6 +116,13 @@ module.exports = function(grunt) {
 						flatten: true,
 						src: ['build/themes/default/fonts/**'],
 						dest: '../bower-videogular-themes-default/fonts/',
+						filter: 'isFile'
+					},
+					{
+						expand: true,
+						flatten: true,
+						src: ['build/analytics/*.js'],
+						dest: '../bower-videogular-analytics/',
 						filter: 'isFile'
 					},
 					{
@@ -200,6 +195,7 @@ module.exports = function(grunt) {
 			major: {
 				src: [
 					"../bower-videogular/Gruntfile.js",
+					"../bower-videogular-analytics/Gruntfile.js",
 					"../bower-videogular-buffering/Gruntfile.js",
 					"../bower-videogular-controls/Gruntfile.js",
 					"../bower-videogular-ima-ads/Gruntfile.js",
@@ -213,6 +209,7 @@ module.exports = function(grunt) {
 			minor: {
 				src: [
 					"../bower-videogular/Gruntfile.js",
+					"../bower-videogular-analytics/Gruntfile.js",
 					"../bower-videogular-buffering/Gruntfile.js",
 					"../bower-videogular-controls/Gruntfile.js",
 					"../bower-videogular-ima-ads/Gruntfile.js",
@@ -226,6 +223,7 @@ module.exports = function(grunt) {
 			patch: {
 				src: [
 					"../bower-videogular/Gruntfile.js",
+					"../bower-videogular-analytics/Gruntfile.js",
 					"../bower-videogular-buffering/Gruntfile.js",
 					"../bower-videogular-controls/Gruntfile.js",
 					"../bower-videogular-ima-ads/Gruntfile.js",

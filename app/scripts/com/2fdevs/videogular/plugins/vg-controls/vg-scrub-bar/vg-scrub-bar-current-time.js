@@ -1,6 +1,6 @@
 /**
  * @ngdoc directive
- * @name com.2fdevs.videogular.plugins.controls:vgScrubBarCurrentTime
+ * @name com.2fdevs.videogular.plugins.controls.directive:vgScrubBarCurrentTime
  * @restrict E
  * @description
  * Layer inside vg-scrubbar to display the current time.
@@ -28,17 +28,12 @@ angular.module("com.2fdevs.videogular.plugins.controls")
           var percentTime = 0;
 
           scope.onUpdateTime = function onUpdateTime(newCurrentTime) {
-            if (newCurrentTime && API.totalTime) {
-              var currentISO = newCurrentTime.getTime() - (API.totalTime.getTimezoneOffset() * 60000);
-              var totalISO = API.totalTime.getTime() - (API.totalTime.getTimezoneOffset() * 60000);
-              percentTime = (currentISO * -1 / 1000) * 100 / (totalISO * -1 / 1000);
+            if (typeof newCurrentTime === 'number' && API.totalTime) {
+              percentTime = 100 * (newCurrentTime / API.totalTime);
               elem.css("width", percentTime + "%");
+            } else {
+              elem.css("width", 0);
             }
-          };
-
-          scope.onComplete = function onComplete() {
-            percentTime = 0;
-            elem.css("width", percentTime + "%");
           };
 
           scope.$watch(
@@ -47,15 +42,6 @@ angular.module("com.2fdevs.videogular.plugins.controls")
             },
             function (newVal, oldVal) {
               scope.onUpdateTime(newVal);
-            }
-          );
-
-          scope.$watch(
-            function () {
-              return API.isCompleted;
-            },
-            function (newVal, oldVal) {
-              scope.onComplete(newVal);
             }
           );
         }

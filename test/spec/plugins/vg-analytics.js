@@ -10,7 +10,6 @@ describe('Directive: Analytics', function () {
 
 	beforeEach(module('com.2fdevs.videogular'));
 	beforeEach(module('com.2fdevs.videogular.plugins.analytics'));
-	beforeEach(module('vg-templates'));
 
 	beforeEach(inject(function ($injector) {
     $compile = $injector.get('$compile');
@@ -48,8 +47,8 @@ describe('Directive: Analytics', function () {
 
 		element = angular.element(
       '<videogular vg-theme="config.theme.url">' +
-        '<vg-media vg-template="scripts/com/2fdevs/videogular/directives/views/vg-media.html" vg-src="config.sources"></vg-media>' +
-        '<vg-analytics vg-track-info="config.plugins.analytics" vg-template="scripts/com/2fdevs/videogular/plugins/vg-buffering/views/vg-buffering.html"></vg-analytics>' +
+        '<vg-media vg-src="config.sources"></vg-media>' +
+        '<vg-analytics vg-track-info="config.plugins.analytics"></vg-analytics>' +
       '</videogular>'
     );
 

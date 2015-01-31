@@ -8,7 +8,6 @@ describe('Directive: Poster', function () {
 
 	beforeEach(module('com.2fdevs.videogular'));
 	beforeEach(module('com.2fdevs.videogular.plugins.poster'));
-	beforeEach(module('vg-templates'));
 
 	beforeEach(inject(function ($injector) {
     $compile = $injector.get('$compile');
@@ -37,8 +36,8 @@ describe('Directive: Poster', function () {
 
 		element = angular.element(
       '<videogular vg-theme="config.theme.url">' +
-        '<vg-media vg-template="scripts/com/2fdevs/videogular/directives/views/vg-media.html" vg-src="config.sources"></vg-media>' +
-        '<vg-poster vg-url="config.plugins.poster.url" vg-template="scripts/com/2fdevs/videogular/plugins/vg-poster/views/vg-poster.html"></vg-poster>' +
+        '<vg-media vg-src="config.sources"></vg-media>' +
+        '<vg-poster vg-url="config.plugins.poster.url"></vg-poster>' +
       '</videogular>'
     );
 

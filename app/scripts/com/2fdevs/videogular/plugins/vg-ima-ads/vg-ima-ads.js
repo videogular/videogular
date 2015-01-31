@@ -5,7 +5,7 @@
  */
 /**
  * @ngdoc directive
- * @name com.2fdevs.videogular.plugins.imaads:vgImaAds
+ * @name com.2fdevs.videogular.plugins.imaads.directive:vgImaAds
  * @restrict E
  * @description
  * Directive to show Google Interactive Media Ads.

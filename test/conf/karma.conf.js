@@ -83,14 +83,7 @@ module.exports = function (config) {
       // source files, that you wanna generate coverage for
       // do not include tests or libraries
       // (these files will be instrumented by Istanbul)
-      'app/scripts/com/2fdevs/videogular/**/!(vg-ima-ads)/*.js': ['coverage'],
-      'app/scripts/com/2fdevs/videogular/**/*.html': ['ng-html2js']
-    },
-
-    ngHtml2JsPreprocessor: {
-      // strip app from the file path
-      stripPrefix: 'app/',
-      moduleName: 'vg-templates'
+      'app/scripts/com/2fdevs/videogular/**/!(vg-ima-ads)/*.js': ['coverage']
     },
 
     // Continuous Integration mode

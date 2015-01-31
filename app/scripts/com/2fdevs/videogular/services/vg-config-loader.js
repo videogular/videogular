@@ -1,3 +1,12 @@
+/**
+ * @ngdoc service
+ * @name com.2fdevs.videogular.service:vgConfigLoader
+ *
+ * @description
+ * Config loader service:
+ *
+ * vgConfigLoader.loadConfig(url): Param `url` is a url to a config JSON.
+ **/
 "use strict";
 angular.module("com.2fdevs.videogular")
   .service("vgConfigLoader", ["$http", "$q", "$sce", function($http, $q, $sce) {

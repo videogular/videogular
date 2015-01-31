@@ -5,12 +5,14 @@
  */
 /**
  * @ngdoc directive
- * @name com.2fdevs.videogular.plugins.analytics:vgAnalytics
+ * @name com.2fdevs.videogular.plugins.analytics.directive:vgAnalytics
  * @restrict E
  * @description
  * Adds analytics support for your videos.
  * This plugin requires the awesome angulartics module:
  * http://luisfarzati.github.io/angulartics
+ *
+ * This plugin is not using any analytics provider, you need to add the analytic provider of your choice to your app, like: "angulartics.google.analytics"
  *
  * Videogular analytics injects Angulartics, so to use your preferred plugin you need to add it on your app.
  *
@@ -20,7 +22,36 @@
  * </videogular>
  * ```
  *
- * @param {object} vgTrackInfo Object with the tracking info.
+ * This plugin requires an object with the following structure:
+ * ```js
+ * {
+ *    "category": "Videogular",
+ *    "label": "Main",
+ *    "events": {
+ *      "ready": true,     // Triggered when player is ready
+ *      "play": true,      // Triggered each time player has been played
+ *      "pause": true,     // Triggered each time player has been paused
+ *      "stop": true,      // Triggered each time player has been stopped
+ *      "complete": true,  // Triggered each time player has been completed
+ *      "progress": 10     // Triggered each 10% of the progress video
+ *    }
+ *  }
+ * ```
+ *
+ * @param {object} vgTrackInfo Object with the tracking info with the following structure:
+ *
+ * {
+ *    "category": "Videogular",
+ *    "label": "Main",
+ *    "events": {
+ *      "ready": true,
+ *      "play": true,
+ *      "pause": true,
+ *      "stop": true,
+ *      "complete": true,
+ *      "progress": 10
+ *    }
+ *  }
  *
  */
 "use strict";
@@ -37,7 +68,7 @@ angular.module("com.2fdevs.videogular.plugins.analytics", ["angulartics"])
       link: function (scope, elem, attr, API) {
         var info = null;
         var currentState = null;
-        var totalISO = null;
+        var totalMiliseconds = null;
         var progressTracks = [];
 
         scope.API = API;
@@ -77,13 +108,9 @@ angular.module("com.2fdevs.videogular.plugins.analytics", ["angulartics"])
         };
 
         scope.onUpdateTime = function onUpdateTime(newCurrentTime) {
-          var currentISO = newCurrentTime.getTime() - (API.totalTime.getTimezoneOffset() * 60000);
-
-          if (currentISO && totalISO) {
-            if (progressTracks.length > 0 && currentISO >= progressTracks[0].jump) {
-              scope.trackEvent("progress " + progressTracks[0].percent + "%");
-              progressTracks.shift();
-            }
+          if (progressTracks.length > 0 && newCurrentTime >= progressTracks[0].jump) {
+            scope.trackEvent("progress " + progressTracks[0].percent + "%");
+            progressTracks.shift();
           }
         };
 
@@ -138,7 +165,7 @@ angular.module("com.2fdevs.videogular.plugins.analytics", ["angulartics"])
                 return API.currentTime;
               },
               function (newVal, oldVal) {
-                scope.onUpdateTime(newVal);
+                scope.onUpdateTime(newVal / 1000);
               }
             );
 
@@ -147,11 +174,11 @@ angular.module("com.2fdevs.videogular.plugins.analytics", ["angulartics"])
                 return API.totalTime;
               },
               function (newVal, oldVal) {
-                totalISO = newVal.getTime() - (newVal.getTimezoneOffset() * 60000);
+                totalMiliseconds = newVal / 1000;
 
-                if (totalISO > 0) {
+                if (totalMiliseconds > 0) {
                   var totalTracks = scope.vgTrackInfo.events.progress - 1;
-                  var progressJump = Math.floor(totalISO / scope.vgTrackInfo.events.progress);
+                  var progressJump = Math.floor(totalMiliseconds / scope.vgTrackInfo.events.progress);
 
                   for (var i=0; i<totalTracks; i++) {
                     progressTracks.push({percent: (i + 1) * scope.vgTrackInfo.events.progress, jump: (i + 1) * progressJump});

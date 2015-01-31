@@ -5,8 +5,8 @@
  */
 /**
  * @ngdoc directive
- * @name com.2fdevs.videogular.plugins.dash:vgDash
- * @restrict E
+ * @name com.2fdevs.videogular.plugins.dash.directive:vgDash
+ * @restrict A
  * @description
  * Adds support for vg-video and vg-audio tags.
  * This plugin requires dash.all.js file available at dash.js project:
@@ -14,7 +14,7 @@
  *
  * ```html
  * <videogular vg-theme="config.theme.url" vg-autoplay="config.autoPlay">
- *    <vg-video vg-src="sources" vg-dash></vg-video>
+ *    <vg-media vg-src="sources" vg-dash></vg-media>
  * </videogular>
  * ```
  *

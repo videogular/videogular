@@ -4,7 +4,6 @@ describe('Directive: Videogular Config', function () {
 	var $httpBackend;
 
 	beforeEach(module('com.2fdevs.videogular'));
-	beforeEach(module('vg-templates'));
 
 	beforeEach(inject(function ($injector) {
     $httpBackend = $injector.get('$httpBackend');
@@ -19,15 +18,15 @@ describe('Directive: Videogular Config', function () {
         "theme": "styles/themes/default/videogular.css",
         "sources": [
           {
-            "src": "http://www.videogular.com/assets/videos/videogular.mp4",
+            "src": "http://static.videogular.com/assets/videos/videogular.mp4",
             "type": "video/mp4"
           },
           {
-            "src": "http://www.videogular.com/assets/videos/videogular.webm",
+            "src": "http://static.videogular.com/assets/videos/videogular.webm",
             "type": "video/webm"
           },
           {
-            "src": "http://www.videogular.com/assets/videos/videogular.ogg",
+            "src": "http://static.videogular.com/assets/videos/videogular.ogg",
             "type": "video/ogg"
           }
         ],

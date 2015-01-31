@@ -32,31 +32,15 @@ angular.module("com.2fdevs.videogular")
     this.getZIndex = function () {
       var zIndex = 1;
 
-      angular.element('*')
-        .filter(function () {
-          return angular.element(this).css('zIndex') !== 'auto';
-        })
-        .each(function () {
-          var thisZIndex = parseInt(angular.element(this).css('zIndex'));
-          if (zIndex < thisZIndex) zIndex = thisZIndex + 1;
-        });
+      var tags = document.getElementsByTagName('*');
+
+      for (var i=0, l=tags.length; i<l; i++) {
+        if (tags[i].style.zIndex && parseInt(tags[i].style.zIndex) > zIndex) {
+          zIndex = parseInt(tags[i].style.zIndex) + 1;
+        }
+      }
 
       return zIndex;
-    };
-
-    this.toUTCDate = function(date){
-      return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds(), date.getUTCMilliseconds());
-    };
-
-    this.secondsToDate = function (seconds) {
-      if (isNaN(seconds)) seconds = 0;
-
-      var result = new Date();
-      result.setTime(seconds * 1000);
-
-      result = this.toUTCDate(result);
-
-      return result;
     };
 
     // Very simple mobile detection, not 100% reliable

@@ -1,6 +1,6 @@
 /**
  * @ngdoc directive
- * @name com.2fdevs.videogular.plugins.controls:vgTimeDisplay
+ * @name com.2fdevs.videogular.plugins.controls.directive:vgTimeDisplay
  * @restrict E
  * @description
  * Adds a time display inside vg-controls to play and pause media.
@@ -38,9 +38,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
               return API.currentTime;
             },
             function (newVal, oldVal) {
-              if (newVal != oldVal) {
-                scope.currentTime = newVal;
-              }
+              scope.currentTime = newVal;
             }
           );
 
@@ -49,9 +47,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
               return API.timeLeft;
             },
             function (newVal, oldVal) {
-              if (newVal != oldVal) {
-                scope.timeLeft = newVal;
-              }
+              scope.timeLeft = newVal;
             }
           );
 
@@ -60,9 +56,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
               return API.totalTime;
             },
             function (newVal, oldVal) {
-              if (newVal != oldVal) {
-                scope.totalTime = newVal;
-              }
+              scope.totalTime = newVal;
             }
           );
 
@@ -71,9 +65,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
               return API.isLive;
             },
             function (newVal, oldVal) {
-              if (newVal != oldVal) {
-                scope.isLive = newVal;
-              }
+              scope.isLive = newVal;
             }
           );
         }

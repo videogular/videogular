@@ -1,6 +1,6 @@
 /**
  * @ngdoc directive
- * @name com.2fdevs.videogular.plugins.controls:vgPlayPauseButton
+ * @name com.2fdevs.videogular.plugins.controls.directive:vgPlayPauseButton
  * @restrict E
  * @description
  * Adds a button inside vg-controls to play and pause media.
@@ -17,6 +17,12 @@
  *
  */
 angular.module("com.2fdevs.videogular.plugins.controls")
+  .run(
+    ["$templateCache", function($templateCache) {
+      $templateCache.put("vg-templates/vg-play-pause-button",
+        '<button class="iconButton" ng-click="onClickPlayPause()" ng-class="playPauseIcon" aria-label="Play/Pause" type="button"></button>');
+    }]
+  )
   .directive("vgPlayPauseButton",
     ["VG_STATES", function (VG_STATES) {
       return {
@@ -24,7 +30,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
         require: "^videogular",
         scope: {},
         templateUrl: function(elem, attrs) {
-          return attrs.vgTemplate || 'bower_components/vg-controls/views/vg-play-pause-button.html';
+          return attrs.vgTemplate || 'vg-templates/vg-play-pause-button';
         },
         link: function (scope, elem, attr, API) {
           scope.setState = function setState(newState) {

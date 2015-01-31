@@ -5,7 +5,7 @@
  */
 /**
  * @ngdoc directive
- * @name com.2fdevs.videogular.plugins.controls:vgControls
+ * @name com.2fdevs.videogular.plugins.controls.directive:vgControls
  * @restrict E
  * @description
  * This directive acts as a container and you will need other directives to control the media.
@@ -25,6 +25,12 @@
  */
 "use strict";
 angular.module("com.2fdevs.videogular.plugins.controls", [])
+  .run(
+    ["$templateCache", function($templateCache) {
+      $templateCache.put("vg-templates/vg-controls",
+        '<div class="controls-container" ng-mousemove="onMouseMove()" ng-class="animationClass" ng-transclude></div>');
+    }]
+  )
 	.directive("vgControls",
     ["$timeout", function ($timeout) {
       return {
@@ -32,7 +38,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
         require: "^videogular",
         transclude: true,
         templateUrl: function(elem, attrs) {
-          return attrs.vgTemplate || 'bower_components/vg-controls/views/vg-controls.html';
+          return attrs.vgTemplate || 'vg-templates/vg-controls';
         },
         scope: {
           vgAutohide: "=?",

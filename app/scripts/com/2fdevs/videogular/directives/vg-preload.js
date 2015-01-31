@@ -1,3 +1,11 @@
+/**
+ * @ngdoc directive
+ * @name com.2fdevs.videogular.directive:vgPreload
+ * @restrict A
+ * @description
+ * Optional directive for `vg-media` to preload media files. Possible values are: "auto", "none" and "preload"
+ *
+ */
 "use strict";
 angular.module("com.2fdevs.videogular")
   .directive("vgPreload",

@@ -37,14 +37,14 @@ angular.module('myApp').controller('AudioCtrl',
 		$scope.media = [
 			{
 				sources: [
-          {src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/audios/videogular.mp3"), type: "audio/mpeg"},
-          {src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/audios/videogular.ogg"), type: "audio/ogg"}
+          {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/audios/videogular.mp3"), type: "audio/mpeg"},
+          {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/audios/videogular.ogg"), type: "audio/ogg"}
 				]
 			},
 			{
 				sources: [
-					{src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/big_buck_bunny_720p_h264.mov"), type: "video/mp4"},
-					{src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/big_buck_bunny_720p_stereo.ogg"), type: "video/ogg"}
+					{src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/big_buck_bunny_720p_h264.mov"), type: "video/mp4"},
+					{src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/big_buck_bunny_720p_stereo.ogg"), type: "video/ogg"}
 				]
 			}
 		];
@@ -71,9 +71,9 @@ angular.module('myApp').controller('AudioCtrl',
 
 		$scope.wrongSource = function () {
 			$scope.config.sources = [
-        {src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogula.mp4"), type: "video/mp4"},
-        {src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogula.webm"), type: "video/webm"},
-        {src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogula.ogg"), type: "video/ogg"}
+        {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogula.mp4"), type: "video/mp4"},
+        {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogula.webm"), type: "video/webm"},
+        {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogula.ogg"), type: "video/ogg"}
       ];
 			$scope.config.tracks = undefined;
 			$scope.config.loop = false;

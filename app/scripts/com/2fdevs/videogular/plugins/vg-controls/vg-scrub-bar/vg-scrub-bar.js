@@ -1,6 +1,6 @@
 /**
  * @ngdoc directive
- * @name com.2fdevs.videogular.plugins.controls:vgScrubBar
+ * @name com.2fdevs.videogular.plugins.controls.directive:vgScrubBar
  * @restrict E
  * @description
  * Directive to control the time and display other information layers about the progress of the media.
@@ -18,6 +18,12 @@
  *
  */
 angular.module("com.2fdevs.videogular.plugins.controls")
+  .run(
+    ["$templateCache", function($templateCache) {
+      $templateCache.put("vg-templates/vg-scrub-bar",
+        '<div role="slider" aria-valuemax="{{ariaTime(API.totalTime)}}" aria-valuenow="{{ariaTime(API.currentTime)}}" aria-valuemin="0" aria-label="Time scrub bar" tabindex="0" ng-transclude ng-keydown="onScrubBarKeyDown($event)"></div>');
+    }]
+  )
   .directive("vgScrubBar",
     ["VG_STATES", "VG_UTILS", function (VG_STATES, VG_UTILS) {
       return {
@@ -25,7 +31,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
         require: "^videogular",
         transclude: true,
         templateUrl: function(elem, attrs) {
-          return attrs.vgTemplate || 'bower_components/vg-controls/views/vg-scrub-bar.html';
+          return attrs.vgTemplate || 'vg-templates/vg-scrub-bar';
         },
         link: function (scope, elem, attr, API) {
           var isSeeking = false;
@@ -38,7 +44,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
 
           scope.API = API;
           scope.ariaTime = function(time) {
-            return (time === 0) ? "0" : Math.round(time.getTime() / 1000);
+            return Math.round(time / 1000);
           };
 
           scope.onScrubBarTouchStart = function onScrubBarTouchStart($event) {
@@ -134,9 +140,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
           };
 
           scope.onScrubBarKeyDown = function onScrubBarKeyDown(event) {
-            var currentISO = API.currentTime.getTime() - (API.totalTime.getTimezoneOffset() * 60000);
-            var totalISO = API.totalTime.getTime() - (API.totalTime.getTimezoneOffset() * 60000);
-            var currentPercent = currentISO / totalISO * 100;
+            var currentPercent = (API.currentTime / API.totalTime) * 100;
 
             if (event.which === LEFT || event.keyCode === LEFT) {
               API.seekTime(currentPercent - NUM_PERCENT, true);

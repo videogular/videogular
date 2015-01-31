@@ -11,7 +11,6 @@ describe('Directive: Controls', function () {
 
 	beforeEach(module('com.2fdevs.videogular'));
 	beforeEach(module('com.2fdevs.videogular.plugins.controls'));
-	beforeEach(module('vg-templates'));
 
 	beforeEach(inject(function ($injector) {
     $compile = $injector.get('$compile');
@@ -43,21 +42,21 @@ describe('Directive: Controls', function () {
 
 		element = angular.element(
       '<videogular vg-theme="config.theme.url">' +
-        '<vg-media vg-template="scripts/com/2fdevs/videogular/directives/views/vg-media.html" vg-src="config.sources"></vg-media>' +
+        '<vg-media vg-src="config.sources"></vg-media>' +
 
-        '<vg-controls vg-autohide="config.plugins.controls.autoHide" vg-autohide-time="config.plugins.controls.autoHideTime" vg-template="scripts/com/2fdevs/videogular/plugins/vg-controls/views/vg-controls.html">' +
-          '<vg-play-pause-button vg-template="scripts/com/2fdevs/videogular/plugins/vg-controls/vg-play-pause-button/views/vg-play-pause-button.html"></vg-play-pause-button>' +
+        '<vg-controls vg-autohide="config.plugins.controls.autoHide" vg-autohide-time="config.plugins.controls.autoHideTime">' +
+          '<vg-play-pause-button></vg-play-pause-button>' +
           '<vg-time-display id="ct">{{ currentTime | date:"mm:ss" }}</vg-time-display>' +
           '<vg-time-display id="tt">{{ totalTime | date:"mm:ss" }}</vg-time-display>' +
           '<vg-time-display id="tl">{{ timeLeft | date:"mm:ss" }}</vg-time-display>' +
-          '<vg-scrub-bar vg-template="scripts/com/2fdevs/videogular/plugins/vg-controls/vg-scrub-bar/views/vg-scrub-bar.html">' +
+          '<vg-scrub-bar>' +
             '<vg-scrub-bar-current-time></vg-scrub-bar-current-time>' +
           '</vg-scrub-bar>' +
           '<vg-volume>' +
-            '<vg-mute-button vg-template="scripts/com/2fdevs/videogular/plugins/vg-controls/vg-volume/views/vg-mute-button.html"></vg-mute-button>' +
-            '<vg-volume-bar vg-template="scripts/com/2fdevs/videogular/plugins/vg-controls/vg-volume/views/vg-volume-bar.html"></vg-volume-bar>' +
+            '<vg-mute-button></vg-mute-button>' +
+            '<vg-volume-bar></vg-volume-bar>' +
           '</vg-volume>' +
-          '<vg-fullscreen-button vg-template="scripts/com/2fdevs/videogular/plugins/vg-controls/vg-fullscreen-button/views/vg-fullscreen-button.html"></vg-fullscreen-button>' +
+          '<vg-fullscreen-button></vg-fullscreen-button>' +
         '</vg-controls>' +
       '</videogular>'
     );
@@ -205,8 +204,8 @@ describe('Directive: Controls', function () {
 		it("should have been resized current time scrub bar", function() {
 			var scrubBarTime = element.find("vg-scrub-bar-current-time");
 
-      API.currentTime = VG_UTILS.secondsToDate(50000);
-      API.totalTime = VG_UTILS.secondsToDate(100000);
+      API.currentTime = 50000;
+      API.totalTime = 100000;
       $scope.$digest();
 
       expect(scrubBarTime.css("width")).toBe("50%");
@@ -218,7 +217,7 @@ describe('Directive: Controls', function () {
       API.isCompleted = true;
       $scope.$digest();
 
-      expect(scrubBarTime.css("width")).toBe("0%");
+      expect(scrubBarTime.css("width")).toBe("0px");
 		});
   });
 
@@ -226,7 +225,7 @@ describe('Directive: Controls', function () {
 		it("should have been added a current time", function() {
 			var timeDisplay = element.find("#ct");
 
-      API.currentTime = new Date(100000);
+      API.currentTime = 100000;
       $scope.$digest();
 
       expect(timeDisplay.text()).toBe("01:40");
@@ -235,7 +234,7 @@ describe('Directive: Controls', function () {
 		it("should have been added a total time", function() {
 			var timeDisplay = element.find("#tt");
 
-      API.totalTime = new Date(100000);
+      API.totalTime = 100000;
       $scope.$digest();
 
       expect(timeDisplay.text()).toBe("01:40");
@@ -244,7 +243,7 @@ describe('Directive: Controls', function () {
 		it("should have been added a time left", function() {
 			var timeDisplay = element.find("#tl");
 
-      API.timeLeft = new Date(100000);
+      API.timeLeft = 100000;
       $scope.$digest();
 
       expect(timeDisplay.text()).toBe("01:40");

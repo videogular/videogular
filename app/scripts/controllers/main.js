@@ -37,9 +37,9 @@ angular.module('myApp').controller('MainCtrl',
 		$scope.media = [
 			{
 				sources: [
-					{src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogular.mp4"), type: "video/mp4"},
-          {src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogular.ogg"), type: "video/ogg"},
-          {src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogular.webm"), type: "video/webm"}
+					{src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.mp4"), type: "video/mp4"},
+          {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.ogg"), type: "video/ogg"},
+          {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.webm"), type: "video/webm"}
         ],
 				tracks: [
 					{
@@ -53,13 +53,14 @@ angular.module('myApp').controller('MainCtrl',
 			},
 			{
 				sources: [
-					{src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/big_buck_bunny_720p_h264.mov"), type: "video/mp4"},
-					{src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/big_buck_bunny_720p_stereo.ogg"), type: "video/ogg"}
+					{src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/big_buck_bunny_720p_h264.mov"), type: "video/mp4"},
+					{src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/big_buck_bunny_720p_stereo.ogg"), type: "video/ogg"}
 				]
 			}
 		];
 
 		$scope.config = {
+			playsInline: false,
 			autoHide: false,
 			autoHideTime: 3000,
 			autoPlay: false,
@@ -107,9 +108,9 @@ angular.module('myApp').controller('MainCtrl',
 
 		$scope.wrongSource = function () {
 			$scope.config.sources = [
-        {src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogula.mp4"), type: "video/mp4"},
-        {src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogula.webm"), type: "video/webm"},
-        {src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogula.ogg"), type: "video/ogg"}
+        {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogula.mp4"), type: "video/mp4"},
+        {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogula.webm"), type: "video/webm"},
+        {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogula.ogg"), type: "video/ogg"}
       ];
 			$scope.config.tracks = undefined;
 			$scope.config.loop = false;

@@ -1,6 +1,6 @@
 /**
  * @ngdoc directive
- * @name com.2fdevs.videogular.plugins.controls:vgVolume
+ * @name com.2fdevs.videogular.plugins.controls.directive:vgVolume
  * @restrict E
  * @description
  * Directive to control the volume.
