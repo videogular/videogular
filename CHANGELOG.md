@@ -1,5 +1,33 @@
 CHANGELOG
 ================
+## v1.0.0
+* Added vg-config to load config file to init the player and plugins.
+* Added Videogular Analytics.
+* Added unit tests.
+* Added "test" task in gruntfile.
+* Added firefox in karma conf.
+* Added config support in vg-analytics.
+* Added views as $templateCache.
+* Added analytics to build process.
+* Added a new fullcreen service with a native fullscreen polyfill.
+* Added vg-plays-inline to disable native fullscreen.
+* Updated theme to set controls-container as a class instead of an id element.
+* Updated Gruntfile with new build process.
+* Updated gitignore to remove coverage directory.
+* Updated package.json with new dependencies.
+* Updated function to calculate the highest zIndex.
+* Updated demo files.
+* Updated docs.
+* Changed vg-media to have a template.
+* Changed private functions to scope functions.
+* Changed vg-poster-image to vg-poster.
+* Fixed error with duplicated CSS themes on head.
+* Fixed problem seeking on Safari Yosemite.
+* Moved plugins to outside of directives directory.
+* Removed old scope variables on fullscreen button.
+* Removed vg-ima-ads in karma conf.
+* Removed template views.
+
 ## v0.7.2
 * Changed videogular font name to 'videogular' to avoid problems with other 'icomoon' fonts.
 * Improved error messages.
