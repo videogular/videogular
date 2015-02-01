@@ -176,6 +176,87 @@ NG_DOCS={
     },
     {
       "section": "api",
+      "id": "com.2fdevs.videogular.plugins.controls:vgControls",
+      "shortName": "vgControls",
+      "type": "directive",
+      "moduleName": "com.2fdevs.videogular.plugins",
+      "shortDescription": "This directive acts as a container and you will need other directives to control the media.",
+      "keywords": "activate acts add api autohide autohidetime boolean config container control controls directive directives hides html inside media milliseconds number plugins represents sources theme time url variable vg-autohide vg-autohide-time vg-play-pause-button vg-scrubbar vg-src vg-theme vgautohide vgautohidetime vgcontrols videogular wait"
+    },
+    {
+      "section": "api",
+      "id": "com.2fdevs.videogular.plugins.controls:vgFullscreenbutton",
+      "shortName": "vgFullscreenbutton",
+      "type": "directive",
+      "moduleName": "com.2fdevs.videogular.plugins",
+      "shortDescription": "Directive to switch between fullscreen and normal mode.",
+      "keywords": "api autohide autohidetime config controls directive fullscreen html mode normal plugins sources switch theme url vg-autohide vg-autohide-time vg-src vg-theme videogular"
+    },
+    {
+      "section": "api",
+      "id": "com.2fdevs.videogular.plugins.controls:vgMutebutton",
+      "shortName": "vgMutebutton",
+      "type": "directive",
+      "moduleName": "com.2fdevs.videogular.plugins",
+      "shortDescription": "Directive to display a button to mute volume.",
+      "keywords": "api autohide autohidetime button config controls directive display html mute plugins sources theme url vg-autohide vg-autohide-time vg-src vg-theme videogular volume"
+    },
+    {
+      "section": "api",
+      "id": "com.2fdevs.videogular.plugins.controls:vgPlayPauseButton",
+      "shortName": "vgPlayPauseButton",
+      "type": "directive",
+      "moduleName": "com.2fdevs.videogular.plugins",
+      "shortDescription": "Adds a button inside vg-controls to play and pause media.",
+      "keywords": "adds api autohide autohidetime button config controls directive html inside media pause play plugins sources theme url vg-autohide vg-autohide-time vg-controls vg-src vg-theme videogular"
+    },
+    {
+      "section": "api",
+      "id": "com.2fdevs.videogular.plugins.controls:vgScrubbar",
+      "shortName": "vgScrubbar",
+      "type": "directive",
+      "moduleName": "com.2fdevs.videogular.plugins",
+      "shortDescription": "Directive to control the time and display other information layers about the progress of the media.",
+      "keywords": "acts add api autohide autohidetime buffer config container control controls cuepoints current directive display html layers media plugins progress sources theme time url vg-autohide vg-autohide-time vg-src vg-theme videogular"
+    },
+    {
+      "section": "api",
+      "id": "com.2fdevs.videogular.plugins.controls:vgScrubbarcurrenttime",
+      "shortName": "vgScrubbarcurrenttime",
+      "type": "directive",
+      "moduleName": "com.2fdevs.videogular.plugins",
+      "shortDescription": "Layer inside vg-scrubbar to display the current time.",
+      "keywords": "api autohide autohidetime config controls current directive display html inside layer plugins sources theme time url vg-autohide vg-autohide-time vg-scrubbar vg-src vg-theme videogular"
+    },
+    {
+      "section": "api",
+      "id": "com.2fdevs.videogular.plugins.controls:vgTimedisplay",
+      "shortName": "vgTimedisplay",
+      "type": "directive",
+      "moduleName": "com.2fdevs.videogular.plugins",
+      "shortDescription": "Adds a time display inside vg-controls to play and pause media.",
+      "keywords": "add adds api autohide autohidetime config controls current directive display filter hh html inside left media mm pause play plugins scope sources theme three time total type url variables vg-autohide vg-autohide-time vg-controls vg-src vg-theme videogular"
+    },
+    {
+      "section": "api",
+      "id": "com.2fdevs.videogular.plugins.controls:vgVolume",
+      "shortName": "vgVolume",
+      "type": "directive",
+      "moduleName": "com.2fdevs.videogular.plugins",
+      "shortDescription": "Directive to control the volume.",
+      "keywords": "acts api autohide autohidetime config container control controls devices directive directives disabled hided html mobile plugins sources theme url vg-autohide vg-autohide-time vg-mutebutton vg-src vg-theme vg-volumebar videogular volume"
+    },
+    {
+      "section": "api",
+      "id": "com.2fdevs.videogular.plugins.controls:vgVolumebar",
+      "shortName": "vgVolumebar",
+      "type": "directive",
+      "moduleName": "com.2fdevs.videogular.plugins",
+      "shortDescription": "Directive to display a vertical volume bar to control the volume.",
+      "keywords": "api autohide autohidetime bar config control controls directive display displayed html inside plugins requires sources theme url vertical vg-autohide vg-autohide-time vg-mutebutton vg-src vg-theme vg-volume videogular volume"
+    },
+    {
+      "section": "api",
       "id": "com.2fdevs.videogular.plugins.dash.directive:vgDash",
       "shortName": "vgDash",
       "type": "directive",
@@ -227,6 +308,33 @@ NG_DOCS={
       "moduleName": "com.2fdevs.videogular",
       "shortDescription": "Native fullscreen polyfill service.",
       "keywords": "access api availability boolean current event exit fullscreen function isavailable isfullscreen mode native onchange onerror polyfill request service string vgfullscreen videogular view"
+    },
+    {
+      "section": "api",
+      "id": "com.2fdevs.videogular.vgAudio",
+      "shortName": "com.2fdevs.videogular.vgAudio",
+      "type": "directive",
+      "moduleName": "com.2fdevs.videogular",
+      "shortDescription": "Directive to add a source of audios. This directive will create a &lt;audio&gt; tag and usually will be above plugin tags.",
+      "keywords": "$sce add api array assets audio audios auto bindable boolean click content controls create data default devices directive disabled dropboxusercontent en english https initialized kind label list mobile mp3 native object parameter playing plugin preload properties property required resource scope set source sources src srclang start string subtitles tag tags track true trusful trustasresourceurl type url user variable vgaudio vgloop vgnativecontrols vgpreload vgsrc vgtracks video videogular visible vtt"
+    },
+    {
+      "section": "api",
+      "id": "com.2fdevs.videogular.vgVideo",
+      "shortName": "com.2fdevs.videogular.vgVideo",
+      "type": "directive",
+      "moduleName": "com.2fdevs.videogular",
+      "shortDescription": "Directive to add a source of videos. This directive will create a &lt;video&gt; tag and usually will be above plugin tags.",
+      "keywords": "$sce add api array assets auto bindable boolean click content controls create data default devices directive disabled dropboxusercontent en english https initialized kind label list mobile mp4 native object parameter playing plugin preload properties property required resource scope set source sources src srclang start string subtitles tag tags track true trusful trustasresourceurl type url user variable vgloop vgnativecontrols vgpreload vgsrc vgtracks vgvideo video videogular videos visible vtt"
+    },
+    {
+      "section": "api",
+      "id": "com.2fdevs.videogular.videogular",
+      "shortName": "com.2fdevs.videogular.videogular",
+      "type": "directive",
+      "moduleName": "com.2fdevs.videogular",
+      "shortDescription": "Main directive that must wrap a &lt;vg-video&gt; or &lt;vg-audio&gt; tag and all plugins.",
+      "keywords": "allow api auto boolean call callback change changes click completed consuming content controller css current data devices directive disabled duration error event free function header initialized inject layer link main milliseconds mobile mp4 object param parameter params pause plans play playback playing plugin plugins prevent quality receive receives required scope sd source sources start string tag tags time updated updating user values variable vgautoplay vgchangesource vgcomplete vgerror vgplayerready vgtheme vgupdatestate vgupdatetime vgupdatevolume video videogular volume wrap"
     }
   ],
   "apis": {
