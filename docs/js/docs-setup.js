@@ -19,7 +19,7 @@ NG_DOCS={
       "type": "controller",
       "moduleName": "com.2fdevs.videogular",
       "shortDescription": "Videogular controller.",
-      "keywords": "$sce api array boolean bypercent changes changesource control controller current default false file fullscreen http integer media miliseconds mode mp4 normal object objects offers param pause pauses percentage playpause plays properties property public resource seeks seektime setvolume source src stops togglefullscreen toggles trusful trustasresourceurl type updates url video videogular volume"
+      "keywords": "$sce api array boolean buffering bypercent changesource cleans clearmedia completed config controller css current currentstate currenttime default file fullscreen http initialization inline integer isbuffering iscompleted isfullscreen islive isready json left live media mediaelement methods mode mp4 native normal number object objects offers param pass pause percentage play player playing playpause plays playsinline position previous progress properties property public reference removes representing resource seconds seek seeks seektime sets setvolume source sources src stops streaming string tag target theme time timeleft togglefullscreen toggles total totaltime tracks true trustasresourceurl trustful type updates updatetheme url video videogular videogularelement volume"
     },
     {
       "section": "api",

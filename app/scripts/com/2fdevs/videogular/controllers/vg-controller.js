@@ -4,16 +4,39 @@
  * @name com.2fdevs.videogular.controller:vgController
  * @description
  * Videogular controller.
- * This controller offers a public API to control video object:
- * - playPause(): Plays or pauses current media file.
- * - pause(): Pauses current media file.
- * - stop(): Stops current media file.
- * - seekTime(value, byPercent): Seeks by miliseconds or percentage. Param `byPercent` is a boolean with "false" by default.
- * - toggleFullScreen(): Toggles between normal and fullscreen mode.
+ * This controller offers a public API:
+ *
+ * Methods
+ * - play(): Plays media.
+ * - pause(): Pause media.
+ * - stop(): Stops media.
+ * - playPause(): Toggles play and pause.
+ * - seekTime(value, byPercent): Seeks to a specified time position. Param value must be an integer representing the target position in seconds or a percentage. By default seekTime seeks by seconds, if you want to seek by percentage just pass byPercent to true.
+ * - setVolume(volume): Sets volume. Param volume must be an integer with a value between 0 and 1.
+ * - toggleFullScreen(): Toggles between fullscreen and normal mode.
+ * - updateTheme(css-url): Removes previous CSS theme and sets a new one.
+ * - clearMedia(): Cleans the current media file.
  * - changeSource(array): Updates current media source. Param `array` must be an array of media source objects.
- * A media source is an object with two properties `src` and `type`. The `src` property must contains a trusful url resource.
+ * A media source is an object with two properties `src` and `type`. The `src` property must contains a trustful url resource.
  * {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.mp4"), type: "video/mp4"}
- * - setVolume(volume): Changes current media file volume. Param `volume` must be an integer value between 0 and 1.
+ *
+ * Properties
+ * - config: String with a url to JSON config file.
+ * - isReady: Boolean value with current player initialization state.
+ * - isBuffering: Boolean value to know if player is buffering media.
+ * - isCompleted: Boolean value to know if current media file has been completed.
+ * - isLive: Boolean value to know if current media file is a Live Streaming.
+ * - playsInline: Boolean value to know if Videogular if fullscreen mode will use native mode or inline playing.
+ * - mediaElement: Reference to video/audio object.
+ * - videogularElement: Reference to videogular tag.
+ * - sources: Array with current sources.
+ * - tracks: Array with current tracks.
+ * - isFullScreen: Boolean value to know if we’re in fullscreen mode.
+ * - currentState: String value with “play”, “pause” or “stop”.
+ * - currentTime: Number value with current media time progress.
+ * - totalTime: Number value with total media time.
+ * - timeLeft: Number value with current media time left.
+ * - volume: Number value with current volume between 0 and 1.
  *
  */
 angular.module("com.2fdevs.videogular")
@@ -39,6 +62,7 @@ angular.module("com.2fdevs.videogular")
       // Here we're in the video scope, we can't use 'this.'
       $scope.API.isReady = true;
       $scope.API.autoPlay = $scope.vgAutoPlay;
+      $scope.API.playsInline = $scope.vgPlaysInline;
       $scope.API.currentState = VG_STATES.STOP;
 
       isMetaDataLoaded = true;
@@ -58,6 +82,7 @@ angular.module("com.2fdevs.videogular")
 
       $scope.vgTheme = $scope.API.config.theme;
       $scope.vgAutoPlay = $scope.API.config.autoPlay;
+      $scope.vgPlaysInline = $scope.API.config.playsInline;
 
       $scope.vgPlayerReady({$API: $scope.API});
     };
