@@ -32,15 +32,15 @@ angular.module('myApp').controller('DashLiveCtrl',
     $scope.videos = [
       {
         sources: [
-          {src: "http://eu1.eastmark.net/pdash/testpic_6s/Manifest.mpd"}
+          {src: "http://tvnlive.dashdemo.edgesuite.net/live/manifest.mpd"}
         ]
         // Tracks are inside .mpd file and added by Dash.js
       },
       {
         sources: [
-          {src: $sce.trustAsResourceUrl("https://dl.dropboxusercontent.com/u/7359898/video/videogular.mp4"), type: "video/mp4"},
-          {src: $sce.trustAsResourceUrl("https://dl.dropboxusercontent.com/u/7359898/video/videogular.webm"), type: "video/webm"},
-          {src: $sce.trustAsResourceUrl("https://dl.dropboxusercontent.com/u/7359898/video/videogular.ogg"), type: "video/ogg"}
+          {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.mp4"), type: "video/mp4"},
+          {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.webm"), type: "video/webm"},
+          {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.ogg"), type: "video/ogg"}
         ],
         tracks: [
           {
@@ -82,8 +82,15 @@ angular.module('myApp').controller('DashLiveCtrl',
       }
     };
 
-    $scope.changeSource = function () {
+    $scope.setVOD = function () {
       $scope.config.sources = $scope.videos[1].sources;
+      $scope.config.tracks = undefined;
+      $scope.config.loop = false;
+      $scope.config.preload = true;
+    };
+
+    $scope.setLiveStreaming = function () {
+      $scope.config.sources = $scope.videos[0].sources;
       $scope.config.tracks = undefined;
       $scope.config.loop = false;
       $scope.config.preload = true;

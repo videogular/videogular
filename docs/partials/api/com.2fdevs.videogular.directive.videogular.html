@@ -1,0 +1,100 @@
+<h1><code ng:non-bindable="">videogular</code>
+<div><span class="hint">directive in module <code ng:non-bindable="">com.2fdevs.videogular</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Main directive that must wrap a &lt;vg-media&gt; tag and all plugins.</p>
+<p>&lt;video&gt; tag usually will be above plugin tags, that&#39;s because plugins should be in a layer over the &lt;video&gt;.</p>
+</div></div>
+<h2 id="usage">Usage</h2>
+<div class="usage">as element:<pre class="prettyprint linenums">&lt;videogular
+       vg-theme="{string}"
+       vg-autoplay="{boolean}"
+       vg-config="{function}"
+       vg-complete="{function}"
+       vg-update-volume="{function}"
+       vg-update-time="{function}"
+       vg-update-state="{function}"
+       vg-player-ready="{function}"
+       vg-change-source="{function}"
+       vg-plays-inline="{function}"
+       vg-error="{function}"&gt;
+&lt;/videogular&gt;</pre>
+<h4 id="usage_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>vgTheme</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>String with a scope name variable. This directive will inject a CSS link in the header of your page.
+<strong>This parameter is required.</strong></p>
+</div></td></tr><tr><td>vgAutoplay</td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>vgAutoplay Boolean value or a String with a scope name variable to auto start playing video when it is initialized.</p>
+<p><strong>This parameter is disabled in mobile devices</strong> because user must click on content to prevent consuming mobile data plans.</p>
+</div> <p><em>(default: false)</em></p></td></tr><tr><td>vgConfig</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>String with a url to a config file. Config file&#39;s must be a JSON file object with the following structure:</p>
+<pre><code class="lang-js">{
+  &quot;controls&quot;: false,
+  &quot;loop&quot;: false,
+  &quot;autoplay&quot;: false,
+  &quot;preload&quot;: &quot;auto&quot;,
+  &quot;theme&quot;: &quot;path/to/videogular.css&quot;,
+  &quot;sources&quot;: [
+    {
+      &quot;src&quot;: &quot;path/to/videogular.mp4&quot;,
+      &quot;type&quot;: &quot;video/mp4&quot;
+    },
+    {
+      &quot;src&quot;: &quot;path/to/videogular.webm&quot;,
+      &quot;type&quot;: &quot;video/webm&quot;
+    },
+    {
+      &quot;src&quot;: &quot;path/to/videogular.ogg&quot;,
+      &quot;type&quot;: &quot;video/ogg&quot;
+    }
+  ],
+  &quot;tracks&quot;: [
+    {
+      &quot;src&quot;: &quot;path/to/pale-blue-dot.vtt&quot;,
+      &quot;kind&quot;: &quot;subtitles&quot;,
+      &quot;srclang&quot;: &quot;en&quot;,
+      &quot;label&quot;: &quot;English&quot;,
+      &quot;default&quot;: &quot;&quot;
+    }
+  ],
+  &quot;plugins&quot;: {
+    &quot;controls&quot;: {
+      &quot;autohide&quot;: true,
+      &quot;autohideTime&quot;: 3000
+    },
+    &quot;poster&quot;: {
+      &quot;url&quot;: &quot;path/to/earth.png&quot;
+    },
+    &quot;ima-ads&quot;: {
+      &quot;companion&quot;: &quot;companionAd&quot;,
+      &quot;companionSize&quot;: [728, 90],
+      &quot;network&quot;: &quot;6062&quot;,
+      &quot;unitPath&quot;: &quot;iab_vast_samples&quot;,
+      &quot;adTagUrl&quot;: &quot;http://pubads.g.doubleclick.net/gampad/ads?sz=640x480&amp;iu=%2F3510761%2FadRulesSampleTags&amp;ciu_szs=160x600%2C300x250%2C728x90&amp;cust_params=adrule%3Dpremidpostpodandbumpers&amp;impl=s&amp;gdfp_req=1&amp;env=vp&amp;ad_rule=1&amp;vid=47570401&amp;cmsid=481&amp;output=xml_vast2&amp;unviewed_position_start=1&amp;url=[referrer_url]&amp;correlator=[timestamp]&quot;,
+      &quot;skipButton&quot;: &quot;&lt;div class=&#39;skipButton&#39;&gt;skip ad&lt;/div&gt;&quot;
+    },
+    &quot;analytics&quot;: {
+      &quot;category&quot;: &quot;Videogular&quot;,
+      &quot;label&quot;: &quot;Main&quot;,
+      &quot;events&quot;: {
+        &quot;ready&quot;: true,
+        &quot;play&quot;: true,
+        &quot;pause&quot;: true,
+        &quot;stop&quot;: true,
+        &quot;complete&quot;: true,
+        &quot;progress&quot;: 10
+      }
+    }
+  }
+}
+</code></pre>
+</div></td></tr><tr><td>vgComplete</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Function name in controller&#39;s scope to call when video have been completed.</p>
+</div></td></tr><tr><td>vgUpdateVolume</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Function name in controller&#39;s scope to call when volume changes. Receives a param with the new volume.</p>
+</div></td></tr><tr><td>vgUpdateTime</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Function name in controller&#39;s scope to call when video playback time is updated. Receives two params with current time and duration in milliseconds.</p>
+</div></td></tr><tr><td>vgUpdateState</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Function name in controller&#39;s scope to call when video state changes. Receives a param with the new state. Possible values are &quot;play&quot;, &quot;stop&quot; or &quot;pause&quot;.</p>
+</div></td></tr><tr><td>vgPlayerReady</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Function name in controller&#39;s scope to call when video have been initialized. Receives a param with the videogular API.</p>
+</div></td></tr><tr><td>vgChangeSource</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Function name in controller&#39;s scope to change current video source. Receives a param with the new video.</p>
+</div></td></tr><tr><td>vgPlaysInline</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Boolean to disable native fullscreen and plays video inline.</p>
+</div></td></tr><tr><td>vgError</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Function name in controller&#39;s scope to receive an error from video object. Receives a param with the error event.
+This is a free parameter and it could be values like &quot;new.mp4&quot;, &quot;320&quot; or &quot;sd&quot;. This will allow you to use this to change a video or video quality.
+This callback will not change the video, you should do that by updating your sources scope variable.</p>
+</div></td></tr></tbody></table></div>
+</div>

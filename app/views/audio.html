@@ -1,0 +1,88 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2>Audio player</h2>
+            <div class="videogular-container audio">
+                <videogular vg-player-ready="onPlayerReady($API)"
+                            vg-complete="onCompleteVideo()"
+                            vg-error="onError($event)"
+                            vg-update-time="onUpdateTime($currentTime, $duration)"
+                            vg-update-volume="onUpdateVolume($volume)"
+                            vg-update-state="onUpdateState($state)"
+                            vg-theme="config.theme.url"
+                            vg-auto-play="config.autoPlay">
+                  <vg-media vg-src="config.sources"
+                            vg-loop="config.loop"
+                            vg-preload="config.preload"
+                            vg-native-controls="config.controls">
+                  </vg-media>
+
+                    <vg-controls vg-autohide="config.autoHide" vg-autohide-time="config.autoHideTime">
+                        <vg-play-pause-button></vg-play-pause-button>
+                        <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
+                        <vg-scrub-bar>
+                            <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                        </vg-scrub-bar>
+                        <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
+                        <vg-volume>
+                            <vg-mute-button></vg-mute-button>
+                        </vg-volume>
+                    </vg-controls>
+                </videogular>
+            </div>
+        </div>
+    </div>
+
+	<div id="companionAd"></div>
+
+	<div class="row">
+		<div class="col-12"><h2>Video player properties</h2></div>
+	</div>
+
+	<div class="row">
+		<div class="col-6 col-sm-4 col-lg-4">
+			<div>
+				<label for="posterInput">Poster url image (png/jpg/gif):</label>
+				<input id="posterInput" type="text" class="form-control" ng-model="config.plugins.poster.url">
+			</div>
+		</div>
+
+		<div class="col-6 col-sm-4 col-lg-4">
+			<div>
+				<label class="checkbox">
+					<input id="autoPlayInput" type="checkbox" ng-model="config.autoPlay">Autoplay
+				</label>
+			</div>
+			<div>
+				<label class="checkbox">
+					<input id="autoHideInput" type="checkbox" ng-model="config.autoHide">Autohide
+				</label>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-6 col-sm-4 col-lg-4">
+			<div>Theme: {{config.theme.url}}</div>
+			<div>Poster image: {{config.plugins.poster.url}}</div>
+			<div>AutoPlay: {{config.autoPlay}}</div>
+		</div>
+		<div class="col-6 col-sm-4 col-lg-4">
+			<div>AutoHide: {{config.autoHide}}</div>
+			<div>Responsive: {{config.responsive}}</div>
+			<div>State: {{state}}</div>
+			<div>Time: {{currentTime}} / {{totalTime || 0}}</div>
+			<div>Volume: {{volume}}</div>
+			<div>Completed: {{isCompleted}}</div>
+		</div>
+		<div class="col-6 col-sm-4 col-lg-4">
+			<button ng-click="API.play()">Play</button>
+			<button ng-click="API.pause()">Pause</button>
+			<button ng-click="API.stop()">Stop</button>
+			<button ng-click="API.seekTime(30, false)">Move to second 30</button>
+			<button ng-click="API.seekTime(50, true)">Move to 50%</button>
+			<button ng-click="changeSource()">Change source</button>
+			<button ng-click="wrongSource()">Set invalid source</button>
+		</div>
+	</div>
+</div>
