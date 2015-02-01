@@ -3,7 +3,7 @@
  * @name com.2fdevs.videogular.directive:videogular
  * @restrict E
  * @description
- * Main directive that must wrap a &lt;vg-video&gt; or &lt;vg-audio&gt; tag and all plugins.
+ * Main directive that must wrap a &lt;vg-media&gt; tag and all plugins.
  *
  * &lt;video&gt; tag usually will be above plugin tags, that's because plugins should be in a layer over the &lt;video&gt;.
  *

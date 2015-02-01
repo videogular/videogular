@@ -72,7 +72,7 @@ NG_DOCS={
       "shortName": "videogular",
       "type": "directive",
       "moduleName": "com.2fdevs.videogular",
-      "shortDescription": "Main directive that must wrap a &lt;vg-video&gt; or &lt;vg-audio&gt; tag and all plugins.",
+      "shortDescription": "Main directive that must wrap a &lt;vg-media&gt; tag and all plugins.",
       "keywords": "ad adtagurl allow analytics api auto autohide autohidetime autoplay boolean call callback category change changes class click companion companionad companionsize complete completed config consuming content controller controls css current data default devices directive disable disabled doubleclick duration en english error event events false file free fullscreen function header http iab_vast_samples ima-ads initialized inject inline js json kind label layer link loop main milliseconds mobile mp4 native net network object ogg param parameter params path pause plans play playback playing plays plugin plugins png poster preload prevent progress quality ready receive receives required scope sd skipbutton source sources src srclang start string structure subtitles tag tags theme time tracks true type unitpath updated updating url user values variable vgautoplay vgchangesource vgcomplete vgconfig vgerror vgplayerready vgplaysinline vgtheme vgupdatestate vgupdatetime vgupdatevolume video videogular volume vtt webm wrap"
     },
     {
@@ -180,8 +180,8 @@ NG_DOCS={
       "shortName": "vgDash",
       "type": "directive",
       "moduleName": "com.2fdevs.videogular.plugins.dash",
-      "shortDescription": "Adds support for vg-video and vg-audio tags.",
-      "keywords": "adds api autoplay config dash directive file html https js plugin plugins project requires sources support tags theme url vg-audio vg-autoplay vg-dash vg-src vg-theme vg-video videogular"
+      "shortDescription": "Adds DASH support for vg-media.",
+      "keywords": "adds api autoplay config dash directive file html https js plugin plugins project requires sources support theme url vg-autoplay vg-dash vg-media vg-src vg-theme videogular"
     },
     {
       "section": "api",

@@ -15,7 +15,7 @@
  *
  * ```html
  * <videogular vg-theme="config.theme.url" vg-autoplay="config.autoPlay">
- *    <vg-video vg-src="sources"></vg-video>
+ *    <vg-media vg-src="sources"></vg-media>
  *
  *    <vg-poster vg-url='config.plugins.poster.url'></vg-poster>
  * </videogular>

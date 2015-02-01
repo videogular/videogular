@@ -8,7 +8,7 @@
  * @name com.2fdevs.videogular.plugins.dash.directive:vgDash
  * @restrict A
  * @description
- * Adds support for vg-video and vg-audio tags.
+ * Adds DASH support for vg-media.
  * This plugin requires dash.all.js file available at dash.js project:
  * https://github.com/Dash-Industry-Forum/dash.js
  *

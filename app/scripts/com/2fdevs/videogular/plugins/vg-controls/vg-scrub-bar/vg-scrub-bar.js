@@ -8,7 +8,7 @@
  *
  * ```html
  * <videogular vg-theme="config.theme.url">
- *    <vg-video vg-src="sources"></vg-video>
+ *    <vg-media vg-src="sources"></vg-media>
  *
  *    <vg-controls vg-autohide='config.autohide' vg-autohide-time='config.autohideTime'>
  *        <vg-scrub-bar></vg-scrub-bar>
