@@ -21,6 +21,7 @@ CHANGELOG
 * Changed vg-media to have a template.
 * Changed private functions to scope functions.
 * Changed vg-poster-image to vg-poster.
+* Changed internal times from Date objects to miliseconds.
 * Fixed error with duplicated CSS themes on head.
 * Fixed problem seeking on Safari Yosemite.
 * Moved plugins to outside of directives directory.
