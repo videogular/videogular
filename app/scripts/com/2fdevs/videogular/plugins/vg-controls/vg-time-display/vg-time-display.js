@@ -6,7 +6,7 @@
  * Adds a time display inside vg-controls to play and pause media.
  * You have three scope variables to show current time, time left and total time.
  *
- * Those scope variables are type Date so you can add a date filter to show the time as you wish.
+ * Those scope variables are in milliseconds, you can add a date filter to show the time as you wish.
  *
  * ```html
  * <videogular vg-theme="config.theme.url">

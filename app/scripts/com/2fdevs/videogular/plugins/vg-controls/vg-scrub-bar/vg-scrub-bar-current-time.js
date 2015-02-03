@@ -3,16 +3,16 @@
  * @name com.2fdevs.videogular.plugins.controls.directive:vgScrubBarCurrentTime
  * @restrict E
  * @description
- * Layer inside vg-scrubbar to display the current time.
+ * Layer inside vg-scrub-bar to display the current time.
  *
  * ```html
  * <videogular vg-theme="config.theme.url">
  *    <vg-media vg-src="sources"></vg-media>
  *
  *    <vg-controls vg-autohide='config.autohide' vg-autohide-time='config.autohideTime'>
- *        <vg-scrubbar>
+ *        <vg-scrub-bar>
  *            <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
- *        </vg-scrubbar>
+ *        </vg-scrub-bar>
  *    </vg-controls>
  * </videogular>
  * ```

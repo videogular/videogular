@@ -9,7 +9,7 @@
  * @restrict E
  * @description
  * This directive acts as a container and you will need other directives to control the media.
- * Inside this directive you can add other directives like vg-play-pause-button and vg-scrubbar.
+ * Inside this directive you can add other directives like vg-play-pause-button and vg-scrub-bar.
  *
  * @param {boolean=false} vgAutohide Boolean variable or value to activate autohide.
  * @param {number=2000} vgAutohideTime Number variable or value that represents the time in milliseconds that will wait vgControls until it hides.
