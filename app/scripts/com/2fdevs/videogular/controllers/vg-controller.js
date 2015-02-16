@@ -334,6 +334,10 @@ angular.module("com.2fdevs.videogular")
           if (newValue) $scope.API.play();
         }
       });
+
+      $scope.$watch("vgPlaysInline", function (newValue, oldValue) {
+        $scope.API.playsInline = $scope.vgPlaysInline;
+      });
     };
 
     $scope.onFullScreenChange = function (event) {

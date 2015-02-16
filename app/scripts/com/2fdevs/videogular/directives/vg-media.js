@@ -17,7 +17,7 @@
 "use strict";
 angular.module("com.2fdevs.videogular")
   .directive("vgMedia",
-  ["$timeout", "VG_STATES", function ($timeout, VG_STATES) {
+  ["$timeout", "VG_STATES", "VG_UTILS", function ($timeout, VG_STATES, VG_UTILS) {
     return {
       restrict: "E",
       require: "^videogular",
@@ -28,6 +28,7 @@ angular.module("com.2fdevs.videogular")
         vgSrc: "=?"
       },
       link: function (scope, elem, attr, API) {
+        var videoElem = elem.find("video");
         var sources;
 
         // FUNCTIONS
@@ -91,6 +92,16 @@ angular.module("com.2fdevs.videogular")
             }
           );
         }
+
+        scope.$watch(
+          function() {
+            return API.playsInline;
+          },
+          function (newValue, oldValue) {
+            if (newValue) videoElem.attr("webkit-playsinline", "");
+            else videoElem.removeAttr("webkit-playsinline");
+          }
+        );
       }
     }
   }

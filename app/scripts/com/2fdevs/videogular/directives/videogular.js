@@ -10,7 +10,7 @@
  * @param {string} vgTheme String with a scope name variable. This directive will inject a CSS link in the header of your page.
  * **This parameter is required.**
  *
- * @param {boolean} [vgAutoplay=false] vgAutoplay Boolean value or a String with a scope name variable to auto start playing video when it is initialized.
+ * @param {boolean} [vgAutoPlay=false] vgAutoPlay Boolean value or a String with a scope name variable to auto start playing video when it is initialized.
  *
  * **This parameter is disabled in mobile devices** because user must click on content to prevent consuming mobile data plans.
  *
