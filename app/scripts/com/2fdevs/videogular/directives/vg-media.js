@@ -6,6 +6,7 @@
  * Directive to add a source of videos or audios. This directive will create a &lt;video&gt; tag and usually will be above plugin tags.
  *
  * @param {array} vgSrc Bindable array with a list of media sources. A media source is an object with two properties `src` and `type`. The `src` property must contains a trusful url resource.
+ * @param {string} vgType String with "video" or "audio" values to set a <video> or <audio> tag inside <vg-media>.
  * ```js
  * {
  *    src: $sce.trustAsResourceUrl("path/to/video/videogular.mp4"),
@@ -17,19 +18,28 @@
 "use strict";
 angular.module("com.2fdevs.videogular")
   .directive("vgMedia",
-  ["$timeout", "VG_STATES", "VG_UTILS", function ($timeout, VG_STATES, VG_UTILS) {
+  ["$timeout", "VG_STATES", function ($timeout, VG_STATES) {
     return {
       restrict: "E",
       require: "^videogular",
       templateUrl: function(elem, attrs) {
-        return attrs.vgTemplate || 'vg-templates/vg-media';
+        var vgType = attrs.vgType || "video";
+        return attrs.vgTemplate || "vg-templates/vg-media-" + vgType;
       },
       scope: {
-        vgSrc: "=?"
+        vgSrc: "=?",
+        vgType: "=?"
       },
-      link: function (scope, elem, attr, API) {
-        var videoElem = elem.find("video");
+      link: function (scope, elem, attrs, API) {
         var sources;
+
+        // what type of media do we want? defaults to 'video'
+        if (!attrs.vgType || attrs.vgType === "video") {
+          attrs.vgType = "video";
+        }
+        else {
+          attrs.vgType = "audio";
+        }
 
         // FUNCTIONS
         scope.onChangeSource = function onChangeSource(newValue, oldValue) {
@@ -72,7 +82,7 @@ angular.module("com.2fdevs.videogular")
         };
 
         // INIT
-        API.mediaElement = elem.find("video");
+        API.mediaElement = elem.find(attrs.vgType);
         API.sources = scope.vgSrc;
 
         API.addListeners();
@@ -92,16 +102,6 @@ angular.module("com.2fdevs.videogular")
             }
           );
         }
-
-        scope.$watch(
-          function() {
-            return API.playsInline;
-          },
-          function (newValue, oldValue) {
-            if (newValue) videoElem.attr("webkit-playsinline", "");
-            else videoElem.removeAttr("webkit-playsinline");
-          }
-        );
       }
     }
   }
