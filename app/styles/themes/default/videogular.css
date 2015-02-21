@@ -166,13 +166,11 @@ videogular vg-controls {
 videogular vg-controls .controls-container {
   width: 100%;
   height: 50px;
-  background-color: #000000;
+  background-color: rgba(0,0,0,0.5);
   position: absolute;
   display: table;
 
   zoom: 1;
-  filter: alpha(opacity=50);
-  opacity: 0.5;
 }
 
 videogular vg-play-pause-button {
@@ -205,6 +203,14 @@ videogular vg-scrub-bar {
   width: auto;
   display: table-cell;
   cursor: pointer;
+  vertical-align: middle;
+}
+
+videogular vg-scrub-bar [role=slider]{
+  margin-top: 24px;
+  margin-bottom: 24px;
+  height: 2px;
+  background-color: black;
 }
 
 videogular vg-scrub-bar :focus vg-scrub-bar-current-time {
@@ -214,7 +220,7 @@ videogular vg-scrub-bar :focus vg-scrub-bar-current-time {
 videogular vg-scrub-bar-current-time {
   background-color: #FFFFFF;
   width: 100%;
-  height: 50px;
+  height: 100%;
   display: block;
   cursor: pointer;
 }
@@ -367,46 +373,46 @@ videogular vg-controls .show-animation {
 
 @keyframes showControlsAnimationFrames {
   0% {
-    opacity: 0;
+    background-color: rgba(0,0,0,0);
   }
   100% {
-    opacity: 0.5;
+    background-color: rgba(0,0,0,0.5);
   }
 }
 
 @-moz-keyframes showControlsAnimationFrames {
   0% {
-    opacity: 0;
+    background-color: rgba(0,0,0,0);
   }
   100% {
-    opacity: 0.5;
+    background-color: rgba(0,0,0,0.5);
   }
 }
 
 @-webkit-keyframes showControlsAnimationFrames {
   0% {
-    opacity: 0;
+    background-color: rgba(0,0,0,0);
   }
   100% {
-    opacity: 0.5;
+    background-color: rgba(0,0,0,0.5);
   }
 }
 
 @-o-keyframes showControlsAnimationFrames {
   0% {
-    opacity: 0;
+    background-color: rgba(0,0,0,0);
   }
   100% {
-    opacity: 0.5;
+    background-color: rgba(0,0,0,0.5);
   }
 }
 
 @-ms-keyframes showControlsAnimationFrames {
   0% {
-    opacity: 0;
+    background-color: rgba(0,0,0,0);
   }
   100% {
-    opacity: 0.5;
+    background-color: rgba(0,0,0,0.5);
   }
 }
 
