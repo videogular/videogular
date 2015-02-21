@@ -1,5 +1,13 @@
 CHANGELOG
 ================
+## v1.0.1
+* Added vg-type attribute in vg-media for "audio" or "video".
+* Added watch for vg-plays-inline.
+* Fixed problem with vg-plays-inline in iPhone devices.
+* Fixed missing dependency in vg-media causing that vg-auto-play didn't work.
+* Updated scrubbar in default theme.
+* Updated docs.
+
 ## v1.0.0
 * Added vg-config to load config file to init the player and plugins.
 * Added Videogular Analytics.
