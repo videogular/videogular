@@ -22,13 +22,21 @@ angular.module("com.2fdevs.videogular")
       restrict: "E",
       require: "^videogular",
       templateUrl: function(elem, attrs) {
-        return attrs.vgTemplate || 'vg-templates/vg-media';
+        return attrs.vgTemplate || "vg-templates/vg-media-" + attrs.vgType;
       },
       scope: {
-        vgSrc: "=?"
+        vgSrc: "=?",
+        vgType: "=?"
       },
-      link: function (scope, elem, attr, API) {
+      link: function (scope, elem, attrs, API) {
         var sources;
+
+        // what type of media do we want? defaults to 'video'
+        if (!attrs.vgType || attrs.vgType === "video") {
+          attrs.vgType = "video";
+        } else {
+          attrs.vgType = "audio";
+        }
 
         // FUNCTIONS
         scope.onChangeSource = function onChangeSource(newValue, oldValue) {
@@ -71,7 +79,7 @@ angular.module("com.2fdevs.videogular")
         };
 
         // INIT
-        API.mediaElement = elem.find("video");
+        API.mediaElement = elem.find(attrs.vgType);
         API.sources = scope.vgSrc;
 
         API.addListeners();
