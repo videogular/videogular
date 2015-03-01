@@ -1,35 +1,35 @@
 'use strict';
 angular.module('myApp').controller('DashLiveCtrl',
-	function ($scope, $sce) {
-    $scope.currentTime = 0;
-    $scope.totalTime = 0;
-    $scope.state = null;
-    $scope.volume = 1;
-    $scope.isCompleted = false;
-    $scope.API = null;
+	function ($sce) {
+    this.currentTime = 0;
+    this.totalTime = 0;
+    this.state = null;
+    this.volume = 1;
+    this.isCompleted = false;
+    this.API = null;
 
-    $scope.onPlayerReady = function (API) {
-      $scope.API = API;
+    this.onPlayerReady = function (API) {
+      this.API = API;
     };
 
-    $scope.onCompleteVideo = function () {
-      $scope.isCompleted = true;
+    this.onCompleteVideo = function () {
+      this.isCompleted = true;
     };
 
-    $scope.onUpdateState = function (state) {
-      $scope.state = state;
+    this.onUpdateState = function (state) {
+      this.state = state;
     };
 
-    $scope.onUpdateTime = function (currentTime, totalTime) {
-      $scope.currentTime = currentTime;
-      $scope.totalTime = totalTime;
+    this.onUpdateTime = function (currentTime, totalTime) {
+      this.currentTime = currentTime;
+      this.totalTime = totalTime;
     };
 
-    $scope.onUpdateVolume = function (newVol) {
-      $scope.volume = newVol;
+    this.onUpdateVolume = function (newVol) {
+      this.volume = newVol;
     };
 
-    $scope.videos = [
+    this.videos = [
       {
         sources: [
           {src: "http://tvnlive.dashdemo.edgesuite.net/live/manifest.mpd"}
@@ -54,12 +54,12 @@ angular.module('myApp').controller('DashLiveCtrl',
       }
     ];
 
-    $scope.config = {
+    this.config = {
       autoHide: false,
       autoHideTime: 3000,
       autoPlay: false,
-      sources: $scope.videos[0].sources,
-      tracks: $scope.videos[0].tracks,
+      sources: this.videos[0].sources,
+      tracks: this.videos[0].tracks,
       loop: false,
       preload: "auto",
       transclude: true,
@@ -82,18 +82,18 @@ angular.module('myApp').controller('DashLiveCtrl',
       }
     };
 
-    $scope.setVOD = function () {
-      $scope.config.sources = $scope.videos[1].sources;
-      $scope.config.tracks = undefined;
-      $scope.config.loop = false;
-      $scope.config.preload = true;
+    this.setVOD = function () {
+      this.config.sources = this.videos[1].sources;
+      this.config.tracks = undefined;
+      this.config.loop = false;
+      this.config.preload = true;
     };
 
-    $scope.setLiveStreaming = function () {
-      $scope.config.sources = $scope.videos[0].sources;
-      $scope.config.tracks = undefined;
-      $scope.config.loop = false;
-      $scope.config.preload = true;
+    this.setLiveStreaming = function () {
+      this.config.sources = this.videos[0].sources;
+      this.config.tracks = undefined;
+      this.config.loop = false;
+      this.config.preload = true;
     };
 	}
 );

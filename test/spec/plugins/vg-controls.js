@@ -78,6 +78,7 @@ describe('Directive: Controls', function () {
       var controls = element.find("vg-controls");
       var container = element.find("vg-controls div.controls-container");
 
+      API.play();
       container.mousemove();
       $timeout.flush();
       $scope.$digest();
@@ -89,6 +90,7 @@ describe('Directive: Controls', function () {
       var controls = element.find("vg-controls");
       var container = element.find("vg-controls div.controls-container");
 
+      API.play();
       controls.isolateScope().vgAutohide = false;
       $scope.$digest();
       $timeout.flush();

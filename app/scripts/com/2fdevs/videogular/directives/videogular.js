@@ -10,9 +10,16 @@
  * @param {string} vgTheme String with a scope name variable. This directive will inject a CSS link in the header of your page.
  * **This parameter is required.**
  *
+ * @param {boolean} [vgPlaysInline=false] vgPlaysInline Boolean value or a String with a scope name variable to use native fullscreen (default) or set fullscreen inside browser (true).
+ *
  * @param {boolean} [vgAutoPlay=false] vgAutoPlay Boolean value or a String with a scope name variable to auto start playing video when it is initialized.
  *
  * **This parameter is disabled in mobile devices** because user must click on content to prevent consuming mobile data plans.
+ *
+ * @param {object} vgCuePoints Bindable object containing a list of timelines with cue points objects. A timeline is an array of objects with three properties `timelapse`, `expression` and `params`.
+ * - The `timelapse` is an object with two properties `start` and `end` representing in seconds the period for this cue points.
+ * - The `expression` is an AngularJS expression to evaluate or a function.
+ * - The `params` an object with values available to evaluate inside the expression as `$params`. This object is also received in the function defined in `expression`.
  *
  * @param {function} vgConfig String with a url to a config file. Config file's must be a JSON file object with the following structure:
  * ```js
@@ -93,11 +100,12 @@ angular.module("com.2fdevs.videogular")
   .directive("videogular",
   [function () {
     return {
-      restrict: "E",
+      restrict: "EA",
       scope: {
         vgTheme: "=?",
         vgAutoPlay: "=?",
         vgPlaysInline: "=?",
+        vgCuePoints: "=?",
         vgConfig: "@",
         vgComplete: "&",
         vgUpdateVolume: "&",
@@ -108,6 +116,7 @@ angular.module("com.2fdevs.videogular")
         vgError: "&"
       },
       controller: "vgController",
+      controllerAs: "API",
       link: {
         pre: function (scope, elem, attr, controller) {
           controller.videogularElement = angular.element(elem);

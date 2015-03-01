@@ -76,6 +76,9 @@ angular.module("com.2fdevs.videogular")
       }
     }
 
+    // In case can't detect ms
+    if (polyfill == null && APIs.ms.onchange in document) polyfill = APIs.ms;
+
     // Override APIs on iOS
     if (VG_UTILS.isiOSDevice()) {
       polyfill = APIs.ios;

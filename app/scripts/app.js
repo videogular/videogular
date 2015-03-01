@@ -2,6 +2,7 @@
 angular.module('myApp',
     [
       "ngRoute",
+      "ngAnimate",
       "angulartics.google.analytics",
       "com.2fdevs.videogular",
       "com.2fdevs.videogular.plugins.controls",
@@ -18,31 +19,43 @@ angular.module('myApp',
       $routeProvider
         .when('/', {
           templateUrl: 'views/main.html',
-          controller: 'MainCtrl'
+          controller: 'MainCtrl',
+          controllerAs: "ctrl"
         })
         .when('/audio', {
           templateUrl: 'views/audio.html',
-          controller: 'AudioCtrl'
+          controller: 'AudioCtrl',
+          controllerAs: "ctrl"
         })
         .when('/config', {
           templateUrl: 'views/config.html',
-          controller: 'ConfigCtrl'
+          controller: 'ConfigCtrl',
+          controllerAs: "ctrl"
         })
         .when('/imaads', {
           templateUrl: 'views/imaads.html',
-          controller: 'ImaAdsCtrl'
+          controller: 'ImaAdsCtrl',
+          controllerAs: "ctrl"
         })
         .when('/dash', {
           templateUrl: 'views/dash.html',
-          controller: 'DashCtrl'
+          controller: 'DashCtrl',
+          controllerAs: "ctrl"
         })
         .when('/dash-live', {
           templateUrl: 'views/dash-live.html',
-          controller: 'DashLiveCtrl'
+          controller: 'DashLiveCtrl',
+          controllerAs: "ctrl"
         })
         .when('/templating', {
           templateUrl: 'views/templates.html',
-          controller: 'TemplatesCtrl'
+          controller: 'TemplatesCtrl',
+          controllerAs: "ctrl"
+        })
+        .when('/cue-points', {
+          templateUrl: 'views/cue-points.html',
+          controller: 'CuePointsCtrl',
+          controllerAs: "ctrl"
         })
         .otherwise({
           redirectTo: '/'

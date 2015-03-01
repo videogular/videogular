@@ -31,6 +31,7 @@
  * - videogularElement: Reference to videogular tag.
  * - sources: Array with current sources.
  * - tracks: Array with current tracks.
+ * - cuePoints: Object containing a list of timelines with cue points.
  * - isFullScreen: Boolean value to know if we’re in fullscreen mode.
  * - currentState: String value with “play”, “pause” or “stop”.
  * - currentTime: Number value with current media time progress.
@@ -50,20 +51,20 @@ angular.module("com.2fdevs.videogular")
     this.videogularElement = null;
 
     this.clearMedia = function () {
-      $scope.API.mediaElement[0].src = '';
+      this.mediaElement[0].src = '';
     };
 
     this.onCanPlay = function (evt) {
-      $scope.API.isBuffering = false;
+      this.isBuffering = false;
       $scope.$apply();
     };
 
     this.onVideoReady = function () {
-      // Here we're in the video scope, we can't use 'this.'
-      $scope.API.isReady = true;
-      $scope.API.autoPlay = $scope.vgAutoPlay;
-      $scope.API.playsInline = $scope.vgPlaysInline;
-      $scope.API.currentState = VG_STATES.STOP;
+      this.isReady = true;
+      this.autoPlay = $scope.vgAutoPlay;
+      this.playsInline = $scope.vgPlaysInline;
+      this.cuePoints = $scope.vgCuePoints;
+      this.currentState = VG_STATES.STOP;
 
       isMetaDataLoaded = true;
 
@@ -73,74 +74,118 @@ angular.module("com.2fdevs.videogular")
         );
       }
       else {
-        $scope.vgPlayerReady({$API: $scope.API});
+        $scope.vgPlayerReady({$API: this});
       }
     };
 
     this.onLoadConfig = function(config) {
-      $scope.API.config = config;
+      this.config = config;
 
-      $scope.vgTheme = $scope.API.config.theme;
-      $scope.vgAutoPlay = $scope.API.config.autoPlay;
-      $scope.vgPlaysInline = $scope.API.config.playsInline;
+      $scope.vgTheme = this.config.theme;
+      $scope.vgAutoPlay = this.config.autoPlay;
+      $scope.vgPlaysInline = this.config.playsInline;
+      $scope.vgCuePoints = this.config.cuePoints;
 
-      $scope.vgPlayerReady({$API: $scope.API});
+      $scope.vgPlayerReady({$API: this});
     };
 
     this.onLoadMetaData = function (evt) {
-      $scope.API.isBuffering = false;
-      $scope.API.onUpdateTime(evt);
+      this.isBuffering = false;
+      this.onUpdateTime(evt);
     };
 
     this.onUpdateTime = function (event) {
-      $scope.API.currentTime = 1000 * event.target.currentTime;
+      this.currentTime = 1000 * event.target.currentTime;
 
       if (event.target.duration != Infinity) {
-        $scope.API.totalTime = 1000 * event.target.duration;
-        $scope.API.timeLeft = 1000 * (event.target.duration - event.target.currentTime);
-        $scope.API.isLive = false;
+        this.totalTime = 1000 * event.target.duration;
+        this.timeLeft = 1000 * (event.target.duration - event.target.currentTime);
+        this.isLive = false;
       }
       else {
         // It's a live streaming without and end
-        $scope.API.isLive = true;
+        this.isLive = true;
       }
+
+      this.checkCuePoints(event.target.currentTime);
 
       $scope.vgUpdateTime({$currentTime: event.target.currentTime, $duration: event.target.duration});
 
       $scope.$apply();
     };
 
+    this.checkCuePoints = function checkCuePoints(currentTime) {
+      for (var tl in this.cuePoints) {
+        for (var i=0, l=this.cuePoints[tl].length; i<l; i++) {
+          var cp = this.cuePoints[tl][i];
+
+          if (currentTime < cp.timeLapse.end) cp.$$isCompleted = false;
+
+          // Check if we've been reached to the cue point
+          if (currentTime > cp.timeLapse.start) {
+            cp.$$isDirty = true;
+
+            // We're in the timelapse
+            if (currentTime < cp.timeLapse.end) {
+              if (cp.onUpdate) cp.onUpdate(currentTime, cp.timeLapse, cp.params);
+            }
+
+            // We've been passed the cue point
+            if (currentTime >= cp.timeLapse.end) {
+              if (cp.onComplete && !cp.$$isCompleted) {
+                cp.$$isCompleted = true;
+                cp.onComplete(currentTime, cp.timeLapse, cp.params);
+              }
+            }
+          }
+          else {
+            if (cp.onReset && cp.$$isDirty) {
+              cp.onReset(currentTime, cp.timeLapse, cp.params);
+            }
+
+            cp.$$isDirty = false;
+          }
+        }
+      }
+    };
+
     this.onPlay = function () {
-      $scope.API.setState(VG_STATES.PLAY);
+      this.setState(VG_STATES.PLAY);
       $scope.$apply();
     };
 
     this.onPause = function () {
-      $scope.API.setState(VG_STATES.PAUSE);
+      if (this.mediaElement[0].currentTime == 0) {
+        this.setState(VG_STATES.STOP);
+      }
+      else {
+        this.setState(VG_STATES.PAUSE);
+      }
+
       $scope.$apply();
     };
 
     this.onVolumeChange = function () {
-      $scope.API.volume = $scope.API.mediaElement[0].volume;
+      this.volume = this.mediaElement[0].volume;
       $scope.$apply();
     };
 
     this.seekTime = function (value, byPercent) {
       var second;
       if (byPercent) {
-        second = value * $scope.API.mediaElement[0].duration / 100;
-        $scope.API.mediaElement[0].currentTime = second;
+        second = value * this.mediaElement[0].duration / 100;
+        this.mediaElement[0].currentTime = second;
       }
       else {
         second = value;
-        $scope.API.mediaElement[0].currentTime = second;
+        this.mediaElement[0].currentTime = second;
       }
 
-      $scope.API.currentTime = 1000 * second;
+      this.currentTime = 1000 * second;
     };
 
     this.playPause = function () {
-      if ($scope.API.mediaElement[0].paused) {
+      if (this.mediaElement[0].paused) {
         this.play();
       }
       else {
@@ -149,48 +194,48 @@ angular.module("com.2fdevs.videogular")
     };
 
     this.setState = function (newState) {
-      if (newState && newState != $scope.API.currentState) {
+      if (newState && newState != this.currentState) {
         $scope.vgUpdateState({$state: newState});
 
-        $scope.API.currentState = newState;
+        this.currentState = newState;
       }
 
-      return $scope.API.currentState;
+      return this.currentState;
     };
 
     this.play = function () {
-      $scope.API.mediaElement[0].play();
+      this.mediaElement[0].play();
       this.setState(VG_STATES.PLAY);
     };
 
     this.pause = function () {
-      $scope.API.mediaElement[0].pause();
+      this.mediaElement[0].pause();
       this.setState(VG_STATES.PAUSE);
     };
 
     this.stop = function () {
-      $scope.API.mediaElement[0].pause();
-      $scope.API.mediaElement[0].currentTime = 0;
+      this.mediaElement[0].pause();
+      this.mediaElement[0].currentTime = 0;
       this.setState(VG_STATES.STOP);
     };
 
     this.toggleFullScreen = function () {
       // There is no native full screen support or we want to play inline
       if (!vgFullscreen.isAvailable || $scope.vgPlaysInline) {
-        if ($scope.API.isFullScreen) {
-          $scope.API.videogularElement.removeClass("fullscreen");
-          $scope.API.videogularElement.css("z-index", "auto");
+        if (this.isFullScreen) {
+          this.videogularElement.removeClass("fullscreen");
+          this.videogularElement.css("z-index", "auto");
         }
         else {
-          $scope.API.videogularElement.addClass("fullscreen");
-          $scope.API.videogularElement.css("z-index", VG_UTILS.getZIndex());
+          this.videogularElement.addClass("fullscreen");
+          this.videogularElement.css("z-index", VG_UTILS.getZIndex());
         }
 
-        $scope.API.isFullScreen = !$scope.API.isFullScreen;
+        this.isFullScreen = !this.isFullScreen;
       }
       // Perform native full screen support
       else {
-        if ($scope.API.isFullScreen) {
+        if (this.isFullScreen) {
           if (!VG_UTILS.isMobileDevice()) {
             vgFullscreen.exit();
           }
@@ -202,7 +247,7 @@ angular.module("com.2fdevs.videogular")
             // and also if metadata is loaded
             if (VG_UTILS.isiOSDevice()) {
               if (isMetaDataLoaded) {
-                this.enterElementInFullScreen($scope.API.mediaElement[0]);
+                this.enterElementInFullScreen(this.mediaElement[0]);
               }
               else {
                 isFullScreenPressed = true;
@@ -210,11 +255,11 @@ angular.module("com.2fdevs.videogular")
               }
             }
             else {
-              this.enterElementInFullScreen($scope.API.mediaElement[0]);
+              this.enterElementInFullScreen(this.mediaElement[0]);
             }
           }
           else {
-            this.enterElementInFullScreen($scope.API.videogularElement[0]);
+            this.enterElementInFullScreen(this.videogularElement[0]);
           }
         }
       }
@@ -231,8 +276,8 @@ angular.module("com.2fdevs.videogular")
     this.setVolume = function (newVolume) {
       $scope.vgUpdateVolume({$volume: newVolume});
 
-      $scope.API.mediaElement[0].volume = newVolume;
-      $scope.API.volume = newVolume;
+      this.mediaElement[0].volume = newVolume;
+      this.volume = newVolume;
     };
 
     this.updateTheme = function (value) {
@@ -268,20 +313,20 @@ angular.module("com.2fdevs.videogular")
     };
 
     this.onStartBuffering = function (event) {
-      $scope.API.isBuffering = true;
+      this.isBuffering = true;
       $scope.$apply();
     };
 
     this.onStartPlaying = function (event) {
-      $scope.API.isBuffering = false;
+      this.isBuffering = false;
       $scope.$apply();
     };
 
     this.onComplete = function (event) {
       $scope.vgComplete();
 
-      $scope.API.setState(VG_STATES.STOP);
-      $scope.API.isCompleted = true;
+      this.setState(VG_STATES.STOP);
+      this.isCompleted = true;
       $scope.$apply();
     };
 
@@ -290,67 +335,65 @@ angular.module("com.2fdevs.videogular")
     };
 
     this.addListeners = function () {
-      $scope.API.mediaElement[0].addEventListener("canplay", $scope.API.onCanPlay, false);
-      $scope.API.mediaElement[0].addEventListener("loadedmetadata", $scope.API.onLoadMetaData, false);
-      $scope.API.mediaElement[0].addEventListener("waiting", $scope.API.onStartBuffering, false);
-      $scope.API.mediaElement[0].addEventListener("ended", $scope.API.onComplete, false);
-      $scope.API.mediaElement[0].addEventListener("playing", $scope.API.onStartPlaying, false);
-      $scope.API.mediaElement[0].addEventListener("play", $scope.API.onPlay, false);
-      $scope.API.mediaElement[0].addEventListener("pause", $scope.API.onPause, false);
-      $scope.API.mediaElement[0].addEventListener("volumechange", $scope.API.onVolumeChange, false);
-      $scope.API.mediaElement[0].addEventListener("timeupdate", $scope.API.onUpdateTime, false);
-      $scope.API.mediaElement[0].addEventListener("error", $scope.API.onVideoError, false);
+      this.mediaElement[0].addEventListener("canplay", this.onCanPlay.bind(this), false);
+      this.mediaElement[0].addEventListener("loadedmetadata", this.onLoadMetaData.bind(this), false);
+      this.mediaElement[0].addEventListener("waiting", this.onStartBuffering.bind(this), false);
+      this.mediaElement[0].addEventListener("ended", this.onComplete.bind(this), false);
+      this.mediaElement[0].addEventListener("playing", this.onStartPlaying.bind(this), false);
+      this.mediaElement[0].addEventListener("play", this.onPlay.bind(this), false);
+      this.mediaElement[0].addEventListener("pause", this.onPause.bind(this), false);
+      this.mediaElement[0].addEventListener("volumechange", this.onVolumeChange.bind(this), false);
+      this.mediaElement[0].addEventListener("timeupdate", this.onUpdateTime.bind(this), false);
+      this.mediaElement[0].addEventListener("error", this.onVideoError.bind(this), false);
     };
 
-    // FUNCTIONS NOT AVAILABLE THROUGH API
-    $scope.API = this;
+    this.init = function () {
+      this.isReady = false;
+      this.isCompleted = false;
+      this.currentTime = 0;
+      this.totalTime = 0;
+      this.timeLeft = 0;
+      this.isLive = false;
+      this.isFullScreen = vgFullscreen.isFullScreen();
+      this.isConfig = ($scope.vgConfig != undefined);
 
-    $scope.init = function () {
-      $scope.API.isReady = false;
-      $scope.API.isCompleted = false;
-      $scope.API.currentTime = 0;
-      $scope.API.totalTime = 0;
-      $scope.API.timeLeft = 0;
-      $scope.API.isLive = false;
-      $scope.API.isConfig = ($scope.vgConfig != undefined);
-
-      $scope.API.updateTheme($scope.vgTheme);
-      $scope.addBindings();
+      this.updateTheme($scope.vgTheme);
+      this.addBindings();
 
       if (vgFullscreen.isAvailable) {
-        document.addEventListener(vgFullscreen.onchange, $scope.onFullScreenChange);
+        document.addEventListener(vgFullscreen.onchange, this.onFullScreenChange.bind(this));
       }
     };
 
-    $scope.addBindings = function () {
-      $scope.$watch("vgTheme", function (newValue, oldValue) {
-        if (newValue != oldValue) {
-          $scope.API.updateTheme(newValue);
-        }
-      });
+    this.onUpdateTheme = function onUpdateTheme(newValue) {
+      this.updateTheme(newValue);
+    };
 
-      $scope.$watch("vgAutoPlay", function (newValue, oldValue) {
-        if (newValue != oldValue) {
-          if (newValue) $scope.API.play();
-        }
-      });
+    this.onUpdateAutoPlay = function onUpdateAutoPlay(newValue) {
+      if (newValue) this.play(this);
+    };
+
+    this.addBindings = function () {
+      $scope.$watch("vgTheme", this.onUpdateTheme.bind(this));
+
+      $scope.$watch("vgAutoPlay", this.onUpdateAutoPlay.bind(this));
 
       $scope.$watch("vgPlaysInline", function (newValue, oldValue) {
-        $scope.API.playsInline = $scope.vgPlaysInline;
+        this.playsInline = newValue;
       });
     };
 
-    $scope.onFullScreenChange = function (event) {
-      $scope.API.isFullScreen = vgFullscreen.isFullScreen();
+    this.onFullScreenChange = function (event) {
+      this.isFullScreen = vgFullscreen.isFullScreen();
       $scope.$apply();
     };
 
     // Empty mediaElement on destroy to avoid that Chrome downloads video even when it's not present
-    $scope.$on('$destroy', this.clearMedia);
+    $scope.$on('$destroy', this.clearMedia.bind(this));
 
     // Empty mediaElement when router changes
-    $scope.$on('$routeChangeStart', this.clearMedia);
+    $scope.$on('$routeChangeStart', this.clearMedia.bind(this));
 
-    $scope.init();
+    this.init();
   }]
 );

@@ -62,6 +62,26 @@ $tablet-height: $tablet-width * 9 / 16;
 		height: 50px;
 		margin: auto;
 	}
+
+  input {
+    width: 100%;
+  }
+
+  .barChart {
+    background-color: #507eb3;
+    height: 20px;
+    width: 0;
+  }
+
+  .text {
+    color: #507eb3;
+    opacity: 0;
+  }
+}
+
+.animable {
+  -webkit-transition: 0.5s linear all;
+  transition: 0.5s ease-out all;
 }
 
 @media (min-width: 1200px) {
@@ -98,4 +118,15 @@ $tablet-height: $tablet-width * 9 / 16;
 			height: 50px;;
 		}
 	}
+}
+
+
+// ANIMATIONS
+.show-hide-animation.ng-hide-add,
+.show-hide-animation.ng-hide-remove {
+  display: block!important;
+  opacity: 1;
+}
+.show-hide-animation.ng-hide {
+  opacity: 0;
 }

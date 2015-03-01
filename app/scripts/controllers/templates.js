@@ -1,40 +1,40 @@
 'use strict';
 angular.module('myApp').controller('TemplatesCtrl',
-	function ($scope, $sce) {
-		$scope.currentTime = 0;
-		$scope.totalTime = 0;
-		$scope.state = null;
-		$scope.volume = 1;
-		$scope.isCompleted = false;
-		$scope.API = null;
+	function ($sce) {
+		this.currentTime = 0;
+		this.totalTime = 0;
+		this.state = null;
+		this.volume = 1;
+		this.isCompleted = false;
+		this.API = null;
 
-		$scope.onPlayerReady = function (API) {
-			$scope.API = API;
+		this.onPlayerReady = function (API) {
+			this.API = API;
 		};
 
-		$scope.onError = function (event) {
+		this.onError = function (event) {
       console.log("VIDEOGULAR ERROR EVENT");
 			console.log(event);
 		};
 
-		$scope.onCompleteVideo = function () {
-			$scope.isCompleted = true;
+		this.onCompleteVideo = function () {
+			this.isCompleted = true;
 		};
 
-		$scope.onUpdateState = function (state) {
-			$scope.state = state;
+		this.onUpdateState = function (state) {
+			this.state = state;
 		};
 
-		$scope.onUpdateTime = function (currentTime, totalTime) {
-			$scope.currentTime = currentTime;
-			$scope.totalTime = totalTime;
+		this.onUpdateTime = function (currentTime, totalTime) {
+			this.currentTime = currentTime;
+			this.totalTime = totalTime;
 		};
 
-		$scope.onUpdateVolume = function (newVol) {
-			$scope.volume = newVol;
+		this.onUpdateVolume = function (newVol) {
+			this.volume = newVol;
 		};
 
-		$scope.media = [
+		this.media = [
 			{
 				sources: [
 					{src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.mp4"), type: "video/mp4"},
@@ -59,13 +59,13 @@ angular.module('myApp').controller('TemplatesCtrl',
 			}
 		];
 
-		$scope.config = {
+		this.config = {
 			playsInline: true,
 			autoHide: false,
 			autoHideTime: 3000,
 			autoPlay: false,
-			sources: $scope.media[0].sources,
-			tracks: $scope.media[0].tracks,
+			sources: this.media[0].sources,
+			tracks: this.media[0].tracks,
 			loop: false,
 			preload: "auto",
 			controls: false,
@@ -99,22 +99,22 @@ angular.module('myApp').controller('TemplatesCtrl',
 			}
 		};
 
-		$scope.changeSource = function () {
-			$scope.config.sources = $scope.media[1].sources;
-			$scope.config.tracks = undefined;
-			$scope.config.loop = false;
-			$scope.config.preload = true;
+		this.changeSource = function () {
+			this.config.sources = this.media[1].sources;
+			this.config.tracks = undefined;
+			this.config.loop = false;
+			this.config.preload = true;
 		};
 
-		$scope.wrongSource = function () {
-			$scope.config.sources = [
+		this.wrongSource = function () {
+			this.config.sources = [
         {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogula.mp4"), type: "video/mp4"},
         {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogula.webm"), type: "video/webm"},
         {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogula.ogg"), type: "video/ogg"}
       ];
-			$scope.config.tracks = undefined;
-			$scope.config.loop = false;
-			$scope.config.preload = true;
+			this.config.tracks = undefined;
+			this.config.loop = false;
+			this.config.preload = true;
 		};
 	}
 );

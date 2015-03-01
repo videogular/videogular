@@ -32,7 +32,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
     }]
   )
 	.directive("vgControls",
-    ["$timeout", function ($timeout) {
+    ["$timeout", "VG_STATES", function ($timeout, VG_STATES) {
       return {
         restrict: "E",
         require: "^videogular",
@@ -57,7 +57,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
           };
 
           scope.setAutohide = function setAutohide(value) {
-            if (value) {
+            if (value && API.currentState == VG_STATES.PLAY) {
               hideInterval = $timeout(scope.hideControls, autoHideTime);
             }
             else {
@@ -78,7 +78,7 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
           scope.showControls = function showControls() {
             scope.animationClass = "show-animation";
             $timeout.cancel(hideInterval);
-            if (scope.vgAutohide) hideInterval = $timeout(scope.hideControls, autoHideTime);
+            if (scope.vgAutohide && API.currentState == VG_STATES.PLAY) hideInterval = $timeout(scope.hideControls, autoHideTime);
           };
 
           if (API.isConfig) {
