@@ -29,15 +29,14 @@
                     <vg-overlay-play></vg-overlay-play>
                 </videogular>
 
-                <p ng-bind="ctrl.consoleCuePointsMessages"></p>
-                <div class="animable barChart my-show-hide-animation" ng-style="ctrl.barChartStyle"></div>
-                <h2 class="animable text my-show-hide-animation" ng-style="ctrl.textStyle">ANIMATE EVERYTHING!</h2>
-
                 <select ng-model="ctrl.chapterSelected"
                         ng-options="chapter.params as chapter.params.label for chapter in ctrl.config.cuePoints.chapters track by chapter.params.value"
                         ng-change="ctrl.onChangeChapter()">
                     <option value="">Select chapter</option>
                 </select>
+                <p ng-bind="ctrl.consoleCuePointsMessages"></p>
+                <div class="animable barChart my-show-hide-animation" ng-style="ctrl.barChartStyle"></div>
+                <h2 class="animable text my-show-hide-animation" ng-style="ctrl.textStyle">ANIMATE EVERYTHING!</h2>
             </div>
         </div>
     </div>
