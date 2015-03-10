@@ -8,7 +8,7 @@
  *
  * Those scope variables are in milliseconds, you can add a date filter to show the time as you wish.
  *
- * ```html
+ * <pre>
  * <videogular vg-theme="config.theme.url">
  *    <vg-media vg-src="sources"></vg-media>
  *
@@ -18,7 +18,7 @@
  *        <vg-time-display>{{totalTime | date:'hh:mm:ss'}}</vg-time-display>
  *    </vg-controls>
  * </videogular>
- * ```
+ * </pre>
  *
  */
 angular.module("com.2fdevs.videogular.plugins.controls")

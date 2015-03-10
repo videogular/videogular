@@ -11,16 +11,17 @@
  * This directive acts as a container and you will need other directives to control the media.
  * Inside this directive you can add other directives like vg-play-pause-button and vg-scrub-bar.
  *
- * @param {boolean=false} vgAutohide Boolean variable or value to activate autohide.
- * @param {number=2000} vgAutohideTime Number variable or value that represents the time in milliseconds that will wait vgControls until it hides.
- *
- * ```html
+ * <pre>
  * <videogular vg-theme="config.theme.url">
  *    <vg-media vg-src="sources"></vg-media>
  *
  *    <vg-controls vg-autohide='config.autohide' vg-autohide-time='config.autohideTime'></vg-controls>
  * </videogular>
- * ```
+ * </pre>
+ *
+ * @param {boolean=false} vgAutohide Boolean variable or value to activate autohide.
+ * @param {number=2000} vgAutohideTime Number variable or value that represents the time in milliseconds that will wait vgControls until it hides.
+ *
  *
  */
 "use strict";

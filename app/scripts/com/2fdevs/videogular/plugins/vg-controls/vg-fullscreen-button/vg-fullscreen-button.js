@@ -5,7 +5,7 @@
  * @description
  * Directive to switch between fullscreen and normal mode.
  *
- * ```html
+ * <pre>
  * <videogular vg-theme="config.theme.url">
  *    <vg-media vg-src="sources"></vg-media>
  *
@@ -13,7 +13,7 @@
  *        <vg-fullscreen-button></vg-fullscreen-button>
  *    </vg-controls>
  * </videogular>
- * ```
+ * </pre>
  *
  */
 angular.module("com.2fdevs.videogular.plugins.controls")

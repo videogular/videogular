@@ -6,7 +6,7 @@
  * Directive to display a vertical volume bar to control the volume.
  * This directive must be inside vg-volume directive and requires vg-mute-button to be displayed.
  *
- * ```html
+ * <pre>
  * <videogular vg-theme="config.theme.url">
  *    <vg-media vg-src="sources"></vg-media>
  *
@@ -17,7 +17,7 @@
  *        </vg-volume>
  *    </vg-controls>
  * </videogular>
- * ```
+ * </pre>
  *
  */
 angular.module("com.2fdevs.videogular.plugins.controls")

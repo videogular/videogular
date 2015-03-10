@@ -7,7 +7,7 @@
  * This directive acts as a container and you will need other directives like vg-mutebutton and vg-volumebar to control the volume.
  * In mobile will be hided since volume API is disabled for mobile devices.
  *
- * ```html
+ * <pre>
  * <videogular vg-theme="config.theme.url">
  *    <vg-media vg-src="sources"></vg-media>
  *
@@ -15,7 +15,7 @@
  *        <vg-volume></vg-volume>
  *    </vg-controls>
  * </videogular>
- * ```
+ * </pre>
  *
  */
 angular.module("com.2fdevs.videogular.plugins.controls")

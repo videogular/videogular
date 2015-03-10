@@ -13,12 +13,13 @@
  * - playPause(): Toggles play and pause.
  * - seekTime(value, byPercent): Seeks to a specified time position. Param value must be an integer representing the target position in seconds or a percentage. By default seekTime seeks by seconds, if you want to seek by percentage just pass byPercent to true.
  * - setVolume(volume): Sets volume. Param volume must be an integer with a value between 0 and 1.
+ * - setState(state): Sets a new state. Param state mus be an string with 'play', 'pause' or 'stop'. This method only changes the state of the player, but doesn't plays, pauses or stops the media file.
  * - toggleFullScreen(): Toggles between fullscreen and normal mode.
  * - updateTheme(css-url): Removes previous CSS theme and sets a new one.
  * - clearMedia(): Cleans the current media file.
  * - changeSource(array): Updates current media source. Param `array` must be an array of media source objects.
  * A media source is an object with two properties `src` and `type`. The `src` property must contains a trustful url resource.
- * {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.mp4"), type: "video/mp4"}
+ * <pre>{src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.mp4"), type: "video/mp4"}</pre>
  *
  * Properties
  * - config: String with a url to JSON config file.
@@ -31,7 +32,26 @@
  * - videogularElement: Reference to videogular tag.
  * - sources: Array with current sources.
  * - tracks: Array with current tracks.
- * - cuePoints: Object containing a list of timelines with cue points.
+ * - cuePoints: Object containing a list of timelines with cue points. Each property in the object represents a timeline, which is an Array of objects with the next definition:
+ * <pre>{
+ *    timeLapse:{
+ *      start: 0,
+ *      end: 10
+ *    },
+ *    onLeave: callback(currentTime, timeLapse, params),
+ *    onUpdate: callback(currentTime, timeLapse, params),
+ *    onComplete: callback(currentTime, timeLapse, params),
+ *    params: {
+ *      // Custom object with desired structure and data
+ *    }
+ * }</pre>
+ *
+ *    * timeLapse: Object with start and end properties to define in seconds when this timeline is active.\n
+ *    * onLeave: Callback function that will be called when user seeks and the new time doesn't reach to the timeLapse.start property.
+ *    * onUpdate: Callback function that will be called when the progress is in the middle of timeLapse.start and timeLapse.end.
+ *    * onComplete: Callback function that will be called when the progress is bigger than timeLapse.end.
+ *    * params: Custom object with data to pass to the callbacks.
+ *
  * - isFullScreen: Boolean value to know if we’re in fullscreen mode.
  * - currentState: String value with “play”, “pause” or “stop”.
  * - currentTime: Number value with current media time progress.

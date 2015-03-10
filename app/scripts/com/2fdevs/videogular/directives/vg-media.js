@@ -7,12 +7,12 @@
  *
  * @param {array} vgSrc Bindable array with a list of media sources. A media source is an object with two properties `src` and `type`. The `src` property must contains a trusful url resource.
  * @param {string} vgType String with "video" or "audio" values to set a <video> or <audio> tag inside <vg-media>.
- * ```js
+ * <pre>
  * {
  *    src: $sce.trustAsResourceUrl("path/to/video/videogular.mp4"),
  *    type: "video/mp4"
  * }
- * ```
+ * </pre>
  *
  */
 "use strict";

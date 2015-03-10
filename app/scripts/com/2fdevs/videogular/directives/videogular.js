@@ -22,7 +22,7 @@
  * - The `params` an object with values available to evaluate inside the expression as `$params`. This object is also received in the function defined in `expression`.
  *
  * @param {function} vgConfig String with a url to a config file. Config file's must be a JSON file object with the following structure:
- * ```js
+ * <pre>
 {
   "controls": false,
   "loop": false,
@@ -82,7 +82,7 @@
     }
   }
 }
- * ```
+ * </pre>
  * @param {function} vgComplete Function name in controller's scope to call when video have been completed.
  * @param {function} vgUpdateVolume Function name in controller's scope to call when volume changes. Receives a param with the new volume.
  * @param {function} vgUpdateTime Function name in controller's scope to call when video playback time is updated. Receives two params with current time and duration in milliseconds.

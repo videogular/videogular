@@ -5,12 +5,12 @@
  * @description
  * Native fullscreen polyfill service.
  *
- * vgFullscreen.onchange: String with the onchange event name.
- * vgFullscreen.onerror: String with the onerror event name.
- * vgFullscreen.isAvailable: Boolean with fullscreen availability.
- * vgFullscreen.isFullScreen: Boolean with current view mode.
- * vgFullscreen.exit: Exit fullscreen function.
- * vgFullscreen.request: Request for fullscreen access function.
+ *    * vgFullscreen.onchange: String with the onchange event name.
+ *    * vgFullscreen.onerror: String with the onerror event name.
+ *    * vgFullscreen.isAvailable: Boolean with fullscreen availability.
+ *    * vgFullscreen.isFullScreen: Boolean with current view mode.
+ *    * vgFullscreen.exit: Exit fullscreen function.
+ *    * vgFullscreen.request: Request for fullscreen access function.
  **/
 "use strict";
 angular.module("com.2fdevs.videogular")
@@ -75,9 +75,6 @@ angular.module("com.2fdevs.videogular")
         break;
       }
     }
-
-    // In case can't detect ms
-    if (polyfill == null && APIs.ms.onchange in document) polyfill = APIs.ms;
 
     // Override APIs on iOS
     if (VG_UTILS.isiOSDevice()) {

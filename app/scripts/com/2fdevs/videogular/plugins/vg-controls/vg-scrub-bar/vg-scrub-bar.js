@@ -6,7 +6,7 @@
  * Directive to control the time and display other information layers about the progress of the media.
  * This directive acts as a container and you can add more layers to display current time, cuepoints, buffer or whatever you need.
  *
- * ```html
+ * <pre>
  * <videogular vg-theme="config.theme.url">
  *    <vg-media vg-src="sources"></vg-media>
  *
@@ -14,7 +14,7 @@
  *        <vg-scrub-bar></vg-scrub-bar>
  *    </vg-controls>
  * </videogular>
- * ```
+ * </pre>
  *
  */
 angular.module("com.2fdevs.videogular.plugins.controls")

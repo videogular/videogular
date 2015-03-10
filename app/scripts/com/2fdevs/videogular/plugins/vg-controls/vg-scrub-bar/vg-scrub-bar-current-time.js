@@ -5,7 +5,7 @@
  * @description
  * Layer inside vg-scrub-bar to display the current time.
  *
- * ```html
+ * <pre>
  * <videogular vg-theme="config.theme.url">
  *    <vg-media vg-src="sources"></vg-media>
  *
@@ -15,7 +15,7 @@
  *        </vg-scrub-bar>
  *    </vg-controls>
  * </videogular>
- * ```
+ * </pre>
  *
  */
 angular.module("com.2fdevs.videogular.plugins.controls")

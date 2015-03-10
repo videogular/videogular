@@ -12,11 +12,11 @@
  * This plugin requires dash.all.js file available at dash.js project:
  * https://github.com/Dash-Industry-Forum/dash.js
  *
- * ```html
+ * <pre>
  * <videogular vg-theme="config.theme.url" vg-autoplay="config.autoPlay">
  *    <vg-media vg-src="sources" vg-dash></vg-media>
  * </videogular>
- * ```
+ * </pre>
  *
  */
 "use strict";

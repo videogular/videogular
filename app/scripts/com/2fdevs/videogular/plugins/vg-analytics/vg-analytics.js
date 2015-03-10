@@ -16,14 +16,14 @@
  *
  * Videogular analytics injects Angulartics, so to use your preferred plugin you need to add it on your app.
  *
- * ```html
+ * <pre>
  * <videogular vg-theme="config.theme.url" vg-autoplay="config.autoPlay">
  *    <vg-analytics vg-track-info="events"></vg-analytics>
  * </videogular>
- * ```
+ * </pre>
  *
  * This plugin requires an object with the following structure:
- * ```js
+ * <pre>
  * {
  *    "category": "Videogular",
  *    "label": "Main",
@@ -36,10 +36,11 @@
  *      "progress": 10     // Triggered each 10% of the progress video
  *    }
  *  }
- * ```
+ * </pre>
  *
  * @param {object} vgTrackInfo Object with the tracking info with the following structure:
  *
+ * <pre>
  * {
  *    "category": "Videogular",
  *    "label": "Main",
@@ -52,6 +53,7 @@
  *      "progress": 10
  *    }
  *  }
+ *  </pre>
  *
  */
 "use strict";

@@ -10,13 +10,13 @@
  * @description
  * Shows a spinner when Videogular is buffering or preparing the video player.
  *
- * ```html
+ * <pre>
  * <videogular vg-theme="config.theme.url" vg-autoplay="config.autoPlay">
  *    <vg-media vg-src="sources"></vg-media>
  *
  *    <vg-buffering></vg-buffering>
  * </videogular>
- * ```
+ * </pre>
  *
  */
 "use strict";

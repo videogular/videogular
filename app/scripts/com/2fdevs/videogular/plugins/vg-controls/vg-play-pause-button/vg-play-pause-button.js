@@ -5,7 +5,7 @@
  * @description
  * Adds a button inside vg-controls to play and pause media.
  *
- * ```html
+ * <pre>
  * <videogular vg-theme="config.theme.url">
  *    <vg-media vg-src="sources"></vg-media>
  *
@@ -13,7 +13,7 @@
  *        <vg-play-pause-button></vg-play-pause-button>
  *    </vg-controls>
  * </videogular>
- * ```
+ * </pre>
  *
  */
 angular.module("com.2fdevs.videogular.plugins.controls")
