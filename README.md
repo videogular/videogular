@@ -31,6 +31,26 @@ If you have developed a Videogular's plugin or theme [contact us through this fo
 
 See the [Videogular's website](http://www.videogular.com) for more info about [how to start and installation notes](http://www.videogular.com/tutorials/how-to-start/).
 
+## Migrate to 1.0 from an older version of Videogular
+
+All attributes for the various directives (including plugins) are still being maintained as usual, however, the naming of several have changed significantly to conform to an improved coding style. Here is a semi-exhaustive list:
+
+1. No more `<vg-video>`.  Ditched in favor of `<vg-media>` that supports audio as well.
+2. `vg-controls`:
+
+    ```
+    vg-timedisplay -> vg-time-display
+    vg-scrubBar -> vg-scrub-bar
+    vg-scrubbarcurrenttime -> vg-scrub-bar-current-time
+    vg-timedisplay -> vg-time-display
+    vg-mutebutton -> vg-mute-button
+    vg-volumebar -> vg-volume-bar
+    ```
+    
+3. `vg-poster-image -> vg-poster`
+
+
+
 ## Credits
 
 Videogular is an open source project maintained by (literally) [two fucking developers] (http://twofuckingdevelopers.com/).
