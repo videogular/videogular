@@ -3,7 +3,7 @@
         <div class="col-12">
             <h2>Video player</h2>
             <div class="videogular-container">
-                <videogular vg-player-ready="ctrl.onPlayerReady($API)"
+                <div videogular vg-player-ready="ctrl.onPlayerReady($API)"
                             vg-complete="ctrl.onCompleteVideo()"
                             vg-error="ctrl.onError($event)"
                             vg-update-time="ctrl.onUpdateTime($currentTime, $duration)"
@@ -37,7 +37,7 @@
                     <vg-poster vg-url='ctrl.config.plugins.poster.url'></vg-poster>
                     <vg-buffering></vg-buffering>
                     <vg-overlay-play></vg-overlay-play>
-                </videogular>
+                </div>
             </div>
         </div>
     </div>

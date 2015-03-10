@@ -127,7 +127,9 @@ angular.module("com.2fdevs.videogular")
         this.isLive = true;
       }
 
-      this.checkCuePoints(event.target.currentTime);
+      if (this.cuePoints) {
+        this.checkCuePoints(event.target.currentTime);
+      }
 
       $scope.vgUpdateTime({$currentTime: event.target.currentTime, $duration: event.target.duration});
 

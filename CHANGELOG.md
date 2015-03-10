@@ -1,5 +1,17 @@
 CHANGELOG
 ================
+## v1.1.0
+* Added vg-cue-points property to videogular tag.
+* Added to set state to stop when a source is changed. closes #174
+* Allowed videogular directive as attribute. closes #162
+* Fixed bug with vgAutoPlay. close #161
+* Fixed problem with templating demo.
+* Improved performance in main controller.
+* Improved autohide in vg-controls.
+* Updated demo.
+* Updated readme.
+* Updated docs.
+
 ## v1.0.1
 * Added vg-type attribute in vg-media for "audio" or "video".
 * Added watch for vg-plays-inline.
