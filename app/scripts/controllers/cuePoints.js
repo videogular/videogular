@@ -37,7 +37,7 @@ angular.module('myApp').controller('CuePointsCtrl',
     };
 
     // Animations
-    this.onResetAnimationsCuePoint = function onUpdateAnimationsCuePoint(currentTime, timeLapse, params) {
+    this.onLeaveAnimationsCuePoint = function onLeaveAnimationsCuePoint(currentTime, timeLapse, params) {
       params.prop[params.value] = "0" + params.units;
     };
 
@@ -81,7 +81,7 @@ angular.module('myApp').controller('CuePointsCtrl',
               start: 0,
               end: 1
             },
-            onReset: this.onConsoleCuePoint.bind(this),
+            onLeave: this.onConsoleCuePoint.bind(this),
             onUpdate: this.onConsoleCuePoint.bind(this),
             onComplete: this.onConsoleCuePoint.bind(this),
             params: {
@@ -93,7 +93,7 @@ angular.module('myApp').controller('CuePointsCtrl',
               start: 4,
               end: 5
             },
-            onReset: this.onConsoleCuePoint.bind(this),
+            onLeave: this.onConsoleCuePoint.bind(this),
             onUpdate: this.onConsoleCuePoint.bind(this),
             onComplete: this.onConsoleCuePoint.bind(this),
             params: {
@@ -105,7 +105,7 @@ angular.module('myApp').controller('CuePointsCtrl',
               start: 10,
               end: 11
             },
-            onReset: this.onConsoleCuePoint.bind(this),
+            onLeave: this.onConsoleCuePoint.bind(this),
             onUpdate: this.onConsoleCuePoint.bind(this),
             onComplete: this.onConsoleCuePoint.bind(this),
             params: {
@@ -119,7 +119,7 @@ angular.module('myApp').controller('CuePointsCtrl',
               start: 14,
               end: 16
             },
-            onReset: this.onResetAnimationsCuePoint.bind(this),
+            onLeave: this.onLeaveAnimationsCuePoint.bind(this),
             onUpdate: this.onUpdateAnimationsCuePoint.bind(this),
             onComplete: this.onCompleteAnimationsCuePoint.bind(this),
             params: {
@@ -134,7 +134,7 @@ angular.module('myApp').controller('CuePointsCtrl',
               start: 15,
               end: 18
             },
-            onReset: this.onResetAnimationsCuePoint.bind(this),
+            onLeave: this.onLeaveAnimationsCuePoint.bind(this),
             onUpdate: this.onUpdateAnimationsCuePoint.bind(this),
             onComplete: this.onCompleteAnimationsCuePoint.bind(this),
             params: {
@@ -151,7 +151,7 @@ angular.module('myApp').controller('CuePointsCtrl',
               start: 7,
               end: 8
             },
-            onReset: this.onChaptersCuePoint.bind(this),
+            onLeave: this.onChaptersCuePoint.bind(this),
             onUpdate: this.onChaptersCuePoint.bind(this),
             onComplete: this.onChaptersCuePoint.bind(this),
             params: {
@@ -165,7 +165,7 @@ angular.module('myApp').controller('CuePointsCtrl',
               start: 14,
               end: 15
             },
-            onReset: this.onChaptersCuePoint.bind(this),
+            onLeave: this.onChaptersCuePoint.bind(this),
             onUpdate: this.onChaptersCuePoint.bind(this),
             onComplete: this.onChaptersCuePoint.bind(this),
             params: {
@@ -179,7 +179,7 @@ angular.module('myApp').controller('CuePointsCtrl',
               start: 35,
               end: 36
             },
-            onReset: this.onChaptersCuePoint.bind(this),
+            onLeave: this.onChaptersCuePoint.bind(this),
             onUpdate: this.onChaptersCuePoint.bind(this),
             onComplete: this.onChaptersCuePoint.bind(this),
             params: {
@@ -193,7 +193,7 @@ angular.module('myApp').controller('CuePointsCtrl',
               start: 90,
               end: 91
             },
-            onReset: this.onChaptersCuePoint.bind(this),
+            onLeave: this.onChaptersCuePoint.bind(this),
             onUpdate: this.onChaptersCuePoint.bind(this),
             onComplete: this.onChaptersCuePoint.bind(this),
             params: {

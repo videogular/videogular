@@ -45,6 +45,11 @@ angular.module("com.2fdevs.videogular")
         scope.onChangeSource = function onChangeSource(newValue, oldValue) {
           if ((!sources || newValue != oldValue) && newValue) {
             sources = newValue;
+
+            if(API.currentState !== VG_STATES.PLAY) {
+              API.currentState = VG_STATES.STOP;
+            }
+
             API.sources = sources;
             scope.changeSource();
           }

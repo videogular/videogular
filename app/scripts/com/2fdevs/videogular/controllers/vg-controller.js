@@ -139,8 +139,8 @@ angular.module("com.2fdevs.videogular")
             }
           }
           else {
-            if (cp.onReset && cp.$$isDirty) {
-              cp.onReset(currentTime, cp.timeLapse, cp.params);
+            if (cp.onLeave && cp.$$isDirty) {
+              cp.onLeave(currentTime, cp.timeLapse, cp.params);
             }
 
             cp.$$isDirty = false;
