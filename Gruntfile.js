@@ -1,153 +1,169 @@
 module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
-		karma: {
-			build: {
-				configFile: 'karma.conf.js',
-				singleRun: true,
-				logLevel: 'INFO',
-				port: 8071
-			},
-			test: {
-				configFile: 'karma.conf.js',
-				autoWatch: true,
-				logLevel: 'INFO',
-				port: 8070
-			}
-		},
+    karma: {
+      test: {
+        configFile: 'test/conf/karma.conf.js',
+        singleRun: true,
+        logLevel: 'INFO',
+        port: 8070
+      }
+    },
 		cssmin: {
 			css: {
 				src: 'app/styles/themes/default/videogular.css',
-				dest: 'build/themes/default/videogular.min.css'
+				dest: 'build/themes/default/latest/videogular.min.css'
 			}
 		},
+    concat: {
+      videogular: {
+        src: [
+          'app/scripts/com/2fdevs/videogular/vg-module.js',
+          'app/scripts/com/2fdevs/videogular/constants/*.js',
+          'app/scripts/com/2fdevs/videogular/controllers/*.js',
+          'app/scripts/com/2fdevs/videogular/directives/*.js',
+          'app/scripts/com/2fdevs/videogular/services/*.js'
+        ],
+        dest: 'build/videogular/latest/videogular.js'
+      },
+      vgControls: {
+        src: [
+          'app/scripts/com/2fdevs/videogular/plugins/vg-controls/vg-controls.js',
+          'app/scripts/com/2fdevs/videogular/plugins/vg-controls/**/*.js'
+        ],
+        dest: 'build/controls/latest/vg-controls.js'
+      }
+    },
 		uglify: {
 			js: {
 				files: {
-					'build/videogular/videogular.min.js': ['app/scripts/com/2fdevs/videogular/videogular.js'],
-					'build/buffering/buffering.min.js': ['app/scripts/com/2fdevs/videogular/plugins/buffering.js'],
-					'build/controls/controls.min.js': ['app/scripts/com/2fdevs/videogular/plugins/controls.js'],
-					'build/ima-ads/ima-ads.min.js': ['app/scripts/com/2fdevs/videogular/plugins/ima-ads.js'],
-					'build/overlay-play/overlay-play.min.js': ['app/scripts/com/2fdevs/videogular/plugins/overlay-play.js'],
-					'build/poster/poster.min.js': ['app/scripts/com/2fdevs/videogular/plugins/poster.js'],
-					'build/dash/dash.min.js': ['app/scripts/com/2fdevs/videogular/plugins/dash.js']
+					'build/videogular/latest/videogular.min.js': ['build/videogular/latest/videogular.js'],
+					'build/analytics/latest/vg-analytics.min.js': ['app/scripts/com/2fdevs/videogular/plugins/vg-analytics/vg-analytics.js'],
+					'build/buffering/latest/vg-buffering.min.js': ['app/scripts/com/2fdevs/videogular/plugins/vg-buffering/vg-buffering.js'],
+					'build/controls/latest/vg-controls.min.js': ['build/controls/latest/vg-controls.js'],
+					'build/ima-ads/latest/vg-ima-ads.min.js': ['app/scripts/com/2fdevs/videogular/plugins/vg-ima-ads/vg-ima-ads.js'],
+					'build/overlay-play/latest/vg-overlay-play.min.js': ['app/scripts/com/2fdevs/videogular/plugins/vg-overlay-play/vg-overlay-play.js'],
+					'build/poster/latest/vg-poster.min.js': ['app/scripts/com/2fdevs/videogular/plugins/vg-poster/vg-poster.js'],
+					'build/dash/latest/vg-dash.min.js': ['app/scripts/com/2fdevs/videogular/plugins/vg-dash/vg-dash.js']
 				}
 			}
 		},
 		copy: {
-			main: {
+      main: {
 				files: [
 					{
-						src: ['app/scripts/com/2fdevs/videogular/videogular.js'],
-						dest: 'build/videogular/videogular.js',
-						filter: 'isFile'
-					},
-					{
-						expand: true,
-						flatten: true,
-						src: ['app/styles/themes/default/fonts/**'],
-						dest: 'build/themes/default/fonts/',
-						filter: 'isFile'
-					},
-					{
-						src: ['app/styles/themes/default/videogular.css'],
-						dest: 'build/themes/default/videogular.css',
-						filter: 'isFile'
-					},
-					{
-						src: ['app/scripts/com/2fdevs/videogular/plugins/buffering.js'],
-						dest: 'build/buffering/buffering.js',
-						filter: 'isFile'
-					},
-					{
-						src: ['app/scripts/com/2fdevs/videogular/plugins/controls.js'],
-						dest: 'build/controls/controls.js',
-						filter: 'isFile'
-					},
-					{
-						src: ['app/scripts/com/2fdevs/videogular/plugins/ima-ads.js'],
-						dest: 'build/ima-ads/ima-ads.js',
-						filter: 'isFile'
-					},
-					{
-						src: ['app/scripts/com/2fdevs/videogular/plugins/overlay-play.js'],
-						dest: 'build/overlay-play/overlay-play.js',
-						filter: 'isFile'
-					},
-					{
-						src: ['app/scripts/com/2fdevs/videogular/plugins/poster.js'],
-						dest: 'build/poster/poster.js',
-						filter: 'isFile'
-					},
-					{
-						src: ['app/scripts/com/2fdevs/videogular/plugins/dash.js'],
-						dest: 'build/dash/dash.js',
-						filter: 'isFile'
-					}
-				]
-			},
+            expand: true,
+            cwd: 'app/styles/themes/default/',
+            src: ['**'],
+            dest: 'build/themes/default/latest/'
+          },
+          {
+            expand: true,
+            cwd: 'app/scripts/com/2fdevs/videogular/plugins/vg-analytics/',
+            src: ['**'],
+            dest: 'build/analytics/latest/'
+          },
+          {
+            expand: true,
+            cwd: 'app/scripts/com/2fdevs/videogular/plugins/vg-buffering/',
+            src: ['**'],
+            dest: 'build/buffering/latest/'
+          },
+          {
+            expand: true,
+            cwd: 'app/scripts/com/2fdevs/videogular/plugins/vg-ima-ads/',
+            src: ['**'],
+            dest: 'build/ima-ads/latest/'
+          },
+          {
+            expand: true,
+            cwd: 'app/scripts/com/2fdevs/videogular/plugins/vg-overlay-play/',
+            src: ['**'],
+            dest: 'build/overlay-play/latest/'
+          },
+          {
+            expand: true,
+            cwd: 'app/scripts/com/2fdevs/videogular/plugins/vg-poster/',
+            src: ['**'],
+            dest: 'build/poster/latest/'
+          },
+          {
+            expand: true,
+            cwd: 'app/scripts/com/2fdevs/videogular/plugins/vg-dash/',
+            src: ['**'],
+            dest: 'build/dash/latest/'
+          }
+        ]
+      },
 			release: {
 				files: [
 					{
 						flatten: true,
 						expand: true,
-						src: ['build/videogular/*.js'],
+						src: ['build/videogular/latest/*.js'],
 						dest: '../bower-videogular/',
 						filter: 'isFile'
 					},
 					{
 						expand: true,
 						flatten: true,
-						src: ['build/themes/default/*.css'],
+						src: ['build/themes/default/latest/*.css'],
 						dest: '../bower-videogular-themes-default/',
 						filter: 'isFile'
 					},
 					{
 						expand: true,
 						flatten: true,
-						src: ['build/themes/default/fonts/**'],
+						src: ['build/themes/default/latest/fonts/**'],
 						dest: '../bower-videogular-themes-default/fonts/',
 						filter: 'isFile'
 					},
 					{
 						expand: true,
 						flatten: true,
-						src: ['build/buffering/*.js'],
+						src: ['build/analytics/latest/*.js'],
+						dest: '../bower-videogular-analytics/',
+						filter: 'isFile'
+					},
+					{
+						expand: true,
+						flatten: true,
+						src: ['build/buffering/latest/*.js'],
 						dest: '../bower-videogular-buffering/',
 						filter: 'isFile'
 					},
 					{
 						expand: true,
 						flatten: true,
-						src: ['build/controls/*.js'],
+						src: ['build/controls/latest/*.js'],
 						dest: '../bower-videogular-controls/',
 						filter: 'isFile'
 					},
 					{
 						expand: true,
 						flatten: true,
-						src: ['build/ima-ads/*.js'],
+						src: ['build/ima-ads/latest/*.js'],
 						dest: '../bower-videogular-ima-ads/',
 						filter: 'isFile'
 					},
 					{
 						expand: true,
 						flatten: true,
-						src: ['build/overlay-play/*.js'],
+						src: ['build/overlay-play/latest/*.js'],
 						dest: '../bower-videogular-overlay-play/',
 						filter: 'isFile'
 					},
 					{
 						expand: true,
 						flatten: true,
-						src: ['build/poster/*.js'],
+						src: ['build/poster/latest/*.js'],
 						dest: '../bower-videogular-poster/',
 						filter: 'isFile'
 					},
 					{
 						expand: true,
 						flatten: true,
-						src: ['build/dash/*.js'],
+						src: ['build/dash/latest/*.js'],
 						dest: '../bower-videogular-dash/',
 						filter: 'isFile'
 					}
@@ -179,6 +195,7 @@ module.exports = function(grunt) {
 			major: {
 				src: [
 					"../bower-videogular/Gruntfile.js",
+					"../bower-videogular-analytics/Gruntfile.js",
 					"../bower-videogular-buffering/Gruntfile.js",
 					"../bower-videogular-controls/Gruntfile.js",
 					"../bower-videogular-ima-ads/Gruntfile.js",
@@ -192,6 +209,7 @@ module.exports = function(grunt) {
 			minor: {
 				src: [
 					"../bower-videogular/Gruntfile.js",
+					"../bower-videogular-analytics/Gruntfile.js",
 					"../bower-videogular-buffering/Gruntfile.js",
 					"../bower-videogular-controls/Gruntfile.js",
 					"../bower-videogular-ima-ads/Gruntfile.js",
@@ -205,6 +223,7 @@ module.exports = function(grunt) {
 			patch: {
 				src: [
 					"../bower-videogular/Gruntfile.js",
+					"../bower-videogular-analytics/Gruntfile.js",
 					"../bower-videogular-buffering/Gruntfile.js",
 					"../bower-videogular-controls/Gruntfile.js",
 					"../bower-videogular-ima-ads/Gruntfile.js",
@@ -221,15 +240,16 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-karma');
 	grunt.loadNpmTasks('grunt-release');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-hub');
 	grunt.loadNpmTasks('grunt-ngdocs');
 
-	grunt.registerTask('default', ['clean:build', 'cssmin:css', 'uglify:js', 'copy:main', 'copy:release']);
+	grunt.registerTask('default', ['karma:test', 'clean:build', 'cssmin:css', 'concat', 'uglify:js', 'copy:main', 'copy:release']);
 	grunt.registerTask('docs', ['clean:docs', 'ngdocs']);
+	grunt.registerTask('test', ['karma:test']);
 	grunt.registerTask('major-release', ['default', 'hub:major']);
 	grunt.registerTask('minor-release', ['default', 'hub:minor']);
 	grunt.registerTask('patch-release', ['default', 'hub:patch']);

@@ -36,6 +36,19 @@ div.menu {
     width: 100%;
     height: 50px;
     margin: auto; }
+  .videogular-container input {
+    width: 100%; }
+  .videogular-container .barChart {
+    background-color: #507eb3;
+    height: 20px;
+    width: 0; }
+  .videogular-container .text {
+    color: #507eb3;
+    opacity: 0; }
+
+.animable {
+  -webkit-transition: 0.5s linear all;
+  transition: 0.5s ease-out all; }
 
 @media (min-width: 1200px) {
   .videogular-container {
@@ -58,5 +71,12 @@ div.menu {
     .videogular-container.audio {
       width: 728px;
       height: 50px; } }
+.show-hide-animation.ng-hide-add,
+.show-hide-animation.ng-hide-remove {
+  display: block !important;
+  opacity: 1; }
+
+.show-hide-animation.ng-hide {
+  opacity: 0; }
 
 /*# sourceMappingURL=main.css.map */

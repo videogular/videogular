@@ -31,10 +31,30 @@ If you have developed a Videogular's plugin or theme [contact us through this fo
 
 See the [Videogular's website](http://www.videogular.com) for more info about [how to start and installation notes](http://www.videogular.com/tutorials/how-to-start/).
 
+## Migrate to 1.0 from an older version of Videogular
+
+All attributes for the various directives (including plugins) are still being maintained as usual, however, the naming of several have changed significantly to conform to an improved coding style. Here is a semi-exhaustive list:
+
+1. No more `<vg-video>`.  Ditched in favor of `<vg-media>` that supports audio as well.
+2. `vg-controls`:
+
+    ```
+    vg-timedisplay -> vg-time-display
+    vg-scrubBar -> vg-scrub-bar
+    vg-scrubbarcurrenttime -> vg-scrub-bar-current-time
+    vg-timedisplay -> vg-time-display
+    vg-mutebutton -> vg-mute-button
+    vg-volumebar -> vg-volume-bar
+    ```
+    
+3. `vg-poster-image -> vg-poster`
+
+
+
 ## Credits
 
 Videogular is an open source project maintained by (literally) [two fucking developers] (http://twofuckingdevelopers.com/).
 
-We want to thank all our contributors: [Raúl Jiménez] (https://github.com/Elecash), [Robert Zhang] (https://github.com/rogerz), [Javier Tejero] (https://github.com/javiertejero), [Marcos González](https://github.com/qmarcos), [Rafał Lindemann](https://github.com/panrafal), [Alberto Tafoya](https://github.com/withattribution), [Sergey Okhotnitski](https://github.com/5erg), [Javier Cejudo](https://github.com/javiercejudo), [Sam Lau](https://github.com/schmooie), [paxal78](https://github.com/paxal78), [Raymond Klass](https://github.com/RaymondKlass), [Harry Cutts](https://github.com/Fodaro), [Chris MacPherson](https://github.com/chrismacp), [stefanvonderkrone](https://github.com/stefanvonderkrone), [Emil Ibatullin](https://github.com/cawabunga) and [our bug submitters] (https://github.com/2fdevs/videogular/issues?state=open).
+We want to thank all our contributors: [Raúl Jiménez] (https://github.com/Elecash), [Robert Zhang] (https://github.com/rogerz), [Javier Tejero] (https://github.com/javiertejero), [Marcos González](https://github.com/qmarcos), [Rafał Lindemann](https://github.com/panrafal), [Alberto Tafoya](https://github.com/withattribution), [Sergey Okhotnitski](https://github.com/5erg), [Javier Cejudo](https://github.com/javiercejudo), [Sam Lau](https://github.com/schmooie), [paxal78](https://github.com/paxal78), [Raymond Klass](https://github.com/RaymondKlass), [Harry Cutts](https://github.com/Fodaro), [Chris MacPherson](https://github.com/chrismacp), [stefanvonderkrone](https://github.com/stefanvonderkrone), [Emil Ibatullin](https://github.com/cawabunga), [Uzair Sajid](https://github.com/UzEE), [pavelnikolov](https://github.com/pavelnikolov), [Frank3K](https://github.com/Frank3K), [EmilioAiolfi](https://github.com/EmilioAiolfi), [Bernhelm](https://github.com/Bernhelm), [Morriz](https://github.com/Morriz) and [our bug submitters] (https://github.com/2fdevs/videogular/issues?state=open).
 
 [Changelog] (https://github.com/2fdevs/videogular/blob/master/CHANGELOG.md)

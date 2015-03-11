@@ -1,5 +1,62 @@
 CHANGELOG
 ================
+## v1.1.0
+* Added vg-cue-points property to videogular tag.
+* Added to set state to stop when a source is changed. closes #174
+* Allowed videogular directive as attribute. closes #162
+* Fixed bug with vgAutoPlay. close #161
+* Fixed problem with templating demo.
+* Improved performance in main controller.
+* Improved autohide in vg-controls.
+* Updated demo.
+* Updated readme.
+* Updated docs.
+
+## v1.0.1
+* Added vg-type attribute in vg-media for "audio" or "video".
+* Added watch for vg-plays-inline.
+* Fixed problem with vg-plays-inline in iPhone devices.
+* Fixed missing dependency in vg-media causing that vg-auto-play didn't work.
+* Updated scrubbar in default theme.
+* Updated docs.
+
+## v1.0.0
+* Added vg-config to load config file to init the player and plugins.
+* Added Videogular Analytics.
+* Added unit tests.
+* Added "test" task in gruntfile.
+* Added firefox in karma conf.
+* Added config support in vg-analytics.
+* Added views as $templateCache.
+* Added analytics to build process.
+* Added a new fullcreen service with a native fullscreen polyfill.
+* Added vg-plays-inline to disable native fullscreen.
+* Updated theme to set controls-container as a class instead of an id element.
+* Updated Gruntfile with new build process.
+* Updated gitignore to remove coverage directory.
+* Updated package.json with new dependencies.
+* Updated function to calculate the highest zIndex.
+* Updated demo files.
+* Updated docs.
+* Changed vg-media to have a template.
+* Changed private functions to scope functions.
+* Changed vg-poster-image to vg-poster.
+* Changed internal times from Date objects to miliseconds.
+* Fixed error with duplicated CSS themes on head.
+* Fixed problem seeking on Safari Yosemite.
+* Moved plugins to outside of directives directory.
+* Removed old scope variables on fullscreen button.
+* Removed vg-ima-ads in karma conf.
+* Removed template views.
+
+## v0.7.2
+* Changed videogular font name to 'videogular' to avoid problems with other 'icomoon' fonts.
+* Improved error messages.
+* Fixed NaN values when video duration is not specified.
+* Fixed problem with Google IMA when preload='none'.
+* Fixed problem with Google IMA when all ads complete it was starting the video again.
+* Fixed bug when auto play is true and a source has been changed.
+
 ## v0.7.1
 * Added vgError to notify video object error events.
 * Improved buffering API.
