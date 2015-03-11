@@ -311,7 +311,9 @@ angular.module("com.2fdevs.videogular")
       if (currentTheme) {
         for (i = 0, l = links.length; i < l; i++) {
           if (links[i].outerHTML.indexOf(currentTheme) >= 0) {
+            
             links[i].parentNode.removeChild(links[i]);
+            break;
           }
         }
       }
