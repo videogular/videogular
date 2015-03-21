@@ -11,6 +11,11 @@ CHANGELOG
 * Updated demo.
 * Updated readme.
 * Updated docs.
+## v1.1.1
+* Fixed bug on Android 2.3 browser.
+* Fixed problems on Win8 IE10 and IE11.
+* Fixed problem updating themes.
+* Fixed fullscreen on Win8 IE10 and IE11.
 
 ## v1.0.1
 * Added vg-type attribute in vg-media for "audio" or "video".
