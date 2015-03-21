@@ -378,8 +378,12 @@ angular.module("com.2fdevs.videogular")
       this.totalTime = 0;
       this.timeLeft = 0;
       this.isLive = false;
-      this.isFullScreen = vgFullscreen.isFullScreen();
+      this.isFullScreen = false;
       this.isConfig = ($scope.vgConfig != undefined);
+
+      if (vgFullscreen.isAvailable) {
+        this.isFullScreen = vgFullscreen.isFullScreen();
+      }
 
       this.updateTheme($scope.vgTheme);
       this.addBindings();

@@ -35,7 +35,9 @@ angular.module("com.2fdevs.videogular")
             var oldTracks = API.mediaElement.children();
 
             for (i = 0, l = oldTracks.length; i < l; i++) {
-              oldTracks[i].remove();
+              if (oldTracks[i].remove) {
+                oldTracks[i].remove();
+              }
             }
 
             // Add new tracks

@@ -1,5 +1,5 @@
 /**
- * @license videogular v1.1.0 http://videogular.com
+ * @license videogular v1.1.1 http://videogular.com
  * Two Fucking Developers http://twofuckingdevelopers.com
  * License: MIT
  */

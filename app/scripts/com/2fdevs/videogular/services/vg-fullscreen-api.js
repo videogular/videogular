@@ -64,8 +64,8 @@ angular.module("com.2fdevs.videogular")
         element: "msFullscreenElement",
         request: "msRequestFullscreen",
         exit: "msExitFullscreen",
-        onchange: "msfullscreenchange",
-        onerror: "msfullscreenerror"
+        onchange: "MSFullscreenChange",
+        onerror: "MSFullscreenError"
       }
     };
 
@@ -85,14 +85,17 @@ angular.module("com.2fdevs.videogular")
       return (document[polyfill.element] != null);
     }
 
-    this.onchange = polyfill.onchange;
-    this.onerror = polyfill.onerror;
     this.isAvailable = (polyfill != null);
-    this.isFullScreen = isFullScreen;
-    this.exit = function () {
-      document[polyfill.exit]();
-    };
-    this.request = function (elem) {
-      elem[polyfill.request]();
-    };
+
+    if (polyfill) {
+      this.onchange = polyfill.onchange;
+      this.onerror = polyfill.onerror;
+      this.isFullScreen = isFullScreen;
+      this.exit = function () {
+        document[polyfill.exit]();
+      };
+      this.request = function (elem) {
+        elem[polyfill.request]();
+      };
+    }
   }]);

@@ -107,7 +107,7 @@ module.exports = function(grunt) {
 					{
 						expand: true,
 						flatten: true,
-						src: ['build/themes/default/latest/*.css'],
+						src: ['build/themes/default/latest/*.css', 'build/themes/default/latest/*.map'],
 						dest: '../bower-videogular-themes-default/',
 						filter: 'isFile'
 					},
