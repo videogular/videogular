@@ -16,10 +16,12 @@
  *
  * **This parameter is disabled in mobile devices** because user must click on content to prevent consuming mobile data plans.
  *
- * @param {object} vgCuePoints Bindable object containing a list of timelines with cue points objects. A timeline is an array of objects with three properties `timelapse`, `expression` and `params`.
- * - The `timelapse` is an object with two properties `start` and `end` representing in seconds the period for this cue points.
- * - The `expression` is an AngularJS expression to evaluate or a function.
- * - The `params` an object with values available to evaluate inside the expression as `$params`. This object is also received in the function defined in `expression`.
+ * @param {object} vgCuePoints Bindable object containing a list of timelines with cue points objects. A timeline is an array of objects with the following properties:
+ * - `timeLapse` is an object with two properties `start` and `end` representing in seconds the period for this cue points.
+ * - `onLeave` callback called when user seeks backwards and leave the current cue point or a completed cue point. callback(currentTime, timeLapse, params)
+ * - `onUpdate` callback called when the current time is between timeLapse.start and timeLapse.end. callback(currentTime, timeLapse, params)
+ * - `onComplete` callback called when the user seek forward or the current time passes timeLapse.end property. callback(currentTime, timeLapse, params)
+ * - `params` an object with values available to receive in the callback..
  *
  * @param {function} vgConfig String with a url to a config file. Config file's must be a JSON file object with the following structure:
  * <pre>

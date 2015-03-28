@@ -28,11 +28,13 @@
 </div></td></tr><tr><td>vgPlaysInline</td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>vgPlaysInline Boolean value or a String with a scope name variable to use native fullscreen (default) or set fullscreen inside browser (true).</p>
 </div> <p><em>(default: false)</em></p></td></tr><tr><td>vgAutoPlay</td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>vgAutoPlay Boolean value or a String with a scope name variable to auto start playing video when it is initialized.</p>
 <p><strong>This parameter is disabled in mobile devices</strong> because user must click on content to prevent consuming mobile data plans.</p>
-</div> <p><em>(default: false)</em></p></td></tr><tr><td>vgCuePoints</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Bindable object containing a list of timelines with cue points objects. A timeline is an array of objects with three properties <code>timelapse</code>, <code>expression</code> and <code>params</code>.</p>
+</div> <p><em>(default: false)</em></p></td></tr><tr><td>vgCuePoints</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Bindable object containing a list of timelines with cue points objects. A timeline is an array of objects with the following properties:</p>
 <ul>
-<li>The <code>timelapse</code> is an object with two properties <code>start</code> and <code>end</code> representing in seconds the period for this cue points.</li>
-<li>The <code>expression</code> is an AngularJS expression to evaluate or a function.</li>
-<li>The <code>params</code> an object with values available to evaluate inside the expression as <code>$params</code>. This object is also received in the function defined in <code>expression</code>.</li>
+<li><code>timeLapse</code> is an object with two properties <code>start</code> and <code>end</code> representing in seconds the period for this cue points.</li>
+<li><code>onLeave</code> callback called when user seeks backwards and leave the current cue point or a completed cue point. callback(currentTime, timeLapse, params)</li>
+<li><code>onUpdate</code> callback called when the current time is between timeLapse.start and timeLapse.end. callback(currentTime, timeLapse, params)</li>
+<li><code>onComplete</code> callback called when the user seek forward or the current time passes timeLapse.end property. callback(currentTime, timeLapse, params)</li>
+<li><code>params</code> an object with values available to receive in the callback..</li>
 </ul>
 </div></td></tr><tr><td>vgConfig</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>String with a url to a config file. Config file&#39;s must be a JSON file object with the following structure:
 <pre class="prettyprint linenums">
