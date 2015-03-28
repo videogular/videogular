@@ -56,7 +56,7 @@ For a complete migration guide we recommend you to check the [Migration guide to
 
 ## Supported by
 
-Videogular wants to thank you to this companies for supporting this project:
+Videogular wants to thank you to this companies for support this project:
 
 [![](http://www.videogular.com/wp-content/uploads/2015/03/BrowserStackLogo.png)](http://www.browserstack.com)
 [![](http://www.videogular.com/wp-content/uploads/2015/03/logo-q.png)](http://q-interactiva.com)
