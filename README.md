@@ -54,6 +54,13 @@ All attributes for the various directives (including plugins) are still being ma
 
 For a complete migration guide we recommend you to check the [Migration guide to Videogular 1.0.0](http://www.videogular.com/tutorials/migration-guide-to-videogular-1-0-0/).
 
+## Supported by
+
+Videogular wants to thank you to this companies for supporting this project:
+
+[![](http://www.videogular.com/wp-content/uploads/2015/03/BrowserStackLogo.png)](http://www.browserstack.com)
+[![](http://www.videogular.com/wp-content/uploads/2015/03/logo-q.png)](http://q-interactiva.com)
+
 ## Credits
 
 Videogular is an open source project maintained by (literally) [two fucking developers] (http://twofuckingdevelopers.com/).
