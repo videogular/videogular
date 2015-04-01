@@ -3,9 +3,9 @@
  * @name com.2fdevs.videogular.direcitve:vgMedia
  * @restrict E
  * @description
- * Directive to add a source of videos or audios. This directive will create a &lt;video&gt; tag and usually will be above plugin tags.
+ * Directive to add a source of videos or audios. This directive will create a &lt;video&gt; or &lt;audio&gt; tag and usually will be above plugin tags.
  *
- * @param {array} vgSrc Bindable array with a list of media sources. A media source is an object with two properties `src` and `type`. The `src` property must contains a trusful url resource.
+ * @param {array} vgSrc Bindable array with a list of media sources. A media source is an object with two properties `src` and `type`. The `src` property must contains a trustful url resource.
  * @param {string} vgType String with "video" or "audio" values to set a <video> or <audio> tag inside <vg-media>.
  * <pre>
  * {
@@ -66,6 +66,8 @@ angular.module("com.2fdevs.videogular")
               if (canPlay == "maybe" || canPlay == "probably") {
                 API.mediaElement.attr("src", sources[i].src);
                 API.mediaElement.attr("type", sources[i].type);
+                //Trigger vgChangeSource($source) API callback in vgController
+                API.changeSource(sources[i]);
                 break;
               }
             }
@@ -75,6 +77,8 @@ angular.module("com.2fdevs.videogular")
             // Get H264 or the first one
             API.mediaElement.attr("src", sources[0].src);
             API.mediaElement.attr("type", sources[0].type);
+            //Trigger vgChangeSource($source) API callback in vgController
+            API.changeSource(sources[0]);
           }
 
           // Android 2.3 support: https://github.com/2fdevs/videogular/issues/187
