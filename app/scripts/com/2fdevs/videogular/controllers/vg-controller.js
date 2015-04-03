@@ -62,7 +62,7 @@
  */
 angular.module("com.2fdevs.videogular")
   .controller("vgController",
-  ['$scope', '$window', 'vgConfigLoader', 'vgFullscreen', 'VG_UTILS', 'VG_STATES', function ($scope, $window, vgConfigLoader, vgFullscreen, VG_UTILS, VG_STATES) {
+  ['$scope', '$window', 'vgConfigLoader', 'vgFullscreen', 'VG_UTILS', 'VG_STATES', 'VG_VOLUME_KEY', function ($scope, $window, vgConfigLoader, vgFullscreen, VG_UTILS, VG_STATES, VG_VOLUME_KEY) {
     var currentTheme = null;
     var isFullScreenPressed = false;
     var isMetaDataLoaded = false;
@@ -87,6 +87,11 @@ angular.module("com.2fdevs.videogular")
       this.currentState = VG_STATES.STOP;
 
       isMetaDataLoaded = true;
+
+      //Set media volume from localStorage if available
+      if (VG_UTILS.supportsSessionStorage()) {
+        this.setVolume(parseFloat($window.sessionStorage.getItem(VG_VOLUME_KEY) || '1'));
+      }
 
       if ($scope.vgConfig) {
         vgConfigLoader.loadConfig($scope.vgConfig).then(
@@ -300,6 +305,11 @@ angular.module("com.2fdevs.videogular")
 
       this.mediaElement[0].volume = newVolume;
       this.volume = newVolume;
+
+      //Push volume updates to localStorage so that future instances resume volume
+      if(VG_UTILS.supportsSessionStorage()){
+        $window.sessionStorage.setItem(VG_VOLUME_KEY, newVolume.toString());
+      }
     };
 
     this.updateTheme = function (value) {

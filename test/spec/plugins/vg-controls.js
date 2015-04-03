@@ -7,7 +7,9 @@ describe('Directive: Controls', function () {
 	var $compile;
 	var $timeout;
 	var VG_STATES;
+    var VG_VOLUME_KEY;
 	var VG_UTILS;
+    var $window;
 
 	beforeEach(module('com.2fdevs.videogular'));
 	beforeEach(module('com.2fdevs.videogular.plugins.controls'));
@@ -18,7 +20,11 @@ describe('Directive: Controls', function () {
     $sce = $injector.get('$sce');
     $timeout = $injector.get('$timeout');
     VG_STATES = $injector.get('VG_STATES');
+    VG_VOLUME_KEY = $injector.get('VG_VOLUME_KEY');
     VG_UTILS = $injector.get('VG_UTILS');
+    $window = $injector.get('$window');
+
+    $window.sessionStorage.clear(); //Forget about sessionStorage volume between tests
 
     $scope.config = {
       preload: "none",
@@ -379,6 +385,12 @@ describe('Directive: Controls', function () {
 
       // Is NaN because there's no height
       expect(API.setVolume).toHaveBeenCalledWith(NaN);
+    });
+    it("should write volume settings to localStorage", function() {
+      API.setVolume(0.5);
+      $scope.$digest();
+      expect(window.sessionStorage[VG_VOLUME_KEY]).toBe("0.5");
+      //I'm not sure how to test that the volume bar and mute-button resumed the correct state from localStorage
     });
   });
 });

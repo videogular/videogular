@@ -1,6 +1,6 @@
 "use strict";
 angular.module("com.2fdevs.videogular")
-  .service("VG_UTILS", function () {
+  .service("VG_UTILS", ["$window", function ($window) {
     this.fixEventOffset = function ($event) {
       /**
        * There's no offsetX in Firefox, so we fix that.
@@ -51,4 +51,16 @@ angular.module("com.2fdevs.videogular")
     this.isiOSDevice = function () {
       return (navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/iPad/i));
     };
-  });
+
+    /**
+     * Test the browser's support for HTML5 sessionStorage.
+     * @returns {boolean}
+     */
+    this.supportsSessionStorage = function() {
+      try {
+        return 'sessionStorage' in $window && $window['sessionStorage'] !== null;
+      } catch (e) {
+        return false;
+      }
+    };
+  }]);
