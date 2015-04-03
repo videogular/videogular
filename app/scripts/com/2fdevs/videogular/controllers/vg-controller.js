@@ -76,7 +76,7 @@ angular.module("com.2fdevs.videogular")
 
     this.onCanPlay = function (evt) {
       this.isBuffering = false;
-      $scope.$apply();
+      $scope.$apply($scope.vgCanPlay({$event:evt}));
     };
 
     this.onVideoReady = function () {
