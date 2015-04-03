@@ -15,6 +15,9 @@
                         <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
                         <vg-scrub-bar>
                             <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                            <vg-scrub-bar-cue-points class="console" vg-cue-points="ctrl.config.cuePoints.console"></vg-scrub-bar-cue-points>
+                            <vg-scrub-bar-cue-points class="animations" vg-cue-points="ctrl.config.cuePoints.animations"></vg-scrub-bar-cue-points>
+                            <vg-scrub-bar-cue-points class="chapters" vg-cue-points="ctrl.config.cuePoints.chapters"></vg-scrub-bar-cue-points>
                         </vg-scrub-bar>
                         <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
                         <vg-volume>

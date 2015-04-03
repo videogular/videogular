@@ -57,6 +57,11 @@ angular.module('myApp',
           controller: 'CuePointsCtrl',
           controllerAs: "ctrl"
         })
+        .when('/multi-players', {
+          templateUrl: 'views/multi-players.html',
+          controller: 'MultiPlayersCtrl',
+          controllerAs: "ctrl"
+        })
         .otherwise({
           redirectTo: '/'
         }

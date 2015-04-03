@@ -1,3 +1,12 @@
+vg-scrub-bar-cue-points.console .cue-point {
+  background-color: aqua !important; }
+
+vg-scrub-bar-cue-points.animations .cue-point {
+  background-color: lightgreen !important; }
+
+vg-scrub-bar-cue-points.chapters .cue-point {
+  background-color: gold !important; }
+
 div.menu {
   padding: 10px;
   font-size: 16px;
