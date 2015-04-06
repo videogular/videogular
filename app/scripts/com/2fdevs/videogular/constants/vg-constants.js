@@ -10,9 +10,9 @@
  **/
 /**
  * @ngdoc service
- * @name com.2fdevs.videogular.constant:VG_VOLUME_LOCAL_STORAGE
+ * @name com.2fdevs.videogular.constant:VG_VOLUME_KEY
  *
- * @description localStorage key for storing volume changes.
+ * @description localStorage key name for persistent video play volume on a domain.
  **/
 "use strict";
 angular.module("com.2fdevs.videogular")
