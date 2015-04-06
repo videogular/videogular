@@ -53,12 +53,12 @@ angular.module("com.2fdevs.videogular")
     };
 
     /**
-     * Test the browser's support for HTML5 sessionStorage.
+     * Test the browser's support for HTML5 localStorage.
      * @returns {boolean}
      */
-    this.supportsSessionStorage = function() {
+    this.supportsLocalStorage = function() {
       try {
-        return 'sessionStorage' in $window && $window['sessionStorage'] !== null;
+        return 'localStorage' in $window && $window['localStorage'] !== null;
       } catch (e) {
         return false;
       }

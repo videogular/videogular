@@ -89,8 +89,9 @@ angular.module("com.2fdevs.videogular")
       isMetaDataLoaded = true;
 
       //Set media volume from localStorage if available
-      if (VG_UTILS.supportsSessionStorage()) {
-        this.setVolume(parseFloat($window.sessionStorage.getItem(VG_VOLUME_KEY) || '1'));
+      if (VG_UTILS.supportsLocalStorage()) {
+        //Default to 100% volume if local storage setting does not exist.
+        this.setVolume(parseFloat($window.localStorage.getItem(VG_VOLUME_KEY) || '1'));
       }
 
       if ($scope.vgConfig) {
@@ -307,8 +308,9 @@ angular.module("com.2fdevs.videogular")
       this.volume = newVolume;
 
       //Push volume updates to localStorage so that future instances resume volume
-      if(VG_UTILS.supportsSessionStorage()){
-        $window.sessionStorage.setItem(VG_VOLUME_KEY, newVolume.toString());
+      if(VG_UTILS.supportsLocalStorage()){
+        //TODO: Improvement: concat key with current page or "video player id" to create separate stored volumes.
+        $window.localStorage.setItem(VG_VOLUME_KEY, newVolume.toString());
       }
     };
 

@@ -24,7 +24,7 @@ describe('Directive: Controls', function () {
     VG_UTILS = $injector.get('VG_UTILS');
     $window = $injector.get('$window');
 
-    $window.sessionStorage.clear(); //Forget about sessionStorage volume between tests
+    $window.localStorage.clear(); //Forget about localStorage volume between tests
 
     $scope.config = {
       preload: "none",
@@ -389,8 +389,7 @@ describe('Directive: Controls', function () {
     it("should write volume settings to localStorage", function() {
       API.setVolume(0.5);
       $scope.$digest();
-      expect(window.sessionStorage[VG_VOLUME_KEY]).toBe("0.5");
-      //I'm not sure how to test that the volume bar and mute-button resumed the correct state from localStorage
+      expect(window.localStorage[VG_VOLUME_KEY]).toBe("0.5");
     });
   });
 });
