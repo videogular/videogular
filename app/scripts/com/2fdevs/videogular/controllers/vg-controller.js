@@ -88,6 +88,12 @@ angular.module("com.2fdevs.videogular")
 
             isMetaDataLoaded = true;
 
+            //Set media volume from localStorage if available
+            if (VG_UTILS.supportsLocalStorage()) {
+                //Default to 100% volume if local storage setting does not exist.
+                this.setVolume(parseFloat($window.localStorage.getItem(VG_VOLUME_KEY) || '1'));
+            }
+
             if ($scope.vgConfig) {
                 vgConfigLoader.loadConfig($scope.vgConfig).then(
                     this.onLoadConfig.bind(this)
@@ -97,21 +103,6 @@ angular.module("com.2fdevs.videogular")
                 $scope.vgPlayerReady({$API: this});
             }
         };
-      //Set media volume from localStorage if available
-      if (VG_UTILS.supportsLocalStorage()) {
-        //Default to 100% volume if local storage setting does not exist.
-        this.setVolume(parseFloat($window.localStorage.getItem(VG_VOLUME_KEY) || '1'));
-      }
-
-      if ($scope.vgConfig) {
-        vgConfigLoader.loadConfig($scope.vgConfig).then(
-          this.onLoadConfig.bind(this)
-        );
-      }
-      else {
-        $scope.vgPlayerReady({$API: this});
-      }
-    };
 
         this.onLoadConfig = function (config) {
             this.config = config;
