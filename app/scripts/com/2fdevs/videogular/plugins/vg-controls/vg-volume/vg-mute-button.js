@@ -84,7 +84,6 @@ angular.module("com.2fdevs.videogular.plugins.controls")
           scope.onSetVolume = function onSetVolume(newVolume) {
             scope.currentVolume = newVolume;
 
-            // TODO: Save volume with LocalStorage
             // if it's not muted we save the default volume
             if (!isMuted) {
               scope.defaultVolume = newVolume;
@@ -118,8 +117,8 @@ angular.module("com.2fdevs.videogular.plugins.controls")
           scope.currentVolume = scope.defaultVolume;
           scope.muteIcon = {level3: true};
 
-          //TODO: get volume from localStorage
-
+          //Update the mute button on initialization, then watch for changes
+          scope.onSetVolume(API.volume);
           scope.$watch(
             function () {
               return API.volume;

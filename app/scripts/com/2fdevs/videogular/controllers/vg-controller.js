@@ -61,11 +61,11 @@
  *
  */
 angular.module("com.2fdevs.videogular")
-    .controller("vgController",
-    ['$scope', '$window', 'vgConfigLoader', 'vgFullscreen', 'VG_UTILS', 'VG_STATES', function ($scope, $window, vgConfigLoader, vgFullscreen, VG_UTILS, VG_STATES) {
-        var currentTheme = null;
-        var isFullScreenPressed = false;
-        var isMetaDataLoaded = false;
+  .controller("vgController",
+  ['$scope', '$window', 'vgConfigLoader', 'vgFullscreen', 'VG_UTILS', 'VG_STATES', 'VG_VOLUME_KEY', function ($scope, $window, vgConfigLoader, vgFullscreen, VG_UTILS, VG_STATES, VG_VOLUME_KEY) {
+    var currentTheme = null;
+    var isFullScreenPressed = false;
+    var isMetaDataLoaded = false;
 
         // PUBLIC $API
         this.videogularElement = null;
@@ -73,10 +73,10 @@ angular.module("com.2fdevs.videogular")
         this.clearMedia = function () {
             this.mediaElement[0].src = '';
         };
-
+      
         this.onCanPlay = function (evt) {
             this.isBuffering = false;
-            $scope.$apply();
+            $scope.$apply($scope.vgCanPlay({$event:evt}));
         };
 
         this.onVideoReady = function () {
@@ -97,6 +97,21 @@ angular.module("com.2fdevs.videogular")
                 $scope.vgPlayerReady({$API: this});
             }
         };
+      //Set media volume from localStorage if available
+      if (VG_UTILS.supportsLocalStorage()) {
+        //Default to 100% volume if local storage setting does not exist.
+        this.setVolume(parseFloat($window.localStorage.getItem(VG_VOLUME_KEY) || '1'));
+      }
+
+      if ($scope.vgConfig) {
+        vgConfigLoader.loadConfig($scope.vgConfig).then(
+          this.onLoadConfig.bind(this)
+        );
+      }
+      else {
+        $scope.vgPlayerReady({$API: this});
+      }
+    };
 
         this.onLoadConfig = function (config) {
             this.config = config;
@@ -300,6 +315,12 @@ angular.module("com.2fdevs.videogular")
 
             this.mediaElement[0].volume = newVolume;
             this.volume = newVolume;
+
+            //Push volume updates to localStorage so that future instances resume volume
+            if(VG_UTILS.supportsLocalStorage()){
+                //TODO: Improvement: concat key with current page or "video player id" to create separate stored volumes.
+                $window.localStorage.setItem(VG_VOLUME_KEY, newVolume.toString());
+            }
         };
 
         this.updateTheme = function (value) {
