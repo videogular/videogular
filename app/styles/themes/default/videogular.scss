@@ -241,6 +241,14 @@ videogular, [videogular] {
         }
     }
 
+    vg-playback-button {
+        display: table-cell;
+        width: 50px;
+        vertical-align: middle;
+        text-align: center;
+        cursor: pointer;
+    }
+
     vg-volume {
         display: table-cell;
         width: 50px;

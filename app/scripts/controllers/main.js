@@ -37,9 +37,9 @@ angular.module('myApp').controller('MainCtrl',
         this.media = [
             {
                 sources: [
-                    {src: $sce.trustAsResourceUrl("assets/videos/videogular.mp4"), type: "video/mp4"},
-                    {src: $sce.trustAsResourceUrl("assets/videos/videogular.ogg"), type: "video/ogg"},
-                    {src: $sce.trustAsResourceUrl("assets/videos/videogular.webm"), type: "video/webm"}
+                    {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.mp4"), type: "video/mp4"},
+                    {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.ogg"), type: "video/ogg"},
+                    {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.webm"), type: "video/webm"}
                 ],
                 tracks: [
                     {

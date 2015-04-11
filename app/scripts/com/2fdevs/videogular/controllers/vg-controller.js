@@ -321,6 +321,13 @@ angular.module("com.2fdevs.videogular")
       }
     };
 
+    this.setPlayback = function (newPlayback) {
+      $scope.vgUpdatePlayback({$playBack: newPlayback});
+
+      this.mediaElement[0].playbackRate = newPlayback;
+      this.playback = newPlayback;
+    };
+
     this.updateTheme = function (value) {
       var links = document.getElementsByTagName("link");
       var i;

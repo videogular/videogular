@@ -189,6 +189,12 @@ videogular, [videogular] {
         position: absolute;
         height: 3px;
         background-color: #FFFFFF; }
+  videogular vg-playback-button, [videogular] vg-playback-button {
+    display: table-cell;
+    width: 50px;
+    vertical-align: middle;
+    text-align: center;
+    cursor: pointer; }
   videogular vg-volume, [videogular] vg-volume {
     display: table-cell;
     width: 50px;
