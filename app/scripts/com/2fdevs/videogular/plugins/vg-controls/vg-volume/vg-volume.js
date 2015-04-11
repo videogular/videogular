@@ -19,34 +19,34 @@
  *
  */
 angular.module("com.2fdevs.videogular.plugins.controls")
-  .directive("vgVolume",
+    .directive("vgVolume",
     ["VG_UTILS", function (VG_UTILS) {
-      return {
-        restrict: "E",
-        link: function (scope, elem, attr) {
-          scope.onMouseOverVolume = function onMouseOverVolume() {
-            scope.$evalAsync(function() {
-              scope.volumeVisibility = "visible";
-            });
-          };
+        return {
+            restrict: "E",
+            link: function (scope, elem, attr) {
+                scope.onMouseOverVolume = function onMouseOverVolume() {
+                    scope.$evalAsync(function () {
+                        scope.volumeVisibility = "visible";
+                    });
+                };
 
-          scope.onMouseLeaveVolume = function onMouseLeaveVolume() {
-            scope.$evalAsync(function() {
-              scope.volumeVisibility = "hidden";
-            });
-          };
+                scope.onMouseLeaveVolume = function onMouseLeaveVolume() {
+                    scope.$evalAsync(function () {
+                        scope.volumeVisibility = "hidden";
+                    });
+                };
 
-          // We hide volume controls on mobile devices
-          if (VG_UTILS.isMobileDevice()) {
-            elem.css("display", "none");
-          }
-          else {
-            scope.volumeVisibility = "hidden";
+                // We hide volume controls on mobile devices
+                if (VG_UTILS.isMobileDevice()) {
+                    elem.css("display", "none");
+                }
+                else {
+                    scope.volumeVisibility = "hidden";
 
-            elem.bind("mouseover", scope.onMouseOverVolume);
-            elem.bind("mouseleave", scope.onMouseLeaveVolume);
-          }
+                    elem.bind("mouseover", scope.onMouseOverVolume);
+                    elem.bind("mouseleave", scope.onMouseLeaveVolume);
+                }
+            }
         }
-      }
     }]
-  );
+);

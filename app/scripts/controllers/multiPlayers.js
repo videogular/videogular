@@ -23,8 +23,8 @@ angular.module('myApp').controller('MultiPlayersCtrl',
 
         this.videoConfigs = [];
 
-        for (var i=0, l=this.sources.length; i<l; i++) {
-            var config = angular.copy   (this.commonConfig);
+        for (var i = 0, l = this.sources.length; i < l; i++) {
+            var config = angular.copy(this.commonConfig);
             config.sources = [];
             config.sources.push(this.sources[i]);
 

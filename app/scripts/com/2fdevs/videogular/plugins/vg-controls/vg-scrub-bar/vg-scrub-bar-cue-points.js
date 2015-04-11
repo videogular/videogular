@@ -20,19 +20,19 @@
  */
 angular.module("com.2fdevs.videogular.plugins.controls")
     .run(
-        ["$templateCache", function($templateCache) {
-            $templateCache.put("vg-templates/vg-scrub-bar-cue-points",
-                '<div class="cue-point-timeline" ng-style="timelineWidth">' +
-                    '<div ng-repeat="cuePoint in vgCuePoints" class="cue-point" ng-style="cuePoint.$$style"></div>' +
-                '</div>');
-        }]
-    )
+    ["$templateCache", function ($templateCache) {
+        $templateCache.put("vg-templates/vg-scrub-bar-cue-points",
+            '<div class="cue-point-timeline" ng-style="timelineWidth">' +
+            '<div ng-repeat="cuePoint in vgCuePoints" class="cue-point" ng-style="cuePoint.$$style"></div>' +
+            '</div>');
+    }]
+)
     .directive("vgScrubBarCuePoints",
     [function () {
         return {
             restrict: "E",
             require: "^videogular",
-            templateUrl: function(elem, attrs) {
+            templateUrl: function (elem, attrs) {
                 return attrs.vgTemplate || 'vg-templates/vg-scrub-bar-cue-points';
             },
             scope: {
@@ -50,7 +50,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                     var totalWidth = parseInt(elem[0].clientWidth);
                     var left = parseInt(elem[0].offsetLeft);
 
-                    for (var i=0, l=cuePoints.length; i<l; i++) {
+                    for (var i = 0, l = cuePoints.length; i < l; i++) {
                         var cuePointDuration = (cuePoints[i].timeLapse.end - cuePoints[i].timeLapse.start) * 1000;
                         var position = (left + (totalWidth * cuePoints[i].timeLapse.start / API.totalTime * 1000)) + "px";
                         var percentWidth = 0;
@@ -67,7 +67,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                 };
 
                 totalTimeWatch = scope.$watch(
-                    function() {
+                    function () {
                         return API.totalTime;
                     },
                     function (newVal, oldVal) {

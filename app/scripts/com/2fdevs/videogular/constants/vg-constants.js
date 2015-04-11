@@ -16,9 +16,9 @@
  **/
 "use strict";
 angular.module("com.2fdevs.videogular")
-  .constant("VG_STATES", {
-    PLAY: "play",
-    PAUSE: "pause",
-    STOP: "stop"
-  })
-  .constant("VG_VOLUME_KEY", "videogularVolume");
+    .constant("VG_STATES", {
+        PLAY: "play",
+        PAUSE: "pause",
+        STOP: "stop"
+    })
+    .constant("VG_VOLUME_KEY", "videogularVolume");

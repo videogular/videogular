@@ -25,65 +25,65 @@
  *
  * @param {function} vgConfig String with a url to a config file. Config file's must be a JSON file object with the following structure:
  * <pre>
-{
-  "controls": false,
-  "loop": false,
-  "autoplay": false,
-  "preload": "auto",
-  "theme": "path/to/videogular.css",
-  "sources": [
-    {
-      "src": "path/to/videogular.mp4",
-      "type": "video/mp4"
-    },
-    {
-      "src": "path/to/videogular.webm",
-      "type": "video/webm"
-    },
-    {
-      "src": "path/to/videogular.ogg",
-      "type": "video/ogg"
-    }
-  ],
-  "tracks": [
-    {
-      "src": "path/to/pale-blue-dot.vtt",
-      "kind": "subtitles",
-      "srclang": "en",
-      "label": "English",
-      "default": ""
-    }
-  ],
-  "plugins": {
-    "controls": {
-      "autohide": true,
-      "autohideTime": 3000
-    },
-    "poster": {
-      "url": "path/to/earth.png"
-    },
-    "ima-ads": {
-      "companion": "companionAd",
-      "companionSize": [728, 90],
-      "network": "6062",
-      "unitPath": "iab_vast_samples",
-      "adTagUrl": "http://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=%2F3510761%2FadRulesSampleTags&ciu_szs=160x600%2C300x250%2C728x90&cust_params=adrule%3Dpremidpostpodandbumpers&impl=s&gdfp_req=1&env=vp&ad_rule=1&vid=47570401&cmsid=481&output=xml_vast2&unviewed_position_start=1&url=[referrer_url]&correlator=[timestamp]",
-      "skipButton": "<div class='skipButton'>skip ad</div>"
-    },
-    "analytics": {
-      "category": "Videogular",
-      "label": "Main",
-      "events": {
-        "ready": true,
-        "play": true,
-        "pause": true,
-        "stop": true,
-        "complete": true,
-        "progress": 10
-      }
-    }
-  }
-}
+ {
+   "controls": false,
+   "loop": false,
+   "autoplay": false,
+   "preload": "auto",
+   "theme": "path/to/videogular.css",
+   "sources": [
+     {
+       "src": "path/to/videogular.mp4",
+       "type": "video/mp4"
+     },
+     {
+       "src": "path/to/videogular.webm",
+       "type": "video/webm"
+     },
+     {
+       "src": "path/to/videogular.ogg",
+       "type": "video/ogg"
+     }
+   ],
+   "tracks": [
+     {
+       "src": "path/to/pale-blue-dot.vtt",
+       "kind": "subtitles",
+       "srclang": "en",
+       "label": "English",
+       "default": ""
+     }
+   ],
+   "plugins": {
+     "controls": {
+       "autohide": true,
+       "autohideTime": 3000
+     },
+     "poster": {
+       "url": "path/to/earth.png"
+     },
+     "ima-ads": {
+       "companion": "companionAd",
+       "companionSize": [728, 90],
+       "network": "6062",
+       "unitPath": "iab_vast_samples",
+       "adTagUrl": "http://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=%2F3510761%2FadRulesSampleTags&ciu_szs=160x600%2C300x250%2C728x90&cust_params=adrule%3Dpremidpostpodandbumpers&impl=s&gdfp_req=1&env=vp&ad_rule=1&vid=47570401&cmsid=481&output=xml_vast2&unviewed_position_start=1&url=[referrer_url]&correlator=[timestamp]",
+       "skipButton": "<div class='skipButton'>skip ad</div>"
+     },
+     "analytics": {
+       "category": "Videogular",
+       "label": "Main",
+       "events": {
+         "ready": true,
+         "play": true,
+         "pause": true,
+         "stop": true,
+         "complete": true,
+         "progress": 10
+       }
+     }
+   }
+ }
  * </pre>
  * @param {function} vgCanPlay Function name in controller's scope to call when video is able to begin playback
  * @param {function} vgComplete Function name in controller's scope to call when video have been completed.
@@ -101,33 +101,33 @@
  */
 "use strict";
 angular.module("com.2fdevs.videogular")
-  .directive("videogular",
-  [function () {
-    return {
-      restrict: "EA",
-      scope: {
-        vgTheme: "=?",
-        vgAutoPlay: "=?",
-        vgPlaysInline: "=?",
-        vgCuePoints: "=?",
-        vgConfig: "@",
-        vgCanPlay: "&",
-        vgComplete: "&",
-        vgUpdateVolume: "&",
-        vgUpdatePlayback: "&",
-        vgUpdateTime: "&",
-        vgUpdateState: "&",
-        vgPlayerReady: "&",
-        vgChangeSource: "&",
-        vgError: "&"
-      },
-      controller: "vgController",
-      controllerAs: "API",
-      link: {
-        pre: function (scope, elem, attr, controller) {
-          controller.videogularElement = angular.element(elem);
+    .directive("videogular",
+    [function () {
+        return {
+            restrict: "EA",
+            scope: {
+                vgTheme: "=?",
+                vgAutoPlay: "=?",
+                vgPlaysInline: "=?",
+                vgCuePoints: "=?",
+                vgConfig: "@",
+                vgCanPlay: "&",
+                vgComplete: "&",
+                vgUpdateVolume: "&",
+                vgUpdatePlayback: "&",
+                vgUpdateTime: "&",
+                vgUpdateState: "&",
+                vgPlayerReady: "&",
+                vgChangeSource: "&",
+                vgError: "&"
+            },
+            controller: "vgController",
+            controllerAs: "API",
+            link: {
+                pre: function (scope, elem, attr, controller) {
+                    controller.videogularElement = angular.element(elem);
+                }
+            }
         }
-      }
     }
-  }
-  ]);
+    ]);

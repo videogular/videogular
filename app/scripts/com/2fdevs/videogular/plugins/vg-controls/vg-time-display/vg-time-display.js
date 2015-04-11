@@ -22,53 +22,53 @@
  *
  */
 angular.module("com.2fdevs.videogular.plugins.controls")
-  .directive("vgTimeDisplay",
+    .directive("vgTimeDisplay",
     [function () {
-      return {
-        require: "^videogular",
-        restrict: "E",
-        link: function (scope, elem, attr, API) {
-          scope.currentTime = API.currentTime;
-          scope.timeLeft = API.timeLeft;
-          scope.totalTime = API.totalTime;
-          scope.isLive = API.isLive;
+        return {
+            require: "^videogular",
+            restrict: "E",
+            link: function (scope, elem, attr, API) {
+                scope.currentTime = API.currentTime;
+                scope.timeLeft = API.timeLeft;
+                scope.totalTime = API.totalTime;
+                scope.isLive = API.isLive;
 
-          scope.$watch(
-            function () {
-              return API.currentTime;
-            },
-            function (newVal, oldVal) {
-              scope.currentTime = newVal;
-            }
-          );
+                scope.$watch(
+                    function () {
+                        return API.currentTime;
+                    },
+                    function (newVal, oldVal) {
+                        scope.currentTime = newVal;
+                    }
+                );
 
-          scope.$watch(
-            function () {
-              return API.timeLeft;
-            },
-            function (newVal, oldVal) {
-              scope.timeLeft = newVal;
-            }
-          );
+                scope.$watch(
+                    function () {
+                        return API.timeLeft;
+                    },
+                    function (newVal, oldVal) {
+                        scope.timeLeft = newVal;
+                    }
+                );
 
-          scope.$watch(
-            function () {
-              return API.totalTime;
-            },
-            function (newVal, oldVal) {
-              scope.totalTime = newVal;
-            }
-          );
+                scope.$watch(
+                    function () {
+                        return API.totalTime;
+                    },
+                    function (newVal, oldVal) {
+                        scope.totalTime = newVal;
+                    }
+                );
 
-          scope.$watch(
-            function () {
-              return API.isLive;
-            },
-            function (newVal, oldVal) {
-              scope.isLive = newVal;
+                scope.$watch(
+                    function () {
+                        return API.isLive;
+                    },
+                    function (newVal, oldVal) {
+                        scope.isLive = newVal;
+                    }
+                );
             }
-          );
         }
-      }
     }]
-  );
+);

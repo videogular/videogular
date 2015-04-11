@@ -2,6 +2,7 @@
     <div class="row">
         <div class="col-12">
             <h2>Video player</h2>
+
             <div class="videogular-container">
                 <videogular vg-player-ready="ctrl.onPlayerReady($API)"
                             vg-theme="ctrl.config.theme.url"
@@ -15,9 +16,12 @@
                         <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
                         <vg-scrub-bar>
                             <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-                            <vg-scrub-bar-cue-points class="console" vg-cue-points="ctrl.config.cuePoints.console"></vg-scrub-bar-cue-points>
-                            <vg-scrub-bar-cue-points class="animations" vg-cue-points="ctrl.config.cuePoints.animations"></vg-scrub-bar-cue-points>
-                            <vg-scrub-bar-cue-points class="chapters" vg-cue-points="ctrl.config.cuePoints.chapters"></vg-scrub-bar-cue-points>
+                            <vg-scrub-bar-cue-points class="console"
+                                                     vg-cue-points="ctrl.config.cuePoints.console"></vg-scrub-bar-cue-points>
+                            <vg-scrub-bar-cue-points class="animations"
+                                                     vg-cue-points="ctrl.config.cuePoints.animations"></vg-scrub-bar-cue-points>
+                            <vg-scrub-bar-cue-points class="chapters"
+                                                     vg-cue-points="ctrl.config.cuePoints.chapters"></vg-scrub-bar-cue-points>
                         </vg-scrub-bar>
                         <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
                         <vg-volume>
@@ -37,7 +41,9 @@
                         ng-change="ctrl.onChangeChapter()">
                     <option value="">Select chapter</option>
                 </select>
+
                 <p ng-bind="ctrl.consoleCuePointsMessages"></p>
+
                 <div class="animable barChart my-show-hide-animation" ng-style="ctrl.barChartStyle"></div>
                 <h2 class="animable text my-show-hide-animation" ng-style="ctrl.textStyle">ANIMATE EVERYTHING!</h2>
             </div>

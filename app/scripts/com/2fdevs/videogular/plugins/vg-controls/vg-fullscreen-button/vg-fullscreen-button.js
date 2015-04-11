@@ -17,43 +17,43 @@
  *
  */
 angular.module("com.2fdevs.videogular.plugins.controls")
-  .run(
-    ["$templateCache", function($templateCache) {
-      $templateCache.put("vg-templates/vg-fullscreen-button",
-        '<button class="iconButton" ng-click="onClickFullScreen()" ng-class="fullscreenIcon" aria-label="Toggle full screen" type="button"> </button>');
+    .run(
+    ["$templateCache", function ($templateCache) {
+        $templateCache.put("vg-templates/vg-fullscreen-button",
+            '<button class="iconButton" ng-click="onClickFullScreen()" ng-class="fullscreenIcon" aria-label="Toggle full screen" type="button"> </button>');
     }]
-  )
-  .directive("vgFullscreenButton",
+)
+    .directive("vgFullscreenButton",
     [function () {
-      return {
-        restrict: "E",
-        require: "^videogular",
-        scope: {},
-        templateUrl: function(elem, attrs) {
-          return attrs.vgTemplate || 'vg-templates/vg-fullscreen-button';
-        },
-        link: function (scope, elem, attr, API) {
-          scope.onChangeFullScreen = function onChangeFullScreen(isFullScreen) {
-            scope.fullscreenIcon = {enter: !isFullScreen, exit: isFullScreen};
-          };
-
-          scope.onClickFullScreen = function onClickFullScreen() {
-            API.toggleFullScreen();
-          };
-
-          scope.fullscreenIcon = {enter: true};
-
-          scope.$watch(
-            function () {
-              return API.isFullScreen;
+        return {
+            restrict: "E",
+            require: "^videogular",
+            scope: {},
+            templateUrl: function (elem, attrs) {
+                return attrs.vgTemplate || 'vg-templates/vg-fullscreen-button';
             },
-            function (newVal, oldVal) {
-              if (newVal != oldVal) {
-                scope.onChangeFullScreen(newVal);
-              }
+            link: function (scope, elem, attr, API) {
+                scope.onChangeFullScreen = function onChangeFullScreen(isFullScreen) {
+                    scope.fullscreenIcon = {enter: !isFullScreen, exit: isFullScreen};
+                };
+
+                scope.onClickFullScreen = function onClickFullScreen() {
+                    API.toggleFullScreen();
+                };
+
+                scope.fullscreenIcon = {enter: true};
+
+                scope.$watch(
+                    function () {
+                        return API.isFullScreen;
+                    },
+                    function (newVal, oldVal) {
+                        if (newVal != oldVal) {
+                            scope.onChangeFullScreen(newVal);
+                        }
+                    }
+                );
             }
-          );
         }
-      }
     }]
-  );
+);

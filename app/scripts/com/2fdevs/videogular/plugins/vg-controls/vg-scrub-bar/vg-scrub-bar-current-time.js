@@ -19,32 +19,32 @@
  *
  */
 angular.module("com.2fdevs.videogular.plugins.controls")
-  .directive("vgScrubBarCurrentTime",
+    .directive("vgScrubBarCurrentTime",
     [function () {
-      return {
-        restrict: "E",
-        require: "^videogular",
-        link: function (scope, elem, attr, API) {
-          var percentTime = 0;
+        return {
+            restrict: "E",
+            require: "^videogular",
+            link: function (scope, elem, attr, API) {
+                var percentTime = 0;
 
-          scope.onUpdateTime = function onUpdateTime(newCurrentTime) {
-            if (typeof newCurrentTime === 'number' && API.totalTime) {
-              percentTime = 100 * (newCurrentTime / API.totalTime);
-              elem.css("width", percentTime + "%");
-            } else {
-              elem.css("width", 0);
-            }
-          };
+                scope.onUpdateTime = function onUpdateTime(newCurrentTime) {
+                    if (typeof newCurrentTime === 'number' && API.totalTime) {
+                        percentTime = 100 * (newCurrentTime / API.totalTime);
+                        elem.css("width", percentTime + "%");
+                    } else {
+                        elem.css("width", 0);
+                    }
+                };
 
-          scope.$watch(
-            function () {
-              return API.currentTime;
-            },
-            function (newVal, oldVal) {
-              scope.onUpdateTime(newVal);
+                scope.$watch(
+                    function () {
+                        return API.currentTime;
+                    },
+                    function (newVal, oldVal) {
+                        scope.onUpdateTime(newVal);
+                    }
+                );
             }
-          );
         }
-      }
     }]
-  );
+);
