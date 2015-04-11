@@ -14,8 +14,10 @@
        vg-auto-play="{boolean}"
        vg-cue-points="{object}"
        vg-config="{function}"
+       vg-can-play="{function}"
        vg-complete="{function}"
        vg-update-volume="{function}"
+       vg-update-playback="{function}"
        vg-update-time="{function}"
        vg-update-state="{function}"
        vg-player-ready="{function}"
@@ -98,8 +100,10 @@
   }
 }
 </pre>
+</div></td></tr><tr><td>vgCanPlay</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Function name in controller&#39;s scope to call when video is able to begin playback</p>
 </div></td></tr><tr><td>vgComplete</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Function name in controller&#39;s scope to call when video have been completed.</p>
 </div></td></tr><tr><td>vgUpdateVolume</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Function name in controller&#39;s scope to call when volume changes. Receives a param with the new volume.</p>
+</div></td></tr><tr><td>vgUpdatePlayback</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Function name in controller&#39;s scope to call when playback changes. Receives a param with the new playback rate.</p>
 </div></td></tr><tr><td>vgUpdateTime</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Function name in controller&#39;s scope to call when video playback time is updated. Receives two params with current time and duration in milliseconds.</p>
 </div></td></tr><tr><td>vgUpdateState</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Function name in controller&#39;s scope to call when video state changes. Receives a param with the new state. Possible values are &quot;play&quot;, &quot;stop&quot; or &quot;pause&quot;.</p>
 </div></td></tr><tr><td>vgPlayerReady</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Function name in controller&#39;s scope to call when video have been initialized. Receives a param with the videogular API.</p>

@@ -14,6 +14,7 @@ This controller offers a public API:</p>
 <li>playPause(): Toggles play and pause.</li>
 <li>seekTime(value, byPercent): Seeks to a specified time position. Param value must be an integer representing the target position in seconds or a percentage. By default seekTime seeks by seconds, if you want to seek by percentage just pass byPercent to true.</li>
 <li>setVolume(volume): Sets volume. Param volume must be an integer with a value between 0 and 1.</li>
+<li>setPlayback(playback): Sets playback. Param plaback must be an integer with a value between 0 and 2.</li>
 <li>setState(state): Sets a new state. Param state mus be an string with &#39;play&#39;, &#39;pause&#39; or &#39;stop&#39;. This method only changes the state of the player, but doesn&#39;t plays, pauses or stops the media file.</li>
 <li>toggleFullScreen(): Toggles between fullscreen and normal mode.</li>
 <li>updateTheme(css-url): Removes previous CSS theme and sets a new one.</li>
@@ -62,6 +63,7 @@ A media source is an object with two properties <code>src</code> and <code>type<
 <li>totalTime: Number value with total media time.</li>
 <li>timeLeft: Number value with current media time left.</li>
 <li>volume: Number value with current volume between 0 and 1.</li>
+<li>playback: Number value with current playback between 0 and 2.</li>
 </ul>
 </div></div>
 </div>
