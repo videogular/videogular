@@ -1,6 +1,19 @@
 CHANGELOG
 ================
 
+## v1.2.0
+* Added Videogular cue points bar in controls plugin.
+* Added Videogular new method API.setPlayback(playback), new callback vgUpdatePlayback(playback) and vgPlaybackButton in controls plugin.
+* Added persistent volume and vgCanPlay callback.
+* Fixed bug: vgChangeSource callback now triggers when the video player begins playing a new file.
+* Fixed bug when a preroll was the last ad played.
+* Fixed IMA demo.
+* Improved Dash live demo.
+* Code reformatted.
+* Updated demo.
+* Updated readme.
+* Updated docs.
+
 ## v1.1.1
 * Fixed bug on Android 2.3 browser.
 * Fixed problems on Win8 IE10 and IE11.
