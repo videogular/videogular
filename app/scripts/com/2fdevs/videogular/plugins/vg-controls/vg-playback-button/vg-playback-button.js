@@ -34,7 +34,6 @@ angular.module("com.2fdevs.videogular.plugins.controls")
         link: function (scope, elem, attr, API) {
 
           scope.playback = '1.0';
-          var playbackValueElem = angular.element(elem[0].getElementsByClassName("playbackValue"));
 
           scope.onClickPlayback = function onClickPlayback() {
 
