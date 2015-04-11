@@ -105,6 +105,7 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
         scope.onAdsManagerLoaded = function onAdsManagerLoaded(adsManagerLoadedEvent) {
           scope.show();
 					adsManager = adsManagerLoadedEvent.getAdsManager(API.mediaElement[0]);
+
           scope.processAdsManager(adsManager);
 				};
 
@@ -146,7 +147,7 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
 				};
 
         scope.onContentResumeRequested = function onContentResumeRequested() {
-					API.mediaElement[0].addEventListener('ended', onContentEnded);
+          API.mediaElement[0].addEventListener('ended', onContentEnded);
 
 					API.play();
           scope.hide();
@@ -160,11 +161,15 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
 
         scope.onAllAdsComplete = function onAllAdsComplete() {
           scope.hide();
-          API.stop();
+
+          // The last ad was a post-roll
+          if (adsManager.getCuePoints() == -1) {
+            API.stop();
+          }
 				};
 
         scope.onAdComplete = function onAdComplete() {
-					// TODO: Update view with current ad count
+          // TODO: Update view with current ad count
 					currentAd++;
 				};
 

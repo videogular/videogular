@@ -11,7 +11,7 @@
 
           <vg-controls vg-autohide="ctrl.config.autoHide" vg-autohide-time="ctrl.config.autoHideTime">
             <vg-play-pause-button></vg-play-pause-button>
-            <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
+            <vg-time-display ng-show="!isLive">{{ currentTime | date:'mm:ss' }}</vg-time-display>
             <vg-scrub-bar>
               <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
             </vg-scrub-bar>
