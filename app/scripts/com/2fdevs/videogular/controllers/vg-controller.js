@@ -13,6 +13,7 @@
  * - playPause(): Toggles play and pause.
  * - seekTime(value, byPercent): Seeks to a specified time position. Param value must be an integer representing the target position in seconds or a percentage. By default seekTime seeks by seconds, if you want to seek by percentage just pass byPercent to true.
  * - setVolume(volume): Sets volume. Param volume must be an integer with a value between 0 and 1.
+ * - setPlayback(playback): Sets playback. Param plaback must be an integer with a value between 0 and 2.
  * - setState(state): Sets a new state. Param state mus be an string with 'play', 'pause' or 'stop'. This method only changes the state of the player, but doesn't plays, pauses or stops the media file.
  * - toggleFullScreen(): Toggles between fullscreen and normal mode.
  * - updateTheme(css-url): Removes previous CSS theme and sets a new one.
@@ -58,6 +59,7 @@
  * - totalTime: Number value with total media time.
  * - timeLeft: Number value with current media time left.
  * - volume: Number value with current volume between 0 and 1.
+ * - playback: Number value with current playback between 0 and 2.
  *
  */
 angular.module("com.2fdevs.videogular")
@@ -73,7 +75,7 @@ angular.module("com.2fdevs.videogular")
         this.clearMedia = function () {
             this.mediaElement[0].src = '';
         };
-      
+
         this.onCanPlay = function (evt) {
             this.isBuffering = false;
             $scope.$apply($scope.vgCanPlay({$event:evt}));
@@ -198,6 +200,11 @@ angular.module("com.2fdevs.videogular")
             $scope.$apply();
         };
 
+        this.onPlaybackChange = function () {
+          this.playback = this.mediaElement[0].playbackRate;
+          $scope.$apply();
+        };
+
         this.seekTime = function (value, byPercent) {
             var second;
             if (byPercent) {
@@ -314,10 +321,10 @@ angular.module("com.2fdevs.videogular")
             }
         };
 
-        this.updateTheme = function (value) {
-            var links = document.getElementsByTagName("link");
-            var i;
-            var l;
+    this.updateTheme = function (value) {
+      var links = document.getElementsByTagName("link");
+      var i;
+      var l;
 
             // Remove previous theme
             if (currentTheme) {
@@ -370,18 +377,19 @@ angular.module("com.2fdevs.videogular")
             $scope.vgError({$event: event});
         };
 
-        this.addListeners = function () {
-            this.mediaElement[0].addEventListener("canplay", this.onCanPlay.bind(this), false);
-            this.mediaElement[0].addEventListener("loadedmetadata", this.onLoadMetaData.bind(this), false);
-            this.mediaElement[0].addEventListener("waiting", this.onStartBuffering.bind(this), false);
-            this.mediaElement[0].addEventListener("ended", this.onComplete.bind(this), false);
-            this.mediaElement[0].addEventListener("playing", this.onStartPlaying.bind(this), false);
-            this.mediaElement[0].addEventListener("play", this.onPlay.bind(this), false);
-            this.mediaElement[0].addEventListener("pause", this.onPause.bind(this), false);
-            this.mediaElement[0].addEventListener("volumechange", this.onVolumeChange.bind(this), false);
-            this.mediaElement[0].addEventListener("timeupdate", this.onUpdateTime.bind(this), false);
-            this.mediaElement[0].addEventListener("error", this.onVideoError.bind(this), false);
-        };
+    this.addListeners = function () {
+      this.mediaElement[0].addEventListener("canplay", this.onCanPlay.bind(this), false);
+      this.mediaElement[0].addEventListener("loadedmetadata", this.onLoadMetaData.bind(this), false);
+      this.mediaElement[0].addEventListener("waiting", this.onStartBuffering.bind(this), false);
+      this.mediaElement[0].addEventListener("ended", this.onComplete.bind(this), false);
+      this.mediaElement[0].addEventListener("playing", this.onStartPlaying.bind(this), false);
+      this.mediaElement[0].addEventListener("play", this.onPlay.bind(this), false);
+      this.mediaElement[0].addEventListener("pause", this.onPause.bind(this), false);
+      this.mediaElement[0].addEventListener("volumechange", this.onVolumeChange.bind(this), false);
+      this.mediaElement[0].addEventListener("playbackchange", this.onPlaybackChange.bind(this), false);
+      this.mediaElement[0].addEventListener("timeupdate", this.onUpdateTime.bind(this), false);
+      this.mediaElement[0].addEventListener("error", this.onVideoError.bind(this), false);
+    };
 
         this.init = function () {
             this.isReady = false;

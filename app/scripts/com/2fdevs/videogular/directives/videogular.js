@@ -88,6 +88,7 @@
  * @param {function} vgCanPlay Function name in controller's scope to call when video is able to begin playback
  * @param {function} vgComplete Function name in controller's scope to call when video have been completed.
  * @param {function} vgUpdateVolume Function name in controller's scope to call when volume changes. Receives a param with the new volume.
+ * @param {function} vgUpdatePlayback Function name in controller's scope to call when playback changes. Receives a param with the new playback rate.
  * @param {function} vgUpdateTime Function name in controller's scope to call when video playback time is updated. Receives two params with current time and duration in milliseconds.
  * @param {function} vgUpdateState Function name in controller's scope to call when video state changes. Receives a param with the new state. Possible values are "play", "stop" or "pause".
  * @param {function} vgPlayerReady Function name in controller's scope to call when video have been initialized. Receives a param with the videogular API.
@@ -113,6 +114,7 @@ angular.module("com.2fdevs.videogular")
         vgCanPlay: "&",
         vgComplete: "&",
         vgUpdateVolume: "&",
+        vgUpdatePlayback: "&",
         vgUpdateTime: "&",
         vgUpdateState: "&",
         vgPlayerReady: "&",
