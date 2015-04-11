@@ -91,6 +91,8 @@ angular.module("com.2fdevs.videogular.plugins.controls")
 
           scope.$watch("volumeVisibility", scope.onChangeVisibility);
 
+          //Update the volume bar on initialization, then watch for changes
+          scope.updateVolumeView(API.volume);
           scope.$watch(
             function () {
               return API.volume;
