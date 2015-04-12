@@ -40,65 +40,65 @@
 </ul>
 </div></td></tr><tr><td>vgConfig</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>String with a url to a config file. Config file&#39;s must be a JSON file object with the following structure:
 <pre class="prettyprint linenums">
-{
-  "controls": false,
-  "loop": false,
-  "autoplay": false,
-  "preload": "auto",
-  "theme": "path/to/videogular.css",
-  "sources": [
-    {
-      "src": "path/to/videogular.mp4",
-      "type": "video/mp4"
-    },
-    {
-      "src": "path/to/videogular.webm",
-      "type": "video/webm"
-    },
-    {
-      "src": "path/to/videogular.ogg",
-      "type": "video/ogg"
-    }
-  ],
-  "tracks": [
-    {
-      "src": "path/to/pale-blue-dot.vtt",
-      "kind": "subtitles",
-      "srclang": "en",
-      "label": "English",
-      "default": ""
-    }
-  ],
-  "plugins": {
-    "controls": {
-      "autohide": true,
-      "autohideTime": 3000
-    },
-    "poster": {
-      "url": "path/to/earth.png"
-    },
-    "ima-ads": {
-      "companion": "companionAd",
-      "companionSize": [728, 90],
-      "network": "6062",
-      "unitPath": "iab_vast_samples",
-      "adTagUrl": "http://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=%2F3510761%2FadRulesSampleTags&ciu_szs=160x600%2C300x250%2C728x90&cust_params=adrule%3Dpremidpostpodandbumpers&impl=s&gdfp_req=1&env=vp&ad_rule=1&vid=47570401&cmsid=481&output=xml_vast2&unviewed_position_start=1&url=[referrer_url]&correlator=[timestamp]",
-      "skipButton": "&lt;div class='skipButton'&gt;skip ad&lt;/div&gt;"
-    },
-    "analytics": {
-      "category": "Videogular",
-      "label": "Main",
-      "events": {
-        "ready": true,
-        "play": true,
-        "pause": true,
-        "stop": true,
-        "complete": true,
-        "progress": 10
-      }
-    }
-  }
-}
+ {
+   "controls": false,
+   "loop": false,
+   "autoplay": false,
+   "preload": "auto",
+   "theme": "path/to/videogular.css",
+   "sources": [
+     {
+       "src": "path/to/videogular.mp4",
+       "type": "video/mp4"
+     },
+     {
+       "src": "path/to/videogular.webm",
+       "type": "video/webm"
+     },
+     {
+       "src": "path/to/videogular.ogg",
+       "type": "video/ogg"
+     }
+   ],
+   "tracks": [
+     {
+       "src": "path/to/pale-blue-dot.vtt",
+       "kind": "subtitles",
+       "srclang": "en",
+       "label": "English",
+       "default": ""
+     }
+   ],
+   "plugins": {
+     "controls": {
+       "autohide": true,
+       "autohideTime": 3000
+     },
+     "poster": {
+       "url": "path/to/earth.png"
+     },
+     "ima-ads": {
+       "companion": "companionAd",
+       "companionSize": [728, 90],
+       "network": "6062",
+       "unitPath": "iab_vast_samples",
+       "adTagUrl": "http://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=%2F3510761%2FadRulesSampleTags&ciu_szs=160x600%2C300x250%2C728x90&cust_params=adrule%3Dpremidpostpodandbumpers&impl=s&gdfp_req=1&env=vp&ad_rule=1&vid=47570401&cmsid=481&output=xml_vast2&unviewed_position_start=1&url=[referrer_url]&correlator=[timestamp]",
+       "skipButton": "&lt;div class='skipButton'&gt;skip ad&lt;/div&gt;"
+     },
+     "analytics": {
+       "category": "Videogular",
+       "label": "Main",
+       "events": {
+         "ready": true,
+         "play": true,
+         "pause": true,
+         "stop": true,
+         "complete": true,
+         "progress": 10
+       }
+     }
+   }
+ }
 </pre>
 </div></td></tr><tr><td>vgCanPlay</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Function name in controller&#39;s scope to call when video is able to begin playback</p>
 </div></td></tr><tr><td>vgComplete</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Function name in controller&#39;s scope to call when video have been completed.</p>
