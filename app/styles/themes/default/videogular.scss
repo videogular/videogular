@@ -33,7 +33,7 @@ videogular, [videogular] {
         cursor: pointer;
     }
 
-    .fullscreen {
+    &.fullscreen {
         position: fixed;
         left: 0;
         top: 0;

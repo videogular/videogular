@@ -44,7 +44,7 @@ videogular, [videogular] {
   /**********************/ }
   videogular button, [videogular] button {
     cursor: pointer; }
-  videogular .fullscreen, [videogular] .fullscreen {
+  videogular.fullscreen, [videogular].fullscreen {
     position: fixed;
     left: 0;
     top: 0; }

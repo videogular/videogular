@@ -7,6 +7,7 @@ CHANGELOG
 * Added persistent volume and vgCanPlay callback.
 * Fixed bug: vgChangeSource callback now triggers when the video player begins playing a new file.
 * Fixed bug when a preroll was the last ad played.
+* Fixed bug with plays inline styles.
 * Fixed IMA demo.
 * Improved Dash live demo.
 * Code reformatted.
