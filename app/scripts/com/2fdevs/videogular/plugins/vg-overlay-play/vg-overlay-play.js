@@ -35,6 +35,7 @@ angular.module("com.2fdevs.videogular.plugins.overlayplay", [])
         return {
             restrict: "E",
             require: "^videogular",
+            scope: {},
             templateUrl: function (elem, attrs) {
                 return attrs.vgTemplate || 'vg-templates/vg-overlay-play';
             },
