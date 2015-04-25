@@ -91,7 +91,7 @@ angular.module('myApp').controller('ImaAdsCtrl',
                     companionSize: [728, 90],
                     network: "6062",
                     unitPath: "iab_vast_samples",
-                    adTagUrl: "http://ad3.liverail.com/?LR_PUBLISHER_ID=1331&LR_CAMPAIGN_ID=229&LR_SCHEMA=vast2",
+                    adTagUrl: "http://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpost&cmsid=496&vid=short_onecue&correlator=",
                     skipButton: "<div class='skipButton'>skip ad</div>"
                 }
             }
@@ -102,6 +102,10 @@ angular.module('myApp').controller('ImaAdsCtrl',
             this.config.tracks = undefined;
             this.config.loop = false;
             this.config.preload = true;
+        };
+
+        this.changeAds = function () {
+            this.config.plugins.ads.adTagUrl = "http://ad3.liverail.com/?LR_PUBLISHER_ID=1331&LR_CAMPAIGN_ID=229&LR_SCHEMA=vast2";
         };
     }
 );

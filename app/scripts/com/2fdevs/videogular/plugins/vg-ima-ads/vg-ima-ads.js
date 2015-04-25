@@ -56,18 +56,31 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
                         adsLoader.addEventListener(google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED, scope.onAdsManagerLoaded, false, this);
                         adsLoader.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR, scope.onAdError, false, this);
 
-                        if (scope.vgCompanion) {
-                            googletag.cmd.push(
-                                function () {
-                                    googletag.defineSlot("/" + scope.vgNetwork + "/" + scope.vgUnitPath, scope.vgCompanionSize, scope.vgCompanion)
-                                        .addService(googletag.companionAds())
-                                        .addService(googletag.pubads());
-                                    googletag.companionAds().setRefreshUnfilledSlots(true);
-                                    googletag.pubads().enableVideoAds();
-                                    googletag.enableServices();
-                                }
-                            );
-                        }
+                        scope.loadAds();
+                    }
+                };
+
+                scope.onUpdateAds = function onUpdateAds(newVal, oldVal) {
+                    if (newVal != oldVal) {
+                        scope.loadAds();
+                        API.pause();
+                        adDisplayContainer.initialize();
+                        scope.requestAds(scope.vgAdTagUrl);
+                    }
+                };
+
+                scope.loadAds = function loadAds() {
+                    if (scope.vgCompanion) {
+                        googletag.cmd.push(
+                            function () {
+                                googletag.defineSlot("/" + scope.vgNetwork + "/" + scope.vgUnitPath, scope.vgCompanionSize, scope.vgCompanion)
+                                    .addService(googletag.companionAds())
+                                    .addService(googletag.pubads());
+                                googletag.companionAds().setRefreshUnfilledSlots(true);
+                                googletag.pubads().enableVideoAds();
+                                googletag.enableServices();
+                            }
+                        );
                     }
                 };
 
@@ -165,7 +178,7 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
                     scope.hide();
 
                     // The last ad was a post-roll
-                    if (adsManager.getCuePoints() == -1) {
+                    if (adsManager.getCuePoints().join().indexOf("-1") >= 0) {
                         API.stop();
                     }
                 };
@@ -216,6 +229,9 @@ angular.module("com.2fdevs.videogular.plugins.imaads", [])
                             }
                         }
                     );
+                }
+                else {
+                    scope.$watch("vgAdTagUrl", scope.onUpdateAds.bind(scope));
                 }
 
                 scope.$watch(
