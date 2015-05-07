@@ -48,15 +48,14 @@ angular.module("com.2fdevs.videogular.plugins.controls")
 
                 scope.updateCuePoints = function onUpdateCuePoints(cuePoints) {
                     var totalWidth = parseInt(elem[0].clientWidth);
-                    var left = parseInt(elem[0].offsetLeft);
 
                     for (var i = 0, l = cuePoints.length; i < l; i++) {
                         var cuePointDuration = (cuePoints[i].timeLapse.end - cuePoints[i].timeLapse.start) * 1000;
-                        var position = (left + (totalWidth * cuePoints[i].timeLapse.start / API.totalTime * 1000)) + "px";
+                        var position = (totalWidth * cuePoints[i].timeLapse.start / API.totalTime * 1000) + "px";
                         var percentWidth = 0;
 
                         if (typeof cuePointDuration === 'number' && API.totalTime) {
-                            percentWidth = 100 * (cuePointDuration / API.totalTime) + "%";
+                            percentWidth = ((cuePointDuration * 100) / API.totalTime) + "%";
                         }
 
                         cuePoints[i].$$style = {

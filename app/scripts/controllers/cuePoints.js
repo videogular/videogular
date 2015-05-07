@@ -140,8 +140,8 @@ angular.module('myApp').controller('CuePointsCtrl',
                     },
                     {
                         timeLapse: {
-                            start: 15,
-                            end: 18
+                            start: 50,
+                            end: 58
                         },
                         onLeave: this.onLeaveAnimationsCuePoint.bind(this),
                         onUpdate: this.onUpdateAnimationsCuePoint.bind(this),
