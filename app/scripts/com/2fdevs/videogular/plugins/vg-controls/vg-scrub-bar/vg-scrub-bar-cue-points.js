@@ -51,7 +51,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
 
                     for (var i = 0, l = cuePoints.length; i < l; i++) {
                         var cuePointDuration = (cuePoints[i].timeLapse.end - cuePoints[i].timeLapse.start) * 1000;
-                        var position = (totalWidth * cuePoints[i].timeLapse.start / API.totalTime * 1000) + "px";
+                        var position = (cuePoints[i].timeLapse.start * 100 / API.totalTime * 1000) + "%";
                         var percentWidth = 0;
 
                         if (typeof cuePointDuration === 'number' && API.totalTime) {
