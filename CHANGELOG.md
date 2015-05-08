@@ -1,6 +1,16 @@
 CHANGELOG
 ================
 
+## v1.2.1
+* Added optional timeLapse.end parameter. Now you can define cue points setting only timeLapse.start to define a 1 second cue point.
+* Added support for responsive cue points.
+* Added isolate scope to overlay-play plugin.
+* Added bindable ads.
+* Fixed rendering problem on controlbar cue points.
+* Updated demo.
+* Updated readme.
+* Updated docs.
+
 ## v1.2.0
 * Added Videogular cue points bar in controls plugin.
 * Added Videogular new method API.setPlayback(playback), new callback vgUpdatePlayback(playback) and vgPlaybackButton in controls plugin.
