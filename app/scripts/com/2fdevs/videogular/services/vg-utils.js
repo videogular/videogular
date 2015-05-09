@@ -9,7 +9,8 @@ angular.module("com.2fdevs.videogular")
              * @param $event
              * @returns {*}
              */
-            if (navigator.userAgent.match(/Firefox/i)) {
+            var matchedFF = navigator.userAgent.match(/Firefox\/(\d+)/i)
+            if (matchedFF && Number.parseInt(matchedFF.pop()) < 39) {
                 var style = $event.currentTarget.currentStyle || window.getComputedStyle($event.target, null);
                 var borderLeftWidth = parseInt(style['borderLeftWidth'], 10);
                 var borderTopWidth = parseInt(style['borderTopWidth'], 10);
