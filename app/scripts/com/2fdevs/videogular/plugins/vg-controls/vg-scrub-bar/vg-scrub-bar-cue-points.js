@@ -39,11 +39,8 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                 "vgCuePoints": "="
             },
             link: function (scope, elem, attr, API) {
-                var totalTimeWatch;
-
                 scope.onPlayerReady = function onPlayerReady() {
                     scope.updateCuePoints(scope.vgCuePoints);
-                    totalTimeWatch();
                 };
 
                 scope.updateCuePoints = function onUpdateCuePoints(cuePoints) {
@@ -65,12 +62,14 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                     }
                 };
 
-                totalTimeWatch = scope.$watch(
+                scope.$watch("vgCuePoints", scope.updateCuePoints);
+
+                scope.$watch(
                     function () {
                         return API.totalTime;
                     },
                     function (newVal, oldVal) {
-                        if (newVal > 0) scope.onPlayerReady(newVal);
+                        if (newVal > 0) scope.onPlayerReady();
                     }
                 );
             }
