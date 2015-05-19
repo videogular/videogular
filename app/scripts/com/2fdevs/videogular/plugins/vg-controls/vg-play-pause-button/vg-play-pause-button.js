@@ -60,9 +60,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                         return API.currentState;
                     },
                     function (newVal, oldVal) {
-                        if (newVal != oldVal) {
-                            scope.setState(newVal);
-                        }
+                        scope.setState(newVal);
                     }
                 );
             }
