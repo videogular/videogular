@@ -67,9 +67,7 @@ angular.module("com.2fdevs.videogular.plugins.overlayplay", [])
                         return API.currentState;
                     },
                     function (newVal, oldVal) {
-                        if (newVal != oldVal) {
-                            scope.onChangeState(newVal);
-                        }
+                        scope.onChangeState(newVal);
                     }
                 );
             }
