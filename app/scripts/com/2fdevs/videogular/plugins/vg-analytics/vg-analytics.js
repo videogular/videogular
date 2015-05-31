@@ -1,5 +1,5 @@
 /**
- * @license videogular v1.2.1 http://videogular.com
+ * @license videogular v1.2.2 http://videogular.com
  * Two Fucking Developers http://twofuckingdevelopers.com
  * License: MIT
  */
@@ -116,13 +116,19 @@ angular.module("com.2fdevs.videogular.plugins.analytics", ["angulartics"])
                     }
                 };
 
+                scope.updateTrackInfo = function updateTrackInfo(newVal) {
+                    if (scope.vgTrackInfo.category) info.category = scope.vgTrackInfo.category;
+                    if (scope.vgTrackInfo.label) info.label = scope.vgTrackInfo.label;
+                };
+
                 scope.addWatchers = function () {
                     if (scope.vgTrackInfo.category || scope.vgTrackInfo.label) {
                         info = {};
 
-                        if (scope.vgTrackInfo.category) info.category = scope.vgTrackInfo.category;
-                        if (scope.vgTrackInfo.label) info.label = scope.vgTrackInfo.label;
+                        scope.updateTrackInfo(scope.vgTrackInfo);
                     }
+
+                    scope.$watch('vgTrackInfo', scope.updateTrackInfo, true);
 
                     // Add ready track event
                     if (scope.vgTrackInfo.events.ready) {

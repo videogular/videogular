@@ -70,6 +70,46 @@ angular.module('myApp').controller('CuePointsCtrl',
             this.API.seekTime(this.chapterSelected.value);
         };
 
+        this.changeCuePoints = function changeCuePoints() {
+            this.config.cuePoints = {
+                console: [
+                    {
+                        timeLapse: {
+                            start: 30
+                        },
+                        onLeave: this.onConsoleCuePoint.bind(this),
+                        onUpdate: this.onConsoleCuePoint.bind(this),
+                        onComplete: this.onConsoleCuePoint.bind(this),
+                        params: {
+                            message: "hello dude!"
+                        }
+                    },
+                    {
+                        timeLapse: {
+                            start: 34
+                        },
+                        onLeave: this.onConsoleCuePoint.bind(this),
+                        onUpdate: this.onConsoleCuePoint.bind(this),
+                        onComplete: this.onConsoleCuePoint.bind(this),
+                        params: {
+                            message: "cue points are awesome"
+                        }
+                    },
+                    {
+                        timeLapse: {
+                            start: 40
+                        },
+                        onLeave: this.onConsoleCuePoint.bind(this),
+                        onUpdate: this.onConsoleCuePoint.bind(this),
+                        onComplete: this.onConsoleCuePoint.bind(this),
+                        params: {
+                            message: "(ノ・◡・)ノ"
+                        }
+                    }
+                ]
+            };
+        };
+
         this.config = {
             playsInline: false,
             autoHide: false,

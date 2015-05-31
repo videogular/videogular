@@ -254,6 +254,7 @@ angular.module("com.2fdevs.videogular")
         this.stop = function () {
             this.mediaElement[0].pause();
             this.mediaElement[0].currentTime = 0;
+            this.currentTime = 0;
             this.setState(VG_STATES.STOP);
         };
 
@@ -439,6 +440,11 @@ angular.module("com.2fdevs.videogular")
             $scope.$watch("vgPlaysInline", function (newValue, oldValue) {
                 this.playsInline = newValue;
             });
+
+            $scope.$watch("vgCuePoints", function (newValue, oldValue) {
+                this.cuePoints = newValue;
+                this.checkCuePoints(this.currentTime);
+            }.bind(this));
         };
 
         this.onFullScreenChange = function (event) {

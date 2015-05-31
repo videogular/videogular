@@ -85,7 +85,7 @@ angular.module('myApp').controller('MainCtrl',
             preload: "auto",
             controls: false,
             theme: {
-                url: "styles/themes/default/videogular.css"
+                url: "http://www.videogular.com/styles/themes/default/latest/videogular.css"
             },
             plugins: {
                 poster: {
@@ -139,6 +139,11 @@ angular.module('myApp').controller('MainCtrl',
             this.config.tracks = undefined;
             this.config.loop = false;
             this.config.preload = true;
+        };
+
+        this.changeTrackInfo = function () {
+            this.config.plugins.analytics.category = "VG";
+            this.config.plugins.analytics.label = "main.html";
         };
     }
 );
