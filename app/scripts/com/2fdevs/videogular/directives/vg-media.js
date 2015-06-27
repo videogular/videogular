@@ -85,7 +85,9 @@ angular.module("com.2fdevs.videogular")
                     API.mediaElement[0].load();
 
                     $timeout(function () {
-                        if (API.autoPlay && !VG_UTILS.isMobileDevice() || API.currentState === VG_STATES.PLAY) API.play();
+                        if (API.autoPlay && !VG_UTILS.isMobileDevice()) {
+                            API.play();
+                        }
                     });
 
                     if (canPlay == "") {

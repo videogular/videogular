@@ -1,6 +1,17 @@
 CHANGELOG
 ================
 
+## v1.2.3
+* Fixed bug: autoplay is triggered on mobile devices. #234
+* Fixed bug: a muted player can't be unmuted with the mute button. #232
+* Fixed package.json files in bower repositories. #176
+
+## v1.2.2
+* Fixed problem updating cue points. closes #221
+* Added watcher for analytics track info. closes #213
+* Updated currentTime on stop media. closes #220
+* Updated demo.
+
 ## v1.2.1
 * Added optional timeLapse.end parameter. Now you can define cue points setting only timeLapse.start to define a 1 second cue point.
 * Added support for responsive cue points.

@@ -84,6 +84,8 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                 scope.onSetVolume = function onSetVolume(newVolume) {
                     scope.currentVolume = newVolume;
 
+                    isMuted = (scope.currentVolume === 0);
+
                     // if it's not muted we save the default volume
                     if (!isMuted) {
                         scope.defaultVolume = newVolume;

@@ -429,7 +429,19 @@ angular.module("com.2fdevs.videogular")
         };
 
         this.onUpdateAutoPlay = function onUpdateAutoPlay(newValue) {
-            if (newValue) this.play(this);
+            if (newValue && !this.autoPlay) {
+                this.autoPlay = newValue;
+                this.play(this);
+            }
+        };
+
+        this.onUpdatePlaysInline = function onUpdatePlaysInline(newValue) {
+            this.playsInline = newValue;
+        };
+
+        this.onUpdateCuePoints = function onUpdateCuePoints(newValue) {
+            this.cuePoints = newValue;
+            this.checkCuePoints(this.currentTime);
         };
 
         this.addBindings = function () {
@@ -437,14 +449,9 @@ angular.module("com.2fdevs.videogular")
 
             $scope.$watch("vgAutoPlay", this.onUpdateAutoPlay.bind(this));
 
-            $scope.$watch("vgPlaysInline", function (newValue, oldValue) {
-                this.playsInline = newValue;
-            });
+            $scope.$watch("vgPlaysInline", this.onUpdatePlaysInline.bind(this));
 
-            $scope.$watch("vgCuePoints", function (newValue, oldValue) {
-                this.cuePoints = newValue;
-                this.checkCuePoints(this.currentTime);
-            }.bind(this));
+            $scope.$watch("vgCuePoints", this.onUpdateCuePoints.bind(this));
         };
 
         this.onFullScreenChange = function (event) {
