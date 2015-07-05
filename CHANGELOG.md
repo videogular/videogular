@@ -1,6 +1,11 @@
 CHANGELOG
 ================
 
+## v1.2.4
+* Fixed getZIndex to inline styles and css styles. close #230
+* Fixed error in Firefox when stop is pressed and media element is not available. close #223
+* Added support to change media sources from anywhere (plugins, widgets, etc...)
+
 ## v1.2.3
 * Fixed bug: autoplay is triggered on mobile devices. #234
 * Fixed bug: a muted player can't be unmuted with the mute button. #232
