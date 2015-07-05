@@ -32,12 +32,15 @@ angular.module("com.2fdevs.videogular")
          */
         this.getZIndex = function () {
             var zIndex = 1;
+            var elementZIndex;
 
             var tags = document.getElementsByTagName('*');
 
             for (var i = 0, l = tags.length; i < l; i++) {
-                if (tags[i].style.zIndex && parseInt(tags[i].style.zIndex) > zIndex) {
-                    zIndex = parseInt(tags[i].style.zIndex) + 1;
+                elementZIndex = parseInt(window.getComputedStyle(tags[i])["z-index"]);
+
+                if (elementZIndex > zIndex) {
+                    zIndex = elementZIndex + 1;
                 }
             }
 
