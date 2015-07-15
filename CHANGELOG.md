@@ -1,6 +1,10 @@
 CHANGELOG
 ================
 
+## v1.2.5
+* Improved watch for API.sources.
+* Improved controls autohide and overlay play plugin interaction. Fixed with #239
+
 ## v1.2.4
 * Fixed getZIndex to inline styles and css styles. close #230
 * Fixed error in Firefox when stop is pressed and media element is not available. close #223

@@ -107,6 +107,8 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
                         scope.$watch("vgAutohideTime", scope.setAutohideTime);
                     }
                 }
+
+
             }
         }
     }]
