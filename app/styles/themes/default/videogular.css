@@ -82,7 +82,8 @@ videogular, [videogular] {
     position: absolute;
     display: block;
     z-index: 1;
-    top: 0; }
+    top: 0;
+    pointer-events: none; }
   videogular vg-poster img, [videogular] vg-poster img {
     width: auto;
     height: auto;

@@ -4,6 +4,7 @@ CHANGELOG
 ## v1.2.5
 * Improved watch for API.sources.
 * Improved controls autohide and overlay play plugin interaction. Fixed with #239
+* Removed mouse events to vg-poster.
 
 ## v1.2.4
 * Fixed getZIndex to inline styles and css styles. close #230
