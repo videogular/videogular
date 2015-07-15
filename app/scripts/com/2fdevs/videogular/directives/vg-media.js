@@ -102,17 +102,13 @@ angular.module("com.2fdevs.videogular")
                 API.addListeners();
                 API.onVideoReady();
 
-                if (scope.vgSrc) {
-                    scope.$watch("vgSrc", scope.onChangeSource);
-                }
-                else {
+					scope.$watch("vgSrc", scope.onChangeSource);
                     scope.$watch(
                       function() {
                           return API.sources;
                       },
                       scope.onChangeSource
                     );
-                }
 
                 if (API.isConfig) {
                     scope.$watch(
