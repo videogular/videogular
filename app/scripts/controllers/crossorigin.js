@@ -86,7 +86,7 @@ angular.module('myApp').controller('CrossoriginCtrl',
             preload: "auto",
             controls: false,
             theme: {
-                url: "http://www.videogular.com/styles/themes/default/latest/videogular.css"
+                url: "styles/themes/default/videogular.css"
             },
             plugins: {
                 poster: {
