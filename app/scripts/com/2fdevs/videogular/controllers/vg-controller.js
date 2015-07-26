@@ -252,13 +252,16 @@ angular.module("com.2fdevs.videogular")
         };
 
         this.stop = function () {
-            if (this.mediaElement && this.mediaElement[0]) {
+            try {
                 this.mediaElement[0].pause();
                 this.mediaElement[0].currentTime = 0;
-            }
 
-            this.currentTime = 0;
-            this.setState(VG_STATES.STOP);
+                this.currentTime = 0;
+                this.setState(VG_STATES.STOP);
+            }
+            catch (e) {
+                return e;
+            }
         };
 
         this.toggleFullScreen = function () {
