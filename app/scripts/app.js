@@ -57,6 +57,11 @@ angular.module('myApp',
                 controller: 'CuePointsCtrl',
                 controllerAs: "ctrl"
             })
+            .when('/crossorigin', {
+                templateUrl: 'views/crossorigin.html',
+                controller: 'CrossoriginCtrl',
+                controllerAs: "ctrl"
+            })
             .when('/multi-players', {
                 templateUrl: 'views/multi-players.html',
                 controller: 'MultiPlayersCtrl',

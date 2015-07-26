@@ -41,6 +41,15 @@ NG_DOCS={
     },
     {
       "section": "api",
+      "id": "com.2fdevs.videogular.directive:vgCrossorigin",
+      "shortName": "vgCrossorigin",
+      "type": "directive",
+      "moduleName": "com.2fdevs.videogular",
+      "shortDescription": "Optional directive for vg-media to add or remove a crossorigin policy to the video object. Possible values are: &quot;anonymous&quot; and &quot;use-credentials&quot;.",
+      "keywords": "add additionally anonymous api cors crossorigin directive domain enabled feature files object optional player policies policy remove server subtitles track use-credentials values vg-media video videogular work"
+    },
+    {
+      "section": "api",
       "id": "com.2fdevs.videogular.directive:vgLoop",
       "shortName": "vgLoop",
       "type": "directive",
