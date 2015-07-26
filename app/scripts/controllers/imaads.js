@@ -48,10 +48,10 @@ angular.module('myApp').controller('ImaAdsCtrl',
                 tracks: [
                     {
                         src: "assets/subs/pale-blue-dot.vtt",
-                        kind: "subtitles",
+                        kind: "captions",
                         srclang: "en",
                         label: "English",
-                        default: ""
+                        default: "default"
                     }
                 ]
             },

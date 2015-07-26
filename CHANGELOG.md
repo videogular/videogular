@@ -9,6 +9,7 @@ CHANGELOG
 * Fixed vg-preload problem on desktop browsers. close #197
 * Fixed crossorigin problems with tracks (tested with https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi/reviews). close #123
 * Fixed track position in Chrome and Safari.
+* Fixed problems showing tracks in Firefox. close #119
 
 ## v1.2.4
 * Fixed getZIndex to inline styles and css styles. close #230

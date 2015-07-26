@@ -30,7 +30,11 @@ angular.module("com.2fdevs.videogular")
                     var i;
                     var l;
 
-                    scope.changeSource = function changeSource() {
+                    scope.onLoadMetaData = function() {
+                        scope.updateTracks();
+                    };
+
+                    scope.updateTracks = function() {
                         // Remove previous tracks
                         var oldTracks = API.mediaElement.children();
 
@@ -43,26 +47,29 @@ angular.module("com.2fdevs.videogular")
                         // Add new tracks
                         if (tracks) {
                             for (i = 0, l = tracks.length; i < l; i++) {
-                                trackText = "";
-                                trackText += '<track ';
-
-                                // Add track properties
+                                var track = document.createElement('track');
                                 for (var prop in tracks[i]) {
-                                    trackText += prop + '="' + tracks[i][prop] + '" ';
+                                    track[prop] = tracks[i][prop];
                                 }
 
-                                trackText += '></track>';
+                                track.addEventListener('load', scope.onLoadTrack.bind(scope, track));
 
-                                API.mediaElement.append(trackText);
+                                API.mediaElement[0].appendChild(track);
                             }
                         }
+                    };
+
+                    scope.onLoadTrack = function(track) {
+                        track.mode = 'showing';
+                        API.mediaElement[0].textTracks[0].mode = 'showing'; // thanks Firefox
                     };
 
                     scope.setTracks = function setTracks(value) {
                         // Add tracks to the API to have it available for other plugins (like controls)
                         tracks = value;
                         API.tracks = value;
-                        scope.changeSource();
+
+                        API.mediaElement[0].addEventListener("loadedmetadata", scope.onLoadMetaData.bind(scope), false);
                     };
 
                     if (API.isConfig) {

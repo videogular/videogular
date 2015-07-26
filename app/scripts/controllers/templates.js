@@ -53,10 +53,10 @@ angular.module('myApp').controller('TemplatesCtrl',
                 tracks: [
                     {
                         src: "assets/subs/pale-blue-dot.vtt",
-                        kind: "subtitles",
+                        kind: "captions",
                         srclang: "en",
                         label: "English",
-                        default: ""
+                        default: "default"
                     }
                 ]
             },

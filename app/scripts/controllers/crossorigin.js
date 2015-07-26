@@ -53,10 +53,10 @@ angular.module('myApp').controller('CrossoriginCtrl',
                 tracks: [
                     {
                         src: "http://static.videogular.com/assets/subs/pale-blue-dot.vtt",
-                        kind: "subtitles",
+                        kind: "captions",
                         srclang: "en",
                         label: "English",
-                        default: ""
+                        default: "default"
                     }
                 ]
             },
