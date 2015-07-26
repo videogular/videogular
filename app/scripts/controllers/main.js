@@ -52,7 +52,7 @@ angular.module('myApp').controller('MainCtrl',
                 ],
                 tracks: [
                     {
-                        src: "assets/subs/pale-blue-dot.vtt",
+                        src: "http://static.videogular.com/assets/subs/pale-blue-dot.vtt",
                         kind: "subtitles",
                         srclang: "en",
                         label: "English",

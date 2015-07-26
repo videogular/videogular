@@ -7,6 +7,7 @@ CHANGELOG
 * Removed mouse events to vg-poster.
 * Catch error on stop function to avoid problems with single video environments. close #223
 * Fixed vg-preload problem on desktop browsers. close #197
+* Fixed crossorigin problems with tracks (tested with https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi/reviews). close #123
 
 ## v1.2.4
 * Fixed getZIndex to inline styles and css styles. close #230

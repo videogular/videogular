@@ -7,8 +7,8 @@
 angular.module("com.2fdevs.videogular", ["ngSanitize"])
     .run(
     ["$templateCache", function ($templateCache) {
-        $templateCache.put("vg-templates/vg-media-video", "<video></video>");
-        $templateCache.put("vg-templates/vg-media-audio", "<audio></audio>");
+        $templateCache.put("vg-templates/vg-media-video", '<video crossorigin="anonymous"></video>');
+        $templateCache.put("vg-templates/vg-media-audio", '<audio crossorigin="anonymous"></audio>');
 
         // Support for browsers that doesn't have .bind()
         if (!Function.prototype.bind) {
