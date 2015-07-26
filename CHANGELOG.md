@@ -5,7 +5,8 @@ CHANGELOG
 * Improved watch for API.sources.
 * Improved controls autohide and overlay play plugin interaction. Fixed with #239
 * Removed mouse events to vg-poster.
-* Catched error on stop function to avoid problems with single video environments. close #223
+* Catch error on stop function to avoid problems with single video environments. close #223
+* Fixed vg-preload problem on desktop browsers. close #197
 
 ## v1.2.4
 * Fixed getZIndex to inline styles and css styles. close #230

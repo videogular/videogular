@@ -82,7 +82,7 @@ angular.module("com.2fdevs.videogular")
                     }
 
                     // Android 2.3 support: https://github.com/2fdevs/videogular/issues/187
-                    API.mediaElement[0].load();
+                    if (VG_UTILS.isMobileDevice()) API.mediaElement[0].load();
 
                     $timeout(function () {
                         if (API.autoPlay && !VG_UTILS.isMobileDevice()) {
