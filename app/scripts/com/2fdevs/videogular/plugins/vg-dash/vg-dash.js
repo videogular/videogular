@@ -30,39 +30,49 @@ angular.module("com.2fdevs.videogular.plugins.dash", [])
             link: function (scope, elem, attr, API) {
                 var context;
                 var player;
+                var dashCapabilitiesUtil = new MediaPlayer.utils.Capabilities();
+                var dashTypeRegEx = /^application\/dash\+xml/i;
 
-                scope.isDASH = function isDASH(url) {
-                    if (url.indexOf) {
-                        return (url.indexOf(".mpd") > 0);
-                    }
-                };
+                 //Proceed augmenting behavior only if the browser is capable of playing DASH (supports MediaSource Extensions)
+                if (dashCapabilitiesUtil.supportsMediaSource()){ 
 
-                scope.onSourceChange = function onSourceChange(url) {
-                    // It's DASH, we use Dash.js
-                    if (scope.isDASH(url)) {
-                        context = new Dash.di.DashContext();
-                        player = new MediaPlayer(context);
-                        player.setAutoPlay(API.autoPlay);
-                        player.startup();
-                        player.attachView(API.mediaElement[0]);
-                        player.attachSource(url);
-                    }
-                    else {
-                        if (player) {
-                            player.reset();
-                            player = null;
+                    //Returns true if the source has the standard DASH type defined OR an .mpd extension.
+                    scope.isDASH = function isDASH(source) {
+                        var hasDashType = dashTypeRegEx.test(source.type);
+                        var hasDashExtension = source.src.indexOf && (source.src.indexOf(".mpd") > 0);
+
+                        return hasDashType || hasDashExtension;
+                    };
+
+                    scope.onSourceChange = function onSourceChange(source) {
+                        var url = source.src;
+
+                        // It's DASH, we use Dash.js
+                        if (scope.isDASH(source)) {
+                            context = new Dash.di.DashContext();
+                            player = new MediaPlayer(context);
+                            player.setAutoPlay(API.autoPlay);
+                            player.startup();
+                            player.attachView(API.mediaElement[0]);
+                            player.attachSource(url);
                         }
-                    }
-                };
+                        else {
+                            if (player) {
+                                player.reset();
+                                player = null;
+                            }
+                        }
+                    };
 
-                scope.$watch(
-                    function () {
-                        return API.sources;
-                    },
-                    function (newVal, oldVal) {
-                        scope.onSourceChange(newVal[0].src);
-                    }
-                );
+                    scope.$watch(
+                        function () {
+                            return API.sources;
+                        },
+                        function (newVal, oldVal) {
+                            scope.onSourceChange(newVal[0]);
+                        }
+                    );
+                }
             }
         }
     }
