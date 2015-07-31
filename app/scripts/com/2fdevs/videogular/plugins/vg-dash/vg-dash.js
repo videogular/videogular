@@ -28,30 +28,28 @@ angular.module("com.2fdevs.videogular.plugins.dash", [])
             restrict: "A",
             require: "^videogular",
             link: function (scope, elem, attr, API) {
-                var context;
                 var player;
 
                 scope.isDASH = function isDASH(url) {
-                    if (url.indexOf) {
-                        return (url.indexOf(".mpd") > 0);
-                    }
+                    return url.indexOf && (url.indexOf(".mpd") > 0);
                 };
 
                 scope.onSourceChange = function onSourceChange(url) {
                     // It's DASH, we use Dash.js
                     if (scope.isDASH(url)) {
-                        context = new Dash.di.DashContext();
-                        player = new MediaPlayer(context);
+                        player = new MediaPlayer(new Dash.di.DashContext());
                         player.setAutoPlay(API.autoPlay);
                         player.startup();
                         player.attachView(API.mediaElement[0]);
                         player.attachSource(url);
                     }
-                    else {
-                        if (player) {
-                            player.reset();
-                            player = null;
-                        }
+                    else if (player) {//not DASH, but the Dash.js player is still wired up
+                        //Dettach Dash.js from the mediaElement
+                        player.reset();
+                        player = null;
+
+                        //player.reset() wipes out the new url already applied, so have to reapply
+                        API.mediaElement.attr('src', url);
                     }
                 };
 
