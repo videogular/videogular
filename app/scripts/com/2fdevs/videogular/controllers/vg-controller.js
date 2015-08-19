@@ -319,6 +319,7 @@ angular.module("com.2fdevs.videogular")
         };
 
         this.setVolume = function (newVolume) {
+            newVolume = Math.max(Math.min(newVolume, 1), 0);
             $scope.vgUpdateVolume({$volume: newVolume});
 
             this.mediaElement[0].volume = newVolume;
