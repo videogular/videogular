@@ -208,6 +208,14 @@ angular.module("com.2fdevs.videogular")
             $scope.$apply();
         };
 
+        this.onSeeking = function (event) {
+            $scope.vgSeeking({$currentTime: event.target.currentTime, $duration: event.target.duration});
+        };
+
+        this.onSeeked = function (event) {
+            $scope.vgSeeked({$currentTime: event.target.currentTime, $duration: event.target.duration});
+        };
+
         this.seekTime = function (value, byPercent) {
             var second;
             if (byPercent) {
@@ -406,6 +414,8 @@ angular.module("com.2fdevs.videogular")
             this.mediaElement[0].addEventListener("volumechange", this.onVolumeChange.bind(this), false);
             this.mediaElement[0].addEventListener("playbackchange", this.onPlaybackChange.bind(this), false);
             this.mediaElement[0].addEventListener("timeupdate", this.onUpdateTime.bind(this), false);
+            this.mediaElement[0].addEventListener("seeking", this.onSeeking.bind(this), false);
+            this.mediaElement[0].addEventListener("seeked", this.onSeeked.bind(this), false);
             this.mediaElement[0].addEventListener("error", this.onVideoError.bind(this), false);
         };
 

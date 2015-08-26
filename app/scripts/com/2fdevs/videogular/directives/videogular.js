@@ -94,6 +94,8 @@
  * @param {function} vgPlayerReady Function name in controller's scope to call when video have been initialized. Receives a param with the videogular API.
  * @param {function} vgChangeSource Function name in controller's scope to change current video source. Receives a param with the new video.
  * @param {function} vgPlaysInline Boolean to disable native fullscreen and plays video inline.
+ * @param {function} vgSeeking Function name in controller's scope to call when the video has finished jumping to a new time. Receives a param with the seeked time and duration in seconds.
+ * @param {function} vgSeeked Function name in controller's scope to call when the video is jumping to a new time. Receives two params with the seeked time and duration in seconds.
  * @param {function} vgError Function name in controller's scope to receive an error from video object. Receives a param with the error event.
  * This is a free parameter and it could be values like "new.mp4", "320" or "sd". This will allow you to use this to change a video or video quality.
  * This callback will not change the video, you should do that by updating your sources scope variable.
@@ -119,6 +121,8 @@ angular.module("com.2fdevs.videogular")
                 vgUpdateState: "&",
                 vgPlayerReady: "&",
                 vgChangeSource: "&",
+                vgSeeking: "&",
+                vgSeeked: "&",
                 vgError: "&"
             },
             controller: "vgController",
