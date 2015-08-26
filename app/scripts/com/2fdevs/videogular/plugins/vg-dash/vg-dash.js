@@ -28,39 +28,54 @@ angular.module("com.2fdevs.videogular.plugins.dash", [])
             restrict: "A",
             require: "^videogular",
             link: function (scope, elem, attr, API) {
+                var context;
                 var player;
+                var dashCapabilitiesUtil = new MediaPlayer.utils.Capabilities();
+                var dashTypeRegEx = /^application\/dash\+xml/i;
 
-                scope.isDASH = function isDASH(url) {
-                    return url.indexOf && (url.indexOf(".mpd") > 0);
-                };
+                //Proceed augmenting behavior only if the browser is capable of playing DASH (supports MediaSource Extensions)
+                if (dashCapabilitiesUtil.supportsMediaSource()) {
 
-                scope.onSourceChange = function onSourceChange(url) {
-                    // It's DASH, we use Dash.js
-                    if (scope.isDASH(url)) {
-                        player = new MediaPlayer(new Dash.di.DashContext());
-                        player.setAutoPlay(API.autoPlay);
-                        player.startup();
-                        player.attachView(API.mediaElement[0]);
-                        player.attachSource(url);
-                    }
-                    else if (player) {//not DASH, but the Dash.js player is still wired up
-                        //Dettach Dash.js from the mediaElement
-                        player.reset();
-                        player = null;
+                    //Returns true if the source has the standard DASH type defined OR an .mpd extension.
+                    scope.isDASH = function isDASH(source) {
+                        var hasDashType = dashTypeRegEx.test(source.type);
+                        var hasDashExtension = source.src.indexOf && (source.src.indexOf(".mpd") > 0);
 
-                        //player.reset() wipes out the new url already applied, so have to reapply
-                        API.mediaElement.attr('src', url);
-                    }
-                };
+                        return hasDashType || hasDashExtension;
+                    };
 
-                scope.$watch(
-                    function () {
-                        return API.sources;
-                    },
-                    function (newVal, oldVal) {
-                        scope.onSourceChange(newVal[0].src);
-                    }
-                );
+                    scope.onSourceChange = function onSourceChange(source) {
+                        var url = source.src;
+
+                        // It's DASH, we use Dash.js
+                        if (scope.isDASH(source)) {
+                            player = new MediaPlayer(new Dash.di.DashContext());
+                            player.setAutoPlay(API.autoPlay);
+                            player.startup();
+                            player.attachView(API.mediaElement[0]);
+                            player.attachSource(url);
+                        }
+                        else if (player) {
+                            //not DASH, but the Dash.js player is still wired up
+                            //Dettach Dash.js from the mediaElement
+                            player.reset();
+                            player = null;
+
+                            //player.reset() wipes out the new url already applied, so have to reapply
+                            API.mediaElement.attr('src', url);
+                            API.stop();
+                        }
+                    };
+
+                    scope.$watch(
+                        function () {
+                            return API.sources;
+                        },
+                        function (newVal, oldVal) {
+                            scope.onSourceChange(newVal[0]);
+                        }
+                    );
+                }
             }
         }
     }

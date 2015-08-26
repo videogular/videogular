@@ -29,7 +29,7 @@ angular.module('myApp').controller('DashCtrl',
             this.volume = newVol;
         };
 
-        this.videos = [
+        this.media = [
             {
                 sources: [
                     {src: "http://dash.edgesuite.net/akamai/test/caption_test/ElephantsDream/elephants_dream_480p_heaac5_1.mpd"}
@@ -67,8 +67,8 @@ angular.module('myApp').controller('DashCtrl',
             autoHide: false,
             autoHideTime: 3000,
             autoPlay: false,
-            sources: this.videos[0].sources,
-            tracks: this.videos[0].tracks,
+            sources: this.media[0].sources,
+            tracks: this.media[0].tracks,
             loop: false,
             preload: "auto",
             transclude: true,
@@ -92,7 +92,7 @@ angular.module('myApp').controller('DashCtrl',
         };
 
         this.changeSource = function () {
-            this.config.sources = this.videos[1].sources;
+            this.config.sources = this.media[1].sources;
             this.config.tracks = undefined;
             this.config.loop = false;
             this.config.preload = true;
