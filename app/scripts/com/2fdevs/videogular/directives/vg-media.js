@@ -110,6 +110,17 @@ angular.module("com.2fdevs.videogular")
                     scope.onChangeSource
                 );
 
+                scope.$watch(
+                    function() {
+                        return API.playsInline;
+                    },
+                    function (newValue, oldValue) {
+                        if (newValue) API.mediaElement.attr("webkit-playsinline", "");
+                        else API.mediaElement.removeAttr("webkit-playsinline");
+                    }
+                );
+
+
                 if (API.isConfig) {
                     scope.$watch(
                         function () {
