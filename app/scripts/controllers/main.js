@@ -7,6 +7,14 @@ angular.module('myApp').controller('MainCtrl',
         this.volume = 1;
         this.isCompleted = false;
         this.API = null;
+        this.seeking = {
+            currentTime: 0,
+            duration: 0
+        };
+        this.seeked = {
+            currentTime: 0,
+            duration: 0
+        };
 
         this.onPlayerReady = function (API) {
             this.API = API;
@@ -28,6 +36,16 @@ angular.module('myApp').controller('MainCtrl',
         this.onUpdateTime = function (currentTime, totalTime) {
             this.currentTime = currentTime;
             this.totalTime = totalTime;
+        };
+
+        this.onSeeking = function (currentTime, duration) {
+            this.seeking.currentTime = currentTime;
+            this.seeking.duration = duration;
+        };
+
+        this.onSeeked = function (currentTime, duration) {
+            this.seeked.currentTime = currentTime;
+            this.seeked.duration = duration;
         };
 
         this.onUpdateVolume = function (newVol) {

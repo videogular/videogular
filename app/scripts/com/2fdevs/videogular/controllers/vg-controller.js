@@ -76,6 +76,12 @@ angular.module("com.2fdevs.videogular")
             this.mediaElement[0].src = '';
         };
 
+        this.onRouteChange = function() {
+            if (this.clearMediaOnNavigate === undefined || this.clearMediaOnNavigate === true) {
+                this.clearMedia();
+            }
+        };
+
         this.onCanPlay = function (evt) {
             this.isBuffering = false;
             $scope.$apply($scope.vgCanPlay({$event: evt}));
@@ -86,6 +92,7 @@ angular.module("com.2fdevs.videogular")
             this.autoPlay = $scope.vgAutoPlay;
             this.playsInline = $scope.vgPlaysInline;
             this.cuePoints = $scope.vgCuePoints;
+            this.clearMediaOnNavigate = $scope.vgClearMediaOnNavigate || true;
             this.currentState = VG_STATES.STOP;
 
             isMetaDataLoaded = true;
@@ -113,6 +120,7 @@ angular.module("com.2fdevs.videogular")
             $scope.vgAutoPlay = this.config.autoPlay;
             $scope.vgPlaysInline = this.config.playsInline;
             $scope.vgCuePoints = this.config.cuePoints;
+            $scope.vgClearMediaOnNavigate = this.config.clearMediaOnNavigate;
 
             $scope.vgPlayerReady({$API: this});
         };
@@ -461,6 +469,10 @@ angular.module("com.2fdevs.videogular")
             this.checkCuePoints(this.currentTime);
         };
 
+        this.onUpdateClearMediaOnNavigate = function onUpdateClearMediaOnNavigate(newValue) {
+            this.clearMediaOnNavigate = newValue;
+        };
+
         this.addBindings = function () {
             $scope.$watch("vgTheme", this.onUpdateTheme.bind(this));
 
@@ -469,6 +481,8 @@ angular.module("com.2fdevs.videogular")
             $scope.$watch("vgPlaysInline", this.onUpdatePlaysInline.bind(this));
 
             $scope.$watch("vgCuePoints", this.onUpdateCuePoints.bind(this));
+
+            $scope.$watch("vgClearMediaOnNavigate", this.onUpdateClearMediaOnNavigate.bind(this));
         };
 
         this.onFullScreenChange = function (event) {
@@ -480,7 +494,7 @@ angular.module("com.2fdevs.videogular")
         $scope.$on('$destroy', this.clearMedia.bind(this));
 
         // Empty mediaElement when router changes
-        $scope.$on('$routeChangeStart', this.clearMedia.bind(this));
+        $scope.$on('$routeChangeStart', this.onRouteChange.bind(this));
 
         this.init();
     }]

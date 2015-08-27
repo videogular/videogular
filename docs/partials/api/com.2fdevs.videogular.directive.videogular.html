@@ -23,6 +23,8 @@
        vg-player-ready="{function}"
        vg-change-source="{function}"
        vg-plays-inline="{function}"
+       vg-seeking="{function}"
+       vg-seeked="{function}"
        vg-error="{function}"&gt;
 &lt;/videogular&gt;</pre>
 <h4 id="usage_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>vgTheme</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>String with a scope name variable. This directive will inject a CSS link in the header of your page.
@@ -109,6 +111,8 @@
 </div></td></tr><tr><td>vgPlayerReady</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Function name in controller&#39;s scope to call when video have been initialized. Receives a param with the videogular API.</p>
 </div></td></tr><tr><td>vgChangeSource</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Function name in controller&#39;s scope to change current video source. Receives a param with the new video.</p>
 </div></td></tr><tr><td>vgPlaysInline</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Boolean to disable native fullscreen and plays video inline.</p>
+</div></td></tr><tr><td>vgSeeking</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Function name in controller&#39;s scope to call when the video has finished jumping to a new time. Receives a param with the seeked time and duration in seconds.</p>
+</div></td></tr><tr><td>vgSeeked</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Function name in controller&#39;s scope to call when the video is jumping to a new time. Receives two params with the seeked time and duration in seconds.</p>
 </div></td></tr><tr><td>vgError</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Function name in controller&#39;s scope to receive an error from video object. Receives a param with the error event.
 This is a free parameter and it could be values like &quot;new.mp4&quot;, &quot;320&quot; or &quot;sd&quot;. This will allow you to use this to change a video or video quality.
 This callback will not change the video, you should do that by updating your sources scope variable.</p>

@@ -10,9 +10,12 @@
                      vg-update-time="ctrl.onUpdateTime($currentTime, $duration)"
                      vg-update-volume="ctrl.onUpdateVolume($volume)"
                      vg-update-state="ctrl.onUpdateState($state)"
+                     vg-seeking="ctrl.onSeeking($currentTime, $duration)"
+                     vg-seeked="ctrl.onSeeked($currentTime, $duration)"
                      vg-theme="ctrl.config.theme.url"
                      vg-auto-play="ctrl.config.autoPlay"
-                     vg-plays-inline="ctrl.config.playsInline">
+                     vg-plays-inline="ctrl.config.playsInline"
+                     vg-clear-media-on-navigate="false">
                     <vg-media vg-src="ctrl.config.sources"
                               vg-tracks="ctrl.config.tracks"
                               vg-loop="ctrl.config.loop"
@@ -89,6 +92,8 @@
             <div>Time: {{ctrl.currentTime}} / {{ctrl.totalTime || 0}}</div>
             <div>Volume: {{ctrl.volume}}</div>
             <div>Completed: {{ctrl.isCompleted}}</div>
+            <div>Seeking (time/duration): {{ctrl.seeking.currentTime + " / " + ctrl.seeking.duration}}</div>
+            <div>Seeked (time/duration): {{ctrl.seeked.currentTime + " / " + ctrl.seeked.duration}}</div>
         </div>
         <div class="col-6 col-sm-4 col-lg-4">
             <button ng-click="ctrl.API.play()">Play</button>

@@ -12,6 +12,10 @@
  *
  * @param {boolean} [vgPlaysInline=false] vgPlaysInline Boolean value or a String with a scope name variable to use native fullscreen (default) or set fullscreen inside browser (true).
  *
+ * @param {boolean} [vgClearMediaOnNavigate=true] vgClearMediaOnNavigate Boolean value or a String with a scope name variable to reset the video player when user navigates.
+ *
+ * This is useful to allow continuous playback between different routes.
+ *
  * @param {boolean} [vgAutoPlay=false] vgAutoPlay Boolean value or a String with a scope name variable to auto start playing video when it is initialized.
  *
  * **This parameter is disabled in mobile devices** because user must click on content to prevent consuming mobile data plans.
@@ -111,6 +115,7 @@ angular.module("com.2fdevs.videogular")
                 vgTheme: "=?",
                 vgAutoPlay: "=?",
                 vgPlaysInline: "=?",
+                vgClearMediaOnNavigate: "=?",
                 vgCuePoints: "=?",
                 vgConfig: "@",
                 vgCanPlay: "&",
