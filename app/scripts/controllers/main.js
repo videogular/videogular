@@ -94,6 +94,7 @@ angular.module('myApp').controller('MainCtrl',
 
         this.config = {
             playsInline: false,
+            nativeFullscreen: false,
             autoHide: false,
             autoHideTime: 3000,
             autoPlay: false,

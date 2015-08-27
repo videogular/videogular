@@ -28,7 +28,8 @@
  * - isBuffering: Boolean value to know if player is buffering media.
  * - isCompleted: Boolean value to know if current media file has been completed.
  * - isLive: Boolean value to know if current media file is a Live Streaming.
- * - playsInline: Boolean value to know if Videogular if fullscreen mode will use native mode or inline playing.
+ * - playsInline: Boolean value to know if Videogular is using inline playing or not.
+ * - nativeFullscreen: Boolean value to know if Videogular if fullscreen mode will use native mode or emulated mode.
  * - mediaElement: Reference to video/audio object.
  * - videogularElement: Reference to videogular tag.
  * - sources: Array with current sources.
@@ -91,6 +92,7 @@ angular.module("com.2fdevs.videogular")
             this.isReady = true;
             this.autoPlay = $scope.vgAutoPlay;
             this.playsInline = $scope.vgPlaysInline;
+            this.nativeFullscreen = $scope.vgNativeFullscreen || true;
             this.cuePoints = $scope.vgCuePoints;
             this.clearMediaOnNavigate = $scope.vgClearMediaOnNavigate || true;
             this.currentState = VG_STATES.STOP;
@@ -119,6 +121,7 @@ angular.module("com.2fdevs.videogular")
             $scope.vgTheme = this.config.theme;
             $scope.vgAutoPlay = this.config.autoPlay;
             $scope.vgPlaysInline = this.config.playsInline;
+            $scope.vgNativeFullscreen = this.config.nativeFullscreen;
             $scope.vgCuePoints = this.config.cuePoints;
             $scope.vgClearMediaOnNavigate = this.config.clearMediaOnNavigate;
 
@@ -282,7 +285,7 @@ angular.module("com.2fdevs.videogular")
 
         this.toggleFullScreen = function () {
             // There is no native full screen support or we want to play inline
-            if (!vgFullscreen.isAvailable || $scope.vgPlaysInline) {
+            if (!vgFullscreen.isAvailable || !this.nativeFullscreen) {
                 if (this.isFullScreen) {
                     this.videogularElement.removeClass("fullscreen");
                     this.videogularElement.css("z-index", "auto");
@@ -464,6 +467,10 @@ angular.module("com.2fdevs.videogular")
             this.playsInline = newValue;
         };
 
+        this.onUpdateNativeFullscreen = function onUpdateNativeFullscreen(newValue) {
+            this.nativeFullscreen = newValue;
+        };
+
         this.onUpdateCuePoints = function onUpdateCuePoints(newValue) {
             this.cuePoints = newValue;
             this.checkCuePoints(this.currentTime);
@@ -479,6 +486,8 @@ angular.module("com.2fdevs.videogular")
             $scope.$watch("vgAutoPlay", this.onUpdateAutoPlay.bind(this));
 
             $scope.$watch("vgPlaysInline", this.onUpdatePlaysInline.bind(this));
+
+            $scope.$watch("vgNativeFullscreen", this.onUpdateNativeFullscreen.bind(this));
 
             $scope.$watch("vgCuePoints", this.onUpdateCuePoints.bind(this));
 

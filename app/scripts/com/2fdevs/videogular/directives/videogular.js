@@ -97,7 +97,8 @@
  * @param {function} vgUpdateState Function name in controller's scope to call when video state changes. Receives a param with the new state. Possible values are "play", "stop" or "pause".
  * @param {function} vgPlayerReady Function name in controller's scope to call when video have been initialized. Receives a param with the videogular API.
  * @param {function} vgChangeSource Function name in controller's scope to change current video source. Receives a param with the new video.
- * @param {function} vgPlaysInline Boolean to disable native fullscreen and plays video inline.
+ * @param {function} vgPlaysInline Boolean to play video inline. Generally used in mobile devices.
+ * @param {function} vgNativeFullscreen Boolean to disable native fullscreen.
  * @param {function} vgSeeking Function name in controller's scope to call when the video has finished jumping to a new time. Receives a param with the seeked time and duration in seconds.
  * @param {function} vgSeeked Function name in controller's scope to call when the video is jumping to a new time. Receives two params with the seeked time and duration in seconds.
  * @param {function} vgError Function name in controller's scope to receive an error from video object. Receives a param with the error event.
@@ -115,6 +116,7 @@ angular.module("com.2fdevs.videogular")
                 vgTheme: "=?",
                 vgAutoPlay: "=?",
                 vgPlaysInline: "=?",
+                vgNativeFullscreen: "=?",
                 vgClearMediaOnNavigate: "=?",
                 vgCuePoints: "=?",
                 vgConfig: "@",
