@@ -468,7 +468,7 @@ angular.module("com.2fdevs.videogular")
         };
 
         this.onUpdateNativeFullscreen = function onUpdateNativeFullscreen(newValue) {
-            this.nativeFullscreen = newValue;
+            this.nativeFullscreen = newValue || true;
         };
 
         this.onUpdateCuePoints = function onUpdateCuePoints(newValue) {

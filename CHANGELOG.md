@@ -1,6 +1,19 @@
 CHANGELOG
 ================
 
+## v1.2.6
+* Added vgClearMediaOnNavigate to allow continuous playback. close #186
+* Added vgSeeking and vgSeeked callbacks. close #257
+* Added webkit-playsinline for mobile devices. close #160 #151
+* Added vgNativeFullscreen to separate the behaviour from vgPlaysInline.
+* Fixed DASH bug when changing from a DASH source to a non-DASH source. close #248
+* Fixed volume out of range bug. close #260
+* Fixed tests.
+* Updated demo.
+* Updated docs.
+
+* **BREAKING CHANGES:** vgPlaysInline doesn't deactivate native fullscreen anymore. You need to use vgNativeFullscreen now (default is true).
+
 ## v1.2.5
 * Improved watch for API.sources.
 * Improved controls autohide and overlay play plugin interaction. Fixed with #239
