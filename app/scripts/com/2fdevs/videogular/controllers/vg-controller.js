@@ -168,8 +168,9 @@ angular.module("com.2fdevs.videogular")
                     if (currentTime < cp.timeLapse.end) cp.$$isCompleted = false;
 
                     // Fire the onEnter event once reach to the cue point
-                    if(currentSecond === start && (typeof cp.onEnter == 'function')) {
+                    if(!cp.$$isDirty && currentSecond === start && (typeof cp.onEnter == 'function')) {
                         cp.onEnter(currentTime, cp.timeLapse, cp.params);
+                        cp.$$isDirty = true;
                     }
 
                     // Check if we've been reached to the cue point
