@@ -1,4 +1,7 @@
 module.exports = function(grunt) {
+  // Added load-grunt-tasks.
+  require('load-grunt-tasks')(grunt);
+
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
     karma: {
@@ -237,15 +240,16 @@ module.exports = function(grunt) {
 		}
 	});
 
-	grunt.loadNpmTasks('grunt-karma');
-	grunt.loadNpmTasks('grunt-release');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-cssmin');
-	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.loadNpmTasks('grunt-contrib-clean');
-	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-hub');
-	grunt.loadNpmTasks('grunt-ngdocs');
+  // And comment these ugly loadNpmTasks code.
+ /* grunt.loadNpmTasks('grunt-karma');*/
+	//grunt.loadNpmTasks('grunt-release');
+	//grunt.loadNpmTasks('grunt-contrib-uglify');
+	//grunt.loadNpmTasks('grunt-contrib-cssmin');
+	//grunt.loadNpmTasks('grunt-contrib-copy');
+	//grunt.loadNpmTasks('grunt-contrib-clean');
+	//grunt.loadNpmTasks('grunt-contrib-concat');
+	//grunt.loadNpmTasks('grunt-hub');
+	//grunt.loadNpmTasks('grunt-ngdocs');
 
 	grunt.registerTask('default', ['karma:test', 'clean:build', 'cssmin:css', 'concat', 'uglify:js', 'copy:main', 'copy:release']);
 	grunt.registerTask('docs', ['clean:docs', 'ngdocs']);
