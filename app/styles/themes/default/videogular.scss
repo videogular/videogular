@@ -164,7 +164,7 @@ videogular, [videogular] {
         display: block;
         position: absolute;
         z-index: 3;
-        top: calc(100% - 50px);
+        bottom: 0;
     }
 
     vg-controls .controls-container {
