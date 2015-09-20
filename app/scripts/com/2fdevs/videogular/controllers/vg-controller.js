@@ -159,11 +159,19 @@ angular.module("com.2fdevs.videogular")
             for (var tl in this.cuePoints) {
                 for (var i = 0, l = this.cuePoints[tl].length; i < l; i++) {
                     var cp = this.cuePoints[tl][i];
+                    var currentSecond = parseInt(currentTime, 10);
+                    var start = parseInt(cp.timeLapse.start, 10);
 
                     // If timeLapse.end is not defined we set it as 1 second length
                     if (!cp.timeLapse.end) cp.timeLapse.end = cp.timeLapse.start + 1;
 
                     if (currentTime < cp.timeLapse.end) cp.$$isCompleted = false;
+
+                    // Fire the onEnter event once reach to the cue point
+                    if(!cp.$$isDirty && currentSecond === start && (typeof cp.onEnter == 'function')) {
+                        cp.onEnter(currentTime, cp.timeLapse, cp.params);
+                        cp.$$isDirty = true;
+                    }
 
                     // Check if we've been reached to the cue point
                     if (currentTime > cp.timeLapse.start) {
