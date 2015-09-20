@@ -175,11 +175,15 @@ angular.module("com.2fdevs.videogular")
 
                     // Check if we've been reached to the cue point
                     if (currentTime > cp.timeLapse.start) {
-                        cp.$$isDirty = true;
-
                         // We're in the timelapse
                         if (currentTime < cp.timeLapse.end) {
+                            // Trigger onUpdate each time we enter here
                             if (cp.onUpdate) cp.onUpdate(currentTime, cp.timeLapse, cp.params);
+
+                            // Trigger onEnter if we enter on the cue point by manually seeking
+                            if (!cp.$$isDirty) cp.onEnter(currentTime, cp.timeLapse, cp.params);
+
+                            cp.$$isDirty = true;
                         }
 
                         // We've been passed the cue point
@@ -188,6 +192,8 @@ angular.module("com.2fdevs.videogular")
                                 cp.$$isCompleted = true;
                                 cp.onComplete(currentTime, cp.timeLapse, cp.params);
                             }
+
+                            cp.$$isDirty = false;
                         }
                     }
                     else {

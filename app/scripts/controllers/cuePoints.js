@@ -46,6 +46,11 @@ angular.module('myApp').controller('CuePointsCtrl',
         };
 
         // Animations
+        this.onEnterAnimationsCuePoint = function onLeaveAnimationsCuePoint(currentTime, timeLapse, params) {
+            console.log("entering in animation!");
+            params.prop[params.value] = "0" + params.units;
+        };
+
         this.onLeaveAnimationsCuePoint = function onLeaveAnimationsCuePoint(currentTime, timeLapse, params) {
             params.prop[params.value] = "0" + params.units;
         };
@@ -77,6 +82,7 @@ angular.module('myApp').controller('CuePointsCtrl',
                         timeLapse: {
                             start: 30
                         },
+                        onEnter: this.onConsoleCuePoint.bind(this),
                         onLeave: this.onConsoleCuePoint.bind(this),
                         onUpdate: this.onConsoleCuePoint.bind(this),
                         onComplete: this.onConsoleCuePoint.bind(this),
@@ -88,6 +94,7 @@ angular.module('myApp').controller('CuePointsCtrl',
                         timeLapse: {
                             start: 34
                         },
+                        onEnter: this.onConsoleCuePoint.bind(this),
                         onLeave: this.onConsoleCuePoint.bind(this),
                         onUpdate: this.onConsoleCuePoint.bind(this),
                         onComplete: this.onConsoleCuePoint.bind(this),
@@ -99,6 +106,7 @@ angular.module('myApp').controller('CuePointsCtrl',
                         timeLapse: {
                             start: 40
                         },
+                        onEnter: this.onConsoleCuePoint.bind(this),
                         onLeave: this.onConsoleCuePoint.bind(this),
                         onUpdate: this.onConsoleCuePoint.bind(this),
                         onComplete: this.onConsoleCuePoint.bind(this),
@@ -129,6 +137,7 @@ angular.module('myApp').controller('CuePointsCtrl',
                         timeLapse: {
                             start: 0
                         },
+                        onEnter: this.onConsoleCuePoint.bind(this),
                         onLeave: this.onConsoleCuePoint.bind(this),
                         onUpdate: this.onConsoleCuePoint.bind(this),
                         onComplete: this.onConsoleCuePoint.bind(this),
@@ -140,6 +149,7 @@ angular.module('myApp').controller('CuePointsCtrl',
                         timeLapse: {
                             start: 4
                         },
+                        onEnter: this.onConsoleCuePoint.bind(this),
                         onLeave: this.onConsoleCuePoint.bind(this),
                         onUpdate: this.onConsoleCuePoint.bind(this),
                         onComplete: this.onConsoleCuePoint.bind(this),
@@ -151,6 +161,7 @@ angular.module('myApp').controller('CuePointsCtrl',
                         timeLapse: {
                             start: 10
                         },
+                        onEnter: this.onConsoleCuePoint.bind(this),
                         onLeave: this.onConsoleCuePoint.bind(this),
                         onUpdate: this.onConsoleCuePoint.bind(this),
                         onComplete: this.onConsoleCuePoint.bind(this),
@@ -165,6 +176,7 @@ angular.module('myApp').controller('CuePointsCtrl',
                             start: 14,
                             end: 16
                         },
+                        onEnter: this.onEnterAnimationsCuePoint.bind(this),
                         onLeave: this.onLeaveAnimationsCuePoint.bind(this),
                         onUpdate: this.onUpdateAnimationsCuePoint.bind(this),
                         onComplete: this.onCompleteAnimationsCuePoint.bind(this),
@@ -180,6 +192,7 @@ angular.module('myApp').controller('CuePointsCtrl',
                             start: 50,
                             end: 58
                         },
+                        onEnter: this.onEnterAnimationsCuePoint.bind(this),
                         onLeave: this.onLeaveAnimationsCuePoint.bind(this),
                         onUpdate: this.onUpdateAnimationsCuePoint.bind(this),
                         onComplete: this.onCompleteAnimationsCuePoint.bind(this),
@@ -196,6 +209,7 @@ angular.module('myApp').controller('CuePointsCtrl',
                         timeLapse: {
                             start: 7
                         },
+                        onEnter: this.onChaptersCuePoint.bind(this),
                         onLeave: this.onChaptersCuePoint.bind(this),
                         onUpdate: this.onChaptersCuePoint.bind(this),
                         onComplete: this.onChaptersCuePoint.bind(this),
@@ -209,6 +223,7 @@ angular.module('myApp').controller('CuePointsCtrl',
                         timeLapse: {
                             start: 14
                         },
+                        onEnter: this.onChaptersCuePoint.bind(this),
                         onLeave: this.onChaptersCuePoint.bind(this),
                         onUpdate: this.onChaptersCuePoint.bind(this),
                         onComplete: this.onChaptersCuePoint.bind(this),
@@ -222,6 +237,7 @@ angular.module('myApp').controller('CuePointsCtrl',
                         timeLapse: {
                             start: 35
                         },
+                        onEnter: this.onChaptersCuePoint.bind(this),
                         onLeave: this.onChaptersCuePoint.bind(this),
                         onUpdate: this.onChaptersCuePoint.bind(this),
                         onComplete: this.onChaptersCuePoint.bind(this),
@@ -235,6 +251,7 @@ angular.module('myApp').controller('CuePointsCtrl',
                         timeLapse: {
                             start: 90
                         },
+                        onEnter: this.onChaptersCuePoint.bind(this),
                         onLeave: this.onChaptersCuePoint.bind(this),
                         onUpdate: this.onChaptersCuePoint.bind(this),
                         onComplete: this.onChaptersCuePoint.bind(this),
