@@ -40,6 +40,7 @@
  *      start: 0,
  *      end: 10
  *    },
+ *    onEnter: callback(currentTime, timeLapse, params),
  *    onLeave: callback(currentTime, timeLapse, params),
  *    onUpdate: callback(currentTime, timeLapse, params),
  *    onComplete: callback(currentTime, timeLapse, params),

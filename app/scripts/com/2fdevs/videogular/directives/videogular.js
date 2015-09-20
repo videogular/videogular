@@ -22,6 +22,7 @@
  *
  * @param {object} vgCuePoints Bindable object containing a list of timelines with cue points objects. A timeline is an array of objects with the following properties:
  * - `timeLapse` is an object with two properties `start` and `end` representing in seconds the period for this cue points.
+ * - `onEnter` callback called when user enters on a cue point. callback(currentTime, timeLapse, params)
  * - `onLeave` callback called when user seeks backwards and leave the current cue point or a completed cue point. callback(currentTime, timeLapse, params)
  * - `onUpdate` callback called when the current time is between timeLapse.start and timeLapse.end. callback(currentTime, timeLapse, params)
  * - `onComplete` callback called when the user seek forward or the current time passes timeLapse.end property. callback(currentTime, timeLapse, params)
