@@ -25,12 +25,13 @@ angular.module("com.2fdevs.videogular")
             require: "^videogular",
             link: {
                 pre: function (scope, elem, attr, API) {
+                    var isMetaDataLoaded = false;
                     var tracks;
-                    var trackText;
                     var i;
                     var l;
 
                     scope.onLoadMetaData = function() {
+                        isMetaDataLoaded = true;
                         scope.updateTracks();
                     };
 
@@ -60,8 +61,22 @@ angular.module("com.2fdevs.videogular")
                     };
 
                     scope.onLoadTrack = function(track) {
-                        track.mode = 'showing';
-                        API.mediaElement[0].textTracks[0].mode = 'showing'; // thanks Firefox
+                        if (track.default) track.mode = 'showing';
+                        else track.mode = 'hidden';
+
+                        for (var i=0, l=API.mediaElement[0].textTracks.length; i<l; i++) {
+                            if (track.label == API.mediaElement[0].textTracks[i].label) {
+                                if (track.default) {
+                                    API.mediaElement[0].textTracks[i].mode = 'showing';
+                                }
+                                else {
+                                    API.mediaElement[0].textTracks[i].mode = 'disabled';
+                                }
+                            }
+
+                        }
+
+                        track.removeEventListener('load', scope.onLoadTrack.bind(scope, track));
                     };
 
                     scope.setTracks = function setTracks(value) {
@@ -69,7 +84,12 @@ angular.module("com.2fdevs.videogular")
                         tracks = value;
                         API.tracks = value;
 
-                        API.mediaElement[0].addEventListener("loadedmetadata", scope.onLoadMetaData.bind(scope), false);
+                        if (isMetaDataLoaded) {
+                            scope.updateTracks();
+                        }
+                        else {
+                            API.mediaElement[0].addEventListener("loadedmetadata", scope.onLoadMetaData.bind(scope), false);
+                        }
                     };
 
                     if (API.isConfig) {
@@ -89,7 +109,7 @@ angular.module("com.2fdevs.videogular")
                             if ((!tracks || newValue != oldValue)) {
                                 scope.setTracks(newValue);
                             }
-                        });
+                        }, true);
                     }
                 }
             }

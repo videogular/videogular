@@ -75,6 +75,13 @@ angular.module('myApp').controller('MainCtrl',
                         srclang: "en",
                         label: "English",
                         default: "default"
+                    },
+                    {
+                        src: "assets/subs/pale-blue-dot-es.vtt",
+                        kind: "captions",
+                        srclang: "es",
+                        label: "Spanish",
+                        default: null
                     }
                 ]
             },
@@ -138,6 +145,11 @@ angular.module('myApp').controller('MainCtrl',
             this.config.tracks = undefined;
             this.config.loop = false;
             this.config.preload = true;
+        };
+
+        this.changeTrack = function () {
+            this.media[0].tracks[0].default = null;
+            this.media[0].tracks[1].default = "default";
         };
 
         this.wrongSource = function () {
