@@ -49,11 +49,12 @@
  *    }
  * }</pre>
  *
- *    * timeLapse: Object with start and end properties to define in seconds when this timeline is active.\n
- *    * onLeave: Callback function that will be called when user seeks and the new time doesn't reach to the timeLapse.start property.
- *    * onUpdate: Callback function that will be called when the progress is in the middle of timeLapse.start and timeLapse.end.
- *    * onComplete: Callback function that will be called when the progress is bigger than timeLapse.end.
- *    * params: Custom object with data to pass to the callbacks.
+ *    * **timeLapse:** Object with start and end properties to define in seconds when this timeline is active.\n
+ *    * **onEnter:** Callback function that will be called when progress reaches a cue point or being outside a cue point user seeks to a cue point manually.
+ *    * **onLeave:** Callback function that will be called when user seeks and the new time doesn't reach to the timeLapse.start property.
+ *    * **onUpdate:** Callback function that will be called when the progress is in the middle of timeLapse.start and timeLapse.end.
+ *    * **onComplete:** Callback function that will be called when the progress is bigger than timeLapse.end.
+ *    * **params:** Custom object with data to pass to the callbacks.
  *
  * - isFullScreen: Boolean value to know if we’re in fullscreen mode.
  * - currentState: String value with “play”, “pause” or “stop”.

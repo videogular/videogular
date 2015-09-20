@@ -51,11 +51,12 @@ A media source is an object with two properties <code>src</code> and <code>type<
    }
 }</pre>
 <ul>
-<li>timeLapse: Object with start and end properties to define in seconds when this timeline is active.\n</li>
-<li>onLeave: Callback function that will be called when user seeks and the new time doesn&#39;t reach to the timeLapse.start property.</li>
-<li>onUpdate: Callback function that will be called when the progress is in the middle of timeLapse.start and timeLapse.end.</li>
-<li>onComplete: Callback function that will be called when the progress is bigger than timeLapse.end.</li>
-<li>params: Custom object with data to pass to the callbacks.</li>
+<li><strong>timeLapse:</strong> Object with start and end properties to define in seconds when this timeline is active.\n</li>
+<li><strong>onEnter:</strong> Callback function that will be called when progress reaches a cue point or being outside a cue point user seeks to a cue point manually.</li>
+<li><strong>onLeave:</strong> Callback function that will be called when user seeks and the new time doesn&#39;t reach to the timeLapse.start property.</li>
+<li><strong>onUpdate:</strong> Callback function that will be called when the progress is in the middle of timeLapse.start and timeLapse.end.</li>
+<li><strong>onComplete:</strong> Callback function that will be called when the progress is bigger than timeLapse.end.</li>
+<li><strong>params:</strong> Custom object with data to pass to the callbacks.</li>
 </ul>
 </li>
 <li><p>isFullScreen: Boolean value to know if we’re in fullscreen mode.</p>
