@@ -454,6 +454,7 @@ angular.module("com.2fdevs.videogular")
             this.timeLeft = 0;
             this.isLive = false;
             this.isFullScreen = false;
+            this.playback = 1;
             this.isConfig = ($scope.vgConfig != undefined);
 
             if (vgFullscreen.isAvailable) {

@@ -83,6 +83,10 @@
                     <input id="nativeFullscreen" type="checkbox" ng-model="ctrl.config.nativeFullscreen">Native Fullscreen
                 </label>
             </div>
+            <div>
+                <label for="posterInput">Playback:</label>
+                <input id="playback" type="number" ng-model="ctrl.API.playback" ng-change="ctrl.onUpdatePlayback(ctrl.API.playback)">
+            </div>
         </div>
     </div>
 

@@ -52,6 +52,10 @@ angular.module('myApp').controller('MainCtrl',
             this.volume = newVol;
         };
 
+        this.onUpdatePlayback = function (newSpeed) {
+            this.API.playback = newSpeed;
+        };
+
         this.media = [
             {
                 sources: [

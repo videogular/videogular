@@ -1,5 +1,5 @@
 /**
- * @license videogular v1.2.7 http://videogular.com
+ * @license videogular v1.2.8 http://videogular.com
  * Two Fucking Developers http://twofuckingdevelopers.com
  * License: MIT
  */
@@ -278,14 +278,16 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                 return attrs.vgTemplate || 'vg-templates/vg-playback-button';
             },
             link: function (scope, elem, attr, API) {
-
                 scope.playback = '1.0';
 
+                scope.setPlayback = function(playback) {
+                    scope.playback = playback;
+                    API.setPlayback(parseFloat(playback));
+                };
+
                 scope.onClickPlayback = function onClickPlayback() {
-
                     var playbackOptions = ['.5', '1.0', '1.5', '2.0'];
-
-                    var nextPlaybackRate = playbackOptions.indexOf(scope.playback) + 1;
+                    var nextPlaybackRate = playbackOptions.indexOf(scope.playback) + 1 || 1;
 
                     if (nextPlaybackRate >= playbackOptions.length) {
                         scope.playback = playbackOptions[0];
@@ -294,12 +296,17 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                         scope.playback = playbackOptions[nextPlaybackRate];
                     }
 
-                    API.setPlayback(scope.playback);
+                    scope.setPlayback(scope.playback);
                 };
 
                 scope.$watch(
                     function () {
                         return API.playback;
+                    },
+                    function(newVal, oldVal) {
+                        if (newVal != oldVal) {
+                            scope.setPlayback(newVal);
+                        }
                     }
                 );
             }
