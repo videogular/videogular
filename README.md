@@ -21,6 +21,12 @@ See the [Videogular's website](http://www.videogular.com) for more info about [h
 
 For more info you can check the full [Videogular API documentation](http://www.videogular.com/docs/).
 
+## Running and building
+
+To run the project and create the minified and debug files just run `grunt`.
+
+This will run the tests and if everything works as expected it would create a `build` folder on root.
+
 ## Videogular 2.0
 
 Videogular 2.0 is under active development and will be available with Angular 2. Videogular 2.0 will take follow the same philosophy and we're open to discuss any possibilities. If you want to contribute you can open a new issue with your suggestions or clone the repository to make pull requests.
