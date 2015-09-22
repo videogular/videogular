@@ -183,7 +183,9 @@ angular.module("com.2fdevs.videogular")
                             if (cp.onUpdate) cp.onUpdate(currentTime, cp.timeLapse, cp.params);
 
                             // Trigger onEnter if we enter on the cue point by manually seeking
-                            if (!cp.$$isDirty) cp.onEnter(currentTime, cp.timeLapse, cp.params);
+                            if (!cp.$$isDirty && (typeof cp.onEnter === 'function')) {
+                              cp.onEnter(currentTime, cp.timeLapse, cp.params);
+                            }
 
                             cp.$$isDirty = true;
                         }
