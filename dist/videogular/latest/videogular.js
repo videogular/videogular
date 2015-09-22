@@ -249,7 +249,9 @@ angular.module("com.2fdevs.videogular")
                             if (cp.onUpdate) cp.onUpdate(currentTime, cp.timeLapse, cp.params);
 
                             // Trigger onEnter if we enter on the cue point by manually seeking
-                            if (!cp.$$isDirty) cp.onEnter(currentTime, cp.timeLapse, cp.params);
+                            if (!cp.$$isDirty && (typeof cp.onEnter === 'function')) {
+                                cp.onEnter(currentTime, cp.timeLapse, cp.params);
+                            }
 
                             cp.$$isDirty = true;
                         }
@@ -1281,7 +1283,7 @@ angular.module("com.2fdevs.videogular")
 angular.module("com.2fdevs.videogular")
     .service("vgFullscreen", ["VG_UTILS", function (VG_UTILS) {
         // Native fullscreen polyfill
-        var fsAPI;
+        var element;
         var polyfill = null;
         var APIs = {
             w3: {
@@ -1347,7 +1349,16 @@ angular.module("com.2fdevs.videogular")
         }
 
         function isFullScreen() {
-            return (document[polyfill.element] != null);
+            var result = false;
+
+            if (element) {
+                result = (document[polyfill.element] != null || element.webkitDisplayingFullscreen)
+            }
+            else {
+                result = (document[polyfill.element] != null)
+            }
+
+            return result;
         }
 
         this.isAvailable = (polyfill != null);
@@ -1360,7 +1371,8 @@ angular.module("com.2fdevs.videogular")
                 document[polyfill.exit]();
             };
             this.request = function (elem) {
-                elem[polyfill.request]();
+                element = elem;
+                element[polyfill.request]();
             };
         }
     }]);
