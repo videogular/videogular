@@ -186,8 +186,6 @@ angular.module("com.2fdevs.videogular")
                             if (!cp.$$isDirty && (typeof cp.onEnter === 'function')) {
                                 cp.onEnter(currentTime, cp.timeLapse, cp.params);
                             }
-
-                            cp.$$isDirty = true;
                         }
 
                         // We've been passed the cue point
@@ -196,9 +194,9 @@ angular.module("com.2fdevs.videogular")
                                 cp.$$isCompleted = true;
                                 cp.onComplete(currentTime, cp.timeLapse, cp.params);
                             }
-
-                            cp.$$isDirty = false;
                         }
+
+                        cp.$$isDirty = true;
                     }
                     else {
                         if (cp.onLeave && cp.$$isDirty) {
