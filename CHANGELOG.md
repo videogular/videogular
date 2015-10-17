@@ -1,6 +1,32 @@
 CHANGELOG
 ================
 
+## v1.3.2
+* Added new directive vg-scrub-bar-buffer.
+* Added new API properties bufferEnd and buffered.
+* Added support for Browserify.
+* Published all plugins in NPM.
+* Fixed seek on Android.
+* Updated readme with more heroes.
+
+## v1.2.8
+* Updated build.
+* Updated readme with more heroes.
+* Fixed bug in iOS trying to detect fullscreen mode when video player was in full screen mode.
+* Fixed a bug of onEnter callback.
+* Added binding to playback button.
+* Published to NPM.
+* Updated docs with onEnter cue point callback.
+* Fixed gruntfile.
+
+## v1.2.7
+* Added onEnter event to cue points.
+* Improved onEnter cue point callback.
+* Fixed changing between multiple subtitles.
+* Fixed controlbar positioning errors between Android 4.0 and 4.3.
+* Fixed conflicts on some packages.
+* Fixed undefined values when native fullscreen is updated.
+
 ## v1.2.6
 * Added vgClearMediaOnNavigate to allow continuous playback. close #186
 * Added vgSeeking and vgSeeked callbacks. close #257
