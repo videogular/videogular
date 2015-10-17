@@ -27,6 +27,7 @@
                                 vg-template="views/directives/vg-play-pause-button.html"></vg-play-pause-button>
                         <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
                         <vg-scrub-bar vg-template="views/directives/vg-scrub-bar.html">
+                            <vg-scrub-bar-buffer></vg-scrub-bar-buffer>
                             <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
                         </vg-scrub-bar>
                         <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>

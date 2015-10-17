@@ -63,6 +63,8 @@
  * - timeLeft: Number value with current media time left.
  * - volume: Number value with current volume between 0 and 1.
  * - playback: Number value with current playback between 0 and 2.
+ * - bufferEnd: Number value with latest buffer point in milliseconds.
+ * - buffered: Array of TimeRanges objects that represents current buffer state.
  *
  */
 angular.module("com.2fdevs.videogular")
@@ -135,8 +137,22 @@ angular.module("com.2fdevs.videogular")
             this.onUpdateTime(evt);
         };
 
+        this.onProgress = function (event) {
+            if (event.target.buffered.length) {
+                this.buffered = event.target.buffered;
+                this.bufferEnd = 1000 * event.target.buffered.end(event.target.buffered.length - 1);
+            }
+
+            $scope.$apply();
+        };
+
         this.onUpdateTime = function (event) {
             this.currentTime = 1000 * event.target.currentTime;
+
+            if (event.target.buffered.length) {
+                this.buffered = event.target.buffered;
+                this.bufferEnd = 1000 * event.target.buffered.end(event.target.buffered.length - 1);
+            }
 
             if (event.target.duration != Infinity) {
                 this.totalTime = 1000 * event.target.duration;
@@ -292,6 +308,8 @@ angular.module("com.2fdevs.videogular")
                 this.mediaElement[0].currentTime = 0;
 
                 this.currentTime = 0;
+                this.buffered = [];
+                this.bufferEnd = 0;
                 this.setState(VG_STATES.STOP);
             }
             catch (e) {
@@ -441,6 +459,7 @@ angular.module("com.2fdevs.videogular")
             this.mediaElement[0].addEventListener("volumechange", this.onVolumeChange.bind(this), false);
             this.mediaElement[0].addEventListener("playbackchange", this.onPlaybackChange.bind(this), false);
             this.mediaElement[0].addEventListener("timeupdate", this.onUpdateTime.bind(this), false);
+            this.mediaElement[0].addEventListener("progress", this.onProgress.bind(this), false);
             this.mediaElement[0].addEventListener("seeking", this.onSeeking.bind(this), false);
             this.mediaElement[0].addEventListener("seeked", this.onSeeked.bind(this), false);
             this.mediaElement[0].addEventListener("error", this.onVideoError.bind(this), false);
@@ -449,6 +468,8 @@ angular.module("com.2fdevs.videogular")
         this.init = function () {
             this.isReady = false;
             this.isCompleted = false;
+            this.buffered = [];
+            this.bufferEnd = 0;
             this.currentTime = 0;
             this.totalTime = 0;
             this.timeLeft = 0;
