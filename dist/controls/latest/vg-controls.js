@@ -270,7 +270,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
     }]
 )
     .directive("vgPlaybackButton",
-    ["VG_UTILS", function (VG_UTILS) {
+    [function () {
         return {
             restrict: "E",
             require: "^videogular",
@@ -278,7 +278,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                 return attrs.vgTemplate || 'vg-templates/vg-playback-button';
             },
             link: function (scope, elem, attr, API) {
-                scope.playback = '1.0';
+                scope.playback = '1';
 
                 scope.setPlayback = function(playback) {
                     scope.playback = playback;
@@ -286,8 +286,8 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                 };
 
                 scope.onClickPlayback = function onClickPlayback() {
-                    var playbackOptions = ['.5', '1.0', '1.5', '2.0'];
-                    var nextPlaybackRate = playbackOptions.indexOf(scope.playback) + 1 || 1;
+                    var playbackOptions = ['0.5', '1', '1.5', '2'];
+                    var nextPlaybackRate = playbackOptions.indexOf(scope.playback.toString()) + 1;
 
                     if (nextPlaybackRate >= playbackOptions.length) {
                         scope.playback = playbackOptions[0];
@@ -313,6 +313,57 @@ angular.module("com.2fdevs.videogular.plugins.controls")
         }
     }]
 );
+/**
+ * @ngdoc directive
+ * @name com.2fdevs.videogular.plugins.controls.directive:vgScrubBarBuffer
+ * @restrict E
+ * @description
+ * Layer inside vg-scrub-bar to display the buffer.
+ *
+ * <pre>
+ * <videogular vg-theme="config.theme.url">
+ *    <vg-media vg-src="sources"></vg-media>
+ *
+ *    <vg-controls vg-autohide='config.autohide' vg-autohide-time='config.autohideTime'>
+ *        <vg-scrub-bar>
+ *            <vg-scrub-bar-buffer></vg-scrub-bar-buffer>
+ *        </vg-scrub-bar>
+ *    </vg-controls>
+ * </videogular>
+ * </pre>
+ *
+ */
+angular.module("com.2fdevs.videogular.plugins.controls")
+    .directive("vgScrubBarBuffer",
+    [function () {
+        return {
+            restrict: "E",
+            require: "^videogular",
+            link: function (scope, elem, attr, API) {
+                var percentTime = 0;
+
+                scope.onUpdateBuffer = function onUpdateBuffer(newBuffer) {
+                    if (typeof newBuffer === 'number' && API.totalTime) {
+                        percentTime = 100 * (newBuffer / API.totalTime);
+                        elem.css("width", percentTime + "%");
+                    } else {
+                        elem.css("width", 0);
+                    }
+                };
+
+                scope.$watch(
+                    function () {
+                        return API.bufferEnd;
+                    },
+                    function (newVal, oldVal) {
+                        scope.onUpdateBuffer(newVal);
+                    }
+                );
+            }
+        }
+    }]
+);
+
 /**
  * @ngdoc directive
  * @name com.2fdevs.videogular.plugins.controls.directive:vgScrubBarCuePoints
@@ -486,7 +537,6 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                 var isSeeking = false;
                 var isPlaying = false;
                 var isPlayingWhenSeeking = false;
-                var touchStartX = 0;
                 var LEFT = 37;
                 var RIGHT = 39;
                 var NUM_PERCENT = 5;
@@ -496,19 +546,22 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                     return Math.round(time / 1000);
                 };
 
+                scope.getOffset = function getOffset(event) {
+                    var el = event.target,
+                    x = 0;
+
+                    while (el && !isNaN(el.offsetLeft)) {
+                        x += el.offsetLeft - el.scrollLeft;
+                        el = el.offsetParent;
+                    }
+
+                    return event.clientX - x;
+                };
+
                 scope.onScrubBarTouchStart = function onScrubBarTouchStart($event) {
                     var event = $event.originalEvent || $event;
                     var touches = event.touches;
-                    var touchX;
-
-                    if (VG_UTILS.isiOSDevice()) {
-                        touchStartX = (touches[0].clientX - event.layerX) * -1;
-                    }
-                    else {
-                        touchStartX = event.layerX;
-                    }
-
-                    touchX = touches[0].clientX + touchStartX - touches[0].target.offsetLeft;
+                    var touchX = scope.getOffset(touches[0]);
 
                     isSeeking = true;
                     if (isPlaying) isPlayingWhenSeeking = true;
@@ -532,10 +585,9 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                 scope.onScrubBarTouchMove = function onScrubBarTouchMove($event) {
                     var event = $event.originalEvent || $event;
                     var touches = event.touches;
-                    var touchX;
+                    var touchX = scope.getOffset(touches[0]);
 
                     if (isSeeking) {
-                        touchX = touches[0].clientX + touchStartX - touches[0].target.offsetLeft;
                         API.seekTime(touchX * API.mediaElement[0].duration / elem[0].scrollWidth);
                     }
 
