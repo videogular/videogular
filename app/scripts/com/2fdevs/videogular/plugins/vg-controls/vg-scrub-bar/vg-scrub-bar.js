@@ -46,22 +46,22 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                     return Math.round(time / 1000);
                 };
 
-                function getOffset(event) {
-                  var el = event.target,
+                scope.getOffset = function getOffset(event) {
+                    var el = event.target,
                     x = 0;
 
-                  while (el && !isNaN(el.offsetLeft)) {
-                    x += el.offsetLeft - el.scrollLeft;
-                    el = el.offsetParent;
-                  }
+                    while (el && !isNaN(el.offsetLeft)) {
+                        x += el.offsetLeft - el.scrollLeft;
+                        el = el.offsetParent;
+                    }
 
-                  return event.clientX - x;
-                }
+                    return event.clientX - x;
+                };
 
                 scope.onScrubBarTouchStart = function onScrubBarTouchStart($event) {
                     var event = $event.originalEvent || $event;
                     var touches = event.touches;
-                    var touchX = getOffset(touches[0]);
+                    var touchX = scope.getOffset(touches[0]);
 
                     isSeeking = true;
                     if (isPlaying) isPlayingWhenSeeking = true;
@@ -85,7 +85,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                 scope.onScrubBarTouchMove = function onScrubBarTouchMove($event) {
                     var event = $event.originalEvent || $event;
                     var touches = event.touches;
-                    var touchX = getOffset(touches[0]);
+                    var touchX = scope.getOffset(touches[0]);
 
                     if (isSeeking) {
                         API.seekTime(touchX * API.mediaElement[0].duration / elem[0].scrollWidth);
