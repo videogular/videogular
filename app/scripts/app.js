@@ -67,6 +67,11 @@ angular.module('myApp',
                     controller: 'MultiPlayersCtrl',
                     controllerAs: "ctrl"
                 })
+                .when('/virtual-clips', {
+                    templateUrl: 'views/virtual-clips.html',
+                    controller: 'VirtualClipsCtrl',
+                    controllerAs: "ctrl"
+                })
                 .otherwise({
                     redirectTo: '/'
                 }

@@ -1,0 +1,62 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2>Video player</h2>
+
+            <div class="videogular-container">
+                <videogular vg-player-ready="ctrl.onPlayerReady($API)"
+                     vg-theme="ctrl.config.theme.url"
+                     vg-start-time="ctrl.config.startTime"
+                     vg-virtual-clip-duration="ctrl.config.virtualDuration">
+                    <vg-media vg-src="ctrl.config.sources"
+                              vg-tracks="ctrl.config.tracks"
+                              vg-loop="ctrl.config.loop"
+                              vg-preload="ctrl.config.preload"
+                              vg-native-controls="ctrl.config.controls">
+                    </vg-media>
+
+                    <vg-controls vg-autohide="ctrl.config.autoHide" vg-autohide-time="ctrl.config.autoHideTime">
+                        <vg-play-pause-button></vg-play-pause-button>
+                        <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
+                        <vg-scrub-bar>
+                            <vg-scrub-bar-buffer></vg-scrub-bar-buffer>
+                            <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                        </vg-scrub-bar>
+                        <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
+                        <vg-playback-button></vg-playback-button>
+                        <vg-volume>
+                            <vg-mute-button></vg-mute-button>
+                            <vg-volume-bar></vg-volume-bar>
+                        </vg-volume>
+                        <vg-fullscreen-button></vg-fullscreen-button>
+                    </vg-controls>
+
+                    <vg-buffering></vg-buffering>
+                    <vg-overlay-play></vg-overlay-play>
+                </videogular>
+            </div>
+        </div>
+    </div>
+
+    <div id="companionAd"></div>
+
+    <div class="row">
+        <div class="col-12"><h2>Media clipping</h2></div>
+    </div>
+
+    <div class="row">
+        <div class="col-6 col-sm-4 col-lg-4">
+            <div>
+                <label for="startTime">In seconds (min value 0):</label>
+                <input id="startTime" type="number" class="form-control" ng-model="ctrl.config.startTime">
+            </div>
+        </div>
+
+        <div class="col-6 col-sm-4 col-lg-4">
+            <div>
+                <label for="virtualDuration">In seconds (max value 97):</label>
+                <input id="virtualDuration" type="number" class="form-control" ng-model="ctrl.config.virtualDuration">
+            </div>
+        </div>
+    </div>
+</div>

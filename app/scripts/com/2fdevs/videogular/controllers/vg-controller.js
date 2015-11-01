@@ -73,6 +73,8 @@ angular.module("com.2fdevs.videogular")
         var currentTheme = null;
         var isFullScreenPressed = false;
         var isMetaDataLoaded = false;
+        var hasStartTimePlayed = false;
+        var isVirtualClip = false;
 
         // PUBLIC $API
         this.videogularElement = null;
@@ -90,6 +92,11 @@ angular.module("com.2fdevs.videogular")
         this.onCanPlay = function (evt) {
             this.isBuffering = false;
             $scope.$apply($scope.vgCanPlay({$event: evt}));
+
+            if (!hasStartTimePlayed && this.startTime > 0) {
+                this.seekTime(this.startTime);
+                hasStartTimePlayed = true;
+            }
         };
 
         this.onVideoReady = function () {
@@ -98,10 +105,13 @@ angular.module("com.2fdevs.videogular")
             this.playsInline = $scope.vgPlaysInline;
             this.nativeFullscreen = $scope.vgNativeFullscreen || true;
             this.cuePoints = $scope.vgCuePoints;
+            this.startTime = $scope.vgStartTime;
+            this.virtualClipDuration = $scope.vgVirtualClipDuration;
             this.clearMediaOnNavigate = $scope.vgClearMediaOnNavigate || true;
             this.currentState = VG_STATES.STOP;
 
             isMetaDataLoaded = true;
+            isVirtualClip = this.startTime >= 0 && this.virtualClipDuration > 0;
 
             //Set media volume from localStorage if available
             if (VG_UTILS.supportsLocalStorage()) {
@@ -128,6 +138,9 @@ angular.module("com.2fdevs.videogular")
             $scope.vgNativeFullscreen = this.config.nativeFullscreen;
             $scope.vgCuePoints = this.config.cuePoints;
             $scope.vgClearMediaOnNavigate = this.config.clearMediaOnNavigate;
+            $scope.vgStartTime = this.config.startTime;
+            $scope.vgVirtualClipDuration = this.config.virtualClipDuration;
+            isVirtualClip = $scope.vgStartTime >= 0 && $scope.vgVirtualClipDuration > 0;
 
             $scope.vgPlayerReady({$API: this});
         };
@@ -138,39 +151,65 @@ angular.module("com.2fdevs.videogular")
         };
 
         this.onProgress = function (event) {
-            if (event.target.buffered.length) {
-                this.buffered = event.target.buffered;
-                this.bufferEnd = 1000 * event.target.buffered.end(event.target.buffered.length - 1);
-            }
+            this.updateBuffer(event);
 
             $scope.$apply();
         };
 
-        this.onUpdateTime = function (event) {
-            this.currentTime = 1000 * event.target.currentTime;
-
+        this.updateBuffer = function getBuffer(event) {
             if (event.target.buffered.length) {
                 this.buffered = event.target.buffered;
                 this.bufferEnd = 1000 * event.target.buffered.end(event.target.buffered.length - 1);
+
+                // Avoid bufferEnd overflow by virtual clips
+                if (this.bufferEnd > this.totalTime) this.bufferEnd = this.totalTime;
             }
+        };
+
+        this.onUpdateTime = function (event) {
+            var targetTime = 1000 * event.target.currentTime;
+
+            this.updateBuffer(event);
 
             if (event.target.duration != Infinity) {
-                this.totalTime = 1000 * event.target.duration;
-                this.timeLeft = 1000 * (event.target.duration - event.target.currentTime);
+                // Fake the duration and current time for virtual clips
+                if (isVirtualClip) {
+                    if (hasStartTimePlayed && (event.target.currentTime < this.startTime || event.target.currentTime - this.startTime > this.virtualClipDuration)) {
+                        this.onComplete();
+                    }
+                    else {
+                        this.currentTime = Math.max(0, targetTime - (1000 * this.startTime));
+                        this.totalTime = 1000 * this.virtualClipDuration;
+                        this.timeLeft = (1000 * this.virtualClipDuration) - this.currentTime;
+                    }
+                }
+                else {
+                    this.currentTime = targetTime;
+                    this.totalTime = 1000 * event.target.duration;
+                    this.timeLeft = 1000 * (event.target.duration - event.target.currentTime);
+                }
+
                 this.isLive = false;
             }
             else {
                 // It's a live streaming without and end
+                this.currentTime = targetTime;
                 this.isLive = true;
             }
 
+            var targetSeconds = isVirtualClip ? this.currentTime / 1000 : event.target.currentTime;
+            var targetDuration = isVirtualClip ? this.totalTime / 1000 : event.target.duration;
+
             if (this.cuePoints) {
-                this.checkCuePoints(event.target.currentTime);
+                this.checkCuePoints(targetSeconds);
             }
 
-            $scope.vgUpdateTime({$currentTime: event.target.currentTime, $duration: event.target.duration});
+            $scope.vgUpdateTime({$currentTime: targetSeconds, $duration: targetDuration});
 
-            $scope.$apply();
+            // Safe apply just in case we're calling from a non-event
+            if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                $scope.$apply();
+            }
         };
 
         this.checkCuePoints = function checkCuePoints(currentTime) {
@@ -231,7 +270,9 @@ angular.module("com.2fdevs.videogular")
         };
 
         this.onPause = function () {
-            if (this.mediaElement[0].currentTime == 0) {
+            var currentTime = isVirtualClip ? this.currentTime : this.mediaElement[0].currentTime;
+
+            if (currentTime == 0) {
                 this.setState(VG_STATES.STOP);
             }
             else {
@@ -262,12 +303,25 @@ angular.module("com.2fdevs.videogular")
         this.seekTime = function (value, byPercent) {
             var second;
             if (byPercent) {
-                second = value * this.mediaElement[0].duration / 100;
-                this.mediaElement[0].currentTime = second;
+                if (isVirtualClip) {
+                    second = (value * this.virtualClipDuration / 100);
+                    this.mediaElement[0].currentTime = this.startTime + second;
+                }
+                else {
+                    second = value * this.mediaElement[0].duration / 100;
+                    this.mediaElement[0].currentTime = second;
+                }
             }
             else {
-                second = value;
-                this.mediaElement[0].currentTime = second;
+                if (isVirtualClip) {
+                    var durationPercent = value/this.mediaElement[0].duration;
+                    second = !hasStartTimePlayed ? 0 : this.virtualClipDuration * durationPercent;
+                    this.mediaElement[0].currentTime = !hasStartTimePlayed ? this.startTime : this.startTime + second;
+                }
+                else {
+                    second = value;
+                    this.mediaElement[0].currentTime = second;
+                }
             }
 
             this.currentTime = 1000 * second;
@@ -305,9 +359,11 @@ angular.module("com.2fdevs.videogular")
         this.stop = function () {
             try {
                 this.mediaElement[0].pause();
-                this.mediaElement[0].currentTime = 0;
 
-                this.currentTime = 0;
+                var targetTime = isVirtualClip ? this.startTime : 0;
+                this.mediaElement[0].currentTime = targetTime;
+
+                this.currentTime = targetTime;
                 this.buffered = [];
                 this.bufferEnd = 0;
                 this.setState(VG_STATES.STOP);
@@ -441,6 +497,11 @@ angular.module("com.2fdevs.videogular")
 
             this.setState(VG_STATES.STOP);
             this.isCompleted = true;
+
+            if (isVirtualClip) {
+                this.stop()
+            }
+
             $scope.$apply();
         };
 
@@ -501,6 +562,31 @@ angular.module("com.2fdevs.videogular")
             }
         };
 
+        this.onUpdateStartTime = function onUpdateStartTime(newValue) {
+            if (newValue && (newValue != this.startTime)) {
+                this.mediaElement[0].currentTime = newValue;
+                this.startTime = newValue;
+                isVirtualClip = this.startTime >= 0 && this.virtualClipDuration > 0;
+
+                var fakeEvent = {
+                    target: this.mediaElement[0]
+                };
+                this.onUpdateTime(fakeEvent, true);
+            }
+        };
+
+        this.onUpdateVirtualClipDuration = function onUpdateVirtualClipDuration(newValue) {
+            if (newValue && (newValue != this.virtualClipDuration)) {
+                this.virtualClipDuration = newValue;
+                isVirtualClip = this.startTime >= 0 && this.virtualClipDuration > 0;
+
+                var fakeEvent = {
+                    target: this.mediaElement[0]
+                };
+                this.onUpdateTime(fakeEvent, true);
+            }
+        };
+
         this.onUpdatePlaysInline = function onUpdatePlaysInline(newValue) {
             this.playsInline = newValue;
         };
@@ -524,6 +610,10 @@ angular.module("com.2fdevs.videogular")
             $scope.$watch("vgTheme", this.onUpdateTheme.bind(this));
 
             $scope.$watch("vgAutoPlay", this.onUpdateAutoPlay.bind(this));
+
+            $scope.$watch("vgStartTime", this.onUpdateStartTime.bind(this));
+
+            $scope.$watch("vgVirtualClipDuration", this.onUpdateVirtualClipDuration.bind(this));
 
             $scope.$watch("vgPlaysInline", this.onUpdatePlaysInline.bind(this));
 

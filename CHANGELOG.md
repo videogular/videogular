@@ -1,6 +1,13 @@
 CHANGELOG
 ================
 
+## v1.4.0
+* Added new property vg-start-time to autoseek to a certain second.
+* Added new property vg-virtual-clip-duration to set a duration. When used with vg-start-time it will create a virtual media fragment in given video.
+* Updated demo with virtual clips.
+* Updated Readme.
+* Removed old files.
+
 ## v1.3.2
 * Added new directive vg-scrub-bar-buffer.
 * Added new API properties bufferEnd and buffered.
