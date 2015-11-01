@@ -22,7 +22,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
     .run(
     ["$templateCache", function ($templateCache) {
         $templateCache.put("vg-templates/vg-mute-button",
-            '<button type="button" class="iconButton" ng-class="muteIcon" ng-click="onClickMute()" ng-focus="onMuteButtonFocus()" ng-blur="onMuteButtonLoseFocus()" ng-keydown="onMuteButtonKeyDown($event)" aria-label="Mute"></button>');
+            '<button type="button" class="iconButton" ng-class="muteIcon" ng-click="onClickMute()" ng-focus="onMuteButtonFocus()" ng-blur="onMuteButtonLoseFocus()" ng-mouseleave="onMuteButtonLeave()" ng-keydown="onMuteButtonKeyDown($event)" aria-label="Mute"></button>');
     }]
 )
     .directive("vgMuteButton",
@@ -59,6 +59,10 @@ angular.module("com.2fdevs.videogular.plugins.controls")
 
                 scope.onMuteButtonLoseFocus = function onMuteButtonLoseFocus() {
                     scope.volumeVisibility = "hidden";
+                };
+
+                scope.onMuteButtonLeave = function onMuteButtonLeave() {
+                    document.activeElement.blur();
                 };
 
                 scope.onMuteButtonKeyDown = function onMuteButtonKeyDown(event) {

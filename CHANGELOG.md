@@ -4,6 +4,7 @@ CHANGELOG
 ## v1.4.0
 * Added new property vg-start-time to autoseek to a certain second.
 * Added new property vg-virtual-clip-duration to set a duration. When used with vg-start-time it will create a virtual media fragment in given video.
+* Fixed bug with volume bar when mute button was focused. close #289
 * Updated demo with virtual clips.
 * Updated Readme.
 * Removed old files.
