@@ -53,7 +53,7 @@ angular.module("com.2fdevs.videogular")
         };
 
         this.isiOSDevice = function () {
-            return (navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/iPad/i));
+            return (navigator.userAgent.match(/ip(hone|ad|od)/i) && !navigator.userAgent.match(/(iemobile)[\/\s]?([\w\.]*)/i));
         };
 
         /**
