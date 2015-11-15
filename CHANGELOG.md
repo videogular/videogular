@@ -4,7 +4,6 @@ CHANGELOG
 ## v1.4.0
 * Added new property vg-start-time to autoseek to a certain second.
 * Added new property vg-virtual-clip-duration to set a duration. When used with vg-start-time it will create a virtual media fragment in given video.
-* Overlay play now hides itself if we're on a mobile device. This avoids to see two play icons on mobile devices.
 * Fixed bug with volume bar when mute button was focused. close #289
 * Updated demo with virtual clips.
 * Updated Readme.
