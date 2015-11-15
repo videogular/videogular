@@ -24,13 +24,13 @@ angular.module("com.2fdevs.videogular.plugins.overlayplay", [])
     .run(
         ["$templateCache", function ($templateCache) {
             $templateCache.put("vg-templates/vg-overlay-play",
-                '<div class="overlayPlayContainer" ng-click="onClickOverlayPlay()" ng-if="!isMobile">\
+                '<div class="overlayPlayContainer" ng-click="onClickOverlayPlay()">\
                   <div class="iconButton" ng-class="overlayPlayIcon"></div>\
                 </div>');
         }]
     )
-    .directive("vgOverlayPlay", ["VG_STATES", "VG_UTILS",
-        function (VG_STATES, VG_UTILS) {
+    .directive("vgOverlayPlay", ["VG_STATES",
+        function (VG_STATES) {
             return {
                 restrict: "E",
                 require: "^videogular",
@@ -59,7 +59,6 @@ angular.module("com.2fdevs.videogular.plugins.overlayplay", [])
                         API.playPause();
                     };
 
-                    scope.isMobile = VG_UTILS.isMobileDevice();
                     scope.overlayPlayIcon = {play: true};
 
                     scope.$watch(
