@@ -206,6 +206,23 @@ videogular, [videogular] {
         vertical-align: middle;
     }
 
+    vg-scrub-bar .vg-thumbnails {
+        position: absolute;
+        margin-top: -40px;
+        width: 80px;
+        height: 60px;
+        overflow: hidden;
+
+        .image-thumbnail {
+            height: 60px;
+            background-repeat: no-repeat;
+        }
+
+        .video-thumbnail {
+
+        }
+    }
+
     vg-scrub-bar [role=slider] {
         margin-top: 24px;
         margin-bottom: 24px;
