@@ -21,7 +21,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
     .run(["$templateCache",
         function ($templateCache) {
             $templateCache.put("vg-templates/vg-scrub-bar",
-                '<div class="vg-thumbnails" ng-show="thumbnails">' +
+                '<div class="vg-thumbnails" ng-show="thumbnails" ng-style="thumbnailContainer">' +
                     '<div class="image-thumbnail" ng-style="thumbnails"></div>' +
                 '</div>' +
                 '<div role="slider" ' +
@@ -55,13 +55,17 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                     var RIGHT = 39;
                     var NUM_PERCENT = 5;
                     var thumbnailsWidth = 0;
+                    var thumbWidth = 0;
+                    var slider = elem[0].querySelector("div[role=slider]");
 
                     scope.thumbnails = false;
+                    scope.thumbnailContainer = {};
 
                     scope.API = API;
 
                     scope.onLoadThumbnails = function(event) {
                         thumbnailsWidth = event.path[0].naturalWidth;
+                        thumbWidth = thumbnailsWidth / 100;
                     };
 
                     scope.ariaTime = function (time) {
@@ -88,7 +92,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                         isSeeking = true;
                         if (isPlaying) isPlayingWhenSeeking = true;
                         API.pause();
-                        API.seekTime(touchX * API.mediaElement[0].duration / elem[0].scrollWidth);
+                        API.seekTime(touchX * API.mediaElement[0].duration / slider.scrollWidth);
 
                         scope.$apply();
                     };
@@ -109,8 +113,15 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                         var touches = event.touches;
                         var touchX = scope.getOffset(touches[0]);
 
+                        if (scope.vgThumbnails.length) {
+                            var second = Math.round(touchX * API.mediaElement[0].duration / slider.scrollWidth);
+                            var percentage = Math.round(second * 100 / (API.totalTime / 1000));
+
+                            scope.updateThumbnails(percentage);
+                        }
+
                         if (isSeeking) {
-                            API.seekTime(touchX * API.mediaElement[0].duration / elem[0].scrollWidth);
+                            API.seekTime(touchX * API.mediaElement[0].duration / slider.scrollWidth);
                         }
 
                         scope.$apply();
@@ -118,6 +129,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
 
                     scope.onScrubBarTouchLeave = function onScrubBarTouchLeave(event) {
                         isSeeking = false;
+                        scope.thumbnails = false;
 
                         scope.$apply();
                     };
@@ -129,7 +141,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                         if (isPlaying) isPlayingWhenSeeking = true;
                         API.pause();
 
-                        API.seekTime(event.offsetX * API.mediaElement[0].duration / elem[0].scrollWidth);
+                        API.seekTime(event.offsetX * API.mediaElement[0].duration / slider.scrollWidth);
 
                         scope.$apply();
                     };
@@ -142,26 +154,22 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                             API.play();
                         }
                         isSeeking = false;
-                        //API.seekTime(event.offsetX * API.mediaElement[0].duration / elem[0].scrollWidth);
+                        //API.seekTime(event.offsetX * API.mediaElement[0].duration / slider.scrollWidth);
 
                         scope.$apply();
                     };
 
                     scope.onScrubBarMouseMove = function onScrubBarMouseMove(event) {
                         if (scope.vgThumbnails.length) {
-                            var second = Math.round(event.offsetX * API.mediaElement[0].duration / elem[0].scrollWidth);
+                            var second = Math.round(event.offsetX * API.mediaElement[0].duration / slider.scrollWidth);
                             var percentage = Math.round(second * 100 / (API.totalTime / 1000));
-                            var bgPos = Math.round(thumbnailsWidth * percentage / 100);
 
-                            scope.thumbnails = {
-                                "background-image": 'url("' + scope.vgThumbnails + '")',
-                                "background-position": -bgPos + "px 0px"
-                            };
+                            scope.updateThumbnails(percentage);
                         }
 
                         if (isSeeking) {
                             event = VG_UTILS.fixEventOffset(event);
-                            API.seekTime(event.offsetX * API.mediaElement[0].duration / elem[0].scrollWidth);
+                            API.seekTime(event.offsetX * API.mediaElement[0].duration / slider.scrollWidth);
                         }
 
                         scope.$apply();
@@ -169,6 +177,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
 
                     scope.onScrubBarMouseLeave = function onScrubBarMouseLeave(event) {
                         isSeeking = false;
+                        scope.thumbnails = false;
 
                         scope.$apply();
                     };
@@ -184,6 +193,21 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                             API.seekTime(currentPercent + NUM_PERCENT, true);
                             event.preventDefault();
                         }
+                    };
+
+                    scope.updateThumbnails = function updateThumbnails(percentage) {
+                        var bgPos = Math.round(thumbnailsWidth * percentage / 100);
+                        var thPos = (slider.scrollWidth * percentage / 100) - (thumbWidth / 2);
+
+                        scope.thumbnailContainer = {
+                            "width": thumbWidth + "px",
+                            "left": thPos + "px"
+                        };
+
+                        scope.thumbnails = {
+                            "background-image": 'url("' + scope.vgThumbnails + '")',
+                            "background-position": -bgPos + "px 0px"
+                        };
                     };
 
                     scope.setState = function setState(newState) {

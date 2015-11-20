@@ -204,10 +204,12 @@ videogular, [videogular] {
         display: table-cell;
         cursor: pointer;
         vertical-align: middle;
+        position: relative;
     }
 
     vg-scrub-bar .vg-thumbnails {
         position: absolute;
+        top: -20px;
         margin-top: -40px;
         width: 80px;
         height: 60px;
