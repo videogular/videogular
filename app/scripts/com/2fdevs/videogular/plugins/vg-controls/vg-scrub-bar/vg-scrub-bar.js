@@ -226,6 +226,17 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                         }
                     };
 
+                    scope.onDestroy = function() {
+                        elem.unbind("touchstart", scope.onScrubBarTouchStart);
+                        elem.unbind("touchend", scope.onScrubBarTouchEnd);
+                        elem.unbind("touchmove", scope.onScrubBarTouchMove);
+                        elem.unbind("touchleave", scope.onScrubBarTouchLeave);
+                        elem.unbind("mousedown", scope.onScrubBarMouseDown);
+                        elem.unbind("mouseup", scope.onScrubBarMouseUp);
+                        elem.unbind("mousemove", scope.onScrubBarMouseMove);
+                        elem.unbind("mouseleave", scope.onScrubBarMouseLeave);
+                    };
+
                     scope.$watch(
                         function () {
                             return API.currentState;
@@ -256,6 +267,8 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                         elem.bind("mousemove", scope.onScrubBarMouseMove);
                         elem.bind("mouseleave", scope.onScrubBarMouseLeave);
                     }
+
+                    scope.$on('destroy', scope.onDestroy.bind(scope));
                 }
             }
         }

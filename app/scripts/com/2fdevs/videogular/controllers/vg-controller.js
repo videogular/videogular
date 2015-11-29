@@ -81,6 +81,20 @@ angular.module("com.2fdevs.videogular")
 
         this.clearMedia = function () {
             this.mediaElement[0].src = '';
+            this.mediaElement[0].removeEventListener("canplay", this.onCanPlay.bind(this), false);
+            this.mediaElement[0].removeEventListener("loadedmetadata", this.onLoadMetaData.bind(this), false);
+            this.mediaElement[0].removeEventListener("waiting", this.onStartBuffering.bind(this), false);
+            this.mediaElement[0].removeEventListener("ended", this.onComplete.bind(this), false);
+            this.mediaElement[0].removeEventListener("playing", this.onStartPlaying.bind(this), false);
+            this.mediaElement[0].removeEventListener("play", this.onPlay.bind(this), false);
+            this.mediaElement[0].removeEventListener("pause", this.onPause.bind(this), false);
+            this.mediaElement[0].removeEventListener("volumechange", this.onVolumeChange.bind(this), false);
+            this.mediaElement[0].removeEventListener("playbackchange", this.onPlaybackChange.bind(this), false);
+            this.mediaElement[0].removeEventListener("timeupdate", this.onUpdateTime.bind(this), false);
+            this.mediaElement[0].removeEventListener("progress", this.onProgress.bind(this), false);
+            this.mediaElement[0].removeEventListener("seeking", this.onSeeking.bind(this), false);
+            this.mediaElement[0].removeEventListener("seeked", this.onSeeked.bind(this), false);
+            this.mediaElement[0].removeEventListener("error", this.onVideoError.bind(this), false);
         };
 
         this.onRouteChange = function() {

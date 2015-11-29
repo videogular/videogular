@@ -36,6 +36,11 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                     });
                 };
 
+                scope.onDestroy = function() {
+                    elem.unbind("mouseover", scope.onScrubBarTouchStart);
+                    elem.unbind("mouseleave", scope.onScrubBarTouchEnd);
+                };
+
                 // We hide volume controls on mobile devices
                 if (VG_UTILS.isMobileDevice()) {
                     elem.css("display", "none");
@@ -46,6 +51,8 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                     elem.bind("mouseover", scope.onMouseOverVolume);
                     elem.bind("mouseleave", scope.onMouseLeaveVolume);
                 }
+
+                scope.$on('destroy', scope.onDestroy.bind(scope));
             }
         }
     }]
