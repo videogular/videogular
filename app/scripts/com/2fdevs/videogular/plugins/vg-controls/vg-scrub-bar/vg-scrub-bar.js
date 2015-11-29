@@ -21,18 +21,16 @@ angular.module("com.2fdevs.videogular.plugins.controls")
     .run(["$templateCache",
         function ($templateCache) {
             $templateCache.put("vg-templates/vg-scrub-bar",
-                '<div class="vg-thumbnails" ng-show="thumbnails" ng-style="thumbnailContainer">' +
-                    '<div class="image-thumbnail" ng-style="thumbnails"></div>' +
-                '</div>' +
                 '<div role="slider" ' +
                       'aria-valuemax="{{ariaTime(API.totalTime)}}" ' +
                       'aria-valuenow="{{ariaTime(API.currentTime)}}" ' +
                       'aria-valuemin="0" ' +
                       'aria-label="Time scrub bar" ' +
                       'tabindex="0" ' +
-                      'ng-transclude ' +
                       'ng-keydown="onScrubBarKeyDown($event)">' +
-                '</div>');
+                '</div>' +
+                '<div class="container" ng-transclude></div>'
+            );
         }]
     )
     .directive("vgScrubBar", ["VG_STATES", "VG_UTILS",
@@ -113,7 +111,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                         var touches = event.touches;
                         var touchX = scope.getOffset(touches[0]);
 
-                        if (scope.vgThumbnails.length) {
+                        if (scope.vgThumbnails && scope.vgThumbnails.length) {
                             var second = Math.round(touchX * API.mediaElement[0].duration / slider.scrollWidth);
                             var percentage = Math.round(second * 100 / (API.totalTime / 1000));
 
@@ -160,7 +158,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                     };
 
                     scope.onScrubBarMouseMove = function onScrubBarMouseMove(event) {
-                        if (scope.vgThumbnails.length) {
+                        if (scope.vgThumbnails && scope.vgThumbnails.length) {
                             var second = Math.round(event.offsetX * API.mediaElement[0].duration / slider.scrollWidth);
                             var percentage = Math.round(second * 100 / (API.totalTime / 1000));
 

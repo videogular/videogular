@@ -16,7 +16,7 @@ angular.module('myApp').controller('MainCtrl',
             duration: 0
         };
 
-        this.thumbnails = "assets/thumbnails/thumbnail.jpg";
+        this.thumbnailStrip = "assets/thumbnails/thumbnail.jpg";
 
         this.onPlayerReady = function (API) {
             this.API = API;
