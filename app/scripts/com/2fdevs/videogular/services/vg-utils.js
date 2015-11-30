@@ -56,6 +56,10 @@ angular.module("com.2fdevs.videogular")
             return (navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/iPad/i));
         };
 
+        this.isCordova = function () {
+            return document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1;
+        };
+
         /**
          * Test the browser's support for HTML5 localStorage.
          * @returns {boolean}

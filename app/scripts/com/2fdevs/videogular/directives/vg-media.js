@@ -85,7 +85,7 @@ angular.module("com.2fdevs.videogular")
                     if (VG_UTILS.isMobileDevice()) API.mediaElement[0].load();
 
                     $timeout(function () {
-                        if (API.autoPlay && !VG_UTILS.isMobileDevice()) {
+                        if (API.autoPlay && (VG_UTILS.isCordova() || !VG_UTILS.isMobileDevice())) {
                             API.play();
                         }
                     });
