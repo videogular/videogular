@@ -33,6 +33,7 @@
  * - mediaElement: Reference to video/audio object.
  * - videogularElement: Reference to videogular tag.
  * - sources: Array with current sources.
+ * - activeSource: Object memeber of the sources array that is presently the active playback.
  * - tracks: Array with current tracks.
  * - cuePoints: Object containing a list of timelines with cue points. Each property in the object represents a timeline, which is an Array of objects with the next definition:
  * <pre>{
@@ -75,6 +76,7 @@ angular.module("com.2fdevs.videogular")
         var isMetaDataLoaded = false;
         var hasStartTimePlayed = false;
         var isVirtualClip = false;
+        var playbackPluginsLoaders = [];
 
         // PUBLIC $API
         this.videogularElement = null;
@@ -438,6 +440,7 @@ angular.module("com.2fdevs.videogular")
         };
 
         this.changeSource = function (newValue) {
+            this.activeSource = newValue;
             $scope.vgChangeSource({$source: newValue});
         };
 
@@ -642,6 +645,32 @@ angular.module("com.2fdevs.videogular")
             this.isFullScreen = vgFullscreen.isFullScreen();
             $scope.$apply();
         };
+
+        this.registerPlaybackPlugin = function(pluginLoader) {//pluginLoader is a function which should accept src, type
+            if (angular.isFunction(pluginLoader)) {
+                playbackPluginsLoaders.push(pluginLoader);
+            } else {
+                throw new TypeError('Expecting a Function which should accept src, type.');
+            }
+        };
+
+        this.attemptPlaybackThroughPlugin = function(src, type) {
+            for (var pluginIndex = 0, numPlugins = playbackPluginsLoaders.length; pluginIndex < numPlugins; ++pluginIndex) {
+                var loaderResult = playbackPluginsLoaders[pluginIndex](src, type);
+
+                if (loaderResult) {
+                    return loaderResult;
+                }
+            }
+
+            return false;
+        };
+
+        Object.defineProperty(this, 'numPlaybackPlugins', {
+            get: function() {
+                return playbackPluginsLoaders.length;
+            }
+        });
 
         // Empty mediaElement on destroy to avoid that Chrome downloads video even when it's not present
         $scope.$on('$destroy', this.clearMedia.bind(this));

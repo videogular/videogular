@@ -5,6 +5,7 @@ describe('Directive: DASH', function () {
     var $scope;
     var $compile;
     var VG_STATES;
+    var VG_DASH_IS_SUPPORTED;
 
     beforeEach(module('com.2fdevs.videogular'));
     beforeEach(module('com.2fdevs.videogular.plugins.dash'));
@@ -14,6 +15,7 @@ describe('Directive: DASH', function () {
         $scope = $injector.get('$rootScope').$new();
         $sce = $injector.get('$sce');
         VG_STATES = $injector.get('VG_STATES');
+        VG_DASH_IS_SUPPORTED = $injector.get('VG_DASH_IS_SUPPORTED');
 
         $scope.config = {
             preload: "none",
@@ -39,34 +41,32 @@ describe('Directive: DASH', function () {
 
     describe("DASH plugin - ", function () {
         it("should have been detected a DASH video", function () {
-            var dashCapabilitiesUtil = new MediaPlayer.utils.Capabilities();
-            var supportsDASH = dashCapabilitiesUtil.supportsMediaSource();
             var isDASH = false;
 
-            if (supportsDASH) {
+            if (VG_DASH_IS_SUPPORTED) {
                 var vgMedia = angular.element(element.find('[vg-dash]'));
                 var vgMediaScope = vgMedia.scope();
-                isDASH = vgMediaScope.isDASH($scope.config.sources[0]);
+                var source = $scope.config.sources[0];
+                isDASH = vgMediaScope.isDASH(source.src, source.type);
             }
 
-            expect(isDASH).toBe(supportsDASH);
+            expect(isDASH).toBe(VG_DASH_IS_SUPPORTED);
         });
 
         it("should have been changed a video source", function () {
-            var dashCapabilitiesUtil = new MediaPlayer.utils.Capabilities();
-            var supportsDASH = dashCapabilitiesUtil.supportsMediaSource();
             var isDASH = false;
             var vgMedia = angular.element(element.find('vg-media'));
 
-            if (supportsDASH) {
-                spyOn(vgMedia.scope(), "onSourceChange");
+            if (VG_DASH_IS_SUPPORTED) {
+                spyOn(vgMedia.scope(), "isDASH");
                 $scope.config.sources = [{src: "another_source.mpd", type: "application/dash+xml"}];
                 $scope.$digest();
 
-                expect(vgMedia.scope().onSourceChange).toHaveBeenCalledWith({src: "another_source.mpd", type: "application/dash+xml"});
+                expect(vgMedia.scope().isDASH).toHaveBeenCalledWith("another_source.mpd", "application/dash+xml");
+                expect(vgMedia.scope().isDASH).toBeTruthy();
             }
             else {
-                expect(vgMedia.scope().onSourceChange).toBeFalsy();
+                expect(vgMedia.scope().isDASH).toBeFalsy();
             }
         });
     });

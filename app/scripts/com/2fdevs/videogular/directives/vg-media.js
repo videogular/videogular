@@ -32,6 +32,7 @@ angular.module("com.2fdevs.videogular")
             },
             link: function (scope, elem, attrs, API) {
                 var sources;
+                var playbackPluginUnload;
 
                 // what type of media do we want? defaults to 'video'
                 if (!attrs.vgType || attrs.vgType === "video") {
@@ -50,6 +51,11 @@ angular.module("com.2fdevs.videogular")
                             API.currentState = VG_STATES.STOP;
                         }
 
+                        if (playbackPluginUnload) {
+                            playbackPluginUnload();
+                            playbackPluginUnload = null;
+                        }
+
                         API.sources = sources;
                         scope.changeSource();
                     }
@@ -57,16 +63,30 @@ angular.module("com.2fdevs.videogular")
 
                 scope.changeSource = function changeSource() {
                     var canPlay = "";
+                    var mediaElementCanPlayType = API.mediaElement[0].canPlayType;
 
                     // It's a cool browser
-                    if (API.mediaElement[0].canPlayType) {
+                    if (mediaElementCanPlayType || API.numPlaybackPlugins) {
                         for (var i = 0, l = sources.length; i < l; i++) {
-                            canPlay = API.mediaElement[0].canPlayType(sources[i].type);
+                            //test for native playback support
+                            if (mediaElementCanPlayType) {
+                                canPlay = API.mediaElement[0].canPlayType(sources[i].type);
 
-                            if (canPlay == "maybe" || canPlay == "probably") {
-                                API.mediaElement.attr("src", sources[i].src);
-                                API.mediaElement.attr("type", sources[i].type);
-                                //Trigger vgChangeSource($source) API callback in vgController
+                                if (canPlay == "maybe" || canPlay == "probably") {
+                                    API.mediaElement.attr("src", sources[i].src);
+                                    API.mediaElement.attr("type", sources[i].type);
+                                    //Trigger vgChangeSource($source) API callback in vgController
+                                    API.changeSource(sources[i]);
+                                    break;
+                                }
+                            }
+                            
+                            //see if there's a plugin configured to handle this type (it will handle the applying the new src)
+                            var unwrappedSrc = sources[i].src.$$unwrapTrustedValue ? sources[i].src.$$unwrapTrustedValue() : sources[i].src;
+                            var playbackPluginResult = API.attemptPlaybackThroughPlugin(unwrappedSrc, sources[i].type);
+                            if (playbackPluginResult) {
+                                canPlay = "probably";
+                                playbackPluginUnload = playbackPluginResult;
                                 API.changeSource(sources[i]);
                                 break;
                             }
