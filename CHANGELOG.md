@@ -9,6 +9,18 @@ CHANGELOG
 * Updated Readme.
 * Removed old files.
 
+## v1.4.0
+* Added new directive vg-scrub-bar-thumbnails to display thumbnails in scrub bar.
+* Added new property vg-start-time to autoseek to a certain second.
+* Added new property vg-virtual-clip-duration to set a duration. When used with vg-start-time it will create a virtual media fragment in given video.
+* Added more precise iOS device detection.
+* Added autoplay enabled for mobile devices on cordova. Cordova/phonegap allows autoplay by default. In particular calling play() directly always works.
+* Fixed bug with volume bar when mute button was focused. close #289
+* Updated demo with virtual clips.
+* Updated Readme.
+* Updated docs.
+* Removed old files.
+
 ## v1.3.2
 * Added new directive vg-scrub-bar-buffer.
 * Added new API properties bufferEnd and buffered.
