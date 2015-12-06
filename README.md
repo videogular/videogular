@@ -34,8 +34,11 @@ Videogular 2.0 is under active development and will be available with Angular 2.
 You can find a demo here:
 https://www.videogular.com/alpha
 
-And this is the development branch:
-https://github.com/2fdevs/videogular/tree/RC-2.0.0-alpha
+And this is the development repository:
+https://github.com/videogular/videogular2
+
+Demo repository:
+https://github.com/videogular/videogular2-demo
 
 ## Third-party plugins
 
