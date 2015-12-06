@@ -261,6 +261,25 @@ angular.module('myApp').controller('CuePointsCtrl',
                             value: 90
                         }
                     }
+                ],
+                thumbnails: [
+                    {
+                        timeLapse: {
+                            start: 30
+                        },
+                        params: {
+                            thumbnail: "assets/thumbnails/30.png"
+                        }
+                    },
+                    {
+                        timeLapse: {
+                            start: 49,
+                            end: 60
+                        },
+                        params: {
+                            thumbnail: "assets/thumbnails/50.png"
+                        }
+                    }
                 ]
             },
             plugins: {

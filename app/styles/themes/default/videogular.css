@@ -202,7 +202,7 @@ videogular, [videogular] {
     width: 100%;
     height: 100%;
     display: block;
-    position: relative; }
+    position: absolute; }
     videogular vg-scrub-bar-cue-points .cue-point-timeline, [videogular] vg-scrub-bar-cue-points .cue-point-timeline {
       color: #FFFFFF;
       padding-top: 3px; }
@@ -216,7 +216,8 @@ videogular, [videogular] {
     height: 100%;
     display: block;
     cursor: pointer;
-    bottom: 24px; }
+    bottom: 24px;
+    z-index: 1; }
     videogular vg-scrub-bar-thumbnails .vg-thumbnails, [videogular] vg-scrub-bar-thumbnails .vg-thumbnails {
       position: absolute;
       top: -20px;

@@ -253,7 +253,7 @@ videogular, [videogular] {
         width: 100%;
         height: 100%;
         display: block;
-        position: relative;
+        position: absolute;
 
         .cue-point-timeline {
             color: #FFFFFF;
@@ -274,6 +274,7 @@ videogular, [videogular] {
         display: block;
         cursor: pointer;
         bottom: 24px;
+        z-index: 1;
 
         .vg-thumbnails {
             position: absolute;

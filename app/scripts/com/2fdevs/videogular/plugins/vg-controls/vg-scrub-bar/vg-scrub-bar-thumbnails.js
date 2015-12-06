@@ -5,13 +5,15 @@
  * @description
  * Layer inside vg-scrub-bar to display thumbnails.
  *
+ * Param thumbnails could be a string url pointing to a strip of thumbnails or an array of thumbnails
+ *
  * <pre>
  * <videogular vg-theme="config.theme.url">
  *    <vg-media vg-src="sources"></vg-media>
  *
  *    <vg-controls>
  *        <vg-scrub-bar>
- *            <vg-scrub-bar-thumbnails vg-thumbnail-strip='config.thumbnailStrip'></vg-scrub-bar-thumbnails>
+ *            <vg-scrub-bar-thumbnails vg-thumbnails='config.thumbnails'></vg-scrub-bar-thumbnails>
  *        </vg-scrub-bar>
  *    </vg-controls>
  * </videogular>
@@ -38,12 +40,13 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                     return attrs.vgTemplate || 'vg-templates/vg-scrub-bar-thumbnails';
                 },
                 scope: {
-                    "vgThumbnailStrip": "="
+                    "vgThumbnails": "="
                 },
                 link: function (scope, elem, attr, API) {
                     var thumbnailsWidth = 0;
                     var thumbWidth = 0;
                     var slider = elem[0].querySelector(".background");
+                    var isStrip = (typeof scope.vgThumbnails === "string");
 
                     scope.thumbnails = false;
                     scope.thumbnailContainer = {};
@@ -65,26 +68,72 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                         thumbWidth = thumbnailsWidth / 100;
                     };
 
-                    scope.updateThumbnails = function(percentage) {
-                        var bgPos = Math.round(thumbnailsWidth * percentage / 100);
+                    scope.onLoadThumbnail = function(event) {
+                        thumbWidth = event.currentTarget.naturalWidth;
+                    };
+
+                    scope.updateThumbnails = function(second) {
+                        var percentage = Math.round(second * 100 / (API.totalTime / 1000));
                         var thPos = (slider.scrollWidth * percentage / 100) - (thumbWidth / 2);
 
-                        scope.thumbnailContainer = {
-                            "width": thumbWidth + "px",
-                            "left": thPos + "px"
-                        };
+                        if (isStrip) {
+                            var bgPos = Math.round(thumbnailsWidth * percentage / 100);
 
-                        scope.thumbnails = {
-                            "background-image": 'url("' + scope.vgThumbnailStrip + '")',
-                            "background-position": -bgPos + "px 0px"
-                        };
+                            scope.thumbnailContainer = {
+                                "width": thumbWidth + "px",
+                                "left": thPos + "px"
+                            };
+
+                            scope.thumbnails = {
+                                "background-image": 'url("' + scope.vgThumbnails + '")',
+                                "background-position": -bgPos + "px 0px"
+                            };
+                        }
+                        else {
+                            var secondsByPixel = API.totalTime / slider.scrollWidth / 1000;
+                            var lapse = {
+                                start: Math.floor(second - (secondsByPixel / 2)),
+                                end: Math.ceil(second)
+                            };
+
+                            if (lapse.start < 0) lapse.start = 0;
+                            if (lapse.end > API.totalTime) lapse.end = API.totalTime;
+
+                            scope.thumbnailContainer = {
+                                "left": thPos + "px"
+                            };
+
+                            scope.thumbnails = {
+                                "background-image": 'none'
+                            };
+
+                            for (var i=0, l=scope.vgThumbnails.length; i<l; i++) {
+                                var th = scope.vgThumbnails[i];
+
+                                if (th.timeLapse.end >= 0) {
+                                    if (lapse.start >= th.timeLapse.start && (lapse.end <= th.timeLapse.end || lapse.end <= th.timeLapse.start)) {
+                                        scope.thumbnails = {
+                                            "background-image": 'url("' + th.params.thumbnail + '")'
+                                        };
+                                        break;
+                                    }
+                                }
+                                else {
+                                    if (th.timeLapse.start >= lapse.start && th.timeLapse.start <= lapse.end) {
+                                        scope.thumbnails = {
+                                            "background-image": 'url("' + th.params.thumbnail + '")'
+                                        };
+                                        break;
+                                    }
+                                }
+                            }
+                        }
                     };
 
                     scope.onMouseMove = function($event) {
                         var second = Math.round($event.offsetX * API.mediaElement[0].duration / slider.scrollWidth);
-                        var percentage = Math.round(second * 100 / (API.totalTime / 1000));
 
-                        scope.updateThumbnails(percentage);
+                        scope.updateThumbnails(second);
 
                         scope.$apply();
                     };
@@ -93,9 +142,8 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                         var touches = $event.touches;
                         var touchX = scope.getOffset(touches[0]);
                         var second = Math.round(touchX * API.mediaElement[0].duration / slider.scrollWidth);
-                        var percentage = Math.round(second * 100 / (API.totalTime / 1000));
 
-                        scope.updateThumbnails(percentage);
+                        scope.updateThumbnails(second);
 
                         scope.$apply();
                     };
@@ -120,9 +168,17 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                         elem.unbind("mouseleave", scope.onMouseLeave);
                     };
 
-                    var thLoader = new Image();
-                    thLoader.onload = scope.onLoadThumbnails.bind(scope);
-                    thLoader.src = scope.vgThumbnailStrip;
+                    var thLoader;
+                    if (isStrip) {
+                        thLoader = new Image();
+                        thLoader.onload = scope.onLoadThumbnails.bind(scope);
+                        thLoader.src = scope.vgThumbnails;
+                    }
+                    else {
+                        thLoader = new Image();
+                        thLoader.onload = scope.onLoadThumbnail.bind(scope);
+                        thLoader.src = scope.vgThumbnails[0].params.thumbnail;
+                    }
 
                     // Touch move is really buggy in Chrome for Android, maybe we could use mouse move that works ok
                     if (VG_UTILS.isMobileDevice()) {

@@ -22,7 +22,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
     .run(["$templateCache",
         function ($templateCache) {
             $templateCache.put("vg-templates/vg-scrub-bar-cue-points",
-                '<div class="cue-point-timeline" ng-style="timelineWidth">' +
+                '<div class="cue-point-timeline">' +
                     '<div ng-repeat="cuePoint in vgCuePoints" class="cue-point" ng-style="cuePoint.$$style"></div>' +
                 '</div>');
         }
@@ -49,8 +49,9 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                             totalWidth = parseInt(elem[0].clientWidth);
 
                             for (var i = 0, l = cuePoints.length; i < l; i++) {
-                                var cuePointDuration = (cuePoints[i].timeLapse.end - cuePoints[i].timeLapse.start) * 1000;
-                                var position = (cuePoints[i].timeLapse.start * 100 / API.totalTime * 1000) + "%";
+                                var end = (cuePoints[i].timeLapse.end >= 0) ? cuePoints[i].timeLapse.end : cuePoints[i].timeLapse.start + 1;
+                                var cuePointDuration = (end - cuePoints[i].timeLapse.start) * 1000;
+                                var position = (cuePoints[i].timeLapse.start * 100 / (Math.round(API.totalTime / 1000))) + "%";
                                 var percentWidth = 0;
 
                                 if (typeof cuePointDuration === 'number' && API.totalTime) {
