@@ -28,7 +28,7 @@ NG_DOCS={
       "type": "controller",
       "moduleName": "com.2fdevs.videogular",
       "shortDescription": "Videogular controller.",
-      "keywords": "$sce active api array bigger boolean buffering bypercent callback callbacks called changes changesource cleans clearmedia completed config controller css cue cuepoints current currentstate currenttime custom data default define definition desired doesn emulated file fullscreen function http initialization inline integer isbuffering iscompleted isfullscreen islive isready json left list live manually media mediaelement method methods middle mode mp4 mus native nativefullscreen normal number object objects offers oncomplete onenter onleave onupdate param params pass pause pauses percentage plaback play playback player playing playpause plays playsinline point points position previous progress properties property public reach reaches reference removes representing represents resource seconds seek seeks seektime setplayback sets setstate setvolume source sources src start stops streaming string structure tag target theme time timelapse timeleft timeline timelines togglefullscreen toggles total totaltime tracks true trustasresourceurl trustful type updates updatetheme url user video videogular videogularelement volume"
+      "keywords": "$sce active api array bigger boolean buffer buffered bufferend buffering bypercent callback callbacks called changes changesource cleans clearmedia completed config controller css cue cuepoints current currentstate currenttime custom data default define definition desired doesn emulated file fullscreen function http initialization inline integer isbuffering iscompleted isfullscreen islive isready json latest left list live manually media mediaelement method methods middle milliseconds mode mp4 mus native nativefullscreen normal number object objects offers oncomplete onenter onleave onupdate param params pass pause pauses percentage plaback play playback player playing playpause plays playsinline point points position previous progress properties property public reach reaches reference removes representing represents resource seconds seek seeks seektime setplayback sets setstate setvolume source sources src start stops streaming string structure tag target theme time timelapse timeleft timeline timelines timeranges togglefullscreen toggles total totaltime tracks true trustasresourceurl trustful type updates updatetheme url user video videogular videogularelement volume"
     },
     {
       "section": "api",
@@ -91,7 +91,7 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "com.2fdevs.videogular",
       "shortDescription": "Main directive that must wrap a &lt;vg-media&gt; tag and all plugins.",
-      "keywords": "ad adtagurl allow analytics api array auto autohide autohidetime autoplay backwards bindable boolean browser call callback called category change changes class click companion companionad companionsize complete completed config consuming content continuous controller controls css cue current data default devices directive disable disabled doubleclick duration en english enters error event events false file finished forward free fullscreen function generally header http iab_vast_samples ima-ads initialized inject inline inside json jumping kind label layer leave link list loop main milliseconds mobile mp4 native navigates net network object objects ogg oncomplete onenter onleave onupdate param parameter params passes path pause period plans play playback player playing plugin plugins png point points poster preload prevent progress properties property quality rate ready receive receives representing required reset routes scope sd seconds seek seeked seeks set skipbutton source sources src srclang start string structure subtitles tag tags theme time timelapse timeline timelines tracks true type unitpath updated updating url user values variable vgautoplay vgcanplay vgchangesource vgclearmediaonnavigate vgcomplete vgconfig vgcuepoints vgerror vgnativefullscreen vgplayerready vgplaysinline vgseeked vgseeking vgtheme vgupdateplayback vgupdatestate vgupdatetime vgupdatevolume video videogular volume vtt webm wrap"
+      "keywords": "ad adtagurl allow analytics api array auto autohide autohidetime autoplay backwards bindable boolean browser call callback called category change changes class click companion companionad companionsize complete completed config consuming content continuous controller controls css cue current data default devices directive disable disabled doubleclick duration en english enters error event events false file finished forward free fullscreen function generally header http iab_vast_samples ima-ads initialized inject inline inside json jumping kind label layer leave length limit link list loop main milliseconds mobile mp4 native navigates net network number object objects ogg oncomplete onenter onleave onupdate param parameter params passes path pause period plans play playback player playing plugin plugins png point points poster preload prevent progress properties property quality rate ready receive receives representing required reset routes scope sd seconds seek seeked seeks set skipbutton source sources src srclang start starttime string structure subtitles tag tags theme time timelapse timeline timelines tracks true type unitpath updated updating url user values variable vgautoplay vgcanplay vgchangesource vgclearmediaonnavigate vgcomplete vgconfig vgcuepoints vgerror vgnativefullscreen vgplayerready vgplaysinline vgseeked vgseeking vgstarttime vgtheme vgupdateplayback vgupdatestate vgupdatetime vgupdatevolume vgvirtualclipduration video videogular virtualclipduration volume vtt webm wrap"
     },
     {
       "section": "api",
@@ -167,6 +167,15 @@ NG_DOCS={
     },
     {
       "section": "api",
+      "id": "com.2fdevs.videogular.plugins.controls.directive:vgScrubBarBuffer",
+      "shortName": "vgScrubBarBuffer",
+      "type": "directive",
+      "moduleName": "com.2fdevs.videogular.plugins.controls",
+      "shortDescription": "Layer inside vg-scrub-bar to display the buffer.",
+      "keywords": "api autohide autohidetime buffer config controls directive display inside layer plugins sources theme url vg-autohide vg-autohide-time vg-scrub-bar vg-src vg-theme videogular"
+    },
+    {
+      "section": "api",
       "id": "com.2fdevs.videogular.plugins.controls.directive:vgScrubBarCuePoints",
       "shortName": "vgScrubBarCuePoints",
       "type": "directive",
@@ -182,6 +191,15 @@ NG_DOCS={
       "moduleName": "com.2fdevs.videogular.plugins.controls",
       "shortDescription": "Layer inside vg-scrub-bar to display the current time.",
       "keywords": "api autohide autohidetime config controls current directive display inside layer plugins sources theme time url vg-autohide vg-autohide-time vg-scrub-bar vg-src vg-theme videogular"
+    },
+    {
+      "section": "api",
+      "id": "com.2fdevs.videogular.plugins.controls.directive:vgScrubBarThumbnails",
+      "shortName": "vgScrubBarThumbnails",
+      "type": "directive",
+      "moduleName": "com.2fdevs.videogular.plugins.controls",
+      "shortDescription": "Layer inside vg-scrub-bar to display thumbnails.",
+      "keywords": "api app array assets config controls create cue directive display exactly example ffmpeg find format image images inside jpg lapse layer list mp4 objects panic param params plugins pointing points recommended scale select size sources start string strip theme thumbnail thumbnails tile timelapse url vg-scrub-bar vg-src vg-theme vg-thumbnails videogular"
     },
     {
       "section": "api",

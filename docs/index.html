@@ -18,16 +18,16 @@
     // before the base attribute is added, causing 404 and terribly slow loading of the docs app.
     (function() {
       var indexFile = (location.pathname.match(/\/(index[^\.]*\.html)/) || ['', ''])[1],
-          origin, baseUrl, rUrl = /(#!\/|api|index[^\.]*\.html).*$/,
+          origin, baseUrl, rUrl = /(\/?#!\/.*|\/(api)\/?(\?.*)*|\/index[^\.]*\.html.*)$/,
           headEl = document.getElementsByTagName('head')[0],
           sync = true;
 
       if (location.href.slice(0, 7) == 'file://') {
-        baseUrl = location.href.replace(rUrl, indexFile);
+        baseUrl = location.href.replace(rUrl, '/' + indexFile);
       } else {
         origin = location.origin || (window.location.protocol + "//" + window.location.hostname +
                                     (window.location.port ? ':' + window.location.port: ''));
-        baseUrl = origin + location.href.substr(origin.length).replace(rUrl, indexFile);
+        baseUrl = origin + location.href.substr(origin.length).replace(rUrl, '/' + indexFile);
       }
 
       addTag('base', {href: baseUrl});
