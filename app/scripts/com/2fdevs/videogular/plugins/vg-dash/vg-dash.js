@@ -65,6 +65,7 @@ angular.module("com.2fdevs.videogular.plugins.dash", ["com.2fdevs.videogular"])
                         if (player) {
                             //Dettach Dash.js from the mediaElement
                             try {
+                                API.stop();
                                 player.reset();
                             } catch(ex){} //chomp
                             player = null;

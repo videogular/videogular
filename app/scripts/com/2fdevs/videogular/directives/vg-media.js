@@ -44,7 +44,7 @@ angular.module("com.2fdevs.videogular")
 
                 // FUNCTIONS
                 scope.onChangeSource = function onChangeSource(newValue, oldValue) {
-                    if ((!sources || newValue != oldValue) && newValue) {
+                    if (newValue && (!sources || JSON.stringify(newValue) != JSON.stringify(oldValue)) && sources !== newValue) {
                         sources = newValue;
 
                         if (API.currentState !== VG_STATES.PLAY) {
@@ -58,6 +58,7 @@ angular.module("com.2fdevs.videogular")
 
                         API.sources = sources;
                         scope.changeSource();
+                        API.changeSource(newValue);
                     }
                 };
 
@@ -76,7 +77,7 @@ angular.module("com.2fdevs.videogular")
                                     API.mediaElement.attr("src", sources[i].src);
                                     API.mediaElement.attr("type", sources[i].type);
                                     //Trigger vgChangeSource($source) API callback in vgController
-                                    API.changeSource(sources[i]);
+                                    API.changeActiveSource(sources[i]);
                                     break;
                                 }
                             }
@@ -87,7 +88,7 @@ angular.module("com.2fdevs.videogular")
                             if (playbackPluginResult) {
                                 canPlay = "probably";
                                 playbackPluginUnload = playbackPluginResult;
-                                API.changeSource(sources[i]);
+                                API.changeActiveSource(sources[i]);
                                 break;
                             }
                         }
@@ -98,7 +99,7 @@ angular.module("com.2fdevs.videogular")
                         API.mediaElement.attr("src", sources[0].src);
                         API.mediaElement.attr("type", sources[0].type);
                         //Trigger vgChangeSource($source) API callback in vgController
-                        API.changeSource(sources[0]);
+                        API.changeActiveSource(sources[0]);
                     }
 
                     // Android 2.3 support: https://github.com/2fdevs/videogular/issues/187
