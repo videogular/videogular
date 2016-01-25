@@ -107,7 +107,7 @@ angular.module("com.2fdevs.videogular")
             this.isBuffering = false;
             $scope.$apply($scope.vgCanPlay({$event: evt}));
 
-            if (!hasStartTimePlayed && this.startTime > 0) {
+            if (!hasStartTimePlayed && (this.startTime > 0 || this.startTime === 0)) {
                 this.seekTime(this.startTime);
                 hasStartTimePlayed = true;
             }
