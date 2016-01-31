@@ -107,7 +107,7 @@ angular.module("com.2fdevs.videogular")
             this.isBuffering = false;
             $scope.$apply($scope.vgCanPlay({$event: evt}));
 
-            if (!hasStartTimePlayed && this.startTime > 0) {
+            if (!hasStartTimePlayed && (this.startTime > 0 || this.startTime === 0)) {
                 this.seekTime(this.startTime);
                 hasStartTimePlayed = true;
             }
@@ -318,6 +318,7 @@ angular.module("com.2fdevs.videogular")
             var second;
             if (byPercent) {
                 if (isVirtualClip) {
+                    value = Math.max(0, Math.min(value, 100));
                     second = (value * this.virtualClipDuration / 100);
                     this.mediaElement[0].currentTime = this.startTime + second;
                 }
