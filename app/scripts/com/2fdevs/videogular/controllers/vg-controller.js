@@ -12,8 +12,8 @@
  * - stop(): Stops media.
  * - playPause(): Toggles play and pause.
  * - seekTime(value, byPercent): Seeks to a specified time position. Param value must be an integer representing the target position in seconds or a percentage. By default seekTime seeks by seconds, if you want to seek by percentage just pass byPercent to true.
- * - setVolume(volume): Sets volume. Param volume must be an integer with a value between 0 and 1.
- * - setPlayback(playback): Sets playback. Param plaback must be an integer with a value between 0 and 2.
+ * - setVolume(volume): Sets volume. Param volume must be a float number with a value between 0 and 1.
+ * - setPlayback(playback): Sets playback. Param plaback must be a float number with a value between 0 and 2.
  * - setState(state): Sets a new state. Param state mus be an string with 'play', 'pause' or 'stop'. This method only changes the state of the player, but doesn't plays, pauses or stops the media file.
  * - toggleFullScreen(): Toggles between fullscreen and normal mode.
  * - updateTheme(css-url): Removes previous CSS theme and sets a new one.
