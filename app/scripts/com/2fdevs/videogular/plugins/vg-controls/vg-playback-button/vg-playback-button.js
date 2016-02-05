@@ -5,12 +5,13 @@
  * @description
  * Directive to display a playback buttom to control the playback rate.
  *
+ * @param {array} vgSpeeds Bindable array with a list of speed options as strings. Default ['0.5', '1', '1.5', '2']
  * <pre>
  * <videogular vg-theme="config.theme.url">
  *    <vg-media vg-src="sources"></vg-media>
  *
  *    <vg-controls vg-autohide='config.autohide' vg-autohide-time='config.autohideTime'>
- *        <vg-playback-button></vg-playback-button>
+ *        <vg-playback-button vg-speeds='config.playbackSpeeds'></vg-playback-button>
  *    </vg-controls>
  * </videogular>
  * </pre>
@@ -31,6 +32,9 @@ angular.module("com.2fdevs.videogular.plugins.controls")
             templateUrl: function (elem, attrs) {
                 return attrs.vgTemplate || 'vg-templates/vg-playback-button';
             },
+            scope: {
+                vgSpeeds: '=?'
+            },
             link: function (scope, elem, attr, API) {
                 scope.playback = '1';
 
@@ -40,7 +44,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                 };
 
                 scope.onClickPlayback = function onClickPlayback() {
-                    var playbackOptions = ['0.5', '1', '1.5', '2'];
+                    var playbackOptions = scope.vgSpeeds || ['0.5', '1', '1.5', '2'];
                     var nextPlaybackRate = playbackOptions.indexOf(scope.playback.toString()) + 1;
 
                     if (nextPlaybackRate >= playbackOptions.length) {
