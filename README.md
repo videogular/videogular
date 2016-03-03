@@ -3,7 +3,7 @@
 Videogular 2.0 is under active development and will be available with Angular 2. Videogular 2.0 will follow the same philosophy and we're open to discuss any possibilities. If you want to contribute you can open a new issue with your suggestions or clone the repository to make pull requests.
 
 You can find a demo here:
-https://www.videogular.com/alpha
+http://www.videogular.com/alpha
 
 And this is the development repository:
 https://github.com/videogular/videogular2
