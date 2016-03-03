@@ -1,3 +1,13 @@
+# Videogular 2.0
+
+Videogular 2.0 is under active development and will be available with Angular 2. Videogular 2.0 will take follow the same philosophy and we're open to discuss any possibilities. If you want to contribute you can open a new issue with your suggestions or clone the repository to make pull requests.
+
+You can find a demo here:
+https://www.videogular.com/alpha
+
+And this is the development repository:
+https://github.com/videogular/videogular2
+
 ## Videogular
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/2fdevs/videogular?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -26,19 +36,6 @@ For more info you can check the full [Videogular API documentation](http://www.v
 To run the project and create the minified and debug files just run `grunt`.
 
 This will run the tests and if everything works as expected it would create a `build` folder on root.
-
-## Videogular 2.0
-
-Videogular 2.0 is under active development and will be available with Angular 2. Videogular 2.0 will take follow the same philosophy and we're open to discuss any possibilities. If you want to contribute you can open a new issue with your suggestions or clone the repository to make pull requests.
-
-You can find a demo here:
-https://www.videogular.com/alpha
-
-And this is the development repository:
-https://github.com/videogular/videogular2
-
-Demo repository:
-https://github.com/videogular/videogular2-demo
 
 ## Third-party plugins
 
