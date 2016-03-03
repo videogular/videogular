@@ -100,7 +100,7 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "com.2fdevs.videogular.plugins.analytics",
       "shortDescription": "Adds analytics support for your videos.",
-      "keywords": "add adds analytic analytics angulartics api app autoplay awesome category choice complete completed config directive events github google http info injects io label main module object pause paused play played player plugin plugins preferred progress provider ready requires stopped structure support theme time tracking triggered true url vg-autoplay vg-theme vg-track-info vgtrackinfo video videogular videos"
+      "keywords": "add adds analytic analytics angulartics api app attach autoplay awesome category choice complete completed config directive event events github google http info injects io label main module object pause paused percent play played player plugin plugins preferred progress provider ready requires stopped structure support theme time tracking triggered true url vg-autoplay vg-theme vg-track-info vgtrackinfo video videogular videos"
     },
     {
       "section": "api",
@@ -118,7 +118,7 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "com.2fdevs.videogular.plugins.controls",
       "shortDescription": "Directive to display a playback buttom to control the playback rate.",
-      "keywords": "api autohide autohidetime buttom config control controls directive display playback plugins rate sources theme url vg-autohide vg-autohide-time vg-src vg-theme videogular"
+      "keywords": "api array autohide autohidetime bindable buttom config control controls default directive display list options playback playbackspeeds plugins rate sources speed strings theme url vg-autohide vg-autohide-time vg-speeds vg-src vg-theme vgspeeds videogular"
     },
     {
       "section": "api",

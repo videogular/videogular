@@ -1,4 +1,4 @@
-<a href="https://github.com/2fdevs/videogular/edit/master/app/scripts/com/2fdevs/videogular/plugins/vg-analytics/vg-analytics.js" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><a href="https://github.com/2fdevs/videogular/blob/f0ae493/app/scripts/com/2fdevs/videogular/plugins/vg-analytics/vg-analytics.js#L59" class="view-source"><i class="icon-eye-open"> </i>View source</a><h1><code ng:non-bindable="">vgAnalytics</code>
+<a href="https://github.com/2fdevs/videogular/edit/master/app/scripts/com/2fdevs/videogular/plugins/vg-analytics/vg-analytics.js" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><a href="https://github.com/2fdevs/videogular/blob/6f55d80/app/scripts/com/2fdevs/videogular/plugins/vg-analytics/vg-analytics.js#L59" class="view-source"><i class="icon-eye-open"> </i>View source</a><h1><code ng:non-bindable="">vgAnalytics</code>
 <div><span class="hint">directive in module <code ng:non-bindable="">com.2fdevs.videogular.plugins.analytics</code>
 </span>
 </div>
@@ -20,12 +20,12 @@ This plugin requires the awesome angulartics module:
    "category": "Videogular",
    "label": "Main",
    "events": {
-     "ready": true,     // Triggered when player is ready
-     "play": true,      // Triggered each time player has been played
-     "pause": true,     // Triggered each time player has been paused
-     "stop": true,      // Triggered each time player has been stopped
-     "complete": true,  // Triggered each time player has been completed
-     "progress": 10     // Triggered each 10% of the progress video
+     "ready": true,                  // Triggered when player is ready
+     "play": true|'time'|'percent',  // Triggered each time player has been played. 'time' and 'percent' will attach the progress to the event value
+     "pause": true|'time'|'percent', // Triggered each time player has been paused. 'time' and 'percent' will attach the progress to the event value
+     "stop": true|'time'|'percent',  // Triggered each time player has been stopped. 'time' and 'percent' will attach the progress to the event value
+     "complete": true,               // Triggered each time player has been completed
+     "progress": 10                  // Triggered each 10% of the progress video
    }
  }
 </pre>
@@ -41,9 +41,9 @@ This plugin requires the awesome angulartics module:
    "label": "Main",
    "events": {
      "ready": true,
-     "play": true,
-     "pause": true,
-     "stop": true,
+     "play": true|'time'|'percent',
+     "pause": true|'time'|'percent',
+     "stop": true|'time'|'percent',
      "complete": true,
      "progress": 10
    }
