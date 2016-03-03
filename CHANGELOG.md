@@ -1,6 +1,18 @@
 CHANGELOG
 ================
 
+## v1.4.2
+* Added ability to track progress of video during play, pause, and stop events. https://github.com/videogular/bower-videogular-analytics/pull/6
+* Added a mediaElement[0] mock to avoid calls to mediaElement[0].play() when player is not initialized. https://github.com/videogular/videogular/pull/326
+* Defensive check for mediaElement in clearMedia method. https://github.com/videogular/videogular/pull/323
+* Allow for custom playback speeds. https://github.com/videogular/videogular/pull/319
+* Fixed docs, volume and playback expects a float instead of an integer.
+* Updated Readme. Point to the maintained version of Cuepoints.
+
+## v1.4.1
+* Normalized value for seek by percent so it can't fall out of valid range.
+* Added fix for when virtual clip start time is set to 0.
+
 ## v1.4.0
 * Added new directive vg-scrub-bar-thumbnails to display thumbnails in scrub bar.
 * Added new property vg-start-time to autoseek to a certain second.
