@@ -23,18 +23,20 @@
 angular.module("com.2fdevs.videogular.plugins.dash", [])
     .directive(
     "vgDash",
-    [function () {
+    ["$window", function ($window) {
         return {
             restrict: "A",
             require: "^videogular",
             link: function (scope, elem, attr, API) {
-                var context;
                 var player;
-                var dashCapabilitiesUtil = new MediaPlayer.utils.Capabilities();
                 var dashTypeRegEx = /^application\/dash\+xml/i;
 
+                function supportsMediaSource() {
+                    return "MediaSource" in $window;
+                }
+
                 //Proceed augmenting behavior only if the browser is capable of playing DASH (supports MediaSource Extensions)
-                if (dashCapabilitiesUtil.supportsMediaSource()) {
+                if (supportsMediaSource()) {
 
                     //Returns true if the source has the standard DASH type defined OR an .mpd extension.
                     scope.isDASH = function isDASH(source) {
@@ -47,17 +49,24 @@ angular.module("com.2fdevs.videogular.plugins.dash", [])
                     scope.onSourceChange = function onSourceChange(source) {
                         var url = source.src;
 
-                        // It's DASH, we use Dash.js
+                        // It's DASH, we use dash.js
                         if (scope.isDASH(source)) {
-                            player = new MediaPlayer(new Dash.di.DashContext());
-                            player.setAutoPlay(API.autoPlay);
-                            player.startup();
-                            player.attachView(API.mediaElement[0]);
-                            player.attachSource(url);
+                            if (angular.isFunction(dashjs && dashjs.MediaPlayer)) {
+                                // dash.js version 2.x
+                                player = dashjs.MediaPlayer().create();
+                                player.initialize(API.mediaElement[0], url, API.autoPlay);
+                            } else {
+                                // dash.js version < 2.x
+                                player = new MediaPlayer(new Dash.di.DashContext());
+                                player.setAutoPlay(API.autoPlay);
+                                player.startup();
+                                player.attachView(API.mediaElement[0]);
+                                player.attachSource(url);
+                            }
                         }
                         else if (player) {
-                            //not DASH, but the Dash.js player is still wired up
-                            //Dettach Dash.js from the mediaElement
+                            //not DASH, but the dash.js player is still wired up
+                            //Dettach dash.js from the mediaElement
                             player.reset();
                             player = null;
 
