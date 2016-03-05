@@ -19,6 +19,7 @@
  * - updateTheme(css-url): Removes previous CSS theme and sets a new one.
  * - clearMedia(): Cleans the current media file.
  * - changeSource(array): Updates current media source. Param `array` must be an array of media source objects.
+ * - changeActiveSource(sourceObj): Updates the value tracked for the member of sources that is being used for playback.
  * A media source is an object with two properties `src` and `type`. The `src` property must contains a trustful url resource.
  * <pre>{src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.mp4"), type: "video/mp4"}</pre>
  *
@@ -33,6 +34,7 @@
  * - mediaElement: Reference to video/audio object.
  * - videogularElement: Reference to videogular tag.
  * - sources: Array with current sources.
+ * - activeSource: Object memeber of the sources array that is presently the active playback.
  * - tracks: Array with current tracks.
  * - cuePoints: Object containing a list of timelines with cue points. Each property in the object represents a timeline, which is an Array of objects with the next definition:
  * <pre>{
@@ -75,6 +77,7 @@ angular.module("com.2fdevs.videogular")
         var isMetaDataLoaded = false;
         var hasStartTimePlayed = false;
         var isVirtualClip = false;
+        var playbackPluginsLoaders = [];
 
         // PUBLIC $API
         this.videogularElement = null;
@@ -105,7 +108,7 @@ angular.module("com.2fdevs.videogular")
 
         this.onCanPlay = function (evt) {
             this.isBuffering = false;
-            $scope.$apply($scope.vgCanPlay({$event: evt}));
+            $scope.$applyAsync($scope.vgCanPlay({$event: evt}));
 
             if (!hasStartTimePlayed && (this.startTime > 0 || this.startTime === 0)) {
                 this.seekTime(this.startTime);
@@ -167,7 +170,7 @@ angular.module("com.2fdevs.videogular")
         this.onProgress = function (event) {
             this.updateBuffer(event);
 
-            $scope.$apply();
+            $scope.$applyAsync();
         };
 
         this.updateBuffer = function getBuffer(event) {
@@ -182,6 +185,7 @@ angular.module("com.2fdevs.videogular")
 
         this.onUpdateTime = function (event) {
             var targetTime = 1000 * event.target.currentTime;
+            var isLiveSourceOverride = !!this.activeSource.isLive;
 
             this.updateBuffer(event);
 
@@ -203,7 +207,7 @@ angular.module("com.2fdevs.videogular")
                     this.timeLeft = 1000 * (event.target.duration - event.target.currentTime);
                 }
 
-                this.isLive = false;
+                this.isLive = isLiveSourceOverride;
             }
             else {
                 // It's a live streaming without and end
@@ -221,9 +225,7 @@ angular.module("com.2fdevs.videogular")
             $scope.vgUpdateTime({$currentTime: targetSeconds, $duration: targetDuration});
 
             // Safe apply just in case we're calling from a non-event
-            if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
-                $scope.$apply();
-            }
+             $scope.$applyAsync();
         };
 
         this.checkCuePoints = function checkCuePoints(currentTime) {
@@ -280,7 +282,7 @@ angular.module("com.2fdevs.videogular")
 
         this.onPlay = function () {
             this.setState(VG_STATES.PLAY);
-            $scope.$apply();
+            $scope.$applyAsync();
         };
 
         this.onPause = function () {
@@ -293,17 +295,17 @@ angular.module("com.2fdevs.videogular")
                 this.setState(VG_STATES.PAUSE);
             }
 
-            $scope.$apply();
+            $scope.$applyAsync();
         };
 
         this.onVolumeChange = function () {
             this.volume = this.mediaElement[0].volume;
-            $scope.$apply();
+            $scope.$applyAsync();
         };
 
         this.onPlaybackChange = function () {
             this.playback = this.mediaElement[0].playbackRate;
-            $scope.$apply();
+            $scope.$applyAsync();
         };
 
         this.onSeeking = function (event) {
@@ -442,6 +444,11 @@ angular.module("com.2fdevs.videogular")
             $scope.vgChangeSource({$source: newValue});
         };
 
+        this.changeActiveSource = function(activeSource) {
+            this.activeSource = activeSource;
+            this.isLive = !!activeSource.isLive;
+        };
+
         this.setVolume = function (newVolume) {
             newVolume = Math.max(Math.min(newVolume, 1), 0);
             $scope.vgUpdateVolume({$volume: newVolume});
@@ -499,12 +506,12 @@ angular.module("com.2fdevs.videogular")
 
         this.onStartBuffering = function (event) {
             this.isBuffering = true;
-            $scope.$apply();
+            $scope.$applyAsync();
         };
 
         this.onStartPlaying = function (event) {
             this.isBuffering = false;
-            $scope.$apply();
+            $scope.$applyAsync();
         };
 
         this.onComplete = function (event) {
@@ -517,7 +524,7 @@ angular.module("com.2fdevs.videogular")
                 this.stop()
             }
 
-            $scope.$apply();
+            $scope.$applyAsync();
         };
 
         this.onVideoError = function (event) {
@@ -642,8 +649,34 @@ angular.module("com.2fdevs.videogular")
 
         this.onFullScreenChange = function (event) {
             this.isFullScreen = vgFullscreen.isFullScreen();
-            $scope.$apply();
+            $scope.$applyAsync();
         };
+
+        this.registerPlaybackPlugin = function(pluginLoader) {//pluginLoader is a function which should accept src, type
+            if (angular.isFunction(pluginLoader)) {
+                playbackPluginsLoaders.push(pluginLoader);
+            } else {
+                throw new TypeError('Expecting a Function which should accept src, type.');
+            }
+        };
+
+        this.attemptPlaybackThroughPlugin = function(src, type) {
+            for (var pluginIndex = 0, numPlugins = playbackPluginsLoaders.length; pluginIndex < numPlugins; ++pluginIndex) {
+                var loaderResult = playbackPluginsLoaders[pluginIndex](src, type);
+
+                if (loaderResult) {
+                    return loaderResult;
+                }
+            }
+
+            return false;
+        };
+
+        Object.defineProperty(this, 'numPlaybackPlugins', {
+            get: function() {
+                return playbackPluginsLoaders.length;
+            }
+        });
 
         // Empty mediaElement on destroy to avoid that Chrome downloads video even when it's not present
         $scope.$on('$destroy', this.clearMedia.bind(this));

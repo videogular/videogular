@@ -20,64 +20,61 @@
  *
  */
 "use strict";
-angular.module("com.2fdevs.videogular.plugins.dash", [])
+angular.module("com.2fdevs.videogular.plugins.dash", ["com.2fdevs.videogular"])
+
+    .constant("VG_DASH_IS_SUPPORTED", (function(){
+        var dashCapabilitiesUtil = new MediaPlayer.utils.Capabilities();
+
+        return dashCapabilitiesUtil.supportsMediaSource();
+    })())
+
     .directive(
     "vgDash",
-    [function () {
+    ["VG_DASH_IS_SUPPORTED", function (VG_DASH_IS_SUPPORTED) {
         return {
             restrict: "A",
             require: "^videogular",
             link: function (scope, elem, attr, API) {
                 var context;
                 var player;
-                var dashCapabilitiesUtil = new MediaPlayer.utils.Capabilities();
-                var dashTypeRegEx = /^application\/dash\+xml/i;
 
                 //Proceed augmenting behavior only if the browser is capable of playing DASH (supports MediaSource Extensions)
-                if (dashCapabilitiesUtil.supportsMediaSource()) {
+                if (VG_DASH_IS_SUPPORTED) {
+                    scope.isDASH = function(src, type){
+                        var dashTypeRegEx = /^application\/dash\+xml/i;
+                        var hasDashType = dashTypeRegEx.test(type);
+                        var hasDashExtension = src.indexOf && (src.indexOf(".mpd") > 0);
 
-                    //Returns true if the source has the standard DASH type defined OR an .mpd extension.
-                    scope.isDASH = function isDASH(source) {
-                        var hasDashType = dashTypeRegEx.test(source.type);
-                        var hasDashExtension = source.src.indexOf && (source.src.indexOf(".mpd") > 0);
-
-                        return hasDashType || hasDashExtension;
+                        return hasDashType || hasDashExtension; //Returns true if the source has the standard DASH type defined OR an .mpd extension.
                     };
 
-                    scope.onSourceChange = function onSourceChange(source) {
-                        var url = source.src;
-
-                        // It's DASH, we use Dash.js
-                        if (scope.isDASH(source)) {
+                    scope.loadDashPlayer = function(src, type){
+                         if (src && scope.isDASH(src, type)) {
                             player = new MediaPlayer(new Dash.di.DashContext());
                             player.setAutoPlay(API.autoPlay);
                             player.startup();
                             player.attachView(API.mediaElement[0]);
-                            player.attachSource(url);
+                            player.attachSource(src);
+                            return scope.unloadDashPlayer;
                         }
-                        else if (player) {
-                            //not DASH, but the Dash.js player is still wired up
-                            //Dettach Dash.js from the mediaElement
-                            player.reset();
-                            player = null;
 
-                            //player.reset() wipes out the new url already applied, so have to reapply
-                            API.mediaElement.attr('src', url);
-                            API.stop();
+                        return false;
+                    };
+
+                    scope.unloadDashPlayer = function() {
+                        if (player) {
+                            //Dettach Dash.js from the mediaElement
+                            try {
+                                API.stop();
+                                player.reset();
+                            } catch(ex){} //chomp
+                            player = null;
                         }
                     };
 
-                    scope.$watch(
-                        function () {
-                            return API.sources;
-                        },
-                        function (newVal, oldVal) {
-                            scope.onSourceChange(newVal[0]);
-                        }
-                    );
+                    API.registerPlaybackPlugin(scope.loadDashPlayer);
                 }
             }
         }
     }
     ]);
-
