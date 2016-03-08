@@ -25,8 +25,7 @@
        vg-update-state="{function}"
        vg-player-ready="{function}"
        vg-change-source="{function}"
-       vg-plays-inline="{function}"
-       vg-native-fullscreen="{function}"
+       vg-native-fullscreen="{boolean}"
        vg-seeking="{function}"
        vg-seeked="{function}"
        vg-error="{function}"&gt;
@@ -121,8 +120,7 @@
 </div></td></tr><tr><td>vgUpdateState</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Function name in controller&#39;s scope to call when video state changes. Receives a param with the new state. Possible values are &quot;play&quot;, &quot;stop&quot; or &quot;pause&quot;.</p>
 </div></td></tr><tr><td>vgPlayerReady</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Function name in controller&#39;s scope to call when video have been initialized. Receives a param with the videogular API.</p>
 </div></td></tr><tr><td>vgChangeSource</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Function name in controller&#39;s scope to change current video source. Receives a param with the new video.</p>
-</div></td></tr><tr><td>vgPlaysInline</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Boolean to play video inline. Generally used in mobile devices.</p>
-</div></td></tr><tr><td>vgNativeFullscreen</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Boolean to disable native fullscreen.</p>
+</div></td></tr><tr><td>vgNativeFullscreen</td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Boolean to disable native fullscreen.</p>
 </div></td></tr><tr><td>vgSeeking</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Function name in controller&#39;s scope to call when the video has finished jumping to a new time. Receives a param with the seeked time and duration in seconds.</p>
 </div></td></tr><tr><td>vgSeeked</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Function name in controller&#39;s scope to call when the video is jumping to a new time. Receives two params with the seeked time and duration in seconds.</p>
 </div></td></tr><tr><td>vgError</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="com-2fdevs-videogular-directive-page com-2fdevs-videogular-directive-videogular-page"><p>Function name in controller&#39;s scope to receive an error from video object. Receives a param with the error event.
