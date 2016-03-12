@@ -66,9 +66,9 @@ angular.module("com.2fdevs.videogular")
          */
         this.supportsLocalStorage = function () {
             var testKey = 'videogular-test-key';
-            var storage = $window.sessionStorage;
 
             try {
+                var storage = $window.sessionStorage;
                 storage.setItem(testKey, '1');
                 storage.removeItem(testKey);
                 return 'localStorage' in $window && $window['localStorage'] !== null;
