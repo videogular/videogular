@@ -46,7 +46,7 @@ angular.module('myApp').controller('CuePointsCtrl',
         };
 
         // Animations
-        this.onEnterAnimationsCuePoint = function onLeaveAnimationsCuePoint(currentTime, timeLapse, params) {
+        this.onEnterAnimationsCuePoint = function onEnterAnimationsCuePoint(currentTime, timeLapse, params) {
             console.log("entering in animation!");
             params.prop[params.value] = "0" + params.units;
         };
