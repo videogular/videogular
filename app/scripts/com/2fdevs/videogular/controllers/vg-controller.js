@@ -185,7 +185,7 @@ angular.module("com.2fdevs.videogular")
 
             this.updateBuffer(event);
 
-            if (event.target.duration != Infinity) {
+            if (event.target.duration != Infinity && event.target.duration != null && event.target.duration != undefined && event.target.duration != 1.7976931348623157e+308) {
                 // Fake the duration and current time for virtual clips
                 if (isVirtualClip) {
                     if (hasStartTimePlayed && (event.target.currentTime < this.startTime || event.target.currentTime - this.startTime > this.virtualClipDuration)) {

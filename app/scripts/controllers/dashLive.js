@@ -32,7 +32,7 @@ angular.module('myApp').controller('DashLiveCtrl',
         this.videos = [
             {
                 sources: [
-                    {src: "http://tvnlive.dashdemo.edgesuite.net/live/manifest.mpd"}
+                    {src: "http://vm2.dashif.org/livesim/testpic_2s/Manifest.mpd"}
                 ]
                 // Tracks are inside .mpd file and added by Dash.js
             },
