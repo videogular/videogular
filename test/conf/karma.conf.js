@@ -12,12 +12,12 @@ module.exports = function (config) {
     // list of files / patterns to load in the browser
     files: [
       'test/libs/jquery/2.1.0/jquery-2.1.0.min.js',
+      'test/libs/dash/2.0.0/dash.all.min.js',
       'app/bower_components/angular/angular.js',
       'app/bower_components/angular-sanitize/angular-sanitize.js',
       'app/bower_components/angular-mocks/angular-mocks.js',
       'app/bower_components/angulartics/src/angulartics.js',
       'app/bower_components/angulartics/src/angulartics-ga.js',
-      'app/scripts/dash/dash.all.js',
 
       'app/scripts/com/2fdevs/videogular/vg-module.js',
       'app/scripts/com/2fdevs/videogular/**/*.js',

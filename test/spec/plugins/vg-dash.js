@@ -39,35 +39,23 @@ describe('Directive: DASH', function () {
 
     describe("DASH plugin - ", function () {
         it("should have been detected a DASH video", function () {
-            var dashCapabilitiesUtil = new MediaPlayer.utils.Capabilities();
-            var supportsDASH = dashCapabilitiesUtil.supportsMediaSource();
             var isDASH = false;
 
-            if (supportsDASH) {
-                var vgMedia = angular.element(element.find('[vg-dash]'));
-                var vgMediaScope = vgMedia.scope();
-                isDASH = vgMediaScope.isDASH($scope.config.sources[0]);
-            }
+            var vgMedia = angular.element(element.find('[vg-dash]'));
+            var vgMediaScope = vgMedia.scope();
+            isDASH = vgMediaScope.isDASH($scope.config.sources[0]);
 
-            expect(isDASH).toBe(supportsDASH);
+            expect(isDASH).toBe(true);
         });
 
         it("should have been changed a video source", function () {
-            var dashCapabilitiesUtil = new MediaPlayer.utils.Capabilities();
-            var supportsDASH = dashCapabilitiesUtil.supportsMediaSource();
-            var isDASH = false;
             var vgMedia = angular.element(element.find('vg-media'));
 
-            if (supportsDASH) {
-                spyOn(vgMedia.scope(), "onSourceChange");
-                $scope.config.sources = [{src: "another_source.mpd", type: "application/dash+xml"}];
-                $scope.$digest();
+            spyOn(vgMedia.scope(), "onSourceChange");
+            $scope.config.sources = [{src: "another_source.mpd", type: "application/dash+xml"}];
+            $scope.$digest();
 
-                expect(vgMedia.scope().onSourceChange).toHaveBeenCalledWith({src: "another_source.mpd", type: "application/dash+xml"});
-            }
-            else {
-                expect(vgMedia.scope().onSourceChange).toBeFalsy();
-            }
+            expect(vgMedia.scope().onSourceChange).toHaveBeenCalledWith({src: "another_source.mpd", type: "application/dash+xml"});
         });
     });
 });
