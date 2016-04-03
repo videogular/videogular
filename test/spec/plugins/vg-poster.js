@@ -53,4 +53,12 @@ describe('Directive: Poster', function () {
       expect(img.attr("src")).toBe("assets/images/videogular.png");
 		});
   });
+
+	describe("Element attributes -", function() {
+		it("should have a role attribute", function() {
+			var img = element.find("img");
+
+      expect(img.attr("role")).toBe("presentation");
+		});
+  });
 });
