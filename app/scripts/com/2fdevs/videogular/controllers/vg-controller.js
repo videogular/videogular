@@ -105,7 +105,7 @@ angular.module("com.2fdevs.videogular")
 
         this.onCanPlay = function (evt) {
             this.isBuffering = false;
-            $scope.$apply($scope.vgCanPlay({$event: evt}));
+            $scope.$digest($scope.vgCanPlay({$event: evt}));
 
             if (!hasStartTimePlayed && (this.startTime > 0 || this.startTime === 0)) {
                 this.seekTime(this.startTime);
@@ -167,7 +167,7 @@ angular.module("com.2fdevs.videogular")
         this.onProgress = function (event) {
             this.updateBuffer(event);
 
-            $scope.$apply();
+            $scope.$digest();
         };
 
         this.updateBuffer = function getBuffer(event) {
@@ -221,8 +221,8 @@ angular.module("com.2fdevs.videogular")
             $scope.vgUpdateTime({$currentTime: targetSeconds, $duration: targetDuration});
 
             // Safe apply just in case we're calling from a non-event
-            if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
-                $scope.$apply();
+            if ($scope.$$phase != '$apply' && $scope.$$phase != '$digest') {
+                $scope.$digest();
             }
         };
 
@@ -280,7 +280,7 @@ angular.module("com.2fdevs.videogular")
 
         this.onPlay = function () {
             this.setState(VG_STATES.PLAY);
-            $scope.$apply();
+            $scope.$digest();
         };
 
         this.onPause = function () {
@@ -293,17 +293,17 @@ angular.module("com.2fdevs.videogular")
                 this.setState(VG_STATES.PAUSE);
             }
 
-            $scope.$apply();
+            $scope.$digest();
         };
 
         this.onVolumeChange = function () {
             this.volume = this.mediaElement[0].volume;
-            $scope.$apply();
+            $scope.$digest();
         };
 
         this.onPlaybackChange = function () {
             this.playback = this.mediaElement[0].playbackRate;
-            $scope.$apply();
+            $scope.$digest();
         };
 
         this.onSeeking = function (event) {
@@ -499,12 +499,12 @@ angular.module("com.2fdevs.videogular")
 
         this.onStartBuffering = function (event) {
             this.isBuffering = true;
-            $scope.$apply();
+            $scope.$digest();
         };
 
         this.onStartPlaying = function (event) {
             this.isBuffering = false;
-            $scope.$apply();
+            $scope.$digest();
         };
 
         this.onComplete = function (event) {
@@ -517,7 +517,7 @@ angular.module("com.2fdevs.videogular")
                 this.stop()
             }
 
-            $scope.$apply();
+            $scope.$digest();
         };
 
         this.onVideoError = function (event) {
@@ -642,7 +642,7 @@ angular.module("com.2fdevs.videogular")
 
         this.onFullScreenChange = function (event) {
             this.isFullScreen = vgFullscreen.isFullScreen();
-            $scope.$apply();
+            $scope.$digest();
         };
 
         // Empty mediaElement on destroy to avoid that Chrome downloads video even when it's not present
