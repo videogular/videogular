@@ -18,7 +18,7 @@
  * - toggleFullScreen(): Toggles between fullscreen and normal mode.
  * - updateTheme(css-url): Removes previous CSS theme and sets a new one.
  * - clearMedia(): Cleans the current media file.
- * - changeSource(array): Updates current media source. Param `array` must be an array of media source objects.
+ * - changeSource(array): Updates current media source. Param `array` must be an array of media source objects or a simple URL string.
  * A media source is an object with two properties `src` and `type`. The `src` property must contains a trustful url resource.
  * <pre>{src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.mp4"), type: "video/mp4"}</pre>
  *
@@ -32,7 +32,7 @@
  * - nativeFullscreen: Boolean value to know if Videogular if fullscreen mode will use native mode or emulated mode.
  * - mediaElement: Reference to video/audio object.
  * - videogularElement: Reference to videogular tag.
- * - sources: Array with current sources.
+ * - sources: Array with current sources or a simple URL string.
  * - tracks: Array with current tracks.
  * - cuePoints: Object containing a list of timelines with cue points. Each property in the object represents a timeline, which is an Array of objects with the next definition:
  * <pre>{

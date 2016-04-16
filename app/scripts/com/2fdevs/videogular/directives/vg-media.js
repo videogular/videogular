@@ -5,7 +5,7 @@
  * @description
  * Directive to add a source of videos or audios. This directive will create a &lt;video&gt; or &lt;audio&gt; tag and usually will be above plugin tags.
  *
- * @param {array} vgSrc Bindable array with a list of media sources. A media source is an object with two properties `src` and `type`. The `src` property must contains a trustful url resource.
+ * @param {array} vgSrc Bindable array with a list of media sources or a simple url string. A media source is an object with two properties `src` and `type`. The `src` property must contains a trustful url resource.
  * @param {string} vgType String with "video" or "audio" values to set a <video> or <audio> tag inside <vg-media>.
  * <pre>
  * {
@@ -56,31 +56,37 @@ angular.module("com.2fdevs.videogular")
                 };
 
                 scope.changeSource = function changeSource() {
-                    var canPlay = "";
 
-                    // It's a cool browser
-                    if (API.mediaElement[0].canPlayType) {
-                        for (var i = 0, l = sources.length; i < l; i++) {
-                            canPlay = API.mediaElement[0].canPlayType(sources[i].type);
+                    if (angular.isArray(sources)) {
+                        var canPlay = "";
 
-                            if (canPlay == "maybe" || canPlay == "probably") {
-                                API.mediaElement.attr("src", sources[i].src);
-                                API.mediaElement.attr("type", sources[i].type);
-                                //Trigger vgChangeSource($source) API callback in vgController
-                                API.changeSource(sources[i]);
-                                break;
+                        // It's a cool browser
+                        if (API.mediaElement[0].canPlayType) {
+                            for (var i = 0, l = sources.length; i < l; i++) {
+                                canPlay = API.mediaElement[0].canPlayType(sources[i].type);
+
+                                if (canPlay == "maybe" || canPlay == "probably") {
+                                    API.mediaElement.attr("src", sources[i].src);
+                                    API.mediaElement.attr("type", sources[i].type);
+                                    //Trigger vgChangeSource($source) API callback in vgController
+                                    API.changeSource(sources[i]);
+                                    break;
+                                }
                             }
                         }
-                    }
-                    // It's a crappy browser and it doesn't deserve any respect
-                    else {
-                        // Get H264 or the first one
-                        API.mediaElement.attr("src", sources[0].src);
-                        API.mediaElement.attr("type", sources[0].type);
+                        // It's a crappy browser and it doesn't deserve any respect
+                        else {
+                            // Get H264 or the first one
+                            API.mediaElement.attr("src", sources[0].src);
+                            API.mediaElement.attr("type", sources[0].type);
+                            //Trigger vgChangeSource($source) API callback in vgController
+                            API.changeSource(sources[0]);
+                        }
+                    } else {
+                        API.mediaElement.attr("src", sources);
                         //Trigger vgChangeSource($source) API callback in vgController
-                        API.changeSource(sources[0]);
+                        API.changeSource(sources);
                     }
-
                     // Android 2.3 support: https://github.com/2fdevs/videogular/issues/187
                     if (VG_UTILS.isMobileDevice()) API.mediaElement[0].load();
 
