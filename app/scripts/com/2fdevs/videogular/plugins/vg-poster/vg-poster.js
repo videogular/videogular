@@ -27,7 +27,7 @@ angular.module("com.2fdevs.videogular.plugins.poster", [])
     .run(
     ["$templateCache", function ($templateCache) {
         $templateCache.put("vg-templates/vg-poster",
-            '<img ng-src="{{vgUrl}}" ng-class="API.currentState" role="presentation" alt="video poster">');
+            '<img ng-src="{{vgUrl}}" ng-class="API.currentState" role="presentation" alt="">');
     }]
 )
     .directive("vgPoster",
