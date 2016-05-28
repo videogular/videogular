@@ -108,7 +108,14 @@ angular.module("com.2fdevs.videogular.plugins.controls", [])
                     }
                 }
 
-
+                scope.$watch(
+                    function () {
+                        return API.currentState;
+                    },
+                    function (newVal, oldVal) {
+                        if (scope.vgAutohide) scope.showControls();
+                    }
+                );
             }
         }
     }]
