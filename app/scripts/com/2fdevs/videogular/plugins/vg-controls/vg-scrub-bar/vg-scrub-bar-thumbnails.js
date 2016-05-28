@@ -139,24 +139,26 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                             scope.thumbnails = {
                                 "background-image": 'none'
                             };
+                            
+                            if (scope.vgThumbnails) {
+                                for (var i=0, l=scope.vgThumbnails.length; i<l; i++) {
+                                    var th = scope.vgThumbnails[i];
 
-                            for (var i=0, l=scope.vgThumbnails.length; i<l; i++) {
-                                var th = scope.vgThumbnails[i];
-
-                                if (th.timeLapse.end >= 0) {
-                                    if (lapse.start >= th.timeLapse.start && (lapse.end <= th.timeLapse.end || lapse.end <= th.timeLapse.start)) {
-                                        scope.thumbnails = {
-                                            "background-image": 'url("' + th.params.thumbnail + '")'
-                                        };
-                                        break;
+                                    if (th.timeLapse.end >= 0) {
+                                        if (lapse.start >= th.timeLapse.start && (lapse.end <= th.timeLapse.end || lapse.end <= th.timeLapse.start)) {
+                                            scope.thumbnails = {
+                                                "background-image": 'url("' + th.params.thumbnail + '")'
+                                            };
+                                            break;
+                                        }
                                     }
-                                }
-                                else {
-                                    if (th.timeLapse.start >= lapse.start && th.timeLapse.start <= lapse.end) {
-                                        scope.thumbnails = {
-                                            "background-image": 'url("' + th.params.thumbnail + '")'
-                                        };
-                                        break;
+                                    else {
+                                        if (th.timeLapse.start >= lapse.start && th.timeLapse.start <= lapse.end) {
+                                            scope.thumbnails = {
+                                                "background-image": 'url("' + th.params.thumbnail + '")'
+                                            };
+                                            break;
+                                        }
                                     }
                                 }
                             }

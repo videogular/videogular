@@ -87,7 +87,7 @@ angular.module('myApp').controller('CuePointsCtrl',
                         onUpdate: this.onConsoleCuePoint.bind(this),
                         onComplete: this.onConsoleCuePoint.bind(this),
                         params: {
-                            message: "hello dude!"
+                            message: "you can change cue points on the fly!"
                         }
                     },
                     {
@@ -99,7 +99,7 @@ angular.module('myApp').controller('CuePointsCtrl',
                         onUpdate: this.onConsoleCuePoint.bind(this),
                         onComplete: this.onConsoleCuePoint.bind(this),
                         params: {
-                            message: "cue points are awesome"
+                            message: "because cue points are awesome!"
                         }
                     },
                     {
@@ -111,7 +111,7 @@ angular.module('myApp').controller('CuePointsCtrl',
                         onUpdate: this.onConsoleCuePoint.bind(this),
                         onComplete: this.onConsoleCuePoint.bind(this),
                         params: {
-                            message: "(ノ・◡・)ノ"
+                            message: "yay!! ^_^"
                         }
                     }
                 ]
