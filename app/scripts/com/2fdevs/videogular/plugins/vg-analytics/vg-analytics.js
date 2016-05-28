@@ -209,7 +209,7 @@ angular.module("com.2fdevs.videogular.plugins.analytics", ["angulartics"])
 
                                     if (totalMiliseconds > 0) {
                                         var totalTracks = scope.vgTrackInfo.events.progress - 1;
-                                        var progressJump = Math.floor(totalMiliseconds / scope.vgTrackInfo.events.progress);
+                                        var progressJump = Math.floor(totalMiliseconds * scope.vgTrackInfo.events.progress / 100);
 
                                         for (var i = 0; i < totalTracks; i++) {
                                             progressTracks.push({
