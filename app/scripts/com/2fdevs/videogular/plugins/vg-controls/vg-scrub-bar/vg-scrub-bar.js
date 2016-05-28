@@ -92,7 +92,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                         API.pause();
                         API.seekTime(touchX * API.mediaElement[0].duration / slider.scrollWidth);
 
-                        scope.$apply();
+                        scope.$digest();
                     };
 
                     scope.onScrubBarTouchEnd = function onScrubBarTouchEnd($event) {
@@ -103,7 +103,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                         }
                         isSeeking = false;
 
-                        scope.$apply();
+                        scope.$digest();
                     };
 
                     scope.onScrubBarTouchMove = function onScrubBarTouchMove($event) {
@@ -122,14 +122,14 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                             API.seekTime(touchX * API.mediaElement[0].duration / slider.scrollWidth);
                         }
 
-                        scope.$apply();
+                        scope.$digest();
                     };
 
                     scope.onScrubBarTouchLeave = function onScrubBarTouchLeave(event) {
                         isSeeking = false;
                         scope.thumbnails = false;
 
-                        scope.$apply();
+                        scope.$digest();
                     };
 
                     scope.onScrubBarMouseDown = function onScrubBarMouseDown(event) {
@@ -141,7 +141,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
 
                         API.seekTime(event.offsetX * API.mediaElement[0].duration / slider.scrollWidth);
 
-                        scope.$apply();
+                        scope.$digest();
                     };
 
                     scope.onScrubBarMouseUp = function onScrubBarMouseUp(event) {
@@ -154,7 +154,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                         isSeeking = false;
                         //API.seekTime(event.offsetX * API.mediaElement[0].duration / slider.scrollWidth);
 
-                        scope.$apply();
+                        scope.$digest();
                     };
 
                     scope.onScrubBarMouseMove = function onScrubBarMouseMove(event) {
@@ -170,14 +170,14 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                             API.seekTime(event.offsetX * API.mediaElement[0].duration / slider.scrollWidth);
                         }
 
-                        scope.$apply();
+                        scope.$digest();
                     };
 
                     scope.onScrubBarMouseLeave = function onScrubBarMouseLeave(event) {
                         isSeeking = false;
                         scope.thumbnails = false;
 
-                        scope.$apply();
+                        scope.$digest();
                     };
 
                     scope.onScrubBarKeyDown = function onScrubBarKeyDown(event) {

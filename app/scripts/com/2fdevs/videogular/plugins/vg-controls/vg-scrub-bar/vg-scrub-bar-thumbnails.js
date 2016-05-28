@@ -168,7 +168,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
 
                         scope.updateThumbnails(second);
 
-                        scope.$apply();
+                        scope.$digest();
                     };
 
                     scope.onTouchMove = function($event) {
@@ -178,19 +178,19 @@ angular.module("com.2fdevs.videogular.plugins.controls")
 
                         scope.updateThumbnails(second);
 
-                        scope.$apply();
+                        scope.$digest();
                     };
 
                     scope.onMouseLeave = function(event) {
                         scope.thumbnails = false;
 
-                        scope.$apply();
+                        scope.$digest();
                     };
 
                     scope.onTouchLeave = function(event) {
                         scope.thumbnails = false;
 
-                        scope.$apply();
+                        scope.$digest();
                     };
 
                     scope.onDestroy = function() {
