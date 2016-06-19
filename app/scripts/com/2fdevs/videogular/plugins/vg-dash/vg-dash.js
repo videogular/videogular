@@ -54,6 +54,9 @@ angular.module("com.2fdevs.videogular.plugins.dash", [])
                             if (angular.isFunction(dashjs && dashjs.MediaPlayer)) {
                                 // dash.js version 2.x
                                 player = dashjs.MediaPlayer().create();
+                                if (API.vgDashLogDisable) {
+                                    player.getDebug().setLogToBrowserConsole(false);
+                                }
                                 player.initialize(API.mediaElement[0], url, API.autoPlay);
                             } else {
                                 // dash.js version < 2.x
