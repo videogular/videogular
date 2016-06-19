@@ -78,6 +78,7 @@ angular.module("com.2fdevs.videogular")
 
         // PUBLIC $API
         this.videogularElement = null;
+        this.vgDashLogDisable = $scope.vgDashLogDisable;
 
         this.clearMedia = function () {
             this.mediaElement[0].src = '';

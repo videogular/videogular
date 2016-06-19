@@ -122,6 +122,7 @@ angular.module("com.2fdevs.videogular")
             scope: {
                 vgTheme: "=?",
                 vgAutoPlay: "=?",
+                vgDashLogDisable: "=?",
                 vgStartTime: "=?",
                 vgVirtualClipDuration: "=?",
                 vgPlaysInline: "=?",
