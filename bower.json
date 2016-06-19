@@ -1,6 +1,6 @@
 {
   "name": "videogular",
-  "version": "0.1.0",
+  "version": "1.4.5",
   "dependencies": {
     "angular": "~1.4.0",
     "angular-route": "~1.4.0",
