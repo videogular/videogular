@@ -121,8 +121,13 @@ angular.module("com.2fdevs.videogular")
                         return API.playsInline;
                     },
                     function (newValue, oldValue) {
-                        if (newValue) API.mediaElement.attr("webkit-playsinline", "");
-                        else API.mediaElement.removeAttr("webkit-playsinline");
+                        if (newValue) {
+			    API.mediaElement.attr("webkit-playsinline", "");
+			    API.mediaElement.attr("playsinline", "");
+		        } else {
+			    API.mediaElement.removeAttr("webkit-playsinline");
+			    API.mediaElement.removeAttr("playsinline");
+			}
                     }
                 );
 
