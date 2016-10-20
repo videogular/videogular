@@ -249,6 +249,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-ngdocs');
 
     grunt.registerTask('default', ['karma:test', 'clean:build', 'cssmin:css', 'concat', 'uglify:js', 'copy:main', 'copy:release']);
+    grunt.registerTask('buildOnly', ['clean:build', 'cssmin:css', 'concat', 'uglify:js', 'copy:main', 'copy:release']);
     grunt.registerTask('docs', ['clean:docs', 'ngdocs']);
     grunt.registerTask('test', ['karma:test']);
     grunt.registerTask('major-release', ['default', 'hub:major']);
