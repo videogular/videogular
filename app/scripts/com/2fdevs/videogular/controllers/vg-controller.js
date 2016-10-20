@@ -104,6 +104,9 @@ angular.module("com.2fdevs.videogular")
         };
 
         this.onCanPlay = function (evt) {
+            $scope.$emit('vgCanPlay', {
+                vgName: $scope.vgName
+            });
             this.isBuffering = false;
             $scope.$parent.$digest($scope.vgCanPlay({$event: evt}));
 
@@ -114,6 +117,9 @@ angular.module("com.2fdevs.videogular")
         };
 
         this.onVideoReady = function () {
+            $scope.$emit('vgVideoReady', {
+                vgName: $scope.vgName
+            });
             this.isReady = true;
             this.autoPlay = $scope.vgAutoPlay;
             this.playsInline = $scope.vgPlaysInline;
@@ -160,6 +166,9 @@ angular.module("com.2fdevs.videogular")
         };
 
         this.onLoadMetaData = function (evt) {
+            $scope.$emit('vgLoadedMetadata', {
+                vgName: $scope.vgName
+            });
             this.isBuffering = false;
             this.onUpdateTime(evt);
         };
@@ -279,11 +288,17 @@ angular.module("com.2fdevs.videogular")
         };
 
         this.onPlay = function () {
+            $scope.$emit('vgPlay', {
+                vgName: $scope.vgName
+            });
             this.setState(VG_STATES.PLAY);
             $scope.$parent.$digest();
         };
 
         this.onPause = function () {
+            $scope.$emit('vgPause', {
+                vgName: $scope.vgName
+            });
             var currentTime = isVirtualClip ? this.currentTime : this.mediaElement[0].currentTime;
 
             if (currentTime == 0) {
@@ -298,6 +313,10 @@ angular.module("com.2fdevs.videogular")
 
         this.onVolumeChange = function () {
             this.volume = this.mediaElement[0].volume;
+            $scope.$emit('vgVolumeChange', {
+                vgName: $scope.vgName,
+                volume: this.volume
+            });
             $scope.$parent.$digest();
         };
 
@@ -498,16 +517,25 @@ angular.module("com.2fdevs.videogular")
         };
 
         this.onStartBuffering = function (event) {
+            $scope.$emit('vgStartBuffering', {
+                vgName: $scope.vgName
+            });
             this.isBuffering = true;
             $scope.$parent.$digest();
         };
 
         this.onStartPlaying = function (event) {
+            $scope.$emit('vgStartPlaying', {
+                vgName: $scope.vgName
+            });
             this.isBuffering = false;
             $scope.$parent.$digest();
         };
 
         this.onComplete = function (event) {
+            $scope.$emit('vgComplete', {
+                vgName: $scope.vgName
+            });
             $scope.vgComplete();
 
             this.setState(VG_STATES.STOP);
@@ -521,6 +549,10 @@ angular.module("com.2fdevs.videogular")
         };
 
         this.onVideoError = function (event) {
+            $scope.$emit('vgError', {
+                vgName: $scope.vgName,
+                $event: event
+            });
             $scope.vgError({$event: event});
         };
 
