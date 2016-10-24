@@ -238,26 +238,20 @@ angular.module("com.2fdevs.videogular")
 
                     if (currentTime < cp.timeLapse.end) cp.$$isCompleted = false;
 
-                    // Fire the onEnter event once reach to the cue point
-                    if(!cp.$$isDirty && currentSecond === start && (typeof cp.onEnter == 'function')) {
-                        cp.onEnter(currentTime, cp.timeLapse, cp.params);
-                        cp.$$isDirty = true;
-                    }
-
-                    // Check if we've been reached to the cue point
-                    if (currentTime > cp.timeLapse.start) {
+                    // Check if we've reached the cue point
+                    if (currentSecond === start || currentTime >= cp.timeLapse.start) {
                         // We're in the timelapse
                         if (currentTime < cp.timeLapse.end) {
                             // Trigger onUpdate each time we enter here
                             if (cp.onUpdate) cp.onUpdate(currentTime, cp.timeLapse, cp.params);
 
-                            // Trigger onEnter if we enter on the cue point by manually seeking
-                            if (!cp.$$isDirty && (typeof cp.onEnter === 'function')) {
+                            // Trigger onEnter if we enter on the cue point
+                            if (cp.onEnter && !cp.$$isDirty) {
                                 cp.onEnter(currentTime, cp.timeLapse, cp.params);
                             }
                         }
 
-                        // We've been passed the cue point
+                        // We've passed the cue point
                         if (currentTime >= cp.timeLapse.end) {
                             if (cp.onComplete && !cp.$$isCompleted) {
                                 cp.$$isCompleted = true;
