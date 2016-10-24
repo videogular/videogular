@@ -55,6 +55,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                     var thumbnailsWidth = 0;
                     var thumbWidth = 0;
                     var slider = elem[0].querySelector("div[role=slider]");
+                    var doc = angular.element(document);
 
                     scope.thumbnails = false;
                     scope.thumbnailContainer = {};
@@ -71,7 +72,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                     };
 
                     scope.getOffset = function getOffset(event) {
-                        var el = event.target,
+                        var el = slider,
                         x = 0;
 
                         while (el && !isNaN(el.offsetLeft)) {
@@ -126,20 +127,19 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                     };
 
                     scope.onScrubBarTouchLeave = function onScrubBarTouchLeave(event) {
-                        isSeeking = false;
                         scope.thumbnails = false;
 
                         scope.$digest();
                     };
 
                     scope.onScrubBarMouseDown = function onScrubBarMouseDown(event) {
-                        event = VG_UTILS.fixEventOffset(event);
+                        var mouseX = scope.getOffset(event);
 
                         isSeeking = true;
                         if (isPlaying) isPlayingWhenSeeking = true;
                         API.pause();
 
-                        API.seekTime(event.offsetX * API.mediaElement[0].duration / slider.scrollWidth);
+                        API.seekTime(mouseX * API.mediaElement[0].duration / slider.scrollWidth);
 
                         scope.$digest();
                     };
@@ -158,23 +158,23 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                     };
 
                     scope.onScrubBarMouseMove = function onScrubBarMouseMove(event) {
+                        var mouseX = scope.getOffset(event);
+
                         if (scope.vgThumbnails && scope.vgThumbnails.length) {
-                            var second = Math.round(event.offsetX * API.mediaElement[0].duration / slider.scrollWidth);
+                            var second = Math.round(mouseX * API.mediaElement[0].duration / slider.scrollWidth);
                             var percentage = Math.round(second * 100 / (API.totalTime / 1000));
 
                             scope.updateThumbnails(percentage);
                         }
 
                         if (isSeeking) {
-                            event = VG_UTILS.fixEventOffset(event);
-                            API.seekTime(event.offsetX * API.mediaElement[0].duration / slider.scrollWidth);
+                            API.seekTime(mouseX * API.mediaElement[0].duration / slider.scrollWidth);
                         }
 
                         scope.$digest();
                     };
 
                     scope.onScrubBarMouseLeave = function onScrubBarMouseLeave(event) {
-                        isSeeking = false;
                         scope.thumbnails = false;
 
                         scope.$digest();
@@ -228,12 +228,12 @@ angular.module("com.2fdevs.videogular.plugins.controls")
 
                     scope.onDestroy = function() {
                         elem.unbind("touchstart", scope.onScrubBarTouchStart);
-                        elem.unbind("touchend", scope.onScrubBarTouchEnd);
-                        elem.unbind("touchmove", scope.onScrubBarTouchMove);
+                        doc.unbind("touchend", scope.onScrubBarTouchEnd);
+                        doc.unbind("touchmove", scope.onScrubBarTouchMove);
                         elem.unbind("touchleave", scope.onScrubBarTouchLeave);
                         elem.unbind("mousedown", scope.onScrubBarMouseDown);
-                        elem.unbind("mouseup", scope.onScrubBarMouseUp);
-                        elem.unbind("mousemove", scope.onScrubBarMouseMove);
+                        doc.unbind("mouseup", scope.onScrubBarMouseUp);
+                        doc.unbind("mousemove", scope.onScrubBarMouseMove);
                         elem.unbind("mouseleave", scope.onScrubBarMouseLeave);
                     };
 
@@ -257,14 +257,14 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                     // Touch move is really buggy in Chrome for Android, maybe we could use mouse move that works ok
                     if (VG_UTILS.isMobileDevice()) {
                         elem.bind("touchstart", scope.onScrubBarTouchStart);
-                        elem.bind("touchend", scope.onScrubBarTouchEnd);
-                        elem.bind("touchmove", scope.onScrubBarTouchMove);
+                        doc.bind("touchend", scope.onScrubBarTouchEnd);
+                        doc.bind("touchmove", scope.onScrubBarTouchMove);
                         elem.bind("touchleave", scope.onScrubBarTouchLeave);
                     }
                     else {
                         elem.bind("mousedown", scope.onScrubBarMouseDown);
-                        elem.bind("mouseup", scope.onScrubBarMouseUp);
-                        elem.bind("mousemove", scope.onScrubBarMouseMove);
+                        doc.bind("mouseup", scope.onScrubBarMouseUp);
+                        doc.bind("mousemove", scope.onScrubBarMouseMove);
                         elem.bind("mouseleave", scope.onScrubBarMouseLeave);
                     }
 

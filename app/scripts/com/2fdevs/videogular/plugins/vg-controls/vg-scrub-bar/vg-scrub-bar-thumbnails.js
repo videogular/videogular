@@ -85,7 +85,7 @@ angular.module("com.2fdevs.videogular.plugins.controls")
                     scope.thumbnailContainer = {};
 
                     scope.getOffset = function getOffset(event) {
-                        var el = event.target,
+                        var el = slider,
                             x = 0;
 
                         while (el && !isNaN(el.offsetLeft)) {
