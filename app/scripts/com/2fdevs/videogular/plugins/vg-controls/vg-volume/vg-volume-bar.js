@@ -12,8 +12,8 @@
  *
  *    <vg-controls vg-autohide='config.autohide' vg-autohide-time='config.autohideTime'>
  *        <vg-volume>
- *            <vg-mute-button><vg-mute-button>
- *            <vg-volume-bar><vg-volume-bar>
+ *            <vg-mute-button></vg-mute-button>
+ *            <vg-volume-bar></vg-volume-bar>
  *        </vg-volume>
  *    </vg-controls>
  * </videogular>
