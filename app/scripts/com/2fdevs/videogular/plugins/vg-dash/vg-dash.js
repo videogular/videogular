@@ -47,32 +47,37 @@ angular.module("com.2fdevs.videogular.plugins.dash", [])
                     };
 
                     scope.onSourceChange = function onSourceChange(source) {
-                        var url = source.src;
+                        if (source && source.src) {
+                            var url = source.src;
 
-                        // It's DASH, we use dash.js
-                        if (scope.isDASH(source)) {
-                            if (angular.isFunction(dashjs && dashjs.MediaPlayer)) {
-                                // dash.js version 2.x
-                                player = dashjs.MediaPlayer().create();
-                                player.initialize(API.mediaElement[0], url, API.autoPlay);
-                            } else {
-                                // dash.js version < 2.x
-                                player = new MediaPlayer(new Dash.di.DashContext());
-                                player.setAutoPlay(API.autoPlay);
-                                player.startup();
-                                player.attachView(API.mediaElement[0]);
-                                player.attachSource(url);
+                            // It's DASH, we use dash.js
+                            if (scope.isDASH(source)) {
+                                if (angular.isFunction(dashjs && dashjs.MediaPlayer)) {
+                                    // dash.js version 2.x
+                                    player = dashjs.MediaPlayer().create();
+                                    player.initialize(API.mediaElement[0], url, (API.autoPlay !== undefined) ? API.autoPlay : false);
+                                    if (attr['dashSilence'] && attr['dashSilence'] != "false") {
+                                        player.getDebug().setLogToBrowserConsole(false);
+                                    }
+                                } else {
+                                    // dash.js version < 2.x
+                                    player = new MediaPlayer(new Dash.di.DashContext());
+                                    player.setAutoPlay(API.autoPlay);
+                                    player.startup();
+                                    player.attachView(API.mediaElement[0]);
+                                    player.attachSource(url);
+                                }
                             }
-                        }
-                        else if (player) {
-                            //not DASH, but the dash.js player is still wired up
-                            //Dettach dash.js from the mediaElement
-                            player.reset();
-                            player = null;
+                            else if (player) {
+                                //not DASH, but the dash.js player is still wired up
+                                //Dettach dash.js from the mediaElement
+                                player.reset();
+                                player = null;
 
-                            //player.reset() wipes out the new url already applied, so have to reapply
-                            API.mediaElement.attr('src', url);
-                            API.stop();
+                                //player.reset() wipes out the new url already applied, so have to reapply
+                                API.mediaElement.attr('src', url);
+                                API.stop();
+                            }
                         }
                     };
 
