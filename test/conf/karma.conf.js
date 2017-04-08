@@ -46,6 +46,13 @@ module.exports = function (config) {
         // - IE (only Windows)
         browsers: ['Chrome', 'Firefox'],
 
+        customLaunchers: {
+            Chrome_travis_ci: {
+                base: 'Chrome',
+                flags: ['--no-sandbox']
+            }
+        },
+
         plugins: [
             'karma-jasmine',
             'karma-junit-reporter',
