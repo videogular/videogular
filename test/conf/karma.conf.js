@@ -86,14 +86,15 @@ module.exports = function (config) {
             'app/scripts/com/2fdevs/videogular/**/!(vg-ima-ads)/*.js': ['coverage']
         },
 
-        // Continuous Integration mode
         // if true, it capture browsers, run tests and exit
         singleRun: false
     };
 
+    // Continuous Integration mode
     if (process.env.TRAVIS) {
         configuration.browsers = ['Chrome_travis_ci'];
         configuration.reporters = ['spec', 'coverage'];
+        configuration.singleRun = true;
     }
 
     config.set(configuration);
