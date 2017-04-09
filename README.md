@@ -8,6 +8,10 @@ https://videogular.github.io/videogular2-showroom/#/
 And this is the development repository:
 https://github.com/videogular/videogular2
 
+** Important information:** Bower repositories have been deprecated. Now all modules are available inside the same npm package:
+
+https://www.npmjs.com/package/videogular
+
 ## Videogular
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/2fdevs/videogular?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
