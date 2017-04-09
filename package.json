@@ -21,7 +21,6 @@
     "angular-scenario": "~1.4.0",
     "commitizen": "2.9.6",
     "cz-conventional-changelog": "2.0.0",
-    "karma": "~0.13.0",
     "grunt": "~0.4.1",
     "grunt-cli": "~0.1.13",
     "grunt-contrib-clean": "~0.5.0",
@@ -37,7 +36,9 @@
     "grunt-ngdocs": "~0.2.1",
     "grunt-open": "~0.2.0",
     "grunt-release": "~0.7.0",
+    "http-server": "0.9.0",
     "jasmine-core": "^2.3.4",
+    "karma": "~0.13.0",
     "karma-chrome-launcher": ">=0.1.4",
     "karma-coverage": "~0.2.6",
     "karma-firefox-launcher": ">=0.1.3",
@@ -58,6 +59,7 @@
     "precommit": "npm test",
     "commit": "git-cz",
     "coverage": "http-server -c-1 -o -s -p 9875 ./coverage",
+    "start": "http-server -c-1 -o -s -p 9875 ./app",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "engines": {
