@@ -13,7 +13,6 @@ rev=$(git rev-parse --short HEAD)
 
 cp -r ./docs ./app
 cd ./app
-npm install
 
 git init
 git config user.name "Raul Jimenez"

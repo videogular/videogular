@@ -18,7 +18,7 @@ script:
   - npm run build
 after_success:
   - npm run semantic-release
-  - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && bash deploy.sh
+  - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && cd ./app && npm install && bash deploy.sh
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
