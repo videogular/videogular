@@ -28,7 +28,7 @@ NG_DOCS={
       "type": "controller",
       "moduleName": "com.2fdevs.videogular",
       "shortDescription": "Videogular controller.",
-      "keywords": "$sce active api array bigger boolean buffer buffered bufferend buffering bypercent callback callbacks called changes changesource cleans clearmedia completed config controller css cue cuepoints current currentstate currenttime custom data default define definition desired doesn emulated file float fullscreen function http initialization inline integer isbuffering iscompleted isfullscreen islive isready json latest left list live manually media mediaelement method methods middle milliseconds mode mp4 mus native nativefullscreen normal number object objects offers oncomplete onenter onleave onupdate param params pass pause pauses percentage plaback play playback player playing playpause plays playsinline point points position previous progress properties property public reach reaches reference removes representing represents resource seconds seek seeks seektime setplayback sets setstate setvolume source sources src start stops streaming string structure tag target theme time timelapse timeleft timeline timelines timeranges togglefullscreen toggles total totaltime tracks true trustasresourceurl trustful type updates updatetheme url user video videogular videogularelement volume"
+      "keywords": "$sce active api array bigger boolean buffer buffered bufferend buffering bypercent callback callbacks called changes changesource cleans clearmedia completed config controller css cue cuepoints current currentstate currenttime custom data default define definition desired doesn emulated file float fullscreen function http initialization inline integer isbuffering iscompleted isfullscreen islive isready json latest left list live manually media mediaelement method methods middle milliseconds mode mp4 mus native nativefullscreen normal number object objects offers oncomplete onenter onleave onupdate param params pass pause pauses percentage plaback play playback player playing playpause plays playsinline point points position previous progress properties property public reach reaches reference removes representing represents resource seconds seek seeks seektime setplayback sets setstate setvolume simple source sources src start stops streaming string structure tag target theme time timelapse timeleft timeline timelines timeranges togglefullscreen toggles total totaltime tracks true trustasresourceurl trustful type updates updatetheme url user video videogular videogularelement volume"
     },
     {
       "section": "api",
@@ -37,7 +37,7 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "com.2fdevs.videogular",
       "shortDescription": "Directive to add a source of videos or audios. This directive will create a &lt;video&gt; or &lt;audio&gt; tag and usually will be above plugin tags.",
-      "keywords": "$sce add api array audio audios bindable create direcitve directive inside list media mp4 object path plugin properties property resource set source sources src string tag tags trustasresourceurl trustful type url values vgsrc vgtype video videogular videos"
+      "keywords": "$sce add api array audio audios bindable create direcitve directive inside list media mp4 object path plugin properties property resource set simple source sources src string tag tags trustasresourceurl trustful type url values vgsrc vgtype video videogular videos"
     },
     {
       "section": "api",

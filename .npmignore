@@ -1,0 +1,30 @@
+#################
+## Misc
+#################
+**/.DS_Store
+node_modules
+npm-debug.log
+coverage
+docs
+app
+*.md
+test
+.travis.yml
+.gitignore
+
+#################
+## JetBrains
+#################
+.idea
+.project
+.settings
+
+############
+## Windows
+############
+
+# Windows image file caches
+Thumbs.db
+
+# Folder config file
+Desktop.ini
