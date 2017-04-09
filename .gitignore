@@ -5,3 +5,4 @@ app/bower_components
 /.idea
 /coverage/
 /dist
+/docs
