@@ -1,0 +1,58 @@
+{
+  "name": "videogular",
+  "version": "0.0.0-development",
+  "description": "Videogular is a video application framework for desktop and mobile powered by AngularJS",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/videogular/videogular"
+  },
+  "dependencies": {
+    "angular": "~1.4.0",
+    "angular-route": "~1.4.0",
+    "angular-sanitize": "~1.4.0",
+    "angular-animate": "~1.4.0",
+    "angulartics": "~0.17.1",
+    "json3": "~3.2.4",
+    "bootstrap": "~3.1.1",
+    "es5-shim": "~2.0.8"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.4.0",
+    "angular-scenario": "~1.4.0"
+  },
+  "scripts": {},
+  "engines": {
+    "node": ">= 4"
+  },
+  "keywords": [
+    "video",
+    "player",
+    "framework",
+    "angularjs",
+    "javascript"
+  ],
+  "author": "Raul Jimenez <elecash@gmail.com> (http://videogular.com/)",
+  "contributors": [
+    {
+      "name": "Kevin Feinberg",
+      "email": "kevfein@gmail.com"
+    },
+    {
+      "name": "Mikyla DeWitt",
+      "email": "mdewitt@mncsoftware.com"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/videogular/videogular/issues"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    },
+    "ghooks": {
+      "pre-commit": "npm run test"
+    }
+  },
+  "homepage": "http://videogular.com"
+}
