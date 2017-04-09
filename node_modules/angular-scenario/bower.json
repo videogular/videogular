@@ -1,0 +1,10 @@
+{
+  "name": "angular-scenario",
+  "version": "1.4.14",
+  "license": "MIT",
+  "main": "./angular-scenario.js",
+  "ignore": [],
+  "dependencies": {
+    "angular": "1.4.14"
+  }
+}
