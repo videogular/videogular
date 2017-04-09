@@ -20,6 +20,10 @@ script:
   - npm run build
 after_success:
   - npm run semantic-release
+  - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && bash deploy.sh
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
+env:
+  global:
+    - secure: "PZExjorWvPM0nrTow08QVesaw6YkaX1FksKx3c4vG8exTU1/R8uznf7GQ3ggpeI1v/pKl9zeZrsmXQCtoRvnnTnUDuek/cbNu2gAV4kg0bVQtQTZ8M5U0pFrJmtEEK4icCHWpQUIElbDmMdtCE3WqV9CnbVsikNZN8T9m7AOURU="
