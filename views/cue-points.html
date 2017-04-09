@@ -1,0 +1,61 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2>Video player</h2>
+
+            <div class="videogular-container">
+                <videogular vg-player-ready="ctrl.onPlayerReady($API)"
+                            vg-theme="ctrl.config.theme.url"
+                            vg-cue-points="ctrl.config.cuePoints">
+                    <vg-media vg-src="ctrl.config.sources"
+                              vg-tracks="ctrl.config.tracks">
+                    </vg-media>
+
+                    <vg-controls vg-autohide="ctrl.config.autoHide" vg-autohide-time="ctrl.config.autoHideTime">
+                        <vg-play-pause-button></vg-play-pause-button>
+                        <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
+                        <vg-scrub-bar>
+                            <vg-scrub-bar-buffer></vg-scrub-bar-buffer>
+                            <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                            <vg-scrub-bar-cue-points class="thumbnails"
+                                                     vg-cue-points="ctrl.config.cuePoints.thumbnails"></vg-scrub-bar-cue-points>
+                            <vg-scrub-bar-cue-points class="console"
+                                                     vg-cue-points="ctrl.config.cuePoints.console"></vg-scrub-bar-cue-points>
+                            <vg-scrub-bar-cue-points class="animations"
+                                                     vg-cue-points="ctrl.config.cuePoints.animations"></vg-scrub-bar-cue-points>
+                            <vg-scrub-bar-cue-points class="chapters"
+                                                     vg-cue-points="ctrl.config.cuePoints.chapters"></vg-scrub-bar-cue-points>
+                        </vg-scrub-bar>
+                        <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
+                        <vg-volume>
+                            <vg-mute-button></vg-mute-button>
+                            <vg-volume-bar></vg-volume-bar>
+                        </vg-volume>
+                        <vg-fullscreen-button></vg-fullscreen-button>
+                    </vg-controls>
+
+                    <vg-poster vg-url='ctrl.config.plugins.poster.url'></vg-poster>
+                    <vg-buffering></vg-buffering>
+                    <vg-overlay-play></vg-overlay-play>
+                </videogular>
+
+                <select ng-model="ctrl.chapterSelected"
+                        ng-options="chapter.params as chapter.params.label for chapter in ctrl.config.cuePoints.chapters track by chapter.params.value"
+                        ng-change="ctrl.onChangeChapter()">
+                    <option value="">Select chapter</option>
+                </select>
+
+                <p ng-bind="ctrl.consoleCuePointsMessages"></p>
+
+                <div class="animable barChart my-show-hide-animation" ng-style="ctrl.barChartStyle"></div>
+                <h2 class="animable text my-show-hide-animation" ng-style="ctrl.textStyle">ANIMATE EVERYTHING!</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 150px;">
+        <div class="col-6 col-sm-4 col-lg-4">
+            <button ng-click="ctrl.changeCuePoints()">Change Cue Points</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,53 @@
+<a href="https://github.com/videogular/videogular/edit/master/app/scripts/com/2fdevs/videogular/plugins/vg-analytics/vg-analytics.js" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><a href="https://github.com/videogular/videogular/blob/bbf1878/app/scripts/com/2fdevs/videogular/plugins/vg-analytics/vg-analytics.js#L59" class="view-source"><i class="icon-eye-open"> </i>View source</a><h1><code ng:non-bindable="">vgAnalytics</code>
+<div><span class="hint">directive in module <code ng:non-bindable="">com.2fdevs.videogular.plugins.analytics</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="com-2fdevs-videogular-plugins-analytics-directive-page com-2fdevs-videogular-plugins-analytics-directive-vganalytics-page"><p>Adds analytics support for your videos.
+This plugin requires the awesome angulartics module:
+<a href="http://luisfarzati.github.io/angulartics">http://luisfarzati.github.io/angulartics</a></p>
+<p>This plugin is not using any analytics provider, you need to add the analytic provider of your choice to your app, like: &quot;angulartics.google.analytics&quot;</p>
+<p>Videogular analytics injects Angulartics, so to use your preferred plugin you need to add it on your app.</p>
+<pre class="prettyprint linenums">
+&lt;videogular vg-theme="config.theme.url" vg-autoplay="config.autoPlay"&gt;
+   &lt;vg-analytics vg-track-info="events"&gt;&lt;/vg-analytics&gt;
+&lt;/videogular&gt;
+</pre>
+<p>This plugin requires an object with the following structure:
+<pre class="prettyprint linenums">
+{
+   "category": "Videogular",
+   "label": "Main",
+   "events": {
+     "ready": true,                  // Triggered when player is ready
+     "play": true|'time'|'percent',  // Triggered each time player has been played. 'time' and 'percent' will attach the progress to the event value
+     "pause": true|'time'|'percent', // Triggered each time player has been paused. 'time' and 'percent' will attach the progress to the event value
+     "stop": true|'time'|'percent',  // Triggered each time player has been stopped. 'time' and 'percent' will attach the progress to the event value
+     "complete": true,               // Triggered each time player has been completed
+     "progress": 10                  // Triggered each 10% of the progress video
+   }
+ }
+</pre>
+</div></div>
+<h2 id="usage">Usage</h2>
+<div class="usage">as element:<pre class="prettyprint linenums">&lt;vg-analytics
+       vg-track-info="{object}"&gt;
+&lt;/vg-analytics&gt;</pre>
+<h4 id="usage_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>vgTrackInfo</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="com-2fdevs-videogular-plugins-analytics-directive-page com-2fdevs-videogular-plugins-analytics-directive-vganalytics-page"><p>Object with the tracking info with the following structure:</p>
+<pre class="prettyprint linenums">
+{
+   "category": "Videogular",
+   "label": "Main",
+   "events": {
+     "ready": true,
+     "play": true|'time'|'percent',
+     "pause": true|'time'|'percent',
+     "stop": true|'time'|'percent',
+     "complete": true,
+     "progress": 10
+   }
+ }
+ </pre>
+</div></td></tr></tbody></table></div>
+</div>

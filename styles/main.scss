@@ -1,0 +1,148 @@
+@mixin border-radius($radius) {
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    -ms-border-radius: $radius;
+    border-radius: $radius;
+}
+
+vg-scrub-bar-cue-points.console .cue-point {
+    background-color: aqua !important;
+}
+
+vg-scrub-bar-cue-points.animations .cue-point {
+    background-color: lightgreen !important;
+}
+
+vg-scrub-bar-cue-points.chapters .cue-point {
+    background-color: gold !important;
+}
+
+vg-scrub-bar-cue-points.thumbnails .cue-point {
+    background-color: orange !important;
+}
+
+div.menu {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #507eb3;
+    color: white;
+
+    ul {
+        list-style-type: none;
+
+        li {
+            display: inline-block;
+            padding-right: 20px;
+        }
+    }
+
+    a {
+        color: white;
+
+        &.selected {
+            text-decoration: underline;
+        }
+    }
+}
+
+$large-width: 1170px;
+$large-height: $large-width * 9 / 16;
+
+$normal-width: 940px;
+$normal-height: $normal-width * 9 / 16;
+
+$tablet-width: 728px;
+$tablet-height: $tablet-width * 9 / 16;
+
+.videogular-container {
+    width: 100%;
+    height: 320px;
+    margin: auto;
+
+    .skipButton {
+        position: absolute;
+        padding: 10px;
+        top: 10px;
+        right: 10px;
+        z-index: 99999;
+        color: white;
+        cursor: pointer;
+        background-color: #666666;
+        border: 2px #FFFFFF solid;
+        display: none;
+        @include border-radius(10px);
+    }
+
+    &.audio {
+        width: 100%;
+        height: 50px;
+        margin: auto;
+    }
+
+    input {
+        width: 100%;
+    }
+
+    .barChart {
+        background-color: #507eb3;
+        height: 20px;
+        width: 0;
+    }
+
+    .text {
+        color: #507eb3;
+        opacity: 0;
+    }
+}
+
+.animable {
+    -webkit-transition: 0.5s linear all;
+    transition: 0.5s ease-out all;
+}
+
+@media (min-width: 1200px) {
+    .videogular-container {
+        width: $large-width;
+        height: $large-height;
+
+        &.audio {
+            width: $large-width;
+            height: 50px;;
+        }
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .videogular-container {
+        width: $normal-width;
+        height: $normal-height;
+
+        &.audio {
+            width: $normal-width;
+            height: 50px;;
+        }
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .videogular-container {
+        width: $tablet-width;
+        height: $tablet-height;
+
+        &.audio {
+            width: $tablet-width;
+            height: 50px;;
+        }
+    }
+}
+
+// ANIMATIONS
+.show-hide-animation.ng-hide-add,
+.show-hide-animation.ng-hide-remove {
+    display: block !important;
+    opacity: 1;
+}
+
+.show-hide-animation.ng-hide {
+    opacity: 0;
+}

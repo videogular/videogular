@@ -1,0 +1,122 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2>Video player</h2>
+
+            <div class="videogular-container">
+                <div videogular vg-player-ready="ctrl.onPlayerReady($API)"
+                     vg-complete="ctrl.onCompleteVideo()"
+                     vg-error="ctrl.onError($event)"
+                     vg-update-time="ctrl.onUpdateTime($currentTime, $duration)"
+                     vg-update-volume="ctrl.onUpdateVolume($volume)"
+                     vg-update-state="ctrl.onUpdateState($state)"
+                     vg-seeking="ctrl.onSeeking($currentTime, $duration)"
+                     vg-seeked="ctrl.onSeeked($currentTime, $duration)"
+                     vg-theme="ctrl.config.theme.url"
+                     vg-auto-play="ctrl.config.autoPlay"
+                     vg-plays-inline="ctrl.config.playsInline"
+                     vg-native-fullscreen="ctrl.config.nativeFullscreen"
+                     vg-clear-media-on-navigate="false">
+                    <vg-media vg-src="ctrl.config.sources"
+                              vg-tracks="ctrl.config.tracks"
+                              vg-loop="ctrl.config.loop"
+                              vg-preload="ctrl.config.preload"
+                              vg-native-controls="ctrl.config.controls">
+                    </vg-media>
+
+                    <vg-controls vg-autohide="ctrl.config.autoHide" vg-autohide-time="ctrl.config.autoHideTime">
+                        <vg-play-pause-button></vg-play-pause-button>
+                        <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
+                        <vg-scrub-bar>
+                            <vg-scrub-bar-buffer></vg-scrub-bar-buffer>
+                            <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                            <vg-scrub-bar-thumbnails vg-thumbnails="ctrl.thumbnails"></vg-scrub-bar-thumbnails>
+                        </vg-scrub-bar>
+                        <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
+                        <vg-playback-button></vg-playback-button>
+                        <vg-volume>
+                            <vg-mute-button></vg-mute-button>
+                            <vg-volume-bar></vg-volume-bar>
+                        </vg-volume>
+                        <vg-fullscreen-button></vg-fullscreen-button>
+                    </vg-controls>
+
+                    <vg-analytics vg-track-info="ctrl.config.plugins.analytics"></vg-analytics>
+                    <vg-poster vg-url='ctrl.config.plugins.poster.url'></vg-poster>
+                    <vg-buffering></vg-buffering>
+                    <vg-overlay-play></vg-overlay-play>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="companionAd"></div>
+
+    <div class="row">
+        <div class="col-12"><h2>Video player properties</h2></div>
+    </div>
+
+    <div class="row">
+        <div class="col-6 col-sm-4 col-lg-4">
+            <div>
+                <label for="posterInput">Poster url image (png/jpg/gif):</label>
+                <input id="posterInput" type="text" class="form-control" ng-model="ctrl.config.plugins.poster.url">
+            </div>
+        </div>
+
+        <div class="col-6 col-sm-4 col-lg-4">
+            <div>
+                <label class="checkbox">
+                    <input id="autoPlayInput" type="checkbox" ng-model="ctrl.config.autoPlay">Autoplay
+                </label>
+            </div>
+            <div>
+                <label class="checkbox">
+                    <input id="autoHideInput" type="checkbox" ng-model="ctrl.config.autoHide">Autohide
+                </label>
+            </div>
+            <div>
+                <label class="checkbox">
+                    <input id="playsInline" type="checkbox" ng-model="ctrl.config.playsInline">Plays Inline
+                </label>
+            </div>
+            <div>
+                <label class="checkbox">
+                    <input id="nativeFullscreen" type="checkbox" ng-model="ctrl.config.nativeFullscreen">Native Fullscreen
+                </label>
+            </div>
+            <div>
+                <label for="posterInput">Playback:</label>
+                <input id="playback" type="number" ng-model="ctrl.API.playback" ng-change="ctrl.onUpdatePlayback(ctrl.API.playback)">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6 col-sm-4 col-lg-4">
+            <div>Theme: {{ctrl.config.theme.url}}</div>
+            <div>Poster image: {{ctrl.config.plugins.poster.url}}</div>
+            <div>AutoPlay: {{ctrl.config.autoPlay}}</div>
+        </div>
+        <div class="col-6 col-sm-4 col-lg-4">
+            <div>AutoHide: {{ctrl.config.autoHide}}</div>
+            <div>State: {{ctrl.state}}</div>
+            <div>Time: {{ctrl.currentTime}} / {{ctrl.totalTime || 0}}</div>
+            <div>Volume: {{ctrl.volume}}</div>
+            <div>Completed: {{ctrl.isCompleted}}</div>
+            <div>Seeking (time/duration): {{ctrl.seeking.currentTime + " / " + ctrl.seeking.duration}}</div>
+            <div>Seeked (time/duration): {{ctrl.seeked.currentTime + " / " + ctrl.seeked.duration}}</div>
+        </div>
+        <div class="col-6 col-sm-4 col-lg-4">
+            <button ng-click="ctrl.API.play()">Play</button>
+            <button ng-click="ctrl.API.pause()">Pause</button>
+            <button ng-click="ctrl.API.stop()">Stop</button>
+            <button ng-click="ctrl.API.seekTime(30, false)">Move to second 30</button>
+            <button ng-click="ctrl.API.seekTime(50, true)">Move to 50%</button>
+            <button ng-click="ctrl.changeSource()">Change source</button>
+            <button ng-click="ctrl.changeTrack()">Change track</button>
+            <button ng-click="ctrl.wrongSource()">Set invalid source</button>
+            <button ng-click="ctrl.changeTrackInfo()">Change Track Info</button>
+        </div>
+    </div>
+</div>

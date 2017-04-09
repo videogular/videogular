@@ -1,0 +1,94 @@
+vg-scrub-bar-cue-points.console .cue-point {
+  background-color: aqua !important; }
+
+vg-scrub-bar-cue-points.animations .cue-point {
+  background-color: lightgreen !important; }
+
+vg-scrub-bar-cue-points.chapters .cue-point {
+  background-color: gold !important; }
+
+vg-scrub-bar-cue-points.thumbnails .cue-point {
+  background-color: orange !important; }
+
+div.menu {
+  padding: 10px;
+  font-size: 16px;
+  background-color: #507eb3;
+  color: white; }
+  div.menu ul {
+    list-style-type: none; }
+    div.menu ul li {
+      display: inline-block;
+      padding-right: 20px; }
+  div.menu a {
+    color: white; }
+    div.menu a.selected {
+      text-decoration: underline; }
+
+.videogular-container {
+  width: 100%;
+  height: 320px;
+  margin: auto; }
+  .videogular-container .skipButton {
+    position: absolute;
+    padding: 10px;
+    top: 10px;
+    right: 10px;
+    z-index: 99999;
+    color: white;
+    cursor: pointer;
+    background-color: #666666;
+    border: 2px #FFFFFF solid;
+    display: none;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    border-radius: 10px; }
+  .videogular-container.audio {
+    width: 100%;
+    height: 50px;
+    margin: auto; }
+  .videogular-container input {
+    width: 100%; }
+  .videogular-container .barChart {
+    background-color: #507eb3;
+    height: 20px;
+    width: 0; }
+  .videogular-container .text {
+    color: #507eb3;
+    opacity: 0; }
+
+.animable {
+  -webkit-transition: 0.5s linear all;
+  transition: 0.5s ease-out all; }
+
+@media (min-width: 1200px) {
+  .videogular-container {
+    width: 1170px;
+    height: 658.125px; }
+    .videogular-container.audio {
+      width: 1170px;
+      height: 50px; } }
+@media (min-width: 992px) and (max-width: 1199px) {
+  .videogular-container {
+    width: 940px;
+    height: 528.75px; }
+    .videogular-container.audio {
+      width: 940px;
+      height: 50px; } }
+@media (min-width: 768px) and (max-width: 991px) {
+  .videogular-container {
+    width: 728px;
+    height: 409.5px; }
+    .videogular-container.audio {
+      width: 728px;
+      height: 50px; } }
+.show-hide-animation.ng-hide-add,
+.show-hide-animation.ng-hide-remove {
+  display: block !important;
+  opacity: 1; }
+
+.show-hide-animation.ng-hide {
+  opacity: 0; }
+
+/*# sourceMappingURL=main.css.map */

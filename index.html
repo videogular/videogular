@@ -1,0 +1,125 @@
+<!doctype html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <!-- build:css(.tmp) styles/main.scss -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+
+    <script type='text/javascript'>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+        (function () {
+            var gads = document.createElement('script');
+            gads.async = true;
+            gads.type = 'text/javascript';
+            gads.src = 'http://www.googletagservices.com/tag/js/gpt.js';
+            var node = document.getElementsByTagName('script')[0];
+            node.parentNode.insertBefore(gads, node);
+        })();
+    </script>
+
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-45418240-1', 'auto');
+    </script>
+</head>
+<body ng-app="myApp">
+    <!--[if lt IE 7]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+        your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!--[if lt IE 9]>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+
+    <app-menu></app-menu>
+    <div ng-view=""></div>
+
+    <script src="http://imasdk.googleapis.com/js/sdkloader/ima3.js" type="text/javascript"></script>
+    <script src="http://cdn.dashjs.org/v2.0.0/dash.all.min.js" type="text/javascript"></script>
+
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angulartics/src/angulartics.js"></script>
+    <script src="bower_components/angulartics/src/angulartics-ga.js"></script>
+
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/controllers/audio.js"></script>
+    <script src="scripts/controllers/config.js"></script>
+    <script src="scripts/controllers/imaads.js"></script>
+    <script src="scripts/controllers/dash.js"></script>
+    <script src="scripts/controllers/dashLive.js"></script>
+    <script src="scripts/controllers/templates.js"></script>
+    <script src="scripts/controllers/cuePoints.js"></script>
+    <script src="scripts/controllers/crossorigin.js"></script>
+    <script src="scripts/controllers/multiPlayers.js"></script>
+    <script src="scripts/controllers/virtual-clips.js"></script>
+    <script src="scripts/directives/app-menu.js"></script>
+
+    <script src="scripts/com/2fdevs/videogular/vg-module.js"></script>
+    <script src="scripts/com/2fdevs/videogular/services/vg-config-loader.js"></script>
+    <script src="scripts/com/2fdevs/videogular/services/vg-utils.js"></script>
+    <script src="scripts/com/2fdevs/videogular/services/vg-fullscreen-api.js"></script>
+    <script src="scripts/com/2fdevs/videogular/constants/vg-constants.js"></script>
+    <script src="scripts/com/2fdevs/videogular/controllers/vg-controller.js"></script>
+    <script src="scripts/com/2fdevs/videogular/directives/videogular.js"></script>
+    <script src="scripts/com/2fdevs/videogular/directives/vg-media.js"></script>
+    <script src="scripts/com/2fdevs/videogular/directives/vg-tracks.js"></script>
+    <script src="scripts/com/2fdevs/videogular/directives/vg-loop.js"></script>
+    <script src="scripts/com/2fdevs/videogular/directives/vg-native-controls.js"></script>
+    <script src="scripts/com/2fdevs/videogular/directives/vg-preload.js"></script>
+    <script src="scripts/com/2fdevs/videogular/directives/vg-crossorigin.js"></script>
+
+    <script src="scripts/com/2fdevs/videogular/plugins/vg-controls/vg-controls.js"></script>
+    <script src="scripts/com/2fdevs/videogular/plugins/vg-controls/vg-fullscreen-button/vg-fullscreen-button.js"></script>
+    <script src="scripts/com/2fdevs/videogular/plugins/vg-controls/vg-play-pause-button/vg-play-pause-button.js"></script>
+    <script src="scripts/com/2fdevs/videogular/plugins/vg-controls/vg-playback-button/vg-playback-button.js"></script>
+    <script src="scripts/com/2fdevs/videogular/plugins/vg-controls/vg-scrub-bar/vg-scrub-bar.js"></script>
+    <script src="scripts/com/2fdevs/videogular/plugins/vg-controls/vg-scrub-bar/vg-scrub-bar-current-time.js"></script>
+    <script src="scripts/com/2fdevs/videogular/plugins/vg-controls/vg-scrub-bar/vg-scrub-bar-buffer.js"></script>
+    <script src="scripts/com/2fdevs/videogular/plugins/vg-controls/vg-scrub-bar/vg-scrub-bar-cue-points.js"></script>
+    <script src="scripts/com/2fdevs/videogular/plugins/vg-controls/vg-scrub-bar/vg-scrub-bar-thumbnails.js"></script>
+    <script src="scripts/com/2fdevs/videogular/plugins/vg-controls/vg-time-display/vg-time-display.js"></script>
+    <script src="scripts/com/2fdevs/videogular/plugins/vg-controls/vg-volume/vg-volume.js"></script>
+    <script src="scripts/com/2fdevs/videogular/plugins/vg-controls/vg-volume/vg-volume-bar.js"></script>
+    <script src="scripts/com/2fdevs/videogular/plugins/vg-controls/vg-volume/vg-mute-button.js"></script>
+
+    <script src="scripts/com/2fdevs/videogular/plugins/vg-overlay-play/vg-overlay-play.js"></script>
+    <script src="scripts/com/2fdevs/videogular/plugins/vg-buffering/vg-buffering.js"></script>
+    <script src="scripts/com/2fdevs/videogular/plugins/vg-poster/vg-poster.js"></script>
+    <script src="scripts/com/2fdevs/videogular/plugins/vg-ima-ads/vg-ima-ads.js"></script>
+    <script src="scripts/com/2fdevs/videogular/plugins/vg-dash/vg-dash.js"></script>
+    <script src="scripts/com/2fdevs/videogular/plugins/vg-analytics/vg-analytics.js"></script>
+</body>
+</html>

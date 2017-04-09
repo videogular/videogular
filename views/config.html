@@ -1,0 +1,36 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2>Video player</h2>
+
+            <div class="videogular-container">
+                <videogular vg-config="assets/data/config.json">
+                    <vg-media vg-src vg-tracks vg-loop vg-preload vg-native-controls></vg-media>
+
+                    <vg-controls>
+                        <vg-play-pause-button></vg-play-pause-button>
+                        <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
+                        <vg-scrub-bar>
+                            <vg-scrub-bar-buffer></vg-scrub-bar-buffer>
+                            <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                        </vg-scrub-bar>
+                        <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
+                        <vg-volume>
+                            <vg-mute-button></vg-mute-button>
+                            <vg-volume-bar></vg-volume-bar>
+                        </vg-volume>
+                        <vg-fullscreen-button></vg-fullscreen-button>
+                    </vg-controls>
+
+                    <vg-ima-ads></vg-ima-ads>
+                    <vg-analytics></vg-analytics>
+                    <vg-poster></vg-poster>
+                    <vg-buffering></vg-buffering>
+                    <vg-overlay-play></vg-overlay-play>
+                </videogular>
+            </div>
+        </div>
+    </div>
+
+    <div id="companionAd"></div>
+</div>
