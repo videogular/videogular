@@ -1,7 +1,29 @@
 language: node_js
+cache:
+  directories:
+    - node_modules
+notifications:
+  email: false
 node_js:
-  - '0.8'
-  - '0.10'
-before_script:
-  - 'npm install -g bower grunt-cli'
-  - 'bower install'
+  - '7'
+  - '6'
+  - '4'
+before_install:
+  - export CHROME_BIN=chromium-browser
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - npm i -g npm@^3.0.0
+  - rm -rf ./node_modules
+  - npm cache clean
+  - npm install
+script:
+  - npm run build
+after_success:
+  - npm run semantic-release
+  - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && bash deploy.sh
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/
+env:
+  global:
+    - secure: "PZExjorWvPM0nrTow08QVesaw6YkaX1FksKx3c4vG8exTU1/R8uznf7GQ3ggpeI1v/pKl9zeZrsmXQCtoRvnnTnUDuek/cbNu2gAV4kg0bVQtQTZ8M5U0pFrJmtEEK4icCHWpQUIElbDmMdtCE3WqV9CnbVsikNZN8T9m7AOURU="
