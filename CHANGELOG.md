@@ -1,5 +1,7 @@
 CHANGELOG
 ================
+## v2.0.1
+* Bower is deprecated, all bower-videogular-XXX has been deprecated and now everything will be available in the videogular repo. This also applies for NPM distribution.
 
 ## v1.4.2
 * Added ability to track progress of video during play, pause, and stop events. https://github.com/videogular/bower-videogular-analytics/pull/6
