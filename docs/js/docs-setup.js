@@ -37,7 +37,7 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "com.2fdevs.videogular",
       "shortDescription": "Directive to add a source of videos or audios. This directive will create a &lt;video&gt; or &lt;audio&gt; tag and usually will be above plugin tags.",
-      "keywords": "$sce add api array audio audios bindable create direcitve directive inside list media mp4 object path plugin properties property resource set simple source sources src string tag tags trustasresourceurl trustful type url values vgsrc vgtype video videogular videos"
+      "keywords": "$sce accept add agent api array audio audios bindable create direcitve directive function functions inside list media mp4 native object path playback plugin prevented properties property resource returns set simple source sources src string tag tags true trustasresourceurl trustful type url user values vgnativeplayblacklist vgsrc vgtype video videogular videos"
     },
     {
       "section": "api",
