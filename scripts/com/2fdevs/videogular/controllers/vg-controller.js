@@ -117,11 +117,11 @@ angular.module("com.2fdevs.videogular")
             this.isReady = true;
             this.autoPlay = $scope.vgAutoPlay;
             this.playsInline = $scope.vgPlaysInline;
-            this.nativeFullscreen = $scope.vgNativeFullscreen || true;
+            this.nativeFullscreen = normalizeBooleanValue($scope.vgNativeFullscreen, true);
             this.cuePoints = $scope.vgCuePoints;
             this.startTime = $scope.vgStartTime;
             this.virtualClipDuration = $scope.vgVirtualClipDuration;
-            this.clearMediaOnNavigate = $scope.vgClearMediaOnNavigate || true;
+            this.clearMediaOnNavigate = normalizeBooleanValue($scope.vgClearMediaOnNavigate, true);
             this.currentState = VG_STATES.STOP;
 
             isMetaDataLoaded = true;
@@ -608,9 +608,7 @@ angular.module("com.2fdevs.videogular")
         };
 
         this.onUpdateNativeFullscreen = function onUpdateNativeFullscreen(newValue) {
-            if (newValue == undefined) newValue = true;
-
-            this.nativeFullscreen = newValue;
+            this.nativeFullscreen = normalizeBooleanValue(newValue, true);
         };
 
         this.onUpdateCuePoints = function onUpdateCuePoints(newValue) {
@@ -619,7 +617,7 @@ angular.module("com.2fdevs.videogular")
         };
 
         this.onUpdateClearMediaOnNavigate = function onUpdateClearMediaOnNavigate(newValue) {
-            this.clearMediaOnNavigate = newValue;
+            this.clearMediaOnNavigate = normalizeBooleanValue(newValue, true);
         };
 
         this.addBindings = function () {
@@ -644,6 +642,11 @@ angular.module("com.2fdevs.videogular")
             this.isFullScreen = vgFullscreen.isFullScreen();
             $scope.$parent.$digest();
         };
+
+        function normalizeBooleanValue(value, defaultValue) {
+            // input may be boolean or string, so this will normalize to a boolean
+            return angular.isDefined(value) ? value.toString() === 'true' : !!defaultValue;
+        }
 
         // Empty mediaElement on destroy to avoid that Chrome downloads video even when it's not present
         $scope.$on('$destroy', this.clearMedia.bind(this));
