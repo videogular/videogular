@@ -47,7 +47,7 @@ describe('Directive: Videogular', function () {
         };
 
         element = angular.element(
-            '<videogular vg-theme="config.theme.url">' +
+            '<videogular vg-theme="config.theme.url" vg-clear-media-on-navigate="\'false\'">' +
             '<vg-media vg-src="config.sources" vg-tracks="config.tracks" vg-native-controls="config.controls" vg-preload="config.preload" vg-loop="config.loop" vg-native-play-blacklist="config.nativePlayBlacklist"></vg-media>' +
             '</videogular>'
         );
@@ -155,6 +155,20 @@ describe('Directive: Videogular', function () {
             API.setVolume(0.5);
             expect(video.volume).toBe(0.5);
             expect(API.volume).toBe(0.5);
+        });
+    });
+
+    describe("Boolean configuration - ", function() {
+        it("should have the expected input", function() {
+            var scope = element.isolateScope();
+
+            expect(scope.vgClearMediaOnNavigate).toBe('false');
+        });
+
+        it("should handle 'false' correctly", function() {
+            var API = element.isolateScope().API;
+
+            expect(API.clearMediaOnNavigate).toBe(false);
         });
     });
 
