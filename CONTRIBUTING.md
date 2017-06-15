@@ -17,7 +17,7 @@ In order to properly develop your code try to follow this steps:
 A good PR will follow this steps:
 
 * Fork the project and code your stuff.
-* Run `npm run commit` and follow instructions. Try to be as much accurate as possible.
+* Run `npm run commit` and follow instructions. Try to be as much accurate as possible. Please use [Angular git Commit Message Format](https://github.com/angular/angular.js/blob/master/CONTRIBUTING.md#commit). This makes for a cleaner changelog generation and is used to kick off the appropriate type of build.
 * Someone on the team will review your code and merge it if everything is fine.
 
 
