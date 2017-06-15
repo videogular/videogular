@@ -117,11 +117,11 @@ angular.module("com.2fdevs.videogular")
             this.isReady = true;
             this.autoPlay = $scope.vgAutoPlay;
             this.playsInline = $scope.vgPlaysInline;
-            this.nativeFullscreen = $scope.vgNativeFullscreen || true;
+            this.nativeFullscreen = typeof $scope.vgNativeFullscreen !== 'undefined' ? $scope.vgNativeFullscreen : true;
             this.cuePoints = $scope.vgCuePoints;
             this.startTime = $scope.vgStartTime;
             this.virtualClipDuration = $scope.vgVirtualClipDuration;
-            this.clearMediaOnNavigate = $scope.vgClearMediaOnNavigate || true;
+            this.clearMediaOnNavigate = typeof $scope.vgClearMediaOnNavigate !== 'undefined' ? $scope.vgClearMediaOnNavigate : true;
             this.currentState = VG_STATES.STOP;
 
             isMetaDataLoaded = true;
