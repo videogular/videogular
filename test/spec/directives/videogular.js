@@ -156,6 +156,16 @@ describe('Directive: Videogular', function () {
             expect(video.volume).toBe(0.5);
             expect(API.volume).toBe(0.5);
         });
+
+        it("should throw an error on an invalid seek time", function() {
+            var API = element.isolateScope().API;
+
+            function invalidSeek() {
+                return API.seekTime(Number.Infinity);
+            }
+
+            expect(invalidSeek).toThrowError(TypeError);
+        });
     });
 
     describe("Boolean configuration - ", function() {

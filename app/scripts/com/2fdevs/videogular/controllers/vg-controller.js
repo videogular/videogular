@@ -315,6 +315,10 @@ angular.module("com.2fdevs.videogular")
         };
 
         this.seekTime = function (value, byPercent) {
+            if (!Number.isFinite(value)) {
+                throw new TypeError('Expecting a finite number value.');
+            }
+
             var second;
             if (byPercent) {
                 if (isVirtualClip) {
