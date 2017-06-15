@@ -615,7 +615,7 @@ angular.module("com.2fdevs.videogular")
 
         this.onUpdateCuePoints = function onUpdateCuePoints(newValue) {
             this.cuePoints = newValue;
-            this.checkCuePoints(this.currentTime);
+            this.checkCuePoints(this.currentTime / 1000);
         };
 
         this.onUpdateClearMediaOnNavigate = function onUpdateClearMediaOnNavigate(newValue) {
