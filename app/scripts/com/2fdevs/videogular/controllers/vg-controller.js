@@ -75,6 +75,7 @@ angular.module("com.2fdevs.videogular")
         var isMetaDataLoaded = false;
         var hasStartTimePlayed = false;
         var isVirtualClip = false;
+        var playPromise = null;
 
         // PUBLIC $API
         this.videogularElement = null;
@@ -366,12 +367,39 @@ angular.module("com.2fdevs.videogular")
         };
 
         this.play = function () {
-            this.mediaElement[0].play();
+            var mediaElement = this.mediaElement[0];
+
+            // short-circuit if already playing
+            if (playPromise || !mediaElement.paused) {
+                return;
+            }
+
+            playPromise = mediaElement.play();
+
+            if (playPromise && playPromise.then && playPromise.catch) { // browser has async play promise
+                playPromise
+                    .then(function() {
+                        playPromise = null;
+                    })
+                    .catch(function() {
+                        // deliberately empty for the sake of eating console noise
+                    });
+            }
+
             this.setState(VG_STATES.PLAY);
         };
 
         this.pause = function () {
-            this.mediaElement[0].pause();
+            var mediaElement = this.mediaElement[0];
+            
+            if (playPromise) { // browser has async play promise
+                playPromise.then(function() {
+                    mediaElement.pause();
+                });
+            } else {
+                mediaElement.pause()
+            }
+            
             this.setState(VG_STATES.PAUSE);
         };
 
