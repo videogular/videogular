@@ -227,4 +227,19 @@ describe('Directive: Videogular', function () {
             expect(video.attr("src")).not.toBe("assets/videos/videogular.mp4");
         });
     });
+
+    describe("Source isLive override - ", function() {
+        it("should apply the isLive source override correctly", function() {
+            var API = element.isolateScope().API;
+
+            API.sources = API.sources.map(function(source) {
+                source.isLive = true;
+
+                return source;
+            }); 
+            $scope.$apply();
+
+            expect(API.isLive).toBe(true);
+        });
+    });
 });

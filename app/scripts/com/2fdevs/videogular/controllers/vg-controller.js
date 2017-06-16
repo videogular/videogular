@@ -19,7 +19,7 @@
  * - updateTheme(css-url): Removes previous CSS theme and sets a new one.
  * - clearMedia(): Cleans the current media file.
  * - changeSource(array): Updates current media source. Param `array` must be an array of media source objects.
- * A media source is an object with two properties `src` and `type`. The `src` property must contains a trustful url resource.
+ * A media source is an object with two properties `src` and `type`. The `src` property must contains a trustful url resource. You may explicitly supply an `isLive` flag to override automatic detection.
  * <pre>{src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.mp4"), type: "video/mp4"}</pre>
  *
  * Properties
@@ -184,6 +184,7 @@ angular.module("com.2fdevs.videogular")
 
         this.onUpdateTime = function (event) {
             var targetTime = 1000 * event.target.currentTime;
+            var isLiveSourceOverride = this.activeSource && angular.isDefined(this.activeSource.isLive);
 
             this.updateBuffer(event);
 
@@ -211,6 +212,11 @@ angular.module("com.2fdevs.videogular")
                 // It's a live streaming without and end
                 this.currentTime = targetTime;
                 this.isLive = true;
+            }
+
+            // allow for the user to override the built in live detection for cases where it doesn't work as desired
+            if (isLiveSourceOverride) {
+                this.isLive = !!this.activeSource.isLive;
             }
 
             var targetSeconds = isVirtualClip ? this.currentTime / 1000 : event.target.currentTime;
@@ -473,6 +479,11 @@ angular.module("com.2fdevs.videogular")
 
         this.changeSource = function (newValue) {
             this.activeSource = newValue;
+
+            if (angular.isDefined(newValue.isLive)) {
+                this.isLive = !!newValue.isLive;
+            }
+
             $scope.vgChangeSource({$source: newValue});
         };
 
