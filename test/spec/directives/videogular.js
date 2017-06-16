@@ -101,6 +101,12 @@ describe('Directive: Videogular', function () {
     });
 
     describe("API - ", function () {
+        it("should convey the activeSource", function(){
+            var API = element.isolateScope().API;
+
+            expect(API.activeSource).toBe(API.sources[0]);
+        });
+
         it("should play mediaElement on call API.play", function () {
             var API = element.isolateScope().API;
             var video = API.mediaElement[0];

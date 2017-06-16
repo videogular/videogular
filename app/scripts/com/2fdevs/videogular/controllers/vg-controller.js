@@ -33,6 +33,7 @@
  * - mediaElement: Reference to video/audio object.
  * - videogularElement: Reference to videogular tag.
  * - sources: Array with current sources or a simple URL string.
+ * - activeSource: The source presently applied to the media element.
  * - tracks: Array with current tracks.
  * - cuePoints: Object containing a list of timelines with cue points. Each property in the object represents a timeline, which is an Array of objects with the next definition:
  * <pre>{
@@ -471,6 +472,7 @@ angular.module("com.2fdevs.videogular")
         };
 
         this.changeSource = function (newValue) {
+            this.activeSource = newValue;
             $scope.vgChangeSource({$source: newValue});
         };
 
