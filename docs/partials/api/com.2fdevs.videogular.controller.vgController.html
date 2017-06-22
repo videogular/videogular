@@ -1,4 +1,4 @@
-<a href="https://github.com/videogular/videogular/edit/master/app/scripts/com/2fdevs/videogular/controllers/vg-controller.js" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><a href="https://github.com/videogular/videogular/blob/2918cef/app/scripts/com/2fdevs/videogular/controllers/vg-controller.js#L70" class="view-source"><i class="icon-eye-open"> </i>View source</a><h1><code ng:non-bindable="">vgController</code>
+<a href="https://github.com/videogular/videogular/edit/master/app/scripts/com/2fdevs/videogular/controllers/vg-controller.js" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><a href="https://github.com/videogular/videogular/blob/0d3a344/app/scripts/com/2fdevs/videogular/controllers/vg-controller.js#L71" class="view-source"><i class="icon-eye-open"> </i>View source</a><h1><code ng:non-bindable="">vgController</code>
 <div><span class="hint">controller in module <code ng:non-bindable="">com.2fdevs.videogular</code>
 </span>
 </div>
@@ -19,8 +19,8 @@ This controller offers a public API:</p>
 <li>toggleFullScreen(): Toggles between fullscreen and normal mode.</li>
 <li>updateTheme(css-url): Removes previous CSS theme and sets a new one.</li>
 <li>clearMedia(): Cleans the current media file.</li>
-<li>changeSource(array): Updates current media source. Param <code>array</code> must be an array of media source objects or a simple URL string.
-A media source is an object with two properties <code>src</code> and <code>type</code>. The <code>src</code> property must contains a trustful url resource.
+<li>changeSource(array): Updates current media source. Param <code>array</code> must be an array of media source objects.
+A media source is an object with two properties <code>src</code> and <code>type</code>. The <code>src</code> property must contains a trustful url resource. You may explicitly supply an <code>isLive</code> flag to override automatic detection.
 <pre class="prettyprint linenums">{src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.mp4"), type: "video/mp4"}</pre></li>
 </ul>
 <p>Properties</p>
@@ -34,7 +34,8 @@ A media source is an object with two properties <code>src</code> and <code>type<
 <li>nativeFullscreen: Boolean value to know if Videogular if fullscreen mode will use native mode or emulated mode.</li>
 <li>mediaElement: Reference to video/audio object.</li>
 <li>videogularElement: Reference to videogular tag.</li>
-<li>sources: Array with current sources or a simple URL string.</li>
+<li>sources: Array with current sources.</li>
+<li>activeSource: The source presently applied to the media element.</li>
 <li>tracks: Array with current tracks.</li>
 <li><p>cuePoints: Object containing a list of timelines with cue points. Each property in the object represents a timeline, which is an Array of objects with the next definition:
 <pre class="prettyprint linenums">{
