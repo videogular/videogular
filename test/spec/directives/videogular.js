@@ -101,6 +101,12 @@ describe('Directive: Videogular', function () {
     });
 
     describe("API - ", function () {
+        it("should convey the activeSource", function(){
+            var API = element.isolateScope().API;
+
+            expect(API.activeSource).toBe(API.sources[0]);
+        });
+
         it("should play mediaElement on call API.play", function () {
             var API = element.isolateScope().API;
             var video = API.mediaElement[0];
@@ -156,6 +162,16 @@ describe('Directive: Videogular', function () {
             expect(video.volume).toBe(0.5);
             expect(API.volume).toBe(0.5);
         });
+
+        it("should throw an error on an invalid seek time", function() {
+            var API = element.isolateScope().API;
+
+            function invalidSeek() {
+                return API.seekTime(Number.Infinity);
+            }
+
+            expect(invalidSeek).toThrowError(TypeError);
+        });
     });
 
     describe("Boolean configuration - ", function() {
@@ -209,6 +225,21 @@ describe('Directive: Videogular', function () {
             
             expect(API.changeSource).not.toHaveBeenCalledWith(jasmine.objectContaining({type: "video/mp4"}));
             expect(video.attr("src")).not.toBe("assets/videos/videogular.mp4");
+        });
+    });
+
+    describe("Source isLive override - ", function() {
+        it("should apply the isLive source override correctly", function() {
+            var API = element.isolateScope().API;
+
+            API.sources = API.sources.map(function(source) {
+                source.isLive = true;
+
+                return source;
+            }); 
+            $scope.$apply();
+
+            expect(API.isLive).toBe(true);
         });
     });
 });
