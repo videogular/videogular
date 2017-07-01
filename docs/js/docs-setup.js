@@ -113,15 +113,6 @@ NG_DOCS={
     },
     {
       "section": "api",
-      "id": "com.2fdevs.videogular.plugins.controls.directive:ngPlaybackButton",
-      "shortName": "ngPlaybackButton",
-      "type": "directive",
-      "moduleName": "com.2fdevs.videogular.plugins.controls",
-      "shortDescription": "Directive to display a playback buttom to control the playback rate.",
-      "keywords": "api array autohide autohidetime bindable buttom config control controls default directive display list options playback playbackspeeds plugins rate sources speed strings theme url vg-autohide vg-autohide-time vg-speeds vg-src vg-theme vgspeeds videogular"
-    },
-    {
-      "section": "api",
       "id": "com.2fdevs.videogular.plugins.controls.directive:vgControls",
       "shortName": "vgControls",
       "type": "directive",
@@ -146,6 +137,15 @@ NG_DOCS={
       "moduleName": "com.2fdevs.videogular.plugins.controls",
       "shortDescription": "Directive to display a button to mute volume.",
       "keywords": "api autohide autohidetime button config controls directive display mute plugins sources theme url vg-autohide vg-autohide-time vg-src vg-theme videogular volume"
+    },
+    {
+      "section": "api",
+      "id": "com.2fdevs.videogular.plugins.controls.directive:vgPlaybackButton",
+      "shortName": "vgPlaybackButton",
+      "type": "directive",
+      "moduleName": "com.2fdevs.videogular.plugins.controls",
+      "shortDescription": "Directive to display a playback buttom to control the playback rate.",
+      "keywords": "api array autohide autohidetime bindable buttom config control controls default directive display list options playback playbackspeeds plugins rate sources speed strings theme url vg-autohide vg-autohide-time vg-speeds vg-src vg-theme vgspeeds videogular"
     },
     {
       "section": "api",
