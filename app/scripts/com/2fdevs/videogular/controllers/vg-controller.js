@@ -173,9 +173,11 @@ angular.module("com.2fdevs.videogular")
         };
 
         this.updateBuffer = function getBuffer(event) {
-            if (event.target.buffered.length) {
-                this.buffered = event.target.buffered;
-                this.bufferEnd = 1000 * event.target.buffered.end(event.target.buffered.length - 1);
+            var buffered = event.target.buffered;
+
+            if (buffered && buffered.length) {
+                this.buffered = buffered;
+                this.bufferEnd = 1000 * buffered.end(buffered.length - 1);
 
                 // Avoid bufferEnd overflow by virtual clips
                 if (this.bufferEnd > this.totalTime) this.bufferEnd = this.totalTime;
