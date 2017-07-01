@@ -1,6 +1,6 @@
 /**
  * @ngdoc directive
- * @name com.2fdevs.videogular.plugins.controls.directive:ngPlaybackButton
+ * @name com.2fdevs.videogular.plugins.controls.directive:vgPlaybackButton
  * @restrict E
  * @description
  * Directive to display a playback buttom to control the playback rate.
