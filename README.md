@@ -74,7 +74,7 @@ For a complete migration guide we recommend you to check the [Migration guide to
 
 ## Supported by
 
-Videogular wants to thank you to this companies for support this project:
+Videogular team would like to thank all of our generous sponsors who support this project:
 
 [![](sponsors/jetbrains.png)](https://www.jetbrains.com)
 [![](sponsors/toptal.png)](https://www.toptal.com)
