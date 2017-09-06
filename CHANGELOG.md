@@ -1,5 +1,27 @@
 CHANGELOG
 ================
+## v2.2.1
+* Safer `buffered` checking since it may be undefined.
+
+## v2.2.0
+* Safer handling of play() and pause() in browsers that have async handling of these operations.
+* Added input validation to seekTime() to ensure that the value is a finite number.
+* `API.activeSource` added to provide convenient access to the applied source.
+* New `isLive` optional flag on the source input.
+
+## v2.1.2
+* Fixed checks on boolean scope variables vgNativeFullscreen and vgClearMediaOnNavigate. Applied safer handling and application of the desired default value.
+
+## v2.1.1
+* Fixed incorrect firing of `cuePoint.onComplete` when cuePoints list changed.
+
+## v2.1.0
+* You may now supply `vg-native-play-blacklist` on vgMedia to prevent native playback of sources as
+desired. It expects an array of functions accepting  the media source and user agent. If any of
+these return true,  native playback will not be attempted. This  may be useful in combination with
+playback plugins. For example, you may want to use hls.js  in Android Chrome rather than its native
+handling.
+
 ## v2.0.1
 * Bower is deprecated, all bower-videogular-XXX has been deprecated and now everything will be available in the videogular repo. This also applies for NPM distribution.
 

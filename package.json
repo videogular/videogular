@@ -1,6 +1,6 @@
 {
   "name": "videogular",
-  "version": "2.0.0",
+  "version": "2.2.1",
   "description": "Videogular is a video application framework for desktop and mobile powered by AngularJS",
   "repository": {
     "type": "git",
@@ -95,5 +95,6 @@
       "pre-commit": "npm run test"
     }
   },
-  "homepage": "http://videogular.com"
+  "homepage": "http://videogular.com",
+  "main": "./dist/videogular/videogular.js"
 }

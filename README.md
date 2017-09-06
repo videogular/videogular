@@ -1,23 +1,19 @@
-# Videogular 2.0
+# Videogular for AngularJS (1.x)
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/2fdevs/videogular?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Videogular 2.0 is under active development and will be available with Angular 2+. Videogular 2.0 will follow the same philosophy and we're open to discuss any possibilities. If you want to contribute you can open a new issue with your suggestions or clone the repository to make pull requests.
+**Videogular is an HTML5 video player for AngularJS**. Videogular is a wrapper over the HTML5 video tag, so you just could add whatever you want. This provides a very powerful, but simple to use solution, for everybody.
+
+You could see a demo here: [www.videogular.com](http://www.videogular.com)
+
+## Angular (2+) Support
+
+Videogular2 is under active development and will be available with Angular 2+. Videogular2 will follow the same philosophy and we're open to discuss any possibilities. If you want to contribute you can open a new issue with your suggestions or clone the repository to make pull requests.
 
 You can find a demo here:
 https://videogular.github.io/videogular2-showroom/#/
 
 And this is the development repository:
 https://github.com/videogular/videogular2
-
-** Important information:** Bower repositories have been deprecated. Now all modules are available inside the same npm package:
-
-https://www.npmjs.com/package/videogular
-
-## Videogular
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/2fdevs/videogular?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-**Videogular is an HTML5 video player for AngularJS**. Videogular is a wrapper over the HTML5 video tag, so you just could add whatever you want. This provides a very powerful, but simple to use solution, for everybody.
-
-You could see a demo here: [www.videogular.com](http://www.videogular.com)
 
 ## Why Videogular?
 
@@ -31,7 +27,13 @@ We're developing Videogular focusing on mobile devices and HTML5 video special c
 
 ## Documentation and how to install
 
-See the [Videogular's website](http://www.videogular.com) for more info about [how to start and installation notes](http://www.videogular.com/tutorials/how-to-start/). We have also [tutorials](http://www.videogular.com/tutorials/) and [examples](http://www.videogular.com/examples/) if you need a guide or code samples.
+** Important information:** Bower repositories have been deprecated. Now all modules are available inside the same npm package:
+
+https://www.npmjs.com/package/videogular
+
+Simply run `npm install videogular`. Then import the desired features from the `dist` directory.
+
+See the [Videogular's website](http://www.videogular.com) for more info about [how to start and installation notes](http://www.videogular.com/tutorials/how-to-start/) **(beware that this is presently out of date)**. We have also [tutorials](http://www.videogular.com/tutorials/) and [examples](http://www.videogular.com/examples/) if you need a guide or code samples.
 
 For more info you can check the full [Videogular API documentation](http://www.videogular.com/docs/).
 
@@ -51,6 +53,9 @@ If you have developed a Videogular's plugin or theme [contact us through this fo
 * [**Background video plugin**](https://gist.github.com/panurge-ws/525caef640784a487aa2) by **[panurge-ws](https://github.com/panurge-ws)**
 * [**Videogular subtitle plugin**](https://github.com/farhan-repo/videogular-subtitle-plugin) (for Videogular 0.4.0) by **[farhan-repo](https://github.com/farhan-repo)**
 * [**Videogular Cuepoints plugin**](https://github.com/HarryCutts/videogular-cuepoints) by **[HarryCutts](https://github.com/HarryCutts)** (not to be confused with the later [Cue Points feature](http://www.videogular.com/tutorials/videogular-cue-points-synchronize-video-with-twitter/))
+
+## Migrate to 2.0 from an older version of Videogular
+Use of the `videogular` package on NPM is now the preferred method of distribution. This now includes all of the features that had previously been distributed separately. Simply import the features that you desire into your build.
 
 ## Migrate to 1.0 from an older version of Videogular
 
