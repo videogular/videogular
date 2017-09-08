@@ -139,7 +139,8 @@ angular.module("com.2fdevs.videogular")
                 vgChangeSource: "&",
                 vgSeeking: "&",
                 vgSeeked: "&",
-                vgError: "&"
+                vgError: "&",
+                vgName: "@"
             },
             controller: "vgController",
             controllerAs: "API",
