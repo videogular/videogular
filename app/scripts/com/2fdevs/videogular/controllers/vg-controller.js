@@ -317,7 +317,11 @@ angular.module("com.2fdevs.videogular")
         };
 
         this.onSeeking = function (event) {
-            $scope.vgSeeking({$currentTime: event.target.currentTime, $duration: event.target.duration});
+            var currentTime = angular.isNumber(this.seekStartTime) ? this.seekStartTime : event.target.currentTime;
+
+            $scope.vgSeeking({$currentTime: currentTime, $duration: event.target.duration});
+
+            this.seekStartTime = null;
         };
 
         this.onSeeked = function (event) {
@@ -328,6 +332,8 @@ angular.module("com.2fdevs.videogular")
             if (!Number.isFinite(value)) {
                 throw new TypeError('Expecting a finite number value.');
             }
+
+            this.seekStartTime = this.currentTime / 1000; // ms to sec
 
             var second;
             if (byPercent) {
