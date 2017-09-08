@@ -79,11 +79,10 @@ For a complete migration guide we recommend you to check the [Migration guide to
 
 ## Supported by
 
-Videogular wants to thank you to this companies for support this project:
+Videogular team would like to thank all of our generous sponsors who support this project:
 
-[![](http://www.videogular.com/wp-content/uploads/2015/08/browserstack.png)](https://www.browserstack.com)
-[![](http://www.videogular.com/wp-content/uploads/2015/08/logo_jetbrains.png)](https://www.jetbrains.com)
-[![](http://www.videogular.com/wp-content/uploads/2015/03/logo-q.png)](http://q-interactiva.com)
+[![](sponsors/jetbrains.png)](https://www.jetbrains.com)
+[![](sponsors/toptal.png)](https://www.toptal.com)
 
 ## Credits
 
