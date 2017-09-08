@@ -28,12 +28,12 @@
  *    "category": "Videogular",
  *    "label": "Main",
  *    "events": {
- *      "ready": true,                  // Triggered when player is ready
- *      "play": true|'time'|'percent',  // Triggered each time player has been played. 'time' and 'percent' will attach the progress to the event value
- *      "pause": true|'time'|'percent', // Triggered each time player has been paused. 'time' and 'percent' will attach the progress to the event value
- *      "stop": true|'time'|'percent',  // Triggered each time player has been stopped. 'time' and 'percent' will attach the progress to the event value
- *      "complete": true,               // Triggered each time player has been completed
- *      "progress": 10                  // Triggered each 10% of the progress video
+ *      "ready": true|{"action": 'ready'},                                                  // Triggered when player is ready
+ *      "play": true|'time'|'percent'|{"value": true|'time'|'percent', "action": 'play'},   // Triggered each time player has been played. 'time' and 'percent' will attach the progress to the event value
+ *      "pause": true|'time'|'percent'|{"value": true|'time'|'percent', "action": 'pause'}, // Triggered each time player has been paused. 'time' and 'percent' will attach the progress to the event value
+ *      "stop": true|'time'|'percent'|{"value": true|'time'|'percent', "action": 'stop'},   // Triggered each time player has been stopped. 'time' and 'percent' will attach the progress to the event value
+ *      "complete": true|{"action": 'complete'},                                            // Triggered each time player has been completed
+ *      "progress": 10|{"value": 10', "action": 'progress'}                                 // Triggered each 10% of the progress video
  *    }
  *  }
  * </pre>
@@ -45,12 +45,12 @@
  *    "category": "Videogular",
  *    "label": "Main",
  *    "events": {
- *      "ready": true,
- *      "play": true|'time'|'percent',
- *      "pause": true|'time'|'percent',
- *      "stop": true|'time'|'percent',
- *      "complete": true,
- *      "progress": 10
+ *      "ready": true|{"action": 'ready'},
+ *      "play": true|'time'|'percent'|{"value": true|'time'|'percent', "action": 'play'},
+ *      "pause": true|'time'|'percent'|{"value": true|'time'|'percent', "action": 'pause'},
+ *      "stop": true|'time'|'percent'|{"value": true|'time'|'percent', "action": 'stop'},
+ *      "complete": true|{"action": 'complete'},
+ *      "progress": 10|{"value": 10', "action": 'progress'}
  *    }
  *  }
  *  </pre>
@@ -81,7 +81,7 @@ angular.module("com.2fdevs.videogular.plugins.analytics", ["angulartics"])
 
                     scope.onPlayerReady = function onPlayerReady(isReady) {
                         if (isReady) {
-                            scope.trackEvent("ready");
+                            scope.trackEvent(scope.vgTrackInfo.events.ready.action || "ready");
                         }
                     };
 
@@ -92,21 +92,21 @@ angular.module("com.2fdevs.videogular.plugins.analytics", ["angulartics"])
                             case VG_STATES.PLAY:
                                 if (scope.vgTrackInfo.events.play) {
                                     scope.setValue(scope.vgTrackInfo.events.play);
-                                    scope.trackEvent("play");
+                                    scope.trackEvent(scope.vgTrackInfo.events.play.action || "play");
                                 }
                                 break;
 
                             case VG_STATES.PAUSE:
                                 if (scope.vgTrackInfo.events.pause) {
                                     scope.setValue(scope.vgTrackInfo.events.pause);
-                                    scope.trackEvent("pause");
+                                    scope.trackEvent(scope.vgTrackInfo.events.pause.action || "pause");
                                 }
                                 break;
 
                             case VG_STATES.STOP:
                                 if (scope.vgTrackInfo.events.stop) {
                                     scope.setValue(scope.vgTrackInfo.events.stop);
-                                    scope.trackEvent("stop");
+                                    scope.trackEvent(scope.vgTrackInfo.events.stop.action || "stop");
                                 }
                                 break;
                         }
@@ -114,13 +114,15 @@ angular.module("com.2fdevs.videogular.plugins.analytics", ["angulartics"])
 
                     scope.onCompleteVideo = function onCompleteVideo(isCompleted) {
                         if (isCompleted) {
-                            scope.trackEvent("complete");
+                            scope.trackEvent(scope.vgTrackInfo.events.complete.action || "complete");
                         }
                     };
 
                     scope.onUpdateTime = function onUpdateTime(newCurrentTime) {
                         if (progressTracks.length > 0 && newCurrentTime >= progressTracks[0].jump) {
-                            scope.trackEvent("progress " + progressTracks[0].percent + "%");
+                            scope.trackEvent((scope.vgTrackInfo.events.progress.action || "progress")
+                                + " "
+                                + progressTracks[0].percent + "%");
                             progressTracks.shift();
                         }
                     };
@@ -140,6 +142,8 @@ angular.module("com.2fdevs.videogular.plugins.analytics", ["angulartics"])
                                 }
                             } else if (eventType === 'time') {
                                 info.value = Math.floor(API.currentTime / 1000);
+                            } else if (typeof(eventType) === 'object' && eventType.value) {
+                                scope.setType(eventType.value);
                             }
                         }
                     };
@@ -208,12 +212,13 @@ angular.module("com.2fdevs.videogular.plugins.analytics", ["angulartics"])
                                     totalMiliseconds = newVal / 1000;
 
                                     if (totalMiliseconds > 0) {
-                                        var totalTracks = scope.vgTrackInfo.events.progress - 1;
-                                        var progressJump = Math.floor(totalMiliseconds * scope.vgTrackInfo.events.progress / 100);
+                                        var progress = scope.vgTrackInfo.events.progress.value || scope.vgTrackInfo.events.progress;
+                                        var totalTracks = progress - 1;
+                                        var progressJump = Math.floor(totalMiliseconds * progress / 100);
 
                                         for (var i = 0; i < totalTracks; i++) {
                                             progressTracks.push({
-                                                percent: (i + 1) * scope.vgTrackInfo.events.progress,
+                                                percent: (i + 1) * progress,
                                                 jump: (i + 1) * progressJump
                                             });
                                         }
