@@ -66,15 +66,16 @@ angular.module("com.2fdevs.videogular")
 
                     // It's a cool browser
                     if (API.mediaElement[0].canPlayType) {
-                        for (var i = 0, l = sources.length; i < l; i++) {
-                            var currentSource = sources[i];
+                        for (var i = 0, l = normalizedSources.length; i < l; i++) {
+                            var currentSource = normalizedSources[i];
 
                             if (!currentSource || isNativePlayBlacklisted(currentSource)) {
                                 continue;
                             }
 
-                            //check to see if the media element can play the current source
-                            canPlay = API.mediaElement[0].canPlayType(currentSource.type);
+                            //Check to see if the media element can play the current source
+                            //Consider that you can play it if type has not been defined
+                            canPlay = (typeof(currentSource.type) != "undefined") ? API.mediaElement[0].canPlayType(currentSource.type) : "maybe";
 
                             //if it's usable, apply the current source
                             if (canPlay == "maybe" || canPlay == "probably") {
@@ -154,10 +155,15 @@ angular.module("com.2fdevs.videogular")
                 }
 
                 function applySourceToMediaElement(source) {
-                    API.mediaElement.attr({
-                        src: source.src,
-                        type: source.type
-                    });
+                    //Bind it to the correct attribute
+                    if (typeof(source.srcObject) != "undefined") {
+                        API.mediaElement[0].srcObject = source.srcObject;
+                    } else {
+                        API.mediaElement.attr({
+                            src: source.src,
+                            type: source.type
+                        });
+                    }
 
                     //Trigger vgChangeSource($source) API callback in vgController
                     API.changeSource(source);
