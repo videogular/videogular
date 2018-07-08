@@ -83,7 +83,7 @@ angular.module("com.2fdevs.videogular")
 
         this.clearMedia = function () {
             this.mediaElement[0].src = '';
-            this.mediaElement[0].srcObject = '';
+            this.mediaElement[0].srcObject = null;
             this.mediaElement[0].removeEventListener("canplay", this.onCanPlay.bind(this), false);
             this.mediaElement[0].removeEventListener("loadedmetadata", this.onLoadMetaData.bind(this), false);
             this.mediaElement[0].removeEventListener("waiting", this.onStartBuffering.bind(this), false);
